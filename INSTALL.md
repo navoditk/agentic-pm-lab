@@ -73,13 +73,30 @@ This creates the empty repo on GitHub, then clones it to your machine with the `
 2. `git clone https://github.com/<you>/agentic-pm-lab.git && cd agentic-pm-lab`.
 3. Everything from here is identical to the `gh`-based path.
 
+**Before your first commit, check two things — fixing them now is a one-line command; fixing them after commits exist takes an amend or a rename:**
+
+1. **Git identity.** Run `git config user.email`. If it's empty, or auto-generated (ends in `.local` — git will also print a warning on your first commit if this is the case), set it for real:
+   ```
+   git config --global user.name "Your Name"
+   git config --global user.email "your-real-email@example.com"
+   ```
+   If you already committed before catching this, `git commit --amend --reset-author` fixes the most recent commit.
+
+2. **Branch name.** Run `git branch --show-current`. `PLAN.md`'s day-by-day steps assume the branch is called `main` — literal `git push origin main` commands appear throughout. Depending on your git version and config, a fresh repo can default to `master` instead. If it shows `master`, rename it now, before your first push:
+   ```
+   git branch -m master main
+   ```
+   Worth setting once, globally, so this doesn't recur on future repos: `git config --global init.defaultBranch main`.
+
 **The very first commit should be the pre-written control-plane documents themselves** — copy `README.md`, `PRD.md`, `PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `REFERENCES.md`, and this file (`INSTALL.md`) into the repo root before writing any code:
 
 ```
 git add README.md PRD.md PLAN.md PROGRESS.md AGENTS.md REFERENCES.md INSTALL.md
 git commit -m "docs: initial README, PRD, PLAN, PROGRESS, AGENTS, REFERENCES, INSTALL"
-git push
+git push --set-upstream origin main
 ```
+
+This is the one push in the whole plan that needs `--set-upstream` explicitly — it's the first push of a brand-new repo, so there's no upstream branch for plain `git push` to target yet (you'll see a "no upstream branch" error otherwise). Every push after this one can just be `git push`.
 
 Everything below assumes you're now working from inside the cloned repo.
 
@@ -245,7 +262,7 @@ Ask me before anything that needs an account or API key I haven't set up yet.
 - [ ] `copilot --version` (or equivalent) runs
 - [ ] `codex --version` runs, and `codex` then "Sign in with ChatGPT" completes successfully (optional — only if you plan to use Codex CLI)
 - [ ] `aws --version` runs (credentials come later, on Day 12 — just confirm the CLI itself is installed)
-- [ ] The repo is cloned locally, with `origin` pointing at your GitHub repo (`git remote -v`)
+- [ ] The repo is cloned locally, with `origin` pointing at your GitHub repo (`git remote -v`), the current branch is `main` (`git branch --show-current`), and `git config user.email` shows a real address, not an auto-generated `.local` one
 - [ ] `README.md`, `PRD.md`, `PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `REFERENCES.md`, and this file are committed and pushed
 - [ ] `pyproject.toml` and `uv.lock` exist and are committed; `uv run python -c "import fastapi, deepagents, boto3, jsonschema, tiktoken"` succeeds with no import errors (add `import cedar_policy` — or whatever the current Cedar binding's actual module name is, per §3 — to this same check once you've confirmed it)
 - [ ] Copilot coding agent is enabled in repo Settings
