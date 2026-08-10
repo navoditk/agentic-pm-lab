@@ -126,7 +126,18 @@ uv add bedrock-agentcore           # AWS's own AgentCore SDK (github.com/aws/bed
 uv add cedarpy                    # Cedar Python bindings — see the naming warning below; first used Day 7 for policy-as-code (PLAN.md §15)
 ```
 
-**Naming warning, worth checking again if you're reading this months later:** the PyPI package literally named `cedar-policy` is *not* legitimate — as of this writing it's a version `0.0.1` placeholder with no author, no description, and a fake `github.com/unknown/cedar-policy` source URL (checked via `pypi.org/pypi/cedar-policy/json`). There is no official AWS/cedar-policy-org Python package on PyPI. The de facto standard is the community-maintained **`cedarpy`** (`github.com/k9securityio/cedar-py`), whose version number tracks the Cedar engine's major.minor version — verify the GitHub repo (stars, license, recent commits, release tag matching the PyPI version) before trusting any Cedar-related package name, since this is exactly the kind of name a dependency-confusion attack would squat on. `cedarpy` exposes `is_authorized`, `PolicySet`, and `validate_policies` — enough to both evaluate policies at runtime and syntax-check `.cedar` files in a pre-commit hook, no separate CLI required, though Cedar also ships a standalone CLI (`cedarpolicy.com`) if you'd rather use that for the pre-commit syntax-check hook (`PLAN.md` §11.2) — either is enough to get started, and both can coexist.
+**Naming warning, worth checking again if you're reading this months later:** the PyPI package literally named `cedar-policy` is *not* legitimate — as of this writing it's a version `0.0.1` placeholder with no author, no description, and a fake `github.com/unknown/cedar-policy` source URL (checked via `pypi.org/pypi/cedar-policy/json`). There is no official AWS/cedar-policy-org Python package on PyPI. The de facto standard is the community-maintained **`cedarpy`** (`github.com/k9securityio/cedar-py`), whose version number tracks the Cedar engine's major.minor version — verify the GitHub repo (stars, license, recent commits, release tag matching the PyPI version) before trusting any Cedar-related package name, since this is exactly the kind of name a dependency-confusion attack would squat on. `cedarpy` exposes `is_authorized`, `PolicySet`, and `validate_policies` — enough to both evaluate policies at runtime and syntax-check `.cedar` files in a pre-commit hook, no separate CLI required. **Note `cedar-policy` *is* a legitimate name on crates.io specifically** — Rust's package registry, a completely separate namespace from PyPI — since that's the real Rust crate the official `cedar-policy/cedar` GitHub repo publishes. Don't let that legitimacy on crates.io read as vouching for the identically-named PyPI package; the two registries share nothing.
+
+**The standalone Cedar CLI**, if you want it in addition to `cedarpy` (redundant for this project's needs, since `cedarpy` already covers both syntax-checking and evaluation, but useful if you'd rather script against a CLI than Python — this is what the project actually used):
+```
+brew install rustup                              # Homebrew's rustup is keg-only; add its bin dir to PATH
+echo 'export PATH="$HOME/.cargo/bin:/opt/homebrew/opt/rustup/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+rustup toolchain install stable --profile minimal
+rustup default stable
+cargo install cedar-policy-cli --locked          # builds from source — no prebuilt binaries are published; installs a `cedar` executable to ~/.cargo/bin
+```
+Confirm with `cedar --version`. The subcommand for a pure syntax check (no schema required — what a pre-commit hook wants) is `cedar check-parse --policies <file>.cedar`; `cedar validate` additionally requires `--schema <file>` for semantic validation against a Cedar schema.
 
 Commit `pyproject.toml` and `uv.lock` together:
 ```
@@ -265,6 +276,7 @@ Ask me before anything that needs an account or API key I haven't set up yet.
 - [ ] The repo is cloned locally, with `origin` pointing at your GitHub repo (`git remote -v`), the current branch is `main` (`git branch --show-current`), and `git config user.email` shows a real address, not an auto-generated `.local` one
 - [ ] `README.md`, `PRD.md`, `PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `REFERENCES.md`, and this file are committed and pushed
 - [ ] `pyproject.toml` and `uv.lock` exist and are committed; `uv run python -c "import fastapi, deepagents, boto3, jsonschema, tiktoken"` succeeds with no import errors (add `import cedarpy` to this same check once Day 7 arrives and it's actually wired up)
+- [ ] Optional — only if you installed the standalone Cedar CLI alongside `cedarpy`: `cedar --version` runs, and `cedar check-parse --policies <file>.cedar` correctly accepts a valid policy and rejects a malformed one
 - [ ] Copilot coding agent is enabled in repo Settings
 - [ ] `npx skills add jongio/skills --skill create-canvas-app -g --agent github-copilot` completed without error
 - [ ] Claude Code and GitHub Copilot CLI both start successfully inside the repo directory (plus Codex CLI, if using it)
