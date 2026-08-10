@@ -16,18 +16,18 @@ See `PLAN.md` §6 (Automatic progress tracking) for how this mechanism works, an
 
 | Day | Focus | Status | Notes |
 |---|---|---|---|
-| 1 | Foundation: walking skeleton | ⬜ Not started | |
-| 2 | Data Layer: real public data | ⬜ Not started | |
-| 3 | Tool Layer: real deterministic engines | ⬜ Not started | |
-| 4 | Deep Agents: single agent | ⬜ Not started | |
-| 5 | Deep Agents: multi-agent orchestration | ⬜ Not started | |
-| 6 | OpenTelemetry, LangSmith, eval dataset | ⬜ Not started | |
-| 7 | Control Layer for real | ⬜ Not started | |
-| 8 | Canvas fundamentals | ⬜ Not started | |
-| 9 | Canvas: Agent Operations | ⬜ Not started | |
-| 10 | Canvas: Portfolio/Risk capstone | ⬜ Not started | |
-| 11 | Runtime & Automation | ⬜ Not started | |
-| 12 | AWS Bedrock AgentCore, wrap-up | ⬜ Not started | |
+| 1 | Foundation: walking skeleton | 🟡 In progress | 3/6 checks passing |
+| 2 | Data Layer: real public data | ⬜ Not started |  |
+| 3 | Tool Layer: real deterministic engines | ⬜ Not started |  |
+| 4 | Deep Agents: single agent | ⬜ Not started |  |
+| 5 | Deep Agents: multi-agent orchestration | ⬜ Not started |  |
+| 6 | OpenTelemetry, LangSmith, eval dataset | ⬜ Not started |  |
+| 7 | Control Layer for real | ⬜ Not started |  |
+| 8 | Canvas fundamentals | ⬜ Not started |  |
+| 9 | Canvas: Agent Operations | ⬜ Not started |  |
+| 10 | Canvas: Portfolio/Risk capstone | ⬜ Not started |  |
+| 11 | Runtime & Automation | ⬜ Not started |  |
+| 12 | AWS Bedrock AgentCore, wrap-up | ⬜ Not started |  |
 | 13 | *(optional)* AgentCore Memory & Evaluations | ⬜ Not started | Optional AWS extension |
 | 14 | *(optional)* Bedrock Guardrails + stretch | ⬜ Not started | Optional AWS extension |
 
@@ -35,17 +35,17 @@ See `PLAN.md` §6 (Automatic progress tracking) for how this mechanism works, an
 
 | Layer | Status | Detail |
 |---|---|---|
-| Data Layer | 🔴 Mock | `data/mock_structured/` only — real ingestion starts Day 2 |
-| Control Layer (AuthN/AuthZ) | 🔴 Mock | Hardcoded allowlist stub — real Cedar policy and test identities start Day 7 |
-| Guardrails | 🔴 Not started | Local content check Day 7; minimal Bedrock Guardrail Day 12; deepened Day 14 |
-| Tool Layer | 🔴 Mock | All six original endpoints stubbed, no contracts yet — real implementations + contracts start Day 3 |
-| Portfolio Optimization | 🔴 Not started | Mean-variance/max-Sharpe/risk-parity via PyPortfolioOpt — the seventh Tool Layer capability, doesn't exist until Day 12 |
-| Interactive Layer | 🔴 Not started | Canvas work starts Day 8 |
-| Runtime Layer | 🔴 Not started | Local artifact host starts Day 1; production path Day 11 |
-| Agent Layer | 🔴 Not started | Single agent Day 4; multi-agent + failure engineering Day 5 |
-| Observability | 🔴 Not started | Day 6, extended with cost/token telemetry same day |
-| Golden dataset / evals | 🔴 Not started | Day 6, grown toward ~30 cases through the plan (Appendix C) |
-| AWS Bedrock AgentCore | 🔴 Not started | Day 12 |
+| Data Layer | 🔴 Mock | 1 file(s), all still `# MOCK` |
+| Control Layer (AuthN/AuthZ) | 🟡 Partial | 1/2 file(s) real |
+| Guardrails | 🔴 Not started | No files yet |
+| Tool Layer | 🔴 Mock | 1 file(s), all still `# MOCK` |
+| Portfolio Optimization | 🔴 Not started | No files yet |
+| Interactive Layer | 🔴 Not started | No files yet |
+| Runtime Layer | 🟢 Real | 1 file(s), no `# MOCK` markers |
+| Agent Layer | 🔴 Not started | No files yet |
+| Observability | 🔴 Not started | No files yet |
+| Golden dataset / evals | 🔴 Not started | No files yet |
+| AWS Bedrock AgentCore | 🔴 Not started | No files yet |
 
 <!-- PROGRESS:END -->
 
