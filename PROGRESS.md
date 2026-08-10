@@ -35,7 +35,7 @@ See `PLAN.md` §6 (Automatic progress tracking) for how this mechanism works, an
 
 | Layer | Status | Detail |
 |---|---|---|
-| Data Layer | 🔴 Mock | 1 file(s), all still `# MOCK` |
+| Data Layer | 🟡 Partial | 3/4 file(s) real |
 | Control Layer (AuthN/AuthZ) | 🟡 Partial | 1/2 file(s) real |
 | Guardrails | 🔴 Not started | No files yet |
 | Tool Layer | 🔴 Mock | 1 file(s), all still `# MOCK` |
