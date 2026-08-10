@@ -1,0 +1,39 @@
+name: Progress Tracker
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-progress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync
+
+      - name: Regenerate PROGRESS.md
+        run: uv run python scripts/check_progress.py
+
+      - name: Commit PROGRESS.md if it changed
+        run: |
+          if ! git diff --quiet -- PROGRESS.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add PROGRESS.md
+            git commit -m "chore: update PROGRESS.md [skip ci]"
+            git push
+          else
+            echo "PROGRESS.md unchanged."
+          fi

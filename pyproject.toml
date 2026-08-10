@@ -41,8 +41,24 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "detect-secrets>=1.5.0",
     "pre-commit>=4.6.1",
     "pytest>=9.1.1",
     "responses>=0.26.2",
     "ruff>=0.16.2",
 ]
+
+[tool.pytest.ini_options]
+# Default `pytest`/`uv run pytest` only runs the fast, deterministic suite
+# under tests/unit/ (PLAN.md §4/§11.2) -- skills/*/tests/ and governance/tests/
+# are run separately (skill-tester, contract-tests.yml, authorization-tests.yml),
+# since they're triggered on their own schedule, not every commit.
+testpaths = ["tests"]
+# Every skill package uses the same tests/test_skill.py filename by design
+# (§8.2) -- importlib mode avoids the sys.modules collision that causes when
+# more than one skill's tests are collected in the same pytest session.
+addopts = "--import-mode=importlib"
+# Repo root on sys.path so `from src.control.allowlist import ...` resolves
+# under importlib mode, which -- unlike the default prepend mode -- doesn't
+# add it automatically.
+pythonpath = ["."]

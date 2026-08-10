@@ -1,0 +1,9 @@
+inputs:
+  text: {type: string, required: true}
+allowed_tools: []
+forbidden_tools: []
+output_schema: null
+side_effects: none
+approval_required: false
+covers: []
+version: 1.0.0

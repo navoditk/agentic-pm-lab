@@ -1,0 +1,67 @@
+# Machine-checkable source of truth for day-by-day completion (PLAN.md §6).
+# scripts/check_progress.py evaluates each day's `checks` against the current
+# repo state and regenerates PROGRESS.md's status table. Add each day's real
+# checks as you do that day's work -- the stub entries below (empty `checks`)
+# just reserve the day's label until then.
+
+day_1:
+  label: "Foundation: walking skeleton"
+  checks:
+    - path_exists: src/control/allowlist.py
+    - path_exists: src/api/main.py
+    - path_exists: skills/python-best-practices/SKILL.md
+    - path_exists: ARCHITECTURE.md
+    - tests_pass: tests/unit/control
+    - tests_pass: tests/unit/ingestion
+
+day_2:
+  label: "Data Layer: real public data"
+  checks: []
+
+day_3:
+  label: "Tool Layer: real deterministic engines"
+  checks: []
+
+day_4:
+  label: "Deep Agents: single agent"
+  checks: []
+
+day_5:
+  label: "Deep Agents: multi-agent orchestration"
+  checks: []
+
+day_6:
+  label: "OpenTelemetry, LangSmith, eval dataset"
+  checks: []
+
+day_7:
+  label: "Control Layer for real"
+  checks: []
+
+day_8:
+  label: "Canvas fundamentals"
+  checks: []
+
+day_9:
+  label: "Canvas: Agent Operations"
+  checks: []
+
+day_10:
+  label: "Canvas: Portfolio/Risk capstone"
+  checks: []
+
+day_11:
+  label: "Runtime & Automation"
+  checks: []
+
+day_12:
+  label: "AWS Bedrock AgentCore, wrap-up"
+  checks: []
+
+day_13:
+  label: "AgentCore Memory & Evaluations"
+  checks: []
+
+day_14:
+  label: "Bedrock Guardrails + stretch"
+  checks: []

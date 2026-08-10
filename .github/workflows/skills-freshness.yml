@@ -1,0 +1,17 @@
+# Placeholder — built out on Day 11 (PLAN.md §8.4).
+#
+# Will check every skills/*/SKILL.md's `covers`/`last_verified_commit`
+# frontmatter against `git diff` on the covered paths, failing the check on a
+# stale skill unless the PR carries a `skills-unaffected` label.
+
+name: Skills Freshness
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "skills-freshness check not implemented until Day 11"

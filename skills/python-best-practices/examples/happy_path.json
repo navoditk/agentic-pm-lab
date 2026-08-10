@@ -1,0 +1,4 @@
+{
+  "description": "A function that follows every convention in SKILL.md: typed signature, one-line docstring, MOCK marker in the right place, no unnecessary error handling.",
+  "code": "def price_bond(security_id: str) -> dict:\n    \"\"\"# MOCK — replace on Day 3 with a real present-value bond pricer.\"\"\"\n    return {\"security_id\": security_id, \"price\": 100.0, \"mock\": True}\n"
+}

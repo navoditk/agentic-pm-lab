@@ -1,0 +1,41 @@
+# Day 1 hooks only (PLAN.md §11.2/§11.3) -- grows on the days noted in the
+# table there: fast pytest subset (Day 3), SKILL.md/contract.yaml schema
+# checks (Day 4), Cedar syntax check (Day 7), markdown lint / large-file
+# check (Day 2).
+
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.2
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+
+  - repo: local
+    hooks:
+      - id: no-company-sensitive-data
+        name: No company-sensitive data
+        description: Blocks a small list of banned terms (PRD.md §3, principle 3) from ever being committed.
+        entry: uv run python scripts/check_no_sensitive_data.py
+        language: system
+        pass_filenames: true
+
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.17.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]

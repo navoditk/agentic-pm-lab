@@ -45,6 +45,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "detect-secrets" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "responses" },
@@ -80,6 +81,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "detect-secrets", specifier = ">=1.5.0" },
     { name = "pre-commit", specifier = ">=4.6.1" },
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "responses", specifier = ">=0.26.2" },
@@ -611,6 +613,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/83/2f/7b010aaf7f39e9da9ce8dc574902126220cac6c41205bf122e3a27b7fcec/deepagents-0.7.5.tar.gz", hash = "sha256:ed44e956ed8e4ccd57203b9925c530707cdb815ffb56fe8ceb9b5b63d45a20c1", size = 273937, upload-time = "2026-08-06T14:05:36.317Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/df/c9/d4778dd09aaeb03b9653bb2be8591f3b7179ec5757a467f46e97627bccca/deepagents-0.7.5-py3-none-any.whl", hash = "sha256:a1be73d150929c5e826d67a05af6277748f25e4b53ae530b3fb1454df9e3ca95", size = 300778, upload-time = "2026-08-06T14:05:35.121Z" },
+]
+
+[[package]]
+name = "detect-secrets"
+version = "1.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyyaml" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/69/67/382a863fff94eae5a0cf05542179169a1c49a4c8784a9480621e2066ca7d/detect_secrets-1.5.0.tar.gz", hash = "sha256:6bb46dcc553c10df51475641bb30fd69d25645cc12339e46c824c1e0c388898a", size = 97351, upload-time = "2024-05-06T17:46:19.721Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4e/5e/4f5fe4b89fde1dc3ed0eb51bd4ce4c0bca406246673d370ea2ad0c58d747/detect_secrets-1.5.0-py3-none-any.whl", hash = "sha256:e24e7b9b5a35048c313e983f76c4bd09dad89f045ff059e354f9943bf45aa060", size = 120341, upload-time = "2024-05-06T17:46:16.628Z" },
 ]
 
 [[package]]
