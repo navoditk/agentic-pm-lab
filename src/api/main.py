@@ -1,10 +1,13 @@
 """FastAPI entry point — the Tool Layer's HTTP surface.
 
-Every endpoint below is a stub today; each one is replaced with a real
-implementation on the day noted in its own docstring (PLAN.md Appendix B).
+Most endpoints below remain stubs until Day 3. The curve endpoint reads the
+real FRED-derived curve populated on Day 2.
 """
 
-from fastapi import FastAPI
+import duckdb
+from fastapi import FastAPI, HTTPException
+
+from src.ingestion.load_mock_structured_data import DEFAULT_DB_PATH
 
 app = FastAPI(title="agentic-pm-lab Tool Layer")
 
@@ -22,8 +25,52 @@ def price_bond(security_id: str) -> dict:
 
 @app.get("/tools/curve")
 def curve(curve_date: str | None = None) -> dict:
-    """# MOCK — replace on Day 3 with real curve interpolation over Day 2's FRED-derived tenors."""
-    return {"curve_date": curve_date, "points": [], "mock": True}
+    """Return raw Treasury curve points populated from FRED."""
+    if not DEFAULT_DB_PATH.exists():
+        raise HTTPException(status_code=503, detail="Curve data has not been ingested")
+    with duckdb.connect(str(DEFAULT_DB_PATH), read_only=True) as connection:
+        table_exists = connection.execute(
+            """
+            SELECT count(*)
+            FROM information_schema.tables
+            WHERE table_name = 'curve_points'
+            """
+        ).fetchone()[0]
+        if not table_exists:
+            raise HTTPException(
+                status_code=503, detail="Curve data has not been ingested"
+            )
+        selected_date = curve_date
+        if selected_date is None:
+            selected_date = str(
+                connection.execute(
+                    "SELECT max(curve_date) FROM curve_points"
+                ).fetchone()[0]
+            )
+        rows = connection.execute(
+            """
+            SELECT tenor, tenor_years, rate_pct, series_id
+            FROM curve_points
+            WHERE curve_date = CAST(? AS DATE)
+            ORDER BY tenor_years
+            """,
+            [selected_date],
+        ).fetchall()
+    if not rows:
+        raise HTTPException(status_code=404, detail="No curve found for that date")
+    return {
+        "curve_date": selected_date,
+        "points": [
+            {
+                "tenor": tenor,
+                "tenor_years": tenor_years,
+                "rate_pct": rate_pct,
+                "series_id": series_id,
+            }
+            for tenor, tenor_years, rate_pct, series_id in rows
+        ],
+        "mock": False,
+    }
 
 
 @app.post("/tools/research")

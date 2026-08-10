@@ -1,12 +1,20 @@
 from src.ingestion.load_mock_structured_data import load_mock_structured_data
 
 
-def test_loads_all_three_mock_tables(tmp_path):
+def test_loads_remaining_mock_tables(tmp_path):
     con = load_mock_structured_data(db_path=tmp_path / "test.duckdb")
 
     assert con.execute("SELECT count(*) FROM security_master").fetchone()[0] == 10
     assert con.execute("SELECT count(*) FROM portfolio_positions").fetchone()[0] == 10
-    assert con.execute("SELECT count(*) FROM curve_points").fetchone()[0] == 8
+    assert (
+        con.execute(
+            """
+            SELECT count(*) FROM information_schema.tables
+            WHERE table_name = 'curve_points'
+            """
+        ).fetchone()[0]
+        == 0
+    )
 
     con.close()
 
@@ -47,5 +55,5 @@ def test_loading_is_idempotent(tmp_path):
     load_mock_structured_data(db_path=db_path).close()
     con = load_mock_structured_data(db_path=db_path)
 
-    assert con.execute("SELECT count(*) FROM curve_points").fetchone()[0] == 8
+    assert con.execute("SELECT count(*) FROM security_master").fetchone()[0] == 10
     con.close()

@@ -1,8 +1,7 @@
-"""# MOCK — replace on Day 2 (prices/curve) and later (security master).
+"""# MOCK — security master and portfolio positions remain invented.
 
-Loads the invented CSVs in data/mock_structured/ into a local DuckDB file so
-the rest of the stack has something real to query against before Day 2's
-public data sources exist.
+Loads the remaining invented CSVs in data/mock_structured/ into DuckDB.
+Price and curve data are now populated by prices.py and macro.py.
 """
 
 from pathlib import Path
@@ -17,7 +16,6 @@ DEFAULT_DB_PATH = REPO_ROOT / "data" / "cache" / "portfolio.duckdb"
 TABLES = {
     "security_master": MOCK_DATA_DIR / "security_master.csv",
     "portfolio_positions": MOCK_DATA_DIR / "portfolio_positions.csv",
-    "curve_points": MOCK_DATA_DIR / "curve_points.csv",
 }
 
 
