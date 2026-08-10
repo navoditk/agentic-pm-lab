@@ -1,0 +1,7 @@
+{
+  "mock_marker": "# MOCK — replace on Day 2",
+  "replacement": "FRED-derived curve ingestion",
+  "interface_preserved": true,
+  "network_tests_mocked": true,
+  "deferred_mocks_retained": ["security_master", "portfolio_positions"]
+}

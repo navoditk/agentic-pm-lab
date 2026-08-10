@@ -1,0 +1,13 @@
+inputs: {}
+allowed_tools: []
+forbidden_tools: []
+output_schema: null
+side_effects: none
+approval_required: false
+covers:
+  - src/api/main.py
+  - src/ingestion/cache.py
+  - src/ingestion/load_mock_structured_data.py
+  - src/ingestion/macro.py
+  - src/ingestion/prices.py
+version: 1.0.0
