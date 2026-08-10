@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# uv / venv
+.venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Data caches (regenerated from ingestion, never committed)
+data/cache/
+
+# Artifacts host output
+artifacts/*
+!artifacts/hello.html
+
+# OS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
