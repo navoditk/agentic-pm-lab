@@ -121,12 +121,12 @@ uv add --dev pytest ruff pre-commit responses
 
 Also add these three, even though they're not *used* until later days — installing everything now means no day after this one requires a new install:
 ```
-uv add <mcp-server-library>       # check docs.github.com/en/copilot/concepts/context/mcp for the current recommendation; first used Day 10
-uv add <agentcore-sdk-package>    # check AWS's current docs for the exact package name/version; first used Day 12
-uv add cedar-policy               # or the current recommended Cedar Python binding — check cedarpolicy.com; first used Day 7 for policy-as-code (PLAN.md §15)
+uv add mcp                        # official Model Context Protocol Python SDK (modelcontextprotocol.io); first used Day 10
+uv add bedrock-agentcore           # AWS's own AgentCore SDK (github.com/aws/bedrock-agentcore-sdk-python); first used Day 12
+uv add cedarpy                    # Cedar Python bindings — see the naming warning below; first used Day 7 for policy-as-code (PLAN.md §15)
 ```
 
-Cedar also ships a standalone CLI (useful for the pre-commit syntax-check hook, `PLAN.md` §11.2) — install it per the current instructions at `cedarpolicy.com` if you want the CLI in addition to the Python bindings; either is enough to get started, and both can coexist.
+**Naming warning, worth checking again if you're reading this months later:** the PyPI package literally named `cedar-policy` is *not* legitimate — as of this writing it's a version `0.0.1` placeholder with no author, no description, and a fake `github.com/unknown/cedar-policy` source URL (checked via `pypi.org/pypi/cedar-policy/json`). There is no official AWS/cedar-policy-org Python package on PyPI. The de facto standard is the community-maintained **`cedarpy`** (`github.com/k9securityio/cedar-py`), whose version number tracks the Cedar engine's major.minor version — verify the GitHub repo (stars, license, recent commits, release tag matching the PyPI version) before trusting any Cedar-related package name, since this is exactly the kind of name a dependency-confusion attack would squat on. `cedarpy` exposes `is_authorized`, `PolicySet`, and `validate_policies` — enough to both evaluate policies at runtime and syntax-check `.cedar` files in a pre-commit hook, no separate CLI required, though Cedar also ships a standalone CLI (`cedarpolicy.com`) if you'd rather use that for the pre-commit syntax-check hook (`PLAN.md` §11.2) — either is enough to get started, and both can coexist.
 
 Commit `pyproject.toml` and `uv.lock` together:
 ```
@@ -264,7 +264,7 @@ Ask me before anything that needs an account or API key I haven't set up yet.
 - [ ] `aws --version` runs (credentials come later, on Day 12 — just confirm the CLI itself is installed)
 - [ ] The repo is cloned locally, with `origin` pointing at your GitHub repo (`git remote -v`), the current branch is `main` (`git branch --show-current`), and `git config user.email` shows a real address, not an auto-generated `.local` one
 - [ ] `README.md`, `PRD.md`, `PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `REFERENCES.md`, and this file are committed and pushed
-- [ ] `pyproject.toml` and `uv.lock` exist and are committed; `uv run python -c "import fastapi, deepagents, boto3, jsonschema, tiktoken"` succeeds with no import errors (add `import cedar_policy` — or whatever the current Cedar binding's actual module name is, per §3 — to this same check once you've confirmed it)
+- [ ] `pyproject.toml` and `uv.lock` exist and are committed; `uv run python -c "import fastapi, deepagents, boto3, jsonschema, tiktoken"` succeeds with no import errors (add `import cedarpy` to this same check once Day 7 arrives and it's actually wired up)
 - [ ] Copilot coding agent is enabled in repo Settings
 - [ ] `npx skills add jongio/skills --skill create-canvas-app -g --agent github-copilot` completed without error
 - [ ] Claude Code and GitHub Copilot CLI both start successfully inside the repo directory (plus Codex CLI, if using it)
