@@ -1,0 +1,18 @@
+# Learnings
+
+Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Finalized Day 12. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
+
+---
+
+## 2026-08-09 — Day 1
+
+**What worked:** Following PLAN.md's Day 1 steps in order (data mock → control stub → tool stubs → runtime → CI → skills → pre-commit → progress tracking → tests → ARCHITECTURE.md) meant each step could be smoke-tested in isolation before moving on — every FastAPI app, the DuckDB loader, and `check_progress.py`'s regex/glob logic all got caught and fixed immediately rather than discovered later during a big-bang test run.
+
+**What didn't work / had to be fixed along the way:**
+- `uv init` doesn't create a `.gitignore` when run inside an already-initialized git repo — had to write one by hand before `data/cache/` or a future `.env` could be safely kept out of commits.
+- Every skill package uses the same `tests/test_skill.py` filename by design (PLAN.md §8.2), which collides under pytest's default import mode the moment a second skill exists. Fixed with `--import-mode=importlib` in `pyproject.toml`, plus `pythonpath = ["."]` since importlib mode — unlike the default — doesn't auto-add the repo root, which `src.*` imports in tests need.
+- `scripts/check_progress.py`'s first version used a non-anchored regex to find the `<!-- PROGRESS:START/END -->` markers in `PROGRESS.md` — but the file's own intro paragraph mentions both marker strings inline as prose (documenting the mechanism), which the regex latched onto instead of the real markers below it, duplicating content. Fixed by anchoring the match to markers that appear alone on their own line.
+
+**One thing I'd do differently:** Write the `pythonpath`/`import-mode` pytest config *before* writing any test files, not after hitting the `ModuleNotFoundError` — the failure mode was predictable in hindsight (console-script `pytest`, unlike `python -m pytest`, doesn't add cwd to `sys.path`) and could have been set up proactively alongside the initial `uv init` in `INSTALL.md` instead of discovered mid-Day-1.
+
+**Also worth noting, from environment setup before Day 1:** the PyPI package literally named `cedar-policy` turned out to be a squatted placeholder (v0.0.1, fake source URL) — the real Cedar Python bindings are the community-maintained `cedarpy`. A good reminder to verify a dependency's actual metadata (author, repo, release history) before trusting a name match, especially for a security-relevant package.
