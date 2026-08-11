@@ -1,6 +1,6 @@
 """Single Deep Agent over the deterministic Day 3 analytics tools."""
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Collection, Mapping, Sequence
 from typing import Any
 
 from deepagents import create_deep_agent
@@ -14,7 +14,11 @@ from src.analytics.econometrics import factor_regression
 from src.analytics.portfolio import portfolio_summary
 from src.analytics.pricers import black_scholes_price, price_bond
 from src.analytics.risk import max_drawdown, risk_metrics, rolling_volatility
-from src.context.builder import ContextSources, build_full_context
+from src.context.builder import (
+    ContextSources,
+    build_filtered_context,
+    build_full_context,
+)
 
 DEFAULT_MODEL = "openai:gpt-4.1-mini"
 DEFAULT_INTERRUPT_ON: dict[str, bool | dict[str, Any]] = {}
@@ -179,9 +183,14 @@ def invoke_single_agent(
     sources: ContextSources,
     *,
     agent: CompiledStateGraph | None = None,
+    relevant_sources: Collection[str] | None = None,
 ) -> dict[str, Any]:
     """Invoke the agent with context supplied only by the context builder."""
-    context = build_full_context(sources)
+    context = (
+        build_filtered_context(sources, relevant_sources)
+        if relevant_sources is not None
+        else build_full_context(sources)
+    )
     runtime = agent or create_single_agent()
     prompt = f"{context['rendered']}\n\n## question\n{question}"
     return runtime.invoke({"messages": [{"role": "user", "content": prompt}]})

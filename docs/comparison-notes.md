@@ -24,6 +24,21 @@ for the concentration question. Local composition also became faster, though
 sub-millisecond builder time is immaterial compared with a model call. The
 meaningful expected benefit is avoiding irrelevant research and memory tokens.
 
+A later Ollama run applied the full and filtered bundles to the actual agent
+for the same overloaded volatility question:
+
+| Agent context | Tokens | End-to-end latency | Tool calls |
+|---|---:|---:|---|
+| Full | 7,359 | 59.992 s | None |
+| Filtered | 3,686 | 154.063 s | None |
+
+Filtering halved tokens but did not recover tool use, and the single-run latency
+was worse rather than better. The 4B local model failed to turn the 500-return
+array into `get_volatility` arguments in either configuration. This is a useful
+quality result: source filtering reduces context size, but does not by itself
+make a small model reliable on large structured tool arguments. Repeated runs
+and cloud measurements are needed before drawing a latency conclusion.
+
 **Blocked live comparison:** OpenAI was selected instead of the plan's default
 Anthropic provider, but its smoke test returned `insufficient_quota`. No model
 answer quality, tool-call transcript, end-to-end token usage, or model latency

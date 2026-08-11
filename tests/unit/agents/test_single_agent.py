@@ -110,3 +110,24 @@ def test_interrupt_policy_can_be_plugged_in_without_changing_agent_callers():
     agent = create_single_agent(model=model, interrupt_on={"run_backtest": True})
 
     assert agent is not None
+
+
+def test_filtered_invocation_excludes_irrelevant_research():
+    class PromptCaptureAgent:
+        prompt = ""
+
+        def invoke(self, payload):
+            self.prompt = payload["messages"][0]["content"]
+            return {"messages": []}
+
+    agent = PromptCaptureAgent()
+
+    invoke_single_agent(
+        "What's my portfolio volatility?",
+        sources(),
+        agent=agent,
+        relevant_sources=["user_role", "market_data", "skills"],
+    )
+
+    assert "## market_data" in agent.prompt
+    assert "retrieved_research" not in agent.prompt

@@ -1,5 +1,6 @@
 """Local-model variant of the Day 4 single Deep Agent."""
 
+from collections.abc import Collection
 from typing import Any
 
 from langchain_ollama import ChatOllama
@@ -29,10 +30,12 @@ def invoke_local_agent(
     sources: ContextSources,
     *,
     agent: CompiledStateGraph | None = None,
+    relevant_sources: Collection[str] | None = None,
 ) -> dict[str, Any]:
     """Invoke the local variant through the shared context path."""
     return invoke_single_agent(
         question,
         sources,
         agent=agent or create_local_agent(),
+        relevant_sources=relevant_sources,
     )
