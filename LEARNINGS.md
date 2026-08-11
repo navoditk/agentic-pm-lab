@@ -69,3 +69,31 @@ known-identity decision was audited before execution.
 eventual contracts, even while their implementations return mock data. That
 would let a mock-to-real migration preserve both route and payload shape rather
 than discovering an intentionally underspecified seam on replacement day.
+
+---
+
+## 2026-08-10 — Day 4
+
+**What worked:** Deep Agents accepted the existing deterministic functions as
+LangChain tools without a hand-built graph, loaded the shared skills directory,
+and exposed `interrupt_on` as a configuration seam. A scripted tool-calling
+chat model proved routing without credits, while the Ollama variant proved the
+same harness could execute real volatility and exposure tools locally.
+
+**What didn't work / had to be fixed along the way:**
+- The newly created OpenAI key authenticated but had no credits, so cloud-model
+  sample runs and cloud latency/quality measurements were blocked.
+- The original dependency set included the OpenAI SDK but not
+  `langchain-openai`; Deep Agents' provider string needed the LangChain
+  integration added explicitly.
+- Qwen3 4B called tools correctly for small, explicit contexts but skipped
+  `get_volatility` when asked to pass a 500-return array, even after irrelevant
+  research and memory were filtered. Filtering context size is not equivalent
+  to guaranteeing small-model tool reliability.
+- The local warm tool run took roughly 130 seconds, making it useful as a
+  privacy/offline comparison but not a drop-in latency substitute.
+
+**One thing I'd do differently:** Verify provider billing and run a one-line
+model request before starting any provider-specific integration. For the local
+path, start with a compact argument artifact or file reference rather than
+asking a 4B model to reproduce hundreds of numeric values in a tool call.

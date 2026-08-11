@@ -21,9 +21,15 @@ Not a "read before Day N" entry like the sections below — this is the source o
 ### LangGraph & LangGraph Deep Agents
 - **Where this project's multi-agent pattern originally comes from**: OpenAI's own cookbook, "Multi-Agent Portfolio Collaboration with the Agents SDK" (Raj Pathak, Chelsea Hu) — the Portfolio-Manager-orchestrates-Macro/Fundamental/Quant-specialists shape that Day 5 reimplements natively on LangGraph Deep Agents' `subagents` support instead of the OpenAI Agents SDK. Worth reading directly before Day 5, not just taking the reimplementation on faith: `developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration`
 - Deep Agents overview and quickstart: `docs.langchain.com/oss/python/deepagents`
+- Deep Agents customization reference (`tools`, `skills`, `interrupt_on`, and
+  provider model strings), used on Day 4:
+  `docs.langchain.com/oss/python/deepagents/customization`
 - Deep Agents GitHub repo (source, examples, issues): `github.com/langchain-ai/deepagents`
 - LangGraph core concepts (the runtime Deep Agents sits on): `docs.langchain.com` LangGraph section
 - LangGraph human-in-the-loop / `interrupt` patterns (used Day 4 and Day 7): `docs.langchain.com` LangGraph "Human-in-the-loop" section
+- Ollama tool-calling documentation and the Qwen3 4B model page, used for the
+  optional Day 4 local variant: `docs.ollama.com/capabilities/tool-calling` and
+  `ollama.com/library/qwen3:4b`
 - `langchain-ai/langchain-skills` — official example skills and quickstarts, including the `SKILL.md` format spec
 
 ### LangSmith (tracing, datasets, experiments, evaluation)

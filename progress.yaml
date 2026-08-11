@@ -40,7 +40,15 @@ day_3:
 
 day_4:
   label: "Deep Agents: single agent"
-  checks: []
+  checks:
+    - path_exists: src/context/builder.py
+    - path_exists: src/agents/single_agent.py
+    - path_exists: src/agents/single_agent_local.py
+    - path_exists: skills/skill-creator/SKILL.md
+    - path_exists: skills/skill-tester/SKILL.md
+    - path_exists: skills/portfolio-risk-summary/SKILL.md
+    - tests_pass: tests/unit/agents
+    - tests_pass: tests/unit/context
 
 day_5:
   label: "Deep Agents: multi-agent orchestration"

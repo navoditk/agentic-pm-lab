@@ -6,7 +6,7 @@ covers:
   - src/agents/single_agent.py
   - src/analytics/portfolio.py
   - src/analytics/risk.py
-last_verified_commit: fcf5dfa
+last_verified_commit: 909c2f2
 ---
 
 # portfolio-risk-summary

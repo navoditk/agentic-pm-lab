@@ -4,7 +4,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 3)
+## The layers, and what exists today (Day 4)
 
 | Layer | Target end-state (`PRD.md` §2) | What exists today |
 |---|---|---|
@@ -13,7 +13,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/analytics/` contains deterministic bond/option pricing, curve interpolation, portfolio exposure/concentration, volatility/drawdown, OLS factor regression, and static-weight backtesting. `contracts/tools/` fixes each input/output shape, and `src/api/main.py` exposes the governed routes. Research intentionally remains mocked; MCP wrapping starts Day 10. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Doesn't exist yet — starts Day 8. Today's only artifact is `.github/copilot-instructions.md`, a pointer to `AGENTS.md` so every harness reads the same routing rules. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
-| **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | Doesn't exist yet — starts Day 4. |
+| **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/single_agent.py` constructs one Deep Agent with nine deterministic analytics tools, shared skills, an explicit context builder, and an empty `interrupt_on` seam for Day 7. OpenAI is configured but live calls are quota-blocked; `single_agent_local.py` runs the same harness on Ollama/Qwen3 4B and has completed real tool calls. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | Doesn't exist yet — starts Day 11. |
 
 The Data Layer is intentionally mixed: public price/macro data is real, while
@@ -55,6 +55,13 @@ skills/python-best-practices/        this project's actual coding conventions
 skills/mock-to-real-migration/       safe mock replacement checklist
 skills/ficc-glossary-maintainer/     consistent learning glossary format
 skills/new-tool-onboarding/          end-to-end capability checklist
+skills/skill-creator/                complete skill-package scaffolding recipe
+skills/skill-tester/                 local static/mock skill validation recipe
+skills/portfolio-risk-summary/       exposure/volatility/drawdown synthesis
+
+src/context/builder.py               named full/filtered context composition
+src/agents/single_agent.py           OpenAI-configured Deep Agent
+src/agents/single_agent_local.py     same agent on local Ollama/Qwen3 4B
 
 .github/workflows/ci.yml             lint + test on push/PR
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
@@ -83,15 +90,45 @@ caller + X-Identity
                     --> typed JSON response
 ```
 
+Day 4's LangChain tool wrappers currently call `src/analytics/` directly, as
+the day's Deep Agents exercise specifies. They are not yet a governed
+production path and must not be treated as authorization enforcement. Day 7
+plugs identity/authorization and human approval into this tool seam; Day 10
+then makes MCP the shared governed mount point.
+
+---
+
+## Context engineering
+
+`src/context/builder.py` is the only prompt-context assembly path for the
+single agent. Its seven named sources are user/role, portfolio state, market
+data, retrieved research, memory, previous tool outputs, and skills.
+
+- **Full mode** includes all seven sources verbatim. It exists as the measured
+  overload baseline, not the desired production default.
+- **Filtered mode** requires user/role and an explicit source allowlist chosen
+  for the task. Omitted research, memory, or prior outputs never enter the
+  model prompt implicitly.
+- Token size is measured with the selected model's tiktoken encoding.
+- No summarization or tool-history compression exists yet; those remain the
+  next controls after source filtering.
+
+The Day 4 experiment is recorded in `docs/comparison-notes.md`. Filtering cut
+the representative contexts by 49–96%, but Qwen3 4B still omitted the tool call
+for a large 500-return argument in both full and filtered modes. Small-context
+volatility and concentration questions did call the correct real tools.
+
 ---
 
 ## Security Boundaries
 
-The FastAPI boundary is now load-bearing: missing or unknown identities receive
+The FastAPI boundary is load-bearing for HTTP callers: missing or unknown identities receive
 401, denied tools receive 403, and both allowed and denied known-identity
 decisions are audited. This is still a learning-scale combined AuthN/AuthZ stub,
 not the final security model. Day 7 separates identity lookup, Cedar policy,
 guardrails, and parameter-level Tool enforcement and expands this section.
+Until Day 7, the new direct LangChain analytics wrappers sit outside that HTTP
+boundary and are explicitly non-governed learning code.
 
 ---
 

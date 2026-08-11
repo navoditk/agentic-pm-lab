@@ -5,7 +5,7 @@ license: MIT
 covers:
   - .pre-commit-config.yaml
   - pyproject.toml
-last_verified_commit: 48e5fe2
+last_verified_commit: 909c2f2
 ---
 
 # python-best-practices
