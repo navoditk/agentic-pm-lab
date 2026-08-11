@@ -63,6 +63,7 @@ src/context/builder.py               named full/filtered context composition
 src/agents/single_agent.py           OpenAI-configured Deep Agent
 src/agents/single_agent_local.py     same agent on local Ollama/Qwen3 4B
 src/agents/multi_agent.py            Portfolio Manager -> three native specialist sub-agents
+src/agents/recovery.py               retry, validation, limits, and dead-letter middleware
 
 .github/workflows/ci.yml             lint + test on push/PR
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
@@ -118,6 +119,26 @@ question + context-builder output
 This is orchestration, not authorization. The specialist tool split reduces
 accidental misuse but does not establish caller entitlements; Day 7 adds the
 governed boundary checks.
+
+---
+
+## Failure and recovery (Day 5)
+
+Specialist tool calls retry timeout/rate-limit failures twice with exponential
+backoff, validate exact-name JSON Schema contracts when available, and convert
+exhausted or malformed results into explicit `dead_letter` tool messages.
+Per-run ceilings allow at most eight specialist tool calls and six Portfolio
+Manager delegations; graph recursion defaults to 50 steps at invocation.
+
+The Portfolio Manager's `task` calls are deliberately not retried wholesale.
+With a checkpointer and stable `thread_id`, LangGraph preserves successful
+parallel task writes. `resume_multi_agent()` resumes the failed task without
+re-running a completed specialist. This was exercised by crashing Quant after
+Macro completed: the observed invocation counts changed from
+`macro=1, quant=1` at failure to `macro=1, quant=2` after resume. Read-only
+specialist tools make that retry idempotent. The built-in
+`create_checkpointed_multi_agent()` uses process-local memory for the Day 5
+exercise; a durable checkpointer is still required before deployment.
 
 ---
 

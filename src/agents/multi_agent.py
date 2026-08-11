@@ -1,14 +1,20 @@
 """Portfolio Manager orchestration over domain-specialist Deep Agents."""
 
-from collections.abc import Collection, Mapping
+from collections.abc import Collection, Mapping, Sequence
 from typing import Any
 
 from deepagents import create_deep_agent
-from deepagents.middleware.subagents import SubAgent
+from deepagents.middleware.subagents import CompiledSubAgent, SubAgent
 from langchain_core.language_models import BaseChatModel
 from langchain_core.tools import BaseTool, tool
+from langgraph.checkpoint.base import BaseCheckpointSaver
+from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph.state import CompiledStateGraph
 
+from src.agents.recovery import (
+    orchestrator_recovery_middleware,
+    specialist_recovery_middleware,
+)
 from src.agents.single_agent import (
     DEFAULT_MODEL,
     get_max_drawdown,
@@ -33,8 +39,10 @@ quant for portfolio risk/econometrics/backtests, and fundamental for holdings
 and research. For cross-cutting questions, call every relevant specialist and
 then synthesize their results. Include the supplied data needed by a specialist
 in its task description because specialists have isolated context. Attribute
-each conclusion to its specialist. Never calculate a numeric claim yourself,
-invent missing data, or treat mocked research/classifications as real.
+each conclusion to its specialist. Copy all calculation parameters, units, and
+annualization assumptions into the task description exactly as supplied. Never
+calculate a numeric claim yourself, invent missing data, treat a dead-letter
+result as success, or treat mocked research/classifications as real.
 """
 
 MACRO_PROMPT = """You are the Macro specialist.
@@ -46,7 +54,9 @@ answer a regime or liquidity question; never invent market data.
 QUANT_PROMPT = """You are the Quant/Risk specialist.
 Answer only risk, factor, concentration, and backtest questions. Use
 deterministic tools for every numeric claim and state assumptions and data
-limitations. Do not make unsupported investment recommendations.
+limitations. Preserve the supplied calculation parameters exactly and disclose
+the window and annualization used. Treat dead-letter tool output as a failure,
+not data. Do not make unsupported investment recommendations.
 """
 
 FUNDAMENTAL_PROMPT = """You are the Fundamental specialist.
@@ -122,6 +132,7 @@ def specialist_subagents(
             spec["model"] = configured_models[name]
         if name == "quant":
             spec["skills"] = ["./skills/scenario-analysis/"]
+        spec["middleware"] = list(specialist_recovery_middleware())
         subagents.append(spec)
     return subagents
 
@@ -130,15 +141,34 @@ def create_multi_agent(
     model: str | BaseChatModel = DEFAULT_MODEL,
     *,
     specialist_models: Mapping[str, str | BaseChatModel] | None = None,
+    subagents: Sequence[SubAgent | CompiledSubAgent] | None = None,
+    checkpointer: BaseCheckpointSaver | None = None,
 ) -> CompiledStateGraph:
     """Construct the Portfolio Manager with Macro, Quant, and Fundamental sub-agents."""
     return create_deep_agent(
         model=model,
         tools=(),
         system_prompt=PORTFOLIO_MANAGER_PROMPT,
-        subagents=specialist_subagents(specialist_models),
+        middleware=orchestrator_recovery_middleware(),
+        subagents=subagents or specialist_subagents(specialist_models),
         skills=["./skills/"],
+        checkpointer=checkpointer,
         name="portfolio-manager",
+    )
+
+
+def create_checkpointed_multi_agent(
+    model: str | BaseChatModel = DEFAULT_MODEL,
+    *,
+    specialist_models: Mapping[str, str | BaseChatModel] | None = None,
+    subagents: Sequence[SubAgent | CompiledSubAgent] | None = None,
+) -> CompiledStateGraph:
+    """Construct a process-local checkpointed orchestrator for development."""
+    return create_multi_agent(
+        model=model,
+        specialist_models=specialist_models,
+        subagents=subagents,
+        checkpointer=InMemorySaver(),
     )
 
 
@@ -148,6 +178,8 @@ def invoke_multi_agent(
     *,
     agent: CompiledStateGraph | None = None,
     relevant_sources: Collection[str] | None = None,
+    thread_id: str | None = None,
+    iteration_limit: int = 50,
 ) -> dict[str, Any]:
     """Invoke the Portfolio Manager with context from named sources only."""
     context = (
@@ -157,4 +189,28 @@ def invoke_multi_agent(
     )
     runtime = agent or create_multi_agent()
     prompt = f"{context['rendered']}\n\n## question\n{question}"
-    return runtime.invoke({"messages": [{"role": "user", "content": prompt}]})
+    config: dict[str, Any] = {"recursion_limit": iteration_limit}
+    if thread_id is not None:
+        config["configurable"] = {"thread_id": thread_id}
+    return runtime.invoke(
+        {"messages": [{"role": "user", "content": prompt}]},
+        config=config,
+    )
+
+
+def resume_multi_agent(
+    agent: CompiledStateGraph,
+    thread_id: str,
+    *,
+    iteration_limit: int = 50,
+) -> dict[str, Any]:
+    """Resume a checkpointed workflow without submitting the original input again."""
+    if not thread_id:
+        raise ValueError("thread_id must not be empty")
+    return agent.invoke(
+        None,
+        config={
+            "configurable": {"thread_id": thread_id},
+            "recursion_limit": iteration_limit,
+        },
+    )
