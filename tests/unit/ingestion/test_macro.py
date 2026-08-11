@@ -93,7 +93,9 @@ def test_ingest_macro_populates_tables_and_curve_endpoint(monkeypatch, tmp_path)
         )
 
     monkeypatch.setattr(api_main, "DEFAULT_DB_PATH", db_path)
-    response = TestClient(api_main.app).get("/tools/curve")
+    response = TestClient(api_main.app).get(
+        "/tools/curve", headers={"X-Identity": "pm_user"}
+    )
     assert response.status_code == 200
     assert response.json()["mock"] is False
     assert len(response.json()["points"]) == 8

@@ -8,7 +8,7 @@ covers:
   - src/ingestion/load_mock_structured_data.py
   - src/ingestion/macro.py
   - src/ingestion/prices.py
-last_verified_commit: c39b1f6
+last_verified_commit: c2f689a
 ---
 
 # mock-to-real-migration

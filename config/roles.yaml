@@ -12,12 +12,14 @@ roles:
       - econometrics
       - backtest
       - portfolio
+      - risk
   risk:
     allowed_tools:
       - curve
       - econometrics
       - backtest
       - portfolio
+      - risk
   admin:
     allowed_tools:
       - price-bond
@@ -26,6 +28,7 @@ roles:
       - econometrics
       - backtest
       - portfolio
+      - risk
 
 identities:
   pm_user: pm
