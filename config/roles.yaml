@@ -1,7 +1,7 @@
 # MOCK — temporary combined source of truth for role->tool permission AND
 # identity->role assignment. Day 7 splits this: role->tool permission moves to
 # governance/policies/tool-permissions.cedar (the sole authority from then on);
-# this file narrows down to identity->role assignment only. See PLAN.md §15.1.
+# this file narrows down to identity->role assignment only. See docs/PLAN.md §15.1.
 
 roles:
   pm:

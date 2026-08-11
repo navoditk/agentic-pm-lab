@@ -62,5 +62,28 @@ OpenAI configuration.
 A warm local volatility run took 129.696 seconds end to end. Tool selection and
 argument shape were correct, but the 4B model needed an explicit instruction to
 use the named tool and was substantially slower than an API response would
-normally be expected to be. No cloud latency or answer-quality comparison is
-claimed until credits permit the same runs.
+normally be expected to be. OpenAI credits were later added and a
+`gpt-4.1-mini` smoke test returned successfully, but matched cloud
+latency/answer-quality runs have not yet been executed.
+
+## Development tool comparison
+
+Record actual Claude Code, GitHub Copilot, and Codex CLI usage on this
+repository rather than relying only on published benchmarks. Usage is reported
+by each tool separately; `INSTALL.md` §8 identifies where to retrieve it.
+
+| Day | Tool | Task type | Session length / turns | Usage reported | Quality note | Use again? |
+|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — |
+
+Update the running conclusion only after several comparable entries exist.
+
+## Optional AWS extension findings
+
+This section fills in only if optional Days 13–14 are completed.
+
+| Topic | Finding |
+|---|---|
+| AgentCore Memory vs. session-state handling | — |
+| AgentCore Evaluations vs. LangSmith | — |
+| Cost-lowering techniques | — |

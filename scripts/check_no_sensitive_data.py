@@ -1,15 +1,15 @@
 """Pre-commit hook: reject a commit containing any banned term.
 
-Reinforces PRD.md §3 principle 3 (public/mock data only, no company-sensitive
+Reinforces docs/PRD.md §3 principle 3 (public/mock data only, no company-sensitive
 terminology) at commit time rather than only at review time. Banned terms
-live in .banned-terms.txt at the repo root, one per line, case-insensitive.
+live in config/security/banned-terms.txt, one per line, case-insensitive.
 """
 
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-BANNED_TERMS_PATH = REPO_ROOT / ".banned-terms.txt"
+BANNED_TERMS_PATH = REPO_ROOT / "config/security/banned-terms.txt"
 
 
 def load_banned_terms(path: Path = BANNED_TERMS_PATH) -> list[str]:
@@ -49,7 +49,7 @@ def main(argv: list[str]) -> int:
 
     if found_any:
         print(
-            "Commit blocked -- remove the banned term(s) above (PRD.md §3, principle 3)."
+            "Commit blocked -- remove the banned term(s) above (docs/PRD.md §3, principle 3)."
         )
         return 1
     return 0

@@ -52,7 +52,7 @@ dev = [
 
 [tool.pytest.ini_options]
 # Default `pytest`/`uv run pytest` only runs the fast, deterministic suite
-# under tests/unit/ (PLAN.md §4/§11.2) -- skills/*/tests/ and governance/tests/
+# under tests/unit/ (docs/PLAN.md §4/§11.2) -- skills/*/tests/ and governance/tests/
 # are run separately (skill-tester, contract-tests.yml, authorization-tests.yml),
 # since they're triggered on their own schedule, not every commit.
 testpaths = ["tests"]

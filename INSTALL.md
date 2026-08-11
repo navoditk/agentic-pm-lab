@@ -1,8 +1,8 @@
 # INSTALL: Environment & Repo Setup
 
-**Do this once, before Day 1.** This is every piece of software the whole plan needs, plus bootstrapping the repo — self-contained on purpose, so you (or a dev tool) can work through it start to finish without opening `PLAN.md`'s day-by-day steps at all. Once every box in §9's checklist is ticked, go to `PLAN.md` and start Day 1.
+**Do this once, before Day 1.** This is every piece of software the whole plan needs, plus bootstrapping the repo — self-contained on purpose, so you (or a dev tool) can work through it start to finish without opening `docs/PLAN.md`'s day-by-day steps at all. Once every box in §9's checklist is ticked, go to `docs/PLAN.md` and start Day 1.
 
-**Nothing here requires a FRED, Anthropic, OpenAI, LangSmith, or AWS account.** Those are deliberately deferred to the specific day each is first used, not done now — §5 explains why and gives the summary; the actual step-by-step for each lives in `PLAN.md` Appendix B on the day it's needed (Day 2, 4, 6, and 12 respectively).
+**Nothing here requires a FRED, Anthropic, OpenAI, LangSmith, or AWS account.** Those are deliberately deferred to the specific day each is first used, not done now — §5 explains why and gives the summary; the actual step-by-step for each lives in `docs/PLAN.md` Appendix B on the day it's needed (Day 2, 4, 6, and 12 respectively).
 
 ---
 
@@ -48,7 +48,7 @@ Keep normal approval prompts on for this session — don't use a skip-all-permis
 - GitHub CLI (`brew install gh`)
 - GitHub Copilot CLI (install per `docs.github.com/en/copilot/how-tos/copilot-cli` — GA and iterates fast, so follow the current page rather than a remembered command)
 - OpenAI Codex CLI — optional third dev-tool choice, alongside Claude Code and GitHub Copilot CLI (§8 explains where it fits): `npm install -g @openai/codex` (or `brew install --cask codex` on macOS; Node.js 18+ required for the npm path). Sign in with `codex` → "Sign in with ChatGPT" — included at no extra cost with ChatGPT Plus/Pro/Business/Edu/Enterprise; pay-per-token API billing is also available but typically costs more for regular use, so prefer the subscription path if you already have one.
-- AWS CLI (`brew install awscli`) — installed now, *configured* with real credentials later, once the AWS account exists (`PLAN.md` Appendix B, Day 12)
+- AWS CLI (`brew install awscli`) — installed now, *configured* with real credentials later, once the AWS account exists (`docs/PLAN.md` Appendix B, Day 12)
 - VS Code with the Python extension
 - GitHub Copilot Desktop app — signed in
 - GitHub Copilot app — signed in (needed from Day 8 onward for canvases; confirm access now while you're setting everything else up)
@@ -82,16 +82,16 @@ This creates the empty repo on GitHub, then clones it to your machine with the `
    ```
    If you already committed before catching this, `git commit --amend --reset-author` fixes the most recent commit.
 
-2. **Branch name.** Run `git branch --show-current`. `PLAN.md`'s day-by-day steps assume the branch is called `main` — literal `git push origin main` commands appear throughout. Depending on your git version and config, a fresh repo can default to `master` instead. If it shows `master`, rename it now, before your first push:
+2. **Branch name.** Run `git branch --show-current`. `docs/PLAN.md`'s day-by-day steps assume the branch is called `main` — literal `git push origin main` commands appear throughout. Depending on your git version and config, a fresh repo can default to `master` instead. If it shows `master`, rename it now, before your first push:
    ```
    git branch -m master main
    ```
    Worth setting once, globally, so this doesn't recur on future repos: `git config --global init.defaultBranch main`.
 
-**The very first commit should be the pre-written control-plane documents themselves** — copy `README.md`, `PRD.md`, `PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `REFERENCES.md`, and this file (`INSTALL.md`) into the repo root before writing any code:
+**The very first commit should be the pre-written control-plane documents themselves** — copy the root entry points plus `docs/PRD.md`, `docs/PLAN.md`, and `docs/REFERENCES.md` into the paths shown below before writing any code:
 
 ```
-git add README.md PRD.md PLAN.md PROGRESS.md AGENTS.md REFERENCES.md INSTALL.md
+git add README.md docs/README.md docs/PRD.md docs/PLAN.md PROGRESS.md AGENTS.md docs/REFERENCES.md INSTALL.md
 git commit -m "docs: initial README, PRD, PLAN, PROGRESS, AGENTS, REFERENCES, INSTALL"
 git push --set-upstream origin main
 ```
@@ -123,7 +123,7 @@ Also add these three, even though they're not *used* until later days — instal
 ```
 uv add mcp                        # official Model Context Protocol Python SDK (modelcontextprotocol.io); first used Day 10
 uv add bedrock-agentcore           # AWS's own AgentCore SDK (github.com/aws/bedrock-agentcore-sdk-python); first used Day 12
-uv add cedarpy                    # Cedar Python bindings — see the naming warning below; first used Day 7 for policy-as-code (PLAN.md §15)
+uv add cedarpy                    # Cedar Python bindings — see the naming warning below; first used Day 7 for policy-as-code (docs/PLAN.md §15)
 ```
 
 **Naming warning, worth checking again if you're reading this months later:** the PyPI package literally named `cedar-policy` is *not* legitimate — as of this writing it's a version `0.0.1` placeholder with no author, no description, and a fake `github.com/unknown/cedar-policy` source URL (checked via `pypi.org/pypi/cedar-policy/json`). There is no official AWS/cedar-policy-org Python package on PyPI. The de facto standard is the community-maintained **`cedarpy`** (`github.com/k9securityio/cedar-py`), whose version number tracks the Cedar engine's major.minor version — verify the GitHub repo (stars, license, recent commits, release tag matching the PyPI version) before trusting any Cedar-related package name, since this is exactly the kind of name a dependency-confusion attack would squat on. `cedarpy` exposes `is_authorized`, `PolicySet`, and `validate_policies` — enough to both evaluate policies at runtime and syntax-check `.cedar` files in a pre-commit hook, no separate CLI required. **Note `cedar-policy` *is* a legitimate name on crates.io specifically** — Rust's package registry, a completely separate namespace from PyPI — since that's the real Rust crate the official `cedar-policy/cedar` GitHub repo publishes. Don't let that legitimacy on crates.io read as vouching for the identically-named PyPI package; the two registries share nothing.
@@ -162,7 +162,7 @@ From here on, run everything through `uv run` (`uv run pytest`, `uv run uvicorn 
 | MCP server library | runtime | Tool Layer wrapped as MCP | Day 10 |
 | `pyportfolioopt` (pulls in `cvxpy` + a solver transitively — heavier than this project's other dependencies, worth knowing) | runtime | mean-variance, max-Sharpe, and risk-parity (HRP) portfolio optimization | Day 12 |
 | `boto3` + AgentCore SDK package | runtime | AWS Bedrock AgentCore integration | Day 12 |
-| `langchain-ollama` — optional, only if doing the local-model variant (`PLAN.md` §3) | runtime | binds Deep Agents to a local Ollama model | Days 4–6 |
+| `langchain-ollama` — optional, only if doing the local-model variant (`docs/PLAN.md` §3) | runtime | binds Deep Agents to a local Ollama model | Days 4–6 |
 
 ---
 
@@ -176,13 +176,13 @@ From here on, run everything through `uv run` (`uv run pytest`, `uv run uvicorn 
 npx skills add jongio/skills --skill create-canvas-app -g --agent github-copilot
 ```
 
-Writing the project's actual `.pre-commit-config.yaml` (with its specific hooks) and running `uv run pre-commit install` happens on Day 1 itself in `PLAN.md`, since the hook set is part of that day's build — `pre-commit` the tool is already installed via §3 above.
+Writing the project's actual `.pre-commit-config.yaml` (with its specific hooks) and running `uv run pre-commit install` happens on Day 1 itself in `docs/PLAN.md`, since the hook set is part of that day's build — `pre-commit` the tool is already installed via §3 above.
 
 ---
 
 ## 5. Accounts you'll set up later, and why not now
 
-Software is installed once, here, in one sitting. Accounts are different — a key or cloud credential sitting unused for days is one more thing to forget or let go stale, so each gets set up in `PLAN.md` Appendix B on the specific day it's first needed, with full step-by-step instructions there:
+Software is installed once, here, in one sitting. Accounts are different — a key or cloud credential sitting unused for days is one more thing to forget or let go stale, so each gets set up in `docs/PLAN.md` Appendix B on the specific day it's first needed, with full step-by-step instructions there:
 
 | Account | First needed | Cost |
 |---|---|---|
@@ -203,10 +203,10 @@ Software is installed once, here, in one sitting. Accounts are different — a k
 
 ## 6. Optional: local-model variant (Ollama)
 
-Only needed if you plan to run the Days 4–6 local-model comparison (`PLAN.md` §3) — skip this section entirely otherwise.
+Only needed if you plan to run the Days 4–6 local-model comparison (`docs/PLAN.md` §3) — skip this section entirely otherwise.
 
 - Ollama itself (`ollama.com`, or `brew install ollama`)
-- One or more tool-calling-capable local models, pulled via `ollama pull <model>` (`PLAN.md` §3 has hardware/sizing guidance)
+- One or more tool-calling-capable local models, pulled via `ollama pull <model>` (`docs/PLAN.md` §3 has hardware/sizing guidance)
 - `langchain-ollama`: `uv add langchain-ollama`
 - Optional: Langfuse, self-hosted via Docker, as a local alternative to LangSmith for Day 6
 
@@ -214,7 +214,7 @@ Only needed if you plan to run the Days 4–6 local-model comparison (`PLAN.md` 
 
 ## 7. What genuinely can't be done yet
 
-Two things are configured, not installed, and both require a real account to exist first — which is why they wait for their specific day in `PLAN.md` Appendix B rather than living here:
+Two things are configured, not installed, and both require a real account to exist first — which is why they wait for their specific day in `docs/PLAN.md` Appendix B rather than living here:
 - AWS CLI **credentials** (`aws configure`) — the CLI binary is installed in §1, but there's nothing to configure until the Day 12 AWS account exists.
 - Bedrock **model access** — an in-console toggle per model, only meaningful once you're in the AWS console on Day 12.
 
@@ -229,7 +229,7 @@ All three read `AGENTS.md` automatically at the start of a session inside the re
 cd agentic-pm-lab
 claude
 ```
-Then, in the session: *"Let's do Day 4."* Claude Code picks up `AGENTS.md`'s routing automatically (read `PROGRESS.md`, then `PLAN.md`'s Day 4 section) — the day number is the only thing you need to supply.
+Then, in the session: *"Let's do Day 4."* Claude Code picks up `AGENTS.md`'s routing automatically (read `PROGRESS.md`, then `docs/PLAN.md`'s Day 4 section) — the day number is the only thing you need to supply.
 
 **GitHub Copilot CLI:**
 ```
@@ -243,15 +243,15 @@ Same message. Copilot CLI reads `AGENTS.md` the same way (via the `.github/copil
 cd agentic-pm-lab
 codex
 ```
-Same message again. Where Codex tends to fit best in this plan: it's a reasonable substitute for Claude Code specifically — deep multi-file reasoning, architecture decisions, debugging unfamiliar APIs (`PLAN.md` §7's tool-guidance table calls out which days lean that way) — if you'd rather use an OpenAI-model-backed tool for that role, or want to compare the two on the same day's work. Codex also has its own on-demand skills mechanism, conceptually the same shape as this project's `skills/` folder, so the shared `SKILL.md` library is likely readable by it too — worth confirming once you're using it regularly, since exact compatibility can shift.
+Same message again. Where Codex tends to fit best in this plan: it's a reasonable substitute for Claude Code specifically — deep multi-file reasoning, architecture decisions, debugging unfamiliar APIs (`docs/PLAN.md` §7's tool-guidance table calls out which days lean that way) — if you'd rather use an OpenAI-model-backed tool for that role, or want to compare the two on the same day's work. Codex also has its own on-demand skills mechanism, conceptually the same shape as this project's `skills/` folder, so the shared `SKILL.md` library is likely readable by it too — worth confirming once you're using it regularly, since exact compatibility can shift.
 
 **GitHub Copilot Desktop / the Copilot app:** open the app, select this repo, start a new agent session, and give it the same message. This is the tool of choice specifically for the canvas-building days (8–10) and the Day 11 PR exercise, since those lean on app-specific features (`/create-canvas`, Copilot coding agent) not available from the CLI alone — nothing here substitutes for it.
 
 **A reusable kickoff prompt**, works with any of the three CLI tools:
 ```
-Read PROGRESS.md for current status, then PLAN.md's Appendix B section for Day <N>.
+Read PROGRESS.md for current status, then docs/PLAN.md's Appendix B section for Day <N>.
 Work through the numbered steps in order, committing at each checkpoint listed
-(see PLAN.md's "Git workflow used throughout" for the exact commands).
+(see docs/PLAN.md's "Git workflow used throughout" for the exact commands).
 Ask me before anything that needs an account or API key I haven't set up yet.
 ```
 
@@ -260,7 +260,7 @@ Ask me before anything that needs an account or API key I haven't set up yet.
 - **GitHub Copilot:** since June 2026, Copilot runs on usage-based AI Credits on individual plans too, not just team/enterprise — check the Copilot usage dashboard under your GitHub account settings for the current credit balance and burn rate.
 - **Codex CLI:** `/status` inside a session shows the current session's configuration; for account-level credit/usage detail, check your ChatGPT account's usage page. Codex's self-serve usage reporting is less granular than Claude Code's as of this writing — verify what's actually shown against OpenAI's current docs rather than assuming parity.
 
-**Which tool for which day** is summarized in `PLAN.md` §7's per-day table and repeated in `AGENTS.md`'s quick reference — that's a default, not a rule. Any of the three CLI tools works any day (the canvas days and Day 11's PR exercise still need the Copilot app specifically for the parts that touch it), and switching mid-day is expected (Day 8 deliberately uses both Copilot surfaces already).
+**Which tool for which day** is summarized in `docs/PLAN.md` §7's per-day table and repeated in `AGENTS.md`'s quick reference — that's a default, not a rule. Any of the three CLI tools works any day (the canvas days and Day 11's PR exercise still need the Copilot app specifically for the parts that touch it), and switching mid-day is expected (Day 8 deliberately uses both Copilot surfaces already).
 
 ---
 
@@ -274,7 +274,7 @@ Ask me before anything that needs an account or API key I haven't set up yet.
 - [ ] `codex --version` runs, and `codex` then "Sign in with ChatGPT" completes successfully (optional — only if you plan to use Codex CLI)
 - [ ] `aws --version` runs (credentials come later, on Day 12 — just confirm the CLI itself is installed)
 - [ ] The repo is cloned locally, with `origin` pointing at your GitHub repo (`git remote -v`), the current branch is `main` (`git branch --show-current`), and `git config user.email` shows a real address, not an auto-generated `.local` one
-- [ ] `README.md`, `PRD.md`, `PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `REFERENCES.md`, and this file are committed and pushed
+- [ ] `README.md`, `docs/PRD.md`, `docs/PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `docs/REFERENCES.md`, and this file are committed and pushed
 - [ ] `pyproject.toml` and `uv.lock` exist and are committed; `uv run python -c "import fastapi, deepagents, boto3, jsonschema, tiktoken"` succeeds with no import errors (add `import cedarpy` to this same check once Day 7 arrives and it's actually wired up)
 - [ ] Optional — only if you installed the standalone Cedar CLI alongside `cedarpy`: `cedar --version` runs, and `cedar check-parse --policies <file>.cedar` correctly accepts a valid policy and rejects a malformed one
 - [ ] Copilot coding agent is enabled in repo Settings
@@ -283,4 +283,4 @@ Ask me before anything that needs an account or API key I haven't set up yet.
 - [ ] Optional, only if doing the local-model variant: `ollama --version` runs and at least one model is pulled (`ollama list`)
 - [ ] **`PROGRESS.md`'s "Environment setup" line updated from ⬜ to ✅**, and that change committed and pushed — nothing else in this project flips that checkbox automatically, since `progress-tracker.yml` (the mechanism that auto-updates everything else in `PROGRESS.md`) isn't built until Day 1 itself; this one line has to be done by hand, here, or it just sits stale forever
 
-Once every box here is checked, open `PLAN.md` and start Day 1 — its own steps begin from the mock data layer, since the repo and environment are already in place.
+Once every box here is checked, open `docs/PLAN.md` and start Day 1 — its own steps begin from the mock data layer, since the repo and environment are already in place.

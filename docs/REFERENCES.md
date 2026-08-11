@@ -2,7 +2,7 @@
 
 One or two best starting points per topic, favoring official docs and hands-on tutorials over general blog posts — not exhaustive. This is the single, canonical copy: update it directly as you find something genuinely useful or a link goes stale, rather than maintaining a separate mirror elsewhere.
 
-**How this is used day to day:** you don't need to browse this whole file mid-session. Each day in `PLAN.md`'s Appendix B has its own short "While it builds, read" list (1–5 items) pointing at the specific subsection below that's relevant to that day's work — this file is the full bibliography those pointers link into, for whenever you want the complete picture on a topic rather than just today's slice.
+**How this is used day to day:** you don't need to browse this whole file mid-session. Each day in `docs/PLAN.md`'s Appendix B has its own short "While it builds, read" list (1–5 items) pointing at the specific subsection below that's relevant to that day's work — this file is the full bibliography those pointers link into, for whenever you want the complete picture on a topic rather than just today's slice.
 
 ---
 
@@ -10,7 +10,7 @@ One or two best starting points per topic, favoring official docs and hands-on t
 
 Not a "read before Day N" entry like the sections below — this is the source of the core idea, worth reading once for context rather than as day-specific prep.
 
-- **OpenAI Cookbook: "Multi-Agent Portfolio Collaboration with OpenAI Agents SDK"** (Raj Pathak, Chelsea Hu) — `developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration`. This is where the Portfolio-Manager-orchestrating-Macro/Fundamental/Quant-specialists pattern that structures this entire project comes from — a Portfolio Manager agent using specialist agents *as tools* to solve an investment research problem, built there on OpenAI's Agents SDK. This project translates the same pattern onto LangGraph Deep Agents' native `subagents` mechanism instead (`PRD.md` §1, `PLAN.md` Day 5) — worth reading the original once to see the pattern in its native habitat before building the LangGraph version, and worth a second look on Day 5 specifically to compare the two frameworks' takes on the same idea (agents-as-tools vs. native sub-agent spawning).
+- **OpenAI Cookbook: "Multi-Agent Portfolio Collaboration with OpenAI Agents SDK"** (Raj Pathak, Chelsea Hu) — `developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration`. This is where the Portfolio-Manager-orchestrating-Macro/Fundamental/Quant-specialists pattern that structures this entire project comes from — a Portfolio Manager agent using specialist agents *as tools* to solve an investment research problem, built there on OpenAI's Agents SDK. This project translates the same pattern onto LangGraph Deep Agents' native `subagents` mechanism instead (`docs/PRD.md` §1, `docs/PLAN.md` Day 5) — worth reading the original once to see the pattern in its native habitat before building the LangGraph version, and worth a second look on Day 5 specifically to compare the two frameworks' takes on the same idea (agents-as-tools vs. native sub-agent spawning).
 
 ---
 
@@ -37,7 +37,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - LangSmith quickstart (sign up, first trace, first eval): `smith.langchain.com` → Settings → API Keys, then the in-product quickstart
 - LangSmith + pytest / GitHub Actions integration, for wiring `eval-regression.yml`: LangSmith docs, "Test before you ship" section
 
-### Context engineering (Day 4, PLAN.md §13)
+### Context engineering (Day 4, docs/PLAN.md §13)
 - Anthropic's "Effective context engineering for AI agents" — the conceptual grounding for treating context assembly as its own deliberate layer rather than incidental prompt accumulation
 - LangGraph/LangChain context management docs (memory, summarization, trimming) — the concrete APIs `src/context/` builds on
 
@@ -68,7 +68,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - IAM users, groups, and policies overview: `docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html`
 - AWS Budgets (for the Day 12 budget-alert step): `docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html`
 
-### Security: AuthN/AuthZ, policy-as-code, prompt injection (Day 7, PLAN.md §15)
+### Security: AuthN/AuthZ, policy-as-code, prompt injection (Day 7, docs/PLAN.md §15)
 - Cedar policy language docs and playground: `cedarpolicy.com`, `docs.cedarpolicy.com`
 - OWASP Top 10 for LLM Applications — prompt injection, sensitive information disclosure, excessive agency are the entries most relevant to the negative tests in `governance/tests/`: `owasp.org/www-project-top-10-for-large-language-model-applications/`
 - AWS Verified Permissions (Cedar-based, managed) — worth reading even if this project's own Cedar setup stays local/learning-scale, since it's the natural production analog: `docs.aws.amazon.com/verifiedpermissions/`
@@ -98,18 +98,18 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - SEC EDGAR full-text search and submissions APIs: `sec.gov/edgar/sec-api-documentation`
 
 ### Python testing & mocking
-- `pytest` documentation, especially fixtures and markers (for the `unit`/`eval` split in PLAN.md §4): `docs.pytest.org`
+- `pytest` documentation, especially fixtures and markers (for the `unit`/`eval` split in docs/PLAN.md §4): `docs.pytest.org`
 - `unittest.mock` standard library docs, for mocking network calls
 - `responses` library (mocking `requests`-based HTTP calls like yfinance/FRED): its PyPI/GitHub README
-- LangChain's testing utilities for fake/scripted chat models (used in `src/agents/` tests, PLAN.md §4)
+- LangChain's testing utilities for fake/scripted chat models (used in `src/agents/` tests, docs/PLAN.md §4)
 
 ### Quant/fixed-income formulas (Day 3 tool layer)
 - `statsmodels` OLS regression docs (used for the factor regression tool): `statsmodels.org/stable/regression.html`
 - Investopedia: bond pricing, duration, and convexity — plain-language first pass before implementing `src/analytics/pricers.py`
 - Investopedia: Black-Scholes model — plain-language first pass before implementing the option pricer
 - Investopedia: yield curve construction and interpolation — before implementing `src/analytics/curves.py`; covers what "bootstrapping" a curve from discrete tenor points actually means
-- Investopedia: credit spreads (and OAS — option-adjusted spread) — before the scenario engine's credit-shock path (Day 12) and PRD.md §4's spread-risk questions
-- Investopedia: mortgage-backed securities and negative convexity — a genuinely distinct concept from plain bond convexity (prepayment risk flips the sign), directly relevant to PRD.md §4's "how does mortgage convexity affect the portfolio" question
+- Investopedia: credit spreads (and OAS — option-adjusted spread) — before the scenario engine's credit-shock path (Day 12) and docs/PRD.md §4's spread-risk questions
+- Investopedia: mortgage-backed securities and negative convexity — a genuinely distinct concept from plain bond convexity (prepayment risk flips the sign), directly relevant to docs/PRD.md §4's "how does mortgage convexity affect the portfolio" question
 - Investopedia: volatility, maximum drawdown, and correlation as risk metrics — before implementing `src/analytics/risk.py`; these currently have no dedicated primer elsewhere in this file, easy to assume they're self-explanatory and skip
 - Investopedia: factor investing / factor models, conceptual overview — read before `statsmodels`' API docs above, since the API is easy to use correctly while still not knowing what a "factor" means economically
 - Investor.gov's beta glossary entry, used for the Day 3 factor-beta definition:
@@ -141,4 +141,4 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - `pre-commit` framework docs: `pre-commit.com`
 - `ruff` docs (linting + formatting): `docs.astral.sh/ruff`
 - `detect-secrets` (`github.com/Yelp/detect-secrets`) or `gitleaks` (`github.com/gitleaks/gitleaks`) — pick one, both are well-documented
-- `uv` docs (dependency management, this project's package manager — PLAN.md §1, `INSTALL.md`): `docs.astral.sh/uv`
+- `uv` docs (dependency management, this project's package manager — docs/PLAN.md §1, `INSTALL.md`): `docs.astral.sh/uv`

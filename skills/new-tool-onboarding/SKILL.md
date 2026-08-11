@@ -31,7 +31,7 @@ function or endpoint already carries a `# MOCK` marker, use
    validate actual function input/output against its schema.
 7. Check whether the tool also needs MCP or Canvas exposure. Those surfaces
    must call the same governed implementation rather than bypassing it.
-8. Update `ARCHITECTURE.md`, progress checks, relevant skills' `covers` and
+8. Update `docs/ARCHITECTURE.md`, progress checks, relevant skills' `covers` and
    `last_verified_commit`, and any glossary term introduced by the tool.
 
 ## Completion criteria

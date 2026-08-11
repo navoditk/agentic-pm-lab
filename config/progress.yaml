@@ -1,4 +1,4 @@
-# Machine-checkable source of truth for day-by-day completion (PLAN.md §6).
+# Machine-checkable source of truth for day-by-day completion (docs/PLAN.md §6).
 # scripts/check_progress.py evaluates each day's `checks` against the current
 # repo state and regenerates PROGRESS.md's status table. Add each day's real
 # checks as you do that day's work -- the stub entries below (empty `checks`)
@@ -10,7 +10,7 @@ day_1:
     - path_exists: src/control/allowlist.py
     - path_exists: src/api/main.py
     - path_exists: skills/python-best-practices/SKILL.md
-    - path_exists: ARCHITECTURE.md
+    - path_exists: docs/ARCHITECTURE.md
     - tests_pass: tests/unit/control
     - tests_pass: tests/unit/ingestion
 

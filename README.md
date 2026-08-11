@@ -8,10 +8,6 @@ A 12-day (+2 optional) build, not a tutorial you passively read. Each day replac
 
 **Where the core idea comes from:** the Portfolio-Manager-orchestrates-specialists pattern isn't invented here — it's translated from OpenAI's own Cookbook example, ["Multi-Agent Portfolio Collaboration with OpenAI Agents SDK"](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration) (Raj Pathak, Chelsea Hu), which uses a Portfolio Manager agent calling Macro/Fundamental/Quant specialist agents as tools to solve an investment research problem. This project asks the same question on a different stack: what does that pattern look like built on LangGraph Deep Agents' native sub-agent model instead of the OpenAI Agents SDK, deepened with production concerns (contracts, evals, security, observability) the original didn't need to cover.
 
-## Inspiration
-
-The core multi-agent shape — a Portfolio Manager agent orchestrating Macro/Fundamental/Quant specialists as tools — traces directly back to OpenAI's own cookbook example, ["Multi-Agent Portfolio Collaboration with the Agents SDK"](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration) (Raj Pathak, Chelsea Hu). This project reimplements that same "agents as a tool" orchestration pattern natively on LangGraph Deep Agents' `subagents` support (Day 5) rather than the OpenAI Agents SDK, then builds everything else — contracts, evals, security, canvases, cloud deployment — around it. See `REFERENCES.md` for the full citation and where it fits.
-
 ## Tech stack
 
 - **Agents:** LangGraph / LangGraph Deep Agents, multi-agent orchestration with native sub-agents
@@ -38,16 +34,19 @@ Working proficiency with the full stack above, demonstrated end to end rather th
 
 | Document | What it's for |
 |---|---|
-| `PRD.md` | The *why* — vision, architecture, principles, the business questions this platform answers, tiered success criteria |
-| `PLAN.md` | The *how* — repo layout, all 14 days' step-by-step, the skills/prompts/security/context-engineering detail |
+| [`docs/README.md`](docs/README.md) | Documentation index — the complete map by intent |
+| `docs/PRD.md` | The *why* — vision, architecture, principles, the business questions this platform answers, tiered success criteria |
+| `docs/PLAN.md` | The *how* — repo layout, all 14 days' step-by-step, the skills/prompts/security/context-engineering detail |
+| `docs/ARCHITECTURE.md` | Canonical current-state architecture and security boundaries |
 | `PROGRESS.md` | Current status — mostly auto-generated, plus a daily log |
 | `INSTALL.md` | One-time setup — start here |
-| `REFERENCES.md` | Curated reading, by topic |
+| `docs/REFERENCES.md` | Curated reading, by topic |
 | `AGENTS.md` | Routes Claude Code / GitHub Copilot / Codex CLI to the right document — read automatically by those tools |
 
 ## Getting started
 
-Read `INSTALL.md` start to finish, then `PLAN.md` Day 1. `PROGRESS.md` tracks where the build currently stands.
+Read `INSTALL.md` start to finish, then use `PROGRESS.md` to find the current
+day in `docs/PLAN.md`.
 
 ## A note on data
 

@@ -1,4 +1,4 @@
-# Day 1 hooks only (PLAN.md §11.2/§11.3) -- grows on the days noted in the
+# Day 1 hooks only (docs/PLAN.md §11.2/§11.3) -- grows on the days noted in the
 # table there: fast pytest subset (Day 3), SKILL.md/contract.yaml schema
 # checks (Day 4), Cedar syntax check (Day 7), markdown lint / large-file
 # check (Day 2).
@@ -29,7 +29,7 @@ repos:
     hooks:
       - id: no-company-sensitive-data
         name: No company-sensitive data
-        description: Blocks a small list of banned terms (PRD.md §3, principle 3) from ever being committed.
+        description: Blocks a small list of banned terms (docs/PRD.md §3, principle 3) from ever being committed.
         entry: uv run python scripts/check_no_sensitive_data.py
         language: system
         pass_filenames: true

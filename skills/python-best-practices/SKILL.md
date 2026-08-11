@@ -24,11 +24,11 @@ Conventions any agent (or human) writing Python in this repo should follow. `ruf
 
 ## The `# MOCK` marker convention
 
-Every unfinished endpoint or function that stands in for real logic carries a docstring starting with `# MOCK — replace on Day N` (or, if permanently mocked by design, `# MOCK — stays mocked; <reason>`, e.g., the research tool per PRD.md §6). This is not just documentation — `scripts/check_progress.py` (§6) greps `src/` for this exact marker to derive `PROGRESS.md`'s mock→real status table. Removing the marker is literally what flips a row from mock to real; it is the mechanism, not a side note. Never leave a stale `# MOCK` marker on code that's actually been made real, and never remove one before the real implementation is actually in place.
+Every unfinished endpoint or function that stands in for real logic carries a docstring starting with `# MOCK — replace on Day N` (or, if permanently mocked by design, `# MOCK — stays mocked; <reason>`, e.g., the research tool per docs/PRD.md §6). This is not just documentation — `scripts/check_progress.py` (§6) greps `src/` for this exact marker to derive `PROGRESS.md`'s mock→real status table. Removing the marker is literally what flips a row from mock to real; it is the mechanism, not a side note. Never leave a stale `# MOCK` marker on code that's actually been made real, and never remove one before the real implementation is actually in place.
 
 ## pytest conventions
 
-- Test files: `tests/unit/<layer>/test_<module>.py`, mirroring `src/`'s structure (PLAN.md §4).
+- Test files: `tests/unit/<layer>/test_<module>.py`, mirroring `src/`'s structure (docs/PLAN.md §4).
 - Test functions: `test_<behavior_being_verified>`, not `test_<function_name>` — name the test after what it proves, not what it calls.
 - Fixtures for shared setup (fixture role configs, fixture DuckDB connections, fixture test identities) live in `conftest.py` at the narrowest scope that needs them — a fixture used by only one test file's tests belongs in that directory, not the repo-wide `tests/conftest.py`.
 - No test under `tests/unit/` may hit a real network call, API, or cloud resource — mock external dependencies (`responses`, `unittest.mock`, or recorded fixtures). This is a hard rule, not a preference (AGENTS.md repo rules).

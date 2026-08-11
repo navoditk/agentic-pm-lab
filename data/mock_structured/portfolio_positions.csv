@@ -1,4 +1,4 @@
-# MOCK DATA — see ARCHITECTURE.md
+# MOCK DATA — see docs/ARCHITECTURE.md
 portfolio_id,security_id,quantity,market_value,as_of_date
 PORT_A,SEC001,1000000,982000,2026-08-01
 PORT_A,SEC003,750000,741500,2026-08-01

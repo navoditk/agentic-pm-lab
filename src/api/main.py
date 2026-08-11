@@ -185,7 +185,7 @@ def research(
     query: str,
     _authorization: Annotated[AuthorizationContext, Depends(require_tool("research"))],
 ) -> dict:
-    """# MOCK — stays mocked; real research is a deferred non-goal (PRD.md §6)."""
+    """# MOCK — stays mocked; real research is a deferred non-goal (docs/PRD.md §6)."""
     return {"query": query, "summary": "mock research summary", "mock": True}
 
 

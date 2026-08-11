@@ -33,7 +33,7 @@ not the workflow for introducing a new tool that has no callers or interface.
    and cache freshness. Unit tests must not use a live network.
 7. Check every dependent API, MCP capability, canvas capability, contract, and
    skill. Version a contract when its observable shape intentionally changes.
-8. Update `ARCHITECTURE.md`, data-schema documentation, and progress checks when
+8. Update `docs/ARCHITECTURE.md`, data-schema documentation, and progress checks when
    the source or data flow changes.
 
 ## Day 2 example
