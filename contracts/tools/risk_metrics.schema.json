@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "risk_metrics contract",
+  "type": "object",
+  "required": ["input", "output"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["returns", "portfolio_values"],
+      "properties": {
+        "returns": {"type": "array", "items": {"type": "number"}},
+        "portfolio_values": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "number", "exclusiveMinimum": 0}
+        },
+        "window": {"type": "integer", "minimum": 2},
+        "periods_per_year": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "required": ["rolling_volatility", "max_drawdown", "peak_index", "trough_index"],
+      "properties": {
+        "rolling_volatility": {
+          "type": "array",
+          "items": {"type": ["number", "null"]}
+        },
+        "max_drawdown": {"type": "number", "minimum": -1, "maximum": 0},
+        "peak_index": {"type": "integer", "minimum": 0},
+        "trough_index": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

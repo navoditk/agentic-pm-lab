@@ -1,0 +1,7 @@
+{
+  "fixture": "research_timeout",
+  "inject_at": "research provider call",
+  "exception": "TimeoutError",
+  "message": "Public research provider exceeded the 5 second deadline.",
+  "expected_failure": "The workflow enters an explicit retry or error state rather than returning a fabricated summary."
+}

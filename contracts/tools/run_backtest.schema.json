@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "run_backtest contract",
+  "type": "object",
+  "required": ["input", "output"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["asset_returns", "weights"],
+      "properties": {
+        "asset_returns": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "number", "exclusiveMinimum": -1}
+          }
+        },
+        "weights": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "number", "minimum": 0}
+        },
+        "initial_value": {"type": "number", "exclusiveMinimum": 0},
+        "periods_per_year": {"type": "integer", "minimum": 1},
+        "risk_free_rate": {"type": "number", "exclusiveMinimum": -1}
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "required": ["equity_curve", "period_returns", "cagr", "sharpe", "max_drawdown"],
+      "properties": {
+        "equity_curve": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "number", "exclusiveMinimum": 0}
+        },
+        "period_returns": {"type": "array", "items": {"type": "number"}},
+        "cagr": {"type": "number"},
+        "sharpe": {"type": ["number", "null"]},
+        "max_drawdown": {"type": "number", "minimum": -1, "maximum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

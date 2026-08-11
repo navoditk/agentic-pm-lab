@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "price_bond contract",
+  "type": "object",
+  "required": ["input", "output"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["cash_flows", "curve_tenors_years", "curve_rates_pct"],
+      "properties": {
+        "cash_flows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["time_years", "amount"],
+            "properties": {
+              "time_years": {"type": "number", "exclusiveMinimum": 0},
+              "amount": {"type": "number"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "curve_tenors_years": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "number", "exclusiveMinimum": 0}
+        },
+        "curve_rates_pct": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "number"}
+        },
+        "compounding_frequency": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "required": ["price", "discounted_cash_flows"],
+      "properties": {
+        "price": {"type": "number"},
+        "discounted_cash_flows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["time_years", "amount", "rate_pct", "present_value"],
+            "properties": {
+              "time_years": {"type": "number"},
+              "amount": {"type": "number"},
+              "rate_pct": {"type": "number"},
+              "present_value": {"type": "number"}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

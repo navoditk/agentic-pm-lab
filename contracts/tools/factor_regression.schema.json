@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "factor_regression contract",
+  "type": "object",
+  "required": ["input", "output"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["portfolio_returns", "factor_returns"],
+      "properties": {
+        "portfolio_returns": {
+          "type": "array",
+          "minItems": 3,
+          "items": {"type": "number"}
+        },
+        "factor_returns": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 3,
+            "items": {"type": "number"}
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "required": ["alpha", "betas", "r_squared", "observations"],
+      "properties": {
+        "alpha": {"type": "number"},
+        "betas": {"type": "object", "additionalProperties": {"type": "number"}},
+        "r_squared": {"type": "number"},
+        "observations": {"type": "integer", "minimum": 3}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "portfolio_summary contract",
+  "type": "object",
+  "required": ["input", "output"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["positions", "security_master"],
+      "properties": {
+        "positions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["security_id", "market_value"],
+            "properties": {
+              "security_id": {"type": "string", "minLength": 1},
+              "market_value": {"type": "number", "minimum": 0}
+            },
+            "additionalProperties": false
+          }
+        },
+        "security_master": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["security_id", "asset_class", "sector"],
+            "properties": {
+              "security_id": {"type": "string", "minLength": 1},
+              "asset_class": {"type": "string", "minLength": 1},
+              "sector": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "required": ["total_market_value", "weights", "exposure_by_asset_class", "exposure_by_sector", "largest_position_weight", "concentration_hhi", "security_master_is_mock"],
+      "properties": {
+        "total_market_value": {"type": "number", "exclusiveMinimum": 0},
+        "weights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["security_id", "market_value", "weight"],
+            "properties": {
+              "security_id": {"type": "string"},
+              "market_value": {"type": "number"},
+              "weight": {"type": "number", "minimum": 0, "maximum": 1}
+            },
+            "additionalProperties": false
+          }
+        },
+        "exposure_by_asset_class": {"type": "object", "additionalProperties": {"type": "number"}},
+        "exposure_by_sector": {"type": "object", "additionalProperties": {"type": "number"}},
+        "largest_position_weight": {"type": "number", "minimum": 0, "maximum": 1},
+        "concentration_hhi": {"type": "number", "minimum": 0, "maximum": 1},
+        "security_master_is_mock": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

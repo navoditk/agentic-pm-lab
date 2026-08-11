@@ -1,0 +1,14 @@
+{
+  "fixture": "pricer_malformed_response",
+  "inject_at": "price-bond tool response",
+  "response": {
+    "discounted_cash_flows": [
+      {
+        "time_years": 1,
+        "amount": 105,
+        "rate_pct": 4.5
+      }
+    ]
+  },
+  "expected_failure": "Contract validation rejects the missing price and present_value fields."
+}

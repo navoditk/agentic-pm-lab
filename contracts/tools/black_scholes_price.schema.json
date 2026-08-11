@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "black_scholes_price contract",
+  "type": "object",
+  "required": ["input", "output"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["spot", "strike", "time_to_expiry", "risk_free_rate", "volatility", "option_type"],
+      "properties": {
+        "spot": {"type": "number", "exclusiveMinimum": 0},
+        "strike": {"type": "number", "exclusiveMinimum": 0},
+        "time_to_expiry": {"type": "number", "exclusiveMinimum": 0},
+        "risk_free_rate": {"type": "number"},
+        "volatility": {"type": "number", "exclusiveMinimum": 0},
+        "option_type": {"enum": ["call", "put"]}
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "required": ["option_type", "price", "d1", "d2"],
+      "properties": {
+        "option_type": {"enum": ["call", "put"]},
+        "price": {"type": "number", "minimum": 0},
+        "d1": {"type": "number"},
+        "d2": {"type": "number"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
