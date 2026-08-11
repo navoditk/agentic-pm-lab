@@ -1,7 +1,7 @@
 from src.control.allowlist import ROLES, check_permission, role_for_identity
 
 
-def test_pm_role_can_call_all_six_stub_tools():
+def test_pm_role_can_call_all_current_tools():
     for tool in (
         "price-bond",
         "curve",
@@ -9,6 +9,7 @@ def test_pm_role_can_call_all_six_stub_tools():
         "econometrics",
         "backtest",
         "portfolio",
+        "risk",
     ):
         assert check_permission("pm", tool)
 
@@ -19,6 +20,10 @@ def test_risk_role_cannot_call_price_bond():
 
 def test_risk_role_can_call_portfolio():
     assert check_permission("risk", "portfolio")
+
+
+def test_risk_role_can_call_risk_metrics():
+    assert check_permission("risk", "risk")
 
 
 def test_unknown_role_has_no_permissions():

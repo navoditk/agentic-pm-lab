@@ -1,0 +1,7 @@
+{
+  "function": "risk_metrics",
+  "contract": "contracts/tools/risk_metrics.schema.json",
+  "endpoint": "/tools/risk",
+  "authorization_checked": true,
+  "unit_and_contract_tests_added": true
+}
