@@ -16,7 +16,13 @@ day_1:
 
 day_2:
   label: "Data Layer: real public data"
-  checks: []
+  checks:
+    - path_exists: src/ingestion/prices.py
+    - path_exists: src/ingestion/macro.py
+    - path_exists: skills/mock-to-real-migration/SKILL.md
+    - path_exists: skills/ficc-glossary-maintainer/SKILL.md
+    - path_exists: data/README.md
+    - tests_pass: tests/unit/ingestion
 
 day_3:
   label: "Tool Layer: real deterministic engines"

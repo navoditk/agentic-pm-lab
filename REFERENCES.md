@@ -74,6 +74,9 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - Jon Gallant's `create-canvas-app` skill and blog series: `blog.jongallant.com`, repo `github.com/jongio/skills`
 - Prompt files: `docs.github.com/en/copilot/tutorials/customization-library/prompt-files/your-first-prompt-file`
 - Custom agents: `docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/create-custom-agents`
+- Creating and using personal custom agents in Copilot CLI (including the
+  `~/.copilot/agents/` scope):
+  `docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli`
 - Agent skills reference: `docs.github.com/en/copilot/concepts/agents/about-agent-skills`
 - GitHub Actions scheduled workflows (`on: schedule`, cron syntax), for `morning-brief.yml`: `docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule`
 
@@ -114,6 +117,10 @@ Not a "read before Day N" entry like the sections below — this is the source o
 
 ### FICC / fixed income fundamentals
 - Investopedia's fixed-income section, for plain-language first passes at any term before it goes in `docs/ficc-glossary.md`
+- U.S. Treasury interest-rate statistics, the public source used for the yield
+  curve glossary entry: `home.treasury.gov/resource-center/data-chart-center/interest-rates`
+- FINRA's duration primer, used for the Day 2 glossary definition:
+  `finra.org/investors/insights/duration-what-interest-rate-hike-could-do-your-bond-portfolio`
 - A standard CFA-curriculum-level fixed income text, if you want a more rigorous second pass once the practical vocabulary from building the tools is in place
 
 ### Git & version control

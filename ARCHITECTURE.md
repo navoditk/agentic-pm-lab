@@ -4,54 +4,73 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 1)
+## The layers, and what exists today (Day 2)
 
 | Layer | Target end-state (`PRD.md` §2) | What exists today |
 |---|---|---|
-| **Data Layer** | Real yfinance/FRED/SEC EDGAR public ingestion | `data/mock_structured/*.csv` (invented portfolio/security/curve data) loaded into a local DuckDB file by `src/ingestion/load_mock_structured_data.py`. `# MOCK — replace on Day 2` (prices/curve) and later (security master). |
+| **Data Layer** | Real yfinance/FRED/SEC EDGAR public ingestion | `src/ingestion/prices.py` loads daily OHLCV for six public ETFs from yfinance; `src/ingestion/macro.py` loads Treasury yields, Fed Funds, and CPI from FRED and derives `curve_points`. Both use a 24-hour JSON-file cache before replacing their DuckDB tables. `security_master` and `portfolio_positions` remain invented CSV fixtures and retain their `# MOCK` marker. |
 | **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`PRD.md` §3, principle 10) | A single combined stub: `src/control/allowlist.py` (`check_permission(role, tool_name)`, backed by `config/roles.yaml`) and `src/control/audit.py` (append-only JSON Lines log). AuthN/AuthZ aren't split yet, Guardrails and real Tool enforcement don't exist yet. `# MOCK — replace on Day 7` with `governance/policies/*.cedar`. |
-| **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/api/main.py` — six FastAPI stub endpoints (`price-bond`, `curve`, `research`, `econometrics`, `backtest`, `portfolio`), each returning a canned response. No contracts yet (Day 3). Not yet wired to the Control Layer's entitlement check (also Day 3). |
+| **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/api/main.py` — `/tools/curve` now reads raw FRED-derived points from DuckDB. The other five endpoints remain stubs; interpolation, analytics contracts, and Control Layer enforcement arrive on Day 3. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Doesn't exist yet — starts Day 8. Today's only artifact is `.github/copilot-instructions.md`, a pointer to `AGENTS.md` so every harness reads the same routing rules. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | Doesn't exist yet — starts Day 4. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | Doesn't exist yet — starts Day 11. |
 
-Everything above (except the Interactive Layer's pointer file and the CI skeleton) is deliberately mocked or stubbed — see each layer's own `# MOCK` markers, tracked automatically in `PROGRESS.md`'s mock→real table (`PLAN.md` §6).
+The Data Layer is intentionally mixed: public price/macro data is real, while
+portfolio and security metadata remains mock. Remaining stubs are tracked from
+their `# MOCK` markers in `PROGRESS.md` (`PLAN.md` §6).
 
 ---
 
-## Logical components, Day 1
+## Logical components, Day 2
 
 ```
-data/mock_structured/*.csv          invented seed data (portfolio, security, curve)
+data/mock_structured/*.csv          invented portfolio and security metadata
   -> src/ingestion/load_mock_structured_data.py
-      -> data/cache/portfolio.duckdb   (gitignored, regenerated on demand)
+      -> data/cache/portfolio.duckdb   security_master, portfolio_positions
+
+yfinance                              public ETF daily OHLCV
+  -> src/ingestion/prices.py
+      -> data/cache/prices.json        24-hour normalized-response cache
+      -> portfolio.duckdb/prices
+
+FRED                                  public macro and Treasury observations
+  -> src/ingestion/macro.py
+      -> data/cache/macro.json         24-hour normalized-response cache
+      -> portfolio.duckdb/macro_series
+      -> portfolio.duckdb/curve_points (latest complete Treasury curve)
 
 config/roles.yaml                    role->tool permission + identity->role (temporary, combined)
   -> src/control/allowlist.py         check_permission(role, tool_name)
   -> src/control/audit.py             record_audit_event(...) -> data/cache/audit.jsonl
 
-src/api/main.py                      FastAPI app, 6 stub Tool Layer endpoints
+src/api/main.py                      FastAPI app; real raw-curve read, 5 stubs
   (not yet calling allowlist.check_permission -- wired Day 3)
 
 scripts/artifacts_host.py            separate FastAPI app, serves artifacts/*
 
 skills/example-echo/                 proves the Agent Skills package mechanism
 skills/python-best-practices/        this project's actual coding conventions
+skills/mock-to-real-migration/       safe mock replacement checklist
+skills/ficc-glossary-maintainer/     consistent learning glossary format
 
 .github/workflows/ci.yml             lint + test on push/PR
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
 .github/workflows/skills-freshness.yml  placeholder, built out Day 11
 ```
 
-## First-pass request/tool sequence (Day 1 shape)
+## Request/tool sequence (Day 2 shape)
 
-No agent exists yet (Day 4), so today's "sequence" is just the Tool Layer's own request path — this grows a Control Layer check (Day 3), then an agent in front of it (Day 4), then multi-agent routing (Day 5):
+No runtime agent exists yet (Day 4). Public data ingestion and the raw curve
+read now follow these paths:
 
 ```
-caller (curl / Streamlit / test)
-  --> src/api/main.py  (e.g. GET /tools/curve)
-        --> returns canned mock response, tagged "mock": true
+yfinance/FRED
+  --> fresh TTL cache? -- yes --> normalized JSON records
+          | no                  --> public API --> normalized JSON records
+          +---------------------------> DuckDB tables
+
+caller --> GET /tools/curve --> DuckDB curve_points --> raw tenor/rate response
 ```
 
 By Day 3, this becomes:

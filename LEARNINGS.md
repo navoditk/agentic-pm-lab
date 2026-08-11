@@ -16,3 +16,29 @@ Reflective retro log, one dated entry per day, written the same day rather than 
 **One thing I'd do differently:** Write the `pythonpath`/`import-mode` pytest config *before* writing any test files, not after hitting the `ModuleNotFoundError` — the failure mode was predictable in hindsight (console-script `pytest`, unlike `python -m pytest`, doesn't add cwd to `sys.path`) and could have been set up proactively alongside the initial `uv init` in `INSTALL.md` instead of discovered mid-Day-1.
 
 **Also worth noting, from environment setup before Day 1:** the PyPI package literally named `cedar-policy` turned out to be a squatted placeholder (v0.0.1, fake source URL) — the real Cedar Python bindings are the community-maintained `cedarpy`. A good reminder to verify a dependency's actual metadata (author, repo, release history) before trusting a name match, especially for a security-relevant package.
+
+---
+
+## 2026-08-10 — Day 2
+
+**What worked:** Normalizing yfinance and FRED responses before persistence
+made the DuckDB writers source-agnostic and easy to test. A shared atomic JSON
+cache kept the rate-limit behavior explicit, and building the curve only from a
+date shared by every Treasury tenor prevented a visually plausible but
+internally inconsistent snapshot.
+
+**What didn't work / had to be fixed along the way:**
+- yfinance's multi-symbol response uses a two-level column index, so the parser
+  had to locate the ticker level rather than assume one fixed column order.
+- The progress tracker reports the whole Data Layer rather than individual
+  tables. Its partial state is still the correct signal: three ingestion files
+  are real and the one loader that owns security/portfolio fixtures remains
+  mocked.
+- Pre-commit's formatter changed both new test files after their first staging,
+  reinforcing the workflow rule to re-stage and commit again rather than bypass
+  the hook.
+
+**One thing I'd do differently:** Define the normalized provider-record shapes
+as typed structures before writing the clients. The current dictionaries are
+tested and clear, but `TypedDict` definitions would make the yfinance/FRED to
+DuckDB boundary easier to evolve safely.
