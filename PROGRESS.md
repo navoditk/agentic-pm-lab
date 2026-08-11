@@ -44,7 +44,7 @@ See `docs/PLAN.md` §6 (Automatic progress tracking) for how this mechanism work
 | Runtime Layer | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Agent Layer | 🟢 Real | 5 file(s), no `# MOCK` markers |
 | Observability | 🟢 Real | 1 file(s), no `# MOCK` markers |
-| Golden dataset / evals | 🔴 Not started | No files yet |
+| Golden dataset / evals | 🟢 Real | 4 file(s), no `# MOCK` markers |
 | AWS Bedrock AgentCore | 🔴 Not started | No files yet |
 
 <!-- PROGRESS:END -->
