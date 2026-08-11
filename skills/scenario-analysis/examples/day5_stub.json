@@ -1,0 +1,11 @@
+{
+  "question": "What happens to Portfolio A if rates rise 50 basis points?",
+  "normalized_scenario": {
+    "portfolio_id": "PORT_A",
+    "shock_type": "parallel_rates",
+    "shock_magnitude": 50,
+    "shock_unit": "basis_points"
+  },
+  "execution_status": "unavailable_until_day_12",
+  "required_disclosure": "No numeric impact is calculated without the deterministic scenario engine."
+}

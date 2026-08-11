@@ -1,0 +1,27 @@
+inputs:
+  portfolio_id:
+    type: string
+  shock_type:
+    type: string
+  shock_magnitude:
+    type: number
+  shock_unit:
+    type: string
+  horizon:
+    type: string
+allowed_tools: []
+forbidden_tools:
+  - get_research_summary
+  - run_backtest
+output_schema:
+  type: object
+  required:
+    - normalized_scenario
+    - missing_inputs
+    - execution_status
+    - limitations
+side_effects: none
+approval_required: false
+covers:
+  - src/agents/multi_agent.py
+version: 0.1.0

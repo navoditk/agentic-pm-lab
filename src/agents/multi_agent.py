@@ -120,6 +120,8 @@ def specialist_subagents(
         }
         if name in configured_models:
             spec["model"] = configured_models[name]
+        if name == "quant":
+            spec["skills"] = ["./skills/scenario-analysis/"]
         subagents.append(spec)
     return subagents
 
