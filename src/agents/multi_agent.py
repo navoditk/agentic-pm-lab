@@ -5,6 +5,7 @@ from typing import Any
 
 from deepagents import create_deep_agent
 from deepagents.middleware.subagents import CompiledSubAgent, SubAgent
+from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.language_models import BaseChatModel
 from langchain_core.tools import BaseTool, tool
 from langgraph.checkpoint.base import BaseCheckpointSaver
@@ -182,6 +183,7 @@ def invoke_multi_agent(
     thread_id: str | None = None,
     iteration_limit: int = 50,
     model_name: str | None = None,
+    callbacks: Sequence[BaseCallbackHandler] = (),
 ) -> dict[str, Any]:
     """Invoke the Portfolio Manager with context from named sources only."""
     context = (
@@ -201,7 +203,7 @@ def invoke_multi_agent(
         "agent.portfolio_manager.invoke",
         observed_model,
     ) as (_span, metrics):
-        config["callbacks"] = [metrics]
+        config["callbacks"] = [metrics, *callbacks]
         return runtime.invoke(
             {"messages": [{"role": "user", "content": prompt}]},
             config=config,

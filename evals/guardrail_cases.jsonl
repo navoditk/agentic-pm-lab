@@ -1,0 +1,1 @@
+{"id":"guardrail-day12-stub","status":"stub","activates_on_day":12,"dimension":"guardrail_behavior","note":"Day 12 adds normal, system-prompt extraction, trade-directive, and indirect portfolio-exfiltration cases from Appendix C.8."}

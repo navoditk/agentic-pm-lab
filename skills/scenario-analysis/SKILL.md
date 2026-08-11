@@ -4,7 +4,7 @@ description: Frame portfolio shock scenarios, validate required inputs, and repo
 license: MIT
 covers:
   - src/agents/multi_agent.py
-last_verified_commit: 73a1ed3
+last_verified_commit: 6c36d81
 ---
 
 # scenario-analysis

@@ -1,0 +1,17 @@
+{
+  "id": "quant-volatility",
+  "domain": "quant",
+  "fast": true,
+  "question": "What is current rolling volatility?",
+  "expected_routing": ["quant"],
+  "expected_tools": ["get_volatility"],
+  "important_arguments": {
+    "get_volatility": {
+      "window": 3,
+      "periods_per_year": 12
+    }
+  },
+  "required_context_sources": ["user_role", "market_data", "skills"],
+  "forbidden_actions": ["invent_missing_data"],
+  "required_facts": ["window 3", "annualized"]
+}

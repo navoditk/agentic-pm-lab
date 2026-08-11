@@ -1,0 +1,27 @@
+inputs:
+  case:
+    type: object
+allowed_tools: []
+forbidden_tools:
+  - write_file
+  - edit_file
+  - execute
+output_schema:
+  type: object
+  required:
+    - id
+    - domain
+    - question
+    - sources
+    - expected_routing
+    - expected_tools
+    - important_arguments
+    - required_context_sources
+    - forbidden_actions
+    - required_facts
+side_effects: Writes version-controlled JSONL evaluation cases under evals/.
+approval_required: false
+covers:
+  - evals
+  - scripts/run_eval.py
+version: 1.0.0
