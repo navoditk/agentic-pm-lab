@@ -1,0 +1,9 @@
+{
+  "question": "What are the dominant risks in Portfolio A?",
+  "tool_sequence": [
+    "get_portfolio_exposure",
+    "get_volatility",
+    "get_max_drawdown"
+  ],
+  "required_disclosure": "Sector and asset-class tags come from the mock security master."
+}

@@ -1,0 +1,5 @@
+{
+  "question": "What is current volatility?",
+  "returns": null,
+  "expected_behavior": "Request return history; do not estimate or invent volatility."
+}

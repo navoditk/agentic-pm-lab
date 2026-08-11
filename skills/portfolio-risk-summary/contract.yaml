@@ -1,0 +1,31 @@
+inputs:
+  positions:
+    type: array
+  security_master:
+    type: array
+  returns:
+    type: array
+  portfolio_values:
+    type: array
+allowed_tools:
+  - get_portfolio_exposure
+  - get_volatility
+  - get_max_drawdown
+forbidden_tools:
+  - run_backtest
+  - price_bond
+  - price_option
+output_schema:
+  type: object
+  required:
+    - exposures
+    - volatility
+    - drawdown
+    - limitations
+side_effects: none
+approval_required: false
+covers:
+  - src/agents/single_agent.py
+  - src/analytics/portfolio.py
+  - src/analytics/risk.py
+version: 1.0.0

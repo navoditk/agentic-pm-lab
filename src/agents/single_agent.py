@@ -17,6 +17,7 @@ from src.analytics.risk import max_drawdown, risk_metrics, rolling_volatility
 from src.context.builder import ContextSources, build_full_context
 
 DEFAULT_MODEL = "openai:gpt-4.1-mini"
+DEFAULT_INTERRUPT_ON: dict[str, bool | dict[str, Any]] = {}
 SYSTEM_PROMPT = """You are a portfolio analytics assistant.
 Use deterministic tools for every numeric claim. Never invent portfolio,
 market, or research data. State when a result depends on the mock security
@@ -161,7 +162,7 @@ ANALYTICS_TOOLS: Sequence[BaseTool] = (
 def create_single_agent(
     model: str | BaseChatModel = DEFAULT_MODEL,
     *,
-    interrupt_on: Mapping[str, bool | dict[str, Any]] | None = None,
+    interrupt_on: Mapping[str, bool | dict[str, Any]] = DEFAULT_INTERRUPT_ON,
 ) -> CompiledStateGraph:
     """Construct the single portfolio analytics Deep Agent."""
     return create_deep_agent(
@@ -169,7 +170,7 @@ def create_single_agent(
         tools=ANALYTICS_TOOLS,
         system_prompt=SYSTEM_PROMPT,
         skills=["./skills/"],
-        interrupt_on=dict(interrupt_on) if interrupt_on else None,
+        interrupt_on=dict(interrupt_on),
     )
 
 
