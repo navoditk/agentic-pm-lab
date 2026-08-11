@@ -106,6 +106,10 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - Investopedia: mortgage-backed securities and negative convexity — a genuinely distinct concept from plain bond convexity (prepayment risk flips the sign), directly relevant to PRD.md §4's "how does mortgage convexity affect the portfolio" question
 - Investopedia: volatility, maximum drawdown, and correlation as risk metrics — before implementing `src/analytics/risk.py`; these currently have no dedicated primer elsewhere in this file, easy to assume they're self-explanatory and skip
 - Investopedia: factor investing / factor models, conceptual overview — read before `statsmodels`' API docs above, since the API is easy to use correctly while still not knowing what a "factor" means economically
+- Investor.gov's beta glossary entry, used for the Day 3 factor-beta definition:
+  `investor.gov/introduction-investing/investing-basics/glossary/beta`
+- Investopedia's Sharpe-ratio primer, used alongside the backtest metric:
+  `investopedia.com/terms/s/sharperatio.asp`
 
 ### Portfolio optimization (Day 12)
 - `PyPortfolioOpt` documentation hub (the library `src/analytics/optimizer.py` is built on): `pyportfolioopt.readthedocs.io`

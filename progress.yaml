@@ -26,7 +26,17 @@ day_2:
 
 day_3:
   label: "Tool Layer: real deterministic engines"
-  checks: []
+  checks:
+    - path_exists: src/analytics/pricers.py
+    - path_exists: src/analytics/curves.py
+    - path_exists: src/analytics/portfolio.py
+    - path_exists: src/analytics/risk.py
+    - path_exists: src/analytics/econometrics.py
+    - path_exists: src/analytics/backtest.py
+    - path_exists: contracts/tools/price_bond.schema.json
+    - path_exists: skills/new-tool-onboarding/SKILL.md
+    - tests_pass: tests/unit/analytics
+    - tests_pass: tests/unit/api
 
 day_4:
   label: "Deep Agents: single agent"

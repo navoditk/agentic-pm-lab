@@ -42,3 +42,30 @@ internally inconsistent snapshot.
 as typed structures before writing the clients. The current dictionaries are
 tested and clear, but `TypedDict` definitions would make the yfinance/FRED to
 DuckDB boundary easier to evolve safely.
+
+---
+
+## 2026-08-10 — Day 3
+
+**What worked:** Keeping analytics functions pure made the hand calculations,
+contract validation, and FastAPI wiring independent concerns. Writing schemas
+from completed signatures exposed the exact distinction between internal
+functions and governed tools, while the boundary dependency ensured every
+known-identity decision was audited before execution.
+
+**What didn't work / had to be fixed along the way:**
+- The Day 1 endpoint stubs accepted only identifiers, which was insufficient
+  for real regression and backtest inputs. The routes were preserved, but their
+  first formal contracts now require explicit typed data rather than inventing
+  portfolio returns from unrelated holdings.
+- Day 3 describes six real analytics modules but the Day 1 route list contains
+  research instead of risk. Research stayed mocked as required, and a governed
+  `/tools/risk` route was added so all six real modules are actually callable.
+- Adding mandatory identity enforcement correctly broke the older curve test;
+  the test now supplies a known identity instead of weakening the boundary with
+  an insecure default.
+
+**One thing I'd do differently:** Define the Day 1 stub request models as the
+eventual contracts, even while their implementations return mock data. That
+would let a mock-to-real migration preserve both route and payload shape rather
+than discovering an intentionally underspecified seam on replacement day.

@@ -4,13 +4,13 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 2)
+## The layers, and what exists today (Day 3)
 
 | Layer | Target end-state (`PRD.md` §2) | What exists today |
 |---|---|---|
 | **Data Layer** | Real yfinance/FRED/SEC EDGAR public ingestion | `src/ingestion/prices.py` loads daily OHLCV for six public ETFs from yfinance; `src/ingestion/macro.py` loads Treasury yields, Fed Funds, and CPI from FRED and derives `curve_points`. Both use a 24-hour JSON-file cache before replacing their DuckDB tables. `security_master` and `portfolio_positions` remain invented CSV fixtures and retain their `# MOCK` marker. |
-| **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`PRD.md` §3, principle 10) | A single combined stub: `src/control/allowlist.py` (`check_permission(role, tool_name)`, backed by `config/roles.yaml`) and `src/control/audit.py` (append-only JSON Lines log). AuthN/AuthZ aren't split yet, Guardrails and real Tool enforcement don't exist yet. `# MOCK — replace on Day 7` with `governance/policies/*.cedar`. |
-| **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/api/main.py` — `/tools/curve` now reads raw FRED-derived points from DuckDB. The other five endpoints remain stubs; interpolation, analytics contracts, and Control Layer enforcement arrive on Day 3. |
+| **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`PRD.md` §3, principle 10) | Every `/tools/*` route now requires an `X-Identity`, resolves its temporary role from `config/roles.yaml`, re-checks `check_permission()` at the boundary, and appends the allow/deny decision to the audit log. The combined allowlist remains a `# MOCK` until Cedar splits identity from authorization on Day 7. |
+| **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/analytics/` contains deterministic bond/option pricing, curve interpolation, portfolio exposure/concentration, volatility/drawdown, OLS factor regression, and static-weight backtesting. `contracts/tools/` fixes each input/output shape, and `src/api/main.py` exposes the governed routes. Research intentionally remains mocked; MCP wrapping starts Day 10. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Doesn't exist yet — starts Day 8. Today's only artifact is `.github/copilot-instructions.md`, a pointer to `AGENTS.md` so every harness reads the same routing rules. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | Doesn't exist yet — starts Day 4. |
@@ -22,7 +22,7 @@ their `# MOCK` markers in `PROGRESS.md` (`PLAN.md` §6).
 
 ---
 
-## Logical components, Day 2
+## Logical components, Day 3
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -44,8 +44,9 @@ config/roles.yaml                    role->tool permission + identity->role (tem
   -> src/control/allowlist.py         check_permission(role, tool_name)
   -> src/control/audit.py             record_audit_event(...) -> data/cache/audit.jsonl
 
-src/api/main.py                      FastAPI app; real raw-curve read, 5 stubs
-  (not yet calling allowlist.check_permission -- wired Day 3)
+src/analytics/*.py                   pure deterministic financial engines
+contracts/tools/*.schema.json        input/output contract per engine
+src/api/main.py                      governed FastAPI wrappers; research mock
 
 scripts/artifacts_host.py            separate FastAPI app, serves artifacts/*
 
@@ -53,16 +54,17 @@ skills/example-echo/                 proves the Agent Skills package mechanism
 skills/python-best-practices/        this project's actual coding conventions
 skills/mock-to-real-migration/       safe mock replacement checklist
 skills/ficc-glossary-maintainer/     consistent learning glossary format
+skills/new-tool-onboarding/          end-to-end capability checklist
 
 .github/workflows/ci.yml             lint + test on push/PR
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
 .github/workflows/skills-freshness.yml  placeholder, built out Day 11
 ```
 
-## Request/tool sequence (Day 2 shape)
+## Request/tool sequence (Day 3 shape)
 
-No runtime agent exists yet (Day 4). Public data ingestion and the raw curve
-read now follow these paths:
+No runtime agent exists yet (Day 4). Public ingestion remains unchanged, while
+every Tool Layer call now follows the governed boundary:
 
 ```
 yfinance/FRED
@@ -70,22 +72,26 @@ yfinance/FRED
           | no                  --> public API --> normalized JSON records
           +---------------------------> DuckDB tables
 
-caller --> GET /tools/curve --> DuckDB curve_points --> raw tenor/rate response
-```
-
-By Day 3, this becomes:
-
-```
-caller --> src/api/main.py --> src/control/allowlist.check_permission(role, tool)
-             |-- denied --> 403, audit.record_audit_event(..., allowed=False)
-             |-- allowed --> src/analytics/<real function> --> response, audit.record_audit_event(..., allowed=True)
+caller + X-Identity
+  --> src/api/main.py
+        --> role_for_identity(identity)
+        --> check_permission(role, tool)
+              |-- denied --> audit(allowed=false) --> HTTP 403
+              |-- allowed --> audit(allowed=true)
+                    --> validate typed request
+                    --> src/analytics/<deterministic function>
+                    --> typed JSON response
 ```
 
 ---
 
 ## Security Boundaries
 
-*Placeholder — filled in properly on Day 7, when the Control Layer splits into real AuthN, AuthZ, Guardrails, and Tool enforcement (`PLAN.md` §15). Today's "boundary" is just `check_permission()`, called nowhere yet — it becomes load-bearing once Day 3 wires it into `src/api/main.py`, and gets replaced by real Cedar policy on Day 7.*
+The FastAPI boundary is now load-bearing: missing or unknown identities receive
+401, denied tools receive 403, and both allowed and denied known-identity
+decisions are audited. This is still a learning-scale combined AuthN/AuthZ stub,
+not the final security model. Day 7 separates identity lookup, Cedar policy,
+guardrails, and parameter-level Tool enforcement and expands this section.
 
 ---
 
