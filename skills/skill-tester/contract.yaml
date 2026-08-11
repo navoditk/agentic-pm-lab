@@ -1,0 +1,19 @@
+inputs:
+  skill_directory:
+    type: string
+allowed_tools:
+  - bash
+forbidden_tools:
+  - web_search
+output_schema:
+  type: object
+  required:
+    - schema_lint
+    - static_contract
+    - mock_execution
+    - behavioral
+side_effects: none
+approval_required: false
+covers:
+  - scripts/validate_skill.py
+version: 1.0.0

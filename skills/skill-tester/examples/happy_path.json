@@ -1,0 +1,7 @@
+{
+  "skill_directory": "skills/portfolio-risk-summary",
+  "schema_lint": "passed",
+  "static_contract": "passed",
+  "mock_execution": "passed",
+  "behavioral": "passed"
+}

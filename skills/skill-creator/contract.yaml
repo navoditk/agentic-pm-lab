@@ -1,0 +1,18 @@
+inputs:
+  name:
+    type: string
+  description:
+    type: string
+allowed_tools:
+  - apply_patch
+forbidden_tools:
+  - web_search
+output_schema:
+  type: object
+  required:
+    - skill_directory
+side_effects: Creates a new package under skills/.
+approval_required: false
+covers:
+  - skills
+version: 1.0.0

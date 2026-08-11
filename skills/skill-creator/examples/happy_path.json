@@ -1,0 +1,5 @@
+{
+  "name": "portfolio-risk-summary",
+  "description": "Combine read-only portfolio risk outputs into a PM narrative.",
+  "created": ["SKILL.md", "contract.yaml", "examples/happy_path.json", "tests/test_skill.py"]
+}
