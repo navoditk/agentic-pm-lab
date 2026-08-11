@@ -22,7 +22,7 @@ their `# MOCK` markers in `PROGRESS.md` (`docs/PLAN.md` §6).
 
 ---
 
-## Logical components, Day 3
+## Logical components, through Day 5
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -71,10 +71,10 @@ src/agents/recovery.py               retry, validation, limits, and dead-letter 
 .github/workflows/skills-freshness.yml  placeholder, built out Day 11
 ```
 
-## Request/tool sequence (Day 3 shape)
+## Governed Tool Layer sequence (Day 3)
 
-No runtime agent exists yet (Day 4). Public ingestion remains unchanged, while
-every Tool Layer call now follows the governed boundary:
+Public ingestion remains unchanged, while every direct Tool Layer API call
+follows the governed boundary:
 
 ```
 yfinance/FRED

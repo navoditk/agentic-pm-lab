@@ -52,7 +52,13 @@ day_4:
 
 day_5:
   label: "Deep Agents: multi-agent orchestration"
-  checks: []
+  checks:
+    - path_exists: src/agents/multi_agent.py
+    - path_exists: src/agents/recovery.py
+    - path_exists: src/agents/multi_agent_local.py
+    - path_exists: skills/scenario-analysis/SKILL.md
+    - path_exists: contracts/tools/get_research_summary.schema.json
+    - tests_pass: tests/unit/agents
 
 day_6:
   label: "OpenTelemetry, LangSmith, eval dataset"

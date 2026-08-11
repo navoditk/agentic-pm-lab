@@ -97,3 +97,32 @@ same harness could execute real volatility and exposure tools locally.
 model request before starting any provider-specific integration. For the local
 path, start with a compact argument artifact or file reference rather than
 asking a 4B model to reproduce hundreds of numeric values in a tool call.
+
+---
+
+## 2026-08-11 — Day 5
+
+**What worked:** Native `subagents` kept orchestration declarative: the
+Portfolio Manager needed only the `task` tool while each specialist received a
+small domain-specific tool set. LangGraph checkpoint pending writes also did
+exactly what the recovery exercise needed—after Quant crashed, resuming the
+same thread reran Quant but preserved Macro's completed result.
+
+**What didn't work / had to be fixed along the way:**
+- The first cloud run routed to both correct specialists but dropped
+  `periods_per_year=12` from the Quant task, silently changing annualization.
+  Stronger parameter-preservation instructions and a deterministic routing case
+  now cover that seam.
+- An injected research timeout initially aborted the entire parallel workflow.
+  Specialist retries now use bounded exponential backoff and end in an explicit
+  dead-letter result rather than a success-shaped fallback.
+- A malformed bond-pricing response was initially summarized as if valid.
+  Exact-name contracts are now checked at tool execution before output can
+  reach a specialist.
+- Qwen3 4B constructed the full hierarchy but returned an empty response
+  without calling either sub-agent, even under explicit routing instructions.
+
+**One thing I'd do differently:** Put contract validation and retry middleware
+around tools before the first live multi-agent run. The fail-first exercise was
+valuable, but these are infrastructure invariants rather than behavior that
+should depend on prompt compliance.
