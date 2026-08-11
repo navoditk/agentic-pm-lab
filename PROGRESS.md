@@ -43,7 +43,7 @@ See `PLAN.md` §6 (Automatic progress tracking) for how this mechanism works, an
 | Interactive Layer | 🔴 Not started | No files yet |
 | Runtime Layer | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Agent Layer | 🔴 Not started | No files yet |
-| Observability | 🔴 Not started | No files yet |
+| Observability | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Golden dataset / evals | 🔴 Not started | No files yet |
 | AWS Bedrock AgentCore | 🔴 Not started | No files yet |
 
