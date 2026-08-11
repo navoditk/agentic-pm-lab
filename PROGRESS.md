@@ -38,11 +38,11 @@ See `docs/PLAN.md` §6 (Automatic progress tracking) for how this mechanism work
 | Data Layer | 🟡 Partial | 3/4 file(s) real |
 | Control Layer (AuthN/AuthZ) | 🟡 Partial | 1/2 file(s) real |
 | Guardrails | 🔴 Not started | No files yet |
-| Tool Layer | 🟡 Partial | 6/7 file(s) real |
+| Tool Layer | 🟡 Partial | 6/8 file(s) real |
 | Portfolio Optimization | 🔴 Not started | No files yet |
 | Interactive Layer | 🔴 Not started | No files yet |
 | Runtime Layer | 🟢 Real | 1 file(s), no `# MOCK` markers |
-| Agent Layer | 🟢 Real | 2 file(s), no `# MOCK` markers |
+| Agent Layer | 🟢 Real | 3 file(s), no `# MOCK` markers |
 | Observability | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Golden dataset / evals | 🔴 Not started | No files yet |
 | AWS Bedrock AgentCore | 🔴 Not started | No files yet |
