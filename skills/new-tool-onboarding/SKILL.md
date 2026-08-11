@@ -6,7 +6,7 @@ covers:
   - contracts/tools
   - src/analytics
   - src/api/main.py
-last_verified_commit: 21e2ec3
+last_verified_commit: 73a1ed3
 ---
 
 # new-tool-onboarding

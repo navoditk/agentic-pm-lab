@@ -11,6 +11,8 @@ from opentelemetry.trace import StatusCode
 
 from src.analytics.pricers import black_scholes_price, price_bond
 from src.api.main import app
+from src.control.allowlist import check_permission
+from src.control.audit import record_audit_event
 from src.observability.telemetry import (
     configure_telemetry,
     observe_agent_run,
@@ -92,3 +94,27 @@ def test_agent_span_records_genai_usage_and_estimated_cost(span_exporter):
 
 def test_fastapi_app_is_auto_instrumented():
     assert app.state.otel_instrumented is True
+
+
+def test_authorization_and_audit_are_child_traceable_operations(
+    span_exporter,
+    tmp_path,
+):
+    span_exporter.clear()
+
+    allowed = check_permission("risk", "price-bond")
+    record_audit_event(
+        "risk_user",
+        "risk",
+        "price-bond",
+        allowed,
+        log_path=tmp_path / "audit.jsonl",
+    )
+
+    spans = {span.name: span for span in span_exporter.get_finished_spans()}
+    permission = spans["control.check_permission"]
+    audit = spans["control.record_audit_event"]
+    assert permission.attributes["app.auth.allowed"] is False
+    assert permission.attributes["app.auth.role"] == "risk"
+    assert audit.attributes["app.operation.type"] == "audit"
+    assert audit.attributes["app.auth.allowed"] is False

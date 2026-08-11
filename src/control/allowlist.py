@@ -8,6 +8,8 @@ from pathlib import Path
 
 import yaml
 
+from src.observability.telemetry import observe_operation
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ROLES_CONFIG_PATH = REPO_ROOT / "config" / "roles.yaml"
 
@@ -26,9 +28,28 @@ IDENTITIES: dict[str, str] = _CONFIG["identities"]
 
 def check_permission(role: str, tool_name: str) -> bool:
     """Return True if `role` is allowed to call `tool_name`."""
-    return tool_name in ROLES.get(role, [])
+    allowed = tool_name in ROLES.get(role, [])
+    with observe_operation(
+        "control.check_permission",
+        "authorization",
+        {
+            "app.auth.role": role,
+            "app.auth.tool": tool_name,
+            "app.auth.allowed": allowed,
+        },
+    ):
+        return allowed
 
 
 def role_for_identity(identity: str) -> str | None:
     """Look up which role an identity has, per config/roles.yaml's identity->role mapping."""
-    return IDENTITIES.get(identity)
+    role = IDENTITIES.get(identity)
+    with observe_operation(
+        "control.role_for_identity",
+        "authentication",
+        {
+            "app.auth.identity_known": role is not None,
+            "app.auth.role": role or "unknown",
+        },
+    ):
+        return role

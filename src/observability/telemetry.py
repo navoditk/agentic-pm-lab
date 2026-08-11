@@ -1,6 +1,7 @@
 """Shared OpenTelemetry instrumentation and operational agent metrics."""
 
 import json
+import os
 import threading
 import time
 from collections.abc import Callable, Iterator, Mapping, Sequence
@@ -12,9 +13,11 @@ from fastapi import FastAPI
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.outputs import LLMResult
 from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.trace import Span, Status, StatusCode
 
 P = ParamSpec("P")
@@ -27,20 +30,50 @@ MODEL_PRICES_PER_MILLION_USD = {
 }
 
 _provider: TracerProvider | None = None
+_langsmith_exporter_configured = False
 
 
 def configure_telemetry(service_name: str = SERVICE_NAME) -> TracerProvider:
     """Install one SDK tracer provider without replacing an existing SDK provider."""
     global _provider
     if _provider is not None:
+        _configure_langsmith_exporter(_provider)
         return _provider
     current = trace.get_tracer_provider()
     if isinstance(current, TracerProvider):
         _provider = current
+        _configure_langsmith_exporter(current)
         return current
     _provider = TracerProvider(resource=Resource.create({"service.name": service_name}))
     trace.set_tracer_provider(_provider)
+    _configure_langsmith_exporter(_provider)
     return _provider
+
+
+def _configure_langsmith_exporter(provider: TracerProvider) -> None:
+    """Attach one OTLP exporter when LangSmith OTel-only tracing is enabled."""
+    global _langsmith_exporter_configured
+    if _langsmith_exporter_configured:
+        return
+    tracing_enabled = os.getenv("LANGSMITH_TRACING", "").lower() == "true"
+    tracing_mode = os.getenv("LANGSMITH_TRACING_MODE", "").lower()
+    api_key = os.getenv("LANGSMITH_API_KEY")
+    if not (tracing_enabled and tracing_mode in {"otel", "hybrid"} and api_key):
+        return
+    endpoint = os.getenv("LANGSMITH_ENDPOINT", "https://api.smith.langchain.com")
+    headers = {"x-api-key": api_key}
+    project = os.getenv("LANGSMITH_PROJECT")
+    if project:
+        headers["Langsmith-Project"] = project
+    provider.add_span_processor(
+        BatchSpanProcessor(
+            OTLPSpanExporter(
+                endpoint=f"{endpoint.rstrip('/')}/otel/v1/traces",
+                headers=headers,
+            )
+        )
+    )
+    _langsmith_exporter_configured = True
 
 
 def instrument_fastapi(app: FastAPI) -> None:
@@ -50,6 +83,41 @@ def instrument_fastapi(app: FastAPI) -> None:
         return
     FastAPIInstrumentor.instrument_app(app)
     app.state.otel_instrumented = True
+
+
+@contextmanager
+def observe_operation(
+    name: str,
+    operation_type: str,
+    attributes: Mapping[str, str | bool | int | float],
+) -> Iterator[Span]:
+    """Trace one non-agent operation with consistent success and latency fields."""
+    configure_telemetry()
+    tracer = trace.get_tracer("agentic_pm_lab.operations")
+    started = time.perf_counter()
+    with tracer.start_as_current_span(name) as span:
+        span.set_attribute("app.operation.type", operation_type)
+        span.set_attribute(
+            "langsmith.span.kind",
+            "tool" if operation_type in {"tool", "authorization", "audit"} else "chain",
+        )
+        for key, value in attributes.items():
+            span.set_attribute(key, value)
+        try:
+            yield span
+        except Exception as error:
+            span.set_attribute("app.operation.success", False)
+            span.record_exception(error)
+            span.set_status(Status(StatusCode.ERROR, type(error).__name__))
+            raise
+        else:
+            span.set_attribute("app.operation.success", True)
+            span.set_status(Status(StatusCode.OK))
+        finally:
+            span.set_attribute(
+                "app.operation.duration_ms",
+                (time.perf_counter() - started) * 1000,
+            )
 
 
 def _item_count(values: Sequence[Any]) -> int:
@@ -75,6 +143,7 @@ def traced_analytics(name: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
             started = time.perf_counter()
             with tracer.start_as_current_span(f"analytics.{name}") as span:
                 span.set_attribute("app.operation.type", "tool")
+                span.set_attribute("langsmith.span.kind", "tool")
                 span.set_attribute("app.tool.name", name)
                 span.set_attribute(
                     "app.tool.input.argument_count", len(args) + len(kwargs)
@@ -176,6 +245,12 @@ class OperationalMetricsHandler(BaseCallbackHandler):
         span.set_attribute("gen_ai.request.model", normalized_model)
         span.set_attribute("gen_ai.usage.input_tokens", self.input_tokens)
         span.set_attribute("gen_ai.usage.output_tokens", self.output_tokens)
+        span.set_attribute("gen_ai.usage.prompt_tokens", self.input_tokens)
+        span.set_attribute("gen_ai.usage.completion_tokens", self.output_tokens)
+        span.set_attribute(
+            "gen_ai.usage.total_tokens",
+            self.input_tokens + self.output_tokens,
+        )
         span.set_attribute("app.tool.call_count", self.tool_calls)
         span.set_attribute("app.retrieval.call_count", self.retrieval_calls)
         span.set_attribute("app.retry.count", self.retry_count)
@@ -201,6 +276,8 @@ def observe_agent_run(
     started = time.perf_counter()
     with tracer.start_as_current_span(operation_name) as span:
         span.set_attribute("app.operation.type", "agent")
+        span.set_attribute("langsmith.span.kind", "chain")
+        span.set_attribute("langsmith.trace.name", operation_name)
         try:
             yield span, metrics
         except Exception as error:
