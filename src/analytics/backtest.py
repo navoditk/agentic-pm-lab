@@ -6,6 +6,7 @@ from collections.abc import Mapping, Sequence
 from typing import TypedDict
 
 from src.analytics.risk import max_drawdown
+from src.observability.telemetry import traced_analytics
 
 
 class BacktestResult(TypedDict):
@@ -16,6 +17,7 @@ class BacktestResult(TypedDict):
     max_drawdown: float
 
 
+@traced_analytics("run_backtest")
 def run_backtest(
     asset_returns: Mapping[str, Sequence[float]],
     weights: Mapping[str, float],

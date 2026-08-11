@@ -47,4 +47,5 @@ def invoke_local_multi_agent(
         agent=agent or create_local_multi_agent(),
         relevant_sources=relevant_sources,
         iteration_limit=iteration_limit,
+        model_name=f"ollama:{DEFAULT_LOCAL_MODEL}",
     )

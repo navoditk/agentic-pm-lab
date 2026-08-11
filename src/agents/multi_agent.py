@@ -32,6 +32,7 @@ from src.context.builder import (
     build_filtered_context,
     build_full_context,
 )
+from src.observability.telemetry import observe_agent_run
 
 PORTFOLIO_MANAGER_PROMPT = """You are the Portfolio Manager orchestrator.
 Delegate domain analysis through the task tool: macro for rates and curves,
@@ -180,6 +181,7 @@ def invoke_multi_agent(
     relevant_sources: Collection[str] | None = None,
     thread_id: str | None = None,
     iteration_limit: int = 50,
+    model_name: str | None = None,
 ) -> dict[str, Any]:
     """Invoke the Portfolio Manager with context from named sources only."""
     context = (
@@ -192,10 +194,18 @@ def invoke_multi_agent(
     config: dict[str, Any] = {"recursion_limit": iteration_limit}
     if thread_id is not None:
         config["configurable"] = {"thread_id": thread_id}
-    return runtime.invoke(
-        {"messages": [{"role": "user", "content": prompt}]},
-        config=config,
+    observed_model = model_name or (
+        DEFAULT_MODEL if agent is None else "configured-agent"
     )
+    with observe_agent_run(
+        "agent.portfolio_manager.invoke",
+        observed_model,
+    ) as (_span, metrics):
+        config["callbacks"] = [metrics]
+        return runtime.invoke(
+            {"messages": [{"role": "user", "content": prompt}]},
+            config=config,
+        )
 
 
 def resume_multi_agent(
@@ -207,10 +217,15 @@ def resume_multi_agent(
     """Resume a checkpointed workflow without submitting the original input again."""
     if not thread_id:
         raise ValueError("thread_id must not be empty")
-    return agent.invoke(
-        None,
-        config={
-            "configurable": {"thread_id": thread_id},
-            "recursion_limit": iteration_limit,
-        },
-    )
+    with observe_agent_run(
+        "agent.portfolio_manager.resume",
+        "configured-agent",
+    ) as (_span, metrics):
+        return agent.invoke(
+            None,
+            config={
+                "configurable": {"thread_id": thread_id},
+                "recursion_limit": iteration_limit,
+                "callbacks": [metrics],
+            },
+        )

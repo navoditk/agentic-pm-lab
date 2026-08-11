@@ -4,6 +4,8 @@ from bisect import bisect_right
 from collections.abc import Sequence
 from itertools import pairwise
 
+from src.observability.telemetry import traced_analytics
+
 
 def _validated_curve(
     tenors_years: Sequence[float],
@@ -22,6 +24,7 @@ def _validated_curve(
     return tenors, rates
 
 
+@traced_analytics("interpolate_curve")
 def interpolate_curve(
     tenors_years: Sequence[float],
     rates_pct: Sequence[float],

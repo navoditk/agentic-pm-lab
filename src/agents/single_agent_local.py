@@ -38,4 +38,5 @@ def invoke_local_agent(
         sources,
         agent=agent or create_local_agent(),
         relevant_sources=relevant_sources,
+        model_name=f"ollama:{DEFAULT_LOCAL_MODEL}",
     )

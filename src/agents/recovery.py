@@ -21,6 +21,8 @@ from langchain_core.messages import ToolMessage
 from langgraph.types import Command
 from openai import APITimeoutError, RateLimitError
 
+from src.observability.telemetry import dead_letter_payload
+
 CONTRACTS_DIR = Path(__file__).resolve().parents[2] / "contracts" / "tools"
 RETRYABLE_EXCEPTIONS = (
     TimeoutError,
@@ -77,18 +79,15 @@ def _dead_letter(
 ) -> str:
     tool_name = request.tool.name if request.tool else request.tool_call["name"]
     retryable = isinstance(error, RETRYABLE_EXCEPTIONS)
-    return json.dumps(
-        {
-            "status": "dead_letter",
-            "tool": tool_name,
-            "error_type": type(error).__name__,
-            "retryable": retryable,
-            "message": (
-                "retry budget exhausted; no result was produced"
-                if retryable
-                else "tool response failed validation; no result was accepted"
-            ),
-        }
+    return dead_letter_payload(
+        operation=tool_name,
+        error_type=type(error).__name__,
+        retryable=retryable,
+        message=(
+            "retry budget exhausted; no result was produced"
+            if retryable
+            else "tool response failed validation; no result was accepted"
+        ),
     )
 
 

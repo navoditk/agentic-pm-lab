@@ -5,6 +5,7 @@ from collections.abc import Sequence
 from typing import Literal, TypedDict
 
 from src.analytics.curves import interpolate_curve
+from src.observability.telemetry import traced_analytics
 
 
 class CashFlow(TypedDict):
@@ -29,6 +30,7 @@ class OptionPriceResult(TypedDict):
     d2: float
 
 
+@traced_analytics("price_bond")
 def price_bond(
     cash_flows: Sequence[CashFlow],
     curve_tenors_years: Sequence[float],
@@ -73,6 +75,7 @@ def _normal_cdf(value: float) -> float:
     return 0.5 * (1 + math.erf(value / math.sqrt(2)))
 
 
+@traced_analytics("black_scholes_price")
 def black_scholes_price(
     spot: float,
     strike: float,

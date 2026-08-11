@@ -19,6 +19,7 @@ from src.context.builder import (
     build_filtered_context,
     build_full_context,
 )
+from src.observability.telemetry import observe_agent_run
 
 DEFAULT_MODEL = "openai:gpt-4.1-mini"
 DEFAULT_INTERRUPT_ON: dict[str, bool | dict[str, Any]] = {}
@@ -184,6 +185,7 @@ def invoke_single_agent(
     *,
     agent: CompiledStateGraph | None = None,
     relevant_sources: Collection[str] | None = None,
+    model_name: str | None = None,
 ) -> dict[str, Any]:
     """Invoke the agent with context supplied only by the context builder."""
     context = (
@@ -193,4 +195,14 @@ def invoke_single_agent(
     )
     runtime = agent or create_single_agent()
     prompt = f"{context['rendered']}\n\n## question\n{question}"
-    return runtime.invoke({"messages": [{"role": "user", "content": prompt}]})
+    observed_model = model_name or (
+        DEFAULT_MODEL if agent is None else "configured-agent"
+    )
+    with observe_agent_run(
+        "agent.single.invoke",
+        observed_model,
+    ) as (_span, metrics):
+        return runtime.invoke(
+            {"messages": [{"role": "user", "content": prompt}]},
+            config={"callbacks": [metrics]},
+        )

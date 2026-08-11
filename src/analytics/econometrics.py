@@ -6,6 +6,8 @@ from typing import TypedDict
 import numpy as np
 import statsmodels.api as sm
 
+from src.observability.telemetry import traced_analytics
+
 
 class FactorRegressionResult(TypedDict):
     alpha: float
@@ -14,6 +16,7 @@ class FactorRegressionResult(TypedDict):
     observations: int
 
 
+@traced_analytics("factor_regression")
 def factor_regression(
     portfolio_returns: Sequence[float],
     factor_returns: Mapping[str, Sequence[float]],

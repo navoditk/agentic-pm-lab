@@ -8,6 +8,8 @@ from collections import defaultdict
 from collections.abc import Sequence
 from typing import TypedDict
 
+from src.observability.telemetry import traced_analytics
+
 
 class Position(TypedDict):
     security_id: str
@@ -36,6 +38,7 @@ class PortfolioSummary(TypedDict):
     security_master_is_mock: bool
 
 
+@traced_analytics("portfolio_summary")
 def portfolio_summary(
     positions: Sequence[Position],
     security_master: Sequence[Security],

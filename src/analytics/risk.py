@@ -5,6 +5,8 @@ import statistics
 from collections.abc import Sequence
 from typing import TypedDict
 
+from src.observability.telemetry import traced_analytics
+
 
 class DrawdownResult(TypedDict):
     max_drawdown: float
@@ -19,6 +21,7 @@ class RiskMetrics(TypedDict):
     trough_index: int
 
 
+@traced_analytics("rolling_volatility")
 def rolling_volatility(
     returns: Sequence[float],
     *,
@@ -39,6 +42,7 @@ def rolling_volatility(
     return output
 
 
+@traced_analytics("max_drawdown")
 def max_drawdown(values: Sequence[float]) -> DrawdownResult:
     """Return the worst peak-to-trough percentage decline."""
     if not values:
@@ -68,6 +72,7 @@ def max_drawdown(values: Sequence[float]) -> DrawdownResult:
     }
 
 
+@traced_analytics("risk_metrics")
 def risk_metrics(
     returns: Sequence[float],
     portfolio_values: Sequence[float],

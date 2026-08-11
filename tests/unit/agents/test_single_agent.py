@@ -66,7 +66,8 @@ def test_filtered_invocation_excludes_irrelevant_research():
     class PromptCaptureAgent:
         prompt = ""
 
-        def invoke(self, payload):
+        def invoke(self, payload, config=None):
+            del config
             self.prompt = payload["messages"][0]["content"]
             return {"messages": []}
 

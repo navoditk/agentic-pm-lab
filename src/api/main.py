@@ -18,8 +18,10 @@ from src.analytics.risk import risk_metrics
 from src.control.allowlist import check_permission, role_for_identity
 from src.control.audit import record_audit_event
 from src.ingestion.load_mock_structured_data import DEFAULT_DB_PATH
+from src.observability.telemetry import instrument_fastapi
 
 app = FastAPI(title="agentic-pm-lab Tool Layer")
+instrument_fastapi(app)
 
 
 class AuthorizationContext(NamedTuple):
