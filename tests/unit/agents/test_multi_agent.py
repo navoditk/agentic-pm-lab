@@ -1,6 +1,7 @@
 import pytest
 from langchain_core.messages import AIMessage, ToolMessage
 
+from src.agents import multi_agent_local
 from src.agents.multi_agent import (
     create_multi_agent,
     invoke_multi_agent,
@@ -141,3 +142,19 @@ def test_specialists_have_domain_specific_tool_boundaries():
         "get_research_summary",
     }
     assert specs["quant"]["skills"] == ["./skills/scenario-analysis/"]
+
+
+def test_local_variant_creates_separate_models_for_the_hierarchy(monkeypatch):
+    created_models = []
+
+    def fake_local_model(model_name):
+        model = ScriptedToolCallingModel(responses=[AIMessage(content=model_name)])
+        created_models.append(model)
+        return model
+
+    monkeypatch.setattr(multi_agent_local, "_local_model", fake_local_model)
+
+    agent = multi_agent_local.create_local_multi_agent("local-test")
+
+    assert agent.name == "portfolio-manager"
+    assert len(created_models) == 4

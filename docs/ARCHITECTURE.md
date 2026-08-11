@@ -13,7 +13,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/analytics/` contains deterministic bond/option pricing, curve interpolation, portfolio exposure/concentration, volatility/drawdown, OLS factor regression, and static-weight backtesting. `contracts/tools/` fixes each input/output shape, and `src/api/main.py` exposes the governed routes. Research intentionally remains mocked; MCP wrapping starts Day 10. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Doesn't exist yet — starts Day 8. Today's only artifact is `.github/copilot-instructions.md`, a pointer to `AGENTS.md` so every harness reads the same routing rules. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
-| **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. The Day 4 single-agent and Ollama/Qwen3 4B variants remain available for comparison. |
+| **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. `multi_agent_local.py` reproduces the hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | Doesn't exist yet — starts Day 11. |
 
 The Data Layer is intentionally mixed: public price/macro data is real, while
@@ -63,6 +63,7 @@ src/context/builder.py               named full/filtered context composition
 src/agents/single_agent.py           OpenAI-configured Deep Agent
 src/agents/single_agent_local.py     same agent on local Ollama/Qwen3 4B
 src/agents/multi_agent.py            Portfolio Manager -> three native specialist sub-agents
+src/agents/multi_agent_local.py      same hierarchy on local Ollama/Qwen3 4B
 src/agents/recovery.py               retry, validation, limits, and dead-letter middleware
 
 .github/workflows/ci.yml             lint + test on push/PR

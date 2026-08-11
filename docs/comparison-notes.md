@@ -39,12 +39,11 @@ quality result: source filtering reduces context size, but does not by itself
 make a small model reliable on large structured tool arguments. Repeated runs
 and cloud measurements are needed before drawing a latency conclusion.
 
-**Blocked live comparison:** OpenAI was selected instead of the plan's default
-Anthropic provider, but its smoke test returned `insufficient_quota`. No model
-answer quality, tool-call transcript, end-to-end token usage, or model latency
-is reported; inventing those measurements would invalidate the experiment.
-After credits are available, rerun both questions against the same source
-bundle and append actual tool calls, answers, and end-to-end latency here.
+**Cloud follow-up:** OpenAI was selected instead of the plan's default
+Anthropic provider. Its first smoke test returned `insufficient_quota`; credits
+were later added and `gpt-4.1-mini` succeeded. The exact Day 4 overloaded
+context runs have not been repeated in the cloud, so no invented comparison is
+reported here.
 
 ## Local vs. cloud model
 
@@ -65,6 +64,23 @@ use the named tool and was substantially slower than an API response would
 normally be expected to be. OpenAI credits were later added and a
 `gpt-4.1-mini` smoke test returned successfully, but matched cloud
 latency/answer-quality runs have not yet been executed.
+
+### 2026-08-11 — Day 5 multi-agent variant
+
+Both variants received the same cross-domain question, named-source context,
+and explicit instruction to delegate rate repricing to Macro and rolling
+volatility to Quant.
+
+| Model | Result | Observed limitation |
+|---|---|---|
+| OpenAI `gpt-4.1-mini` | Called both native sub-agents and synthesized their results | Portfolio Manager omitted `periods_per_year=12` from the Quant task, so the tool used its default annualization. The routing passed, but parameter preservation did not. |
+| Ollama `qwen3:4b` | Returned an empty final response in 18.825 seconds with no `task` call | The 4B model failed at orchestrator-level delegation even with explicit specialist names and a small structured payload. |
+
+The cloud parameter-loss defect led to stronger orchestrator and Quant
+instructions plus a deterministic routing case that preserves the calculation
+arguments. The local result is a genuine capability gap for this hierarchy;
+reducing the question to a single specialist would no longer test Day 5's
+multi-agent requirement.
 
 ## Development tool comparison
 
