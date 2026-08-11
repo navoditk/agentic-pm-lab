@@ -30,3 +30,22 @@ answer quality, tool-call transcript, end-to-end token usage, or model latency
 is reported; inventing those measurements would invalidate the experiment.
 After credits are available, rerun both questions against the same source
 bundle and append actual tool calls, answers, and end-to-end latency here.
+
+## Local vs. cloud model
+
+### 2026-08-10 — Day 4 single-agent variant
+
+The optional local variant uses Ollama 0.32.7 with `qwen3:4b` and the same
+Deep Agent, tools, skills directory, system prompt, and context path as the
+OpenAI configuration.
+
+| Question | Local result | Cloud result |
+|---|---|---|
+| Portfolio volatility | Called `get_volatility` with the supplied returns, window 2, and 252 periods/year; reported the four tool values without inventing data | Blocked by `insufficient_quota` before an agent run |
+| Largest concentration | Called `get_portfolio_exposure`, identified the 60% position, and disclosed that classifications were mocked | Blocked by `insufficient_quota` before an agent run |
+
+A warm local volatility run took 129.696 seconds end to end. Tool selection and
+argument shape were correct, but the 4B model needed an explicit instruction to
+use the named tool and was substantially slower than an API response would
+normally be expected to be. No cloud latency or answer-quality comparison is
+claimed until credits permit the same runs.
