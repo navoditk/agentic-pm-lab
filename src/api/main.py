@@ -13,6 +13,7 @@ from src.analytics.econometrics import factor_regression
 from src.analytics.portfolio import portfolio_summary
 from src.analytics.pricers import CashFlow
 from src.analytics.pricers import price_bond as calculate_bond_price
+from src.analytics.research import get_research_summary
 from src.analytics.risk import risk_metrics
 from src.control.allowlist import check_permission, role_for_identity
 from src.control.audit import record_audit_event
@@ -186,7 +187,7 @@ def research(
     _authorization: Annotated[AuthorizationContext, Depends(require_tool("research"))],
 ) -> dict:
     """# MOCK — stays mocked; real research is a deferred non-goal (docs/PRD.md §6)."""
-    return {"query": query, "summary": "mock research summary", "mock": True}
+    return get_research_summary(query)
 
 
 @app.post("/tools/econometrics")

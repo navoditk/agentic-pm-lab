@@ -4,7 +4,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 4)
+## The layers, and what exists today (Day 5)
 
 | Layer | Target end-state (`docs/PRD.md` §2) | What exists today |
 |---|---|---|
@@ -13,7 +13,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/analytics/` contains deterministic bond/option pricing, curve interpolation, portfolio exposure/concentration, volatility/drawdown, OLS factor regression, and static-weight backtesting. `contracts/tools/` fixes each input/output shape, and `src/api/main.py` exposes the governed routes. Research intentionally remains mocked; MCP wrapping starts Day 10. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Doesn't exist yet — starts Day 8. Today's only artifact is `.github/copilot-instructions.md`, a pointer to `AGENTS.md` so every harness reads the same routing rules. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
-| **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/single_agent.py` constructs one Deep Agent with nine deterministic analytics tools, shared skills, an explicit context builder, and an empty `interrupt_on` seam for Day 7. OpenAI is configured and a `gpt-4.1-mini` smoke test succeeds; `single_agent_local.py` runs the same harness on Ollama/Qwen3 4B and has completed real tool calls. |
+| **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. The Day 4 single-agent and Ollama/Qwen3 4B variants remain available for comparison. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | Doesn't exist yet — starts Day 11. |
 
 The Data Layer is intentionally mixed: public price/macro data is real, while
@@ -62,6 +62,7 @@ skills/portfolio-risk-summary/       exposure/volatility/drawdown synthesis
 src/context/builder.py               named full/filtered context composition
 src/agents/single_agent.py           OpenAI-configured Deep Agent
 src/agents/single_agent_local.py     same agent on local Ollama/Qwen3 4B
+src/agents/multi_agent.py            Portfolio Manager -> three native specialist sub-agents
 
 .github/workflows/ci.yml             lint + test on push/PR
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
@@ -95,6 +96,28 @@ the day's Deep Agents exercise specifies. They are not yet a governed
 production path and must not be treated as authorization enforcement. Day 7
 plugs identity/authorization and human approval into this tool seam; Day 10
 then makes MCP the shared governed mount point.
+
+---
+
+## Multi-agent orchestration (Day 5)
+
+The Portfolio Manager has only the native Deep Agents `task` delegation tool.
+Specialists run in isolated context windows, so the orchestrator must include
+the relevant named-source data in each task description.
+
+```
+question + context-builder output
+  -> Portfolio Manager
+       |-- task(macro)       -> interpolate_curve / price_bond
+       |-- task(quant)       -> volatility / drawdown / risk
+       |                       factor regression / backtest
+       `-- task(fundamental) -> portfolio exposure / mocked research
+  -> attributed synthesis
+```
+
+This is orchestration, not authorization. The specialist tool split reduces
+accidental misuse but does not establish caller entitlements; Day 7 adds the
+governed boundary checks.
 
 ---
 

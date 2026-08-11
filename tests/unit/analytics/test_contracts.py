@@ -9,6 +9,7 @@ from src.analytics.curves import interpolate_curve
 from src.analytics.econometrics import factor_regression
 from src.analytics.portfolio import portfolio_summary
 from src.analytics.pricers import black_scholes_price, price_bond
+from src.analytics.research import get_research_summary
 from src.analytics.risk import risk_metrics
 
 CONTRACTS_DIR = Path(__file__).resolve().parents[3] / "contracts" / "tools"
@@ -69,6 +70,9 @@ def contract_case(name):
             "periods_per_year": 2,
         }
         output = run_backtest(**function_input)
+    elif name == "get_research_summary":
+        function_input = {"query": "latest issuer developments"}
+        output = get_research_summary(**function_input)
     else:
         raise AssertionError(f"Unknown contract case: {name}")
     return function_input, output
@@ -84,6 +88,7 @@ def contract_case(name):
         "risk_metrics",
         "factor_regression",
         "run_backtest",
+        "get_research_summary",
     ],
 )
 def test_actual_input_and_output_match_contract(name):
