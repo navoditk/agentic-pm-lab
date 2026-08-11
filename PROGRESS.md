@@ -42,7 +42,7 @@ See `docs/PLAN.md` §6 (Automatic progress tracking) for how this mechanism work
 | Portfolio Optimization | 🔴 Not started | No files yet |
 | Interactive Layer | 🔴 Not started | No files yet |
 | Runtime Layer | 🟢 Real | 1 file(s), no `# MOCK` markers |
-| Agent Layer | 🟢 Real | 4 file(s), no `# MOCK` markers |
+| Agent Layer | 🟢 Real | 5 file(s), no `# MOCK` markers |
 | Observability | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Golden dataset / evals | 🔴 Not started | No files yet |
 | AWS Bedrock AgentCore | 🔴 Not started | No files yet |
