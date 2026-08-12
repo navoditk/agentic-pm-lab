@@ -43,6 +43,13 @@ Working proficiency with the full stack above, demonstrated end to end rather th
 | `docs/REFERENCES.md` | Curated reading, by topic |
 | `AGENTS.md` | Routes Claude Code / GitHub Copilot / Codex CLI to the right document — read automatically by those tools |
 
+| `docs/AGENT_RUNBOOK.md` | Standalone custom-agent and skill examples |
+
+## One-stop learning route
+
+Read INSTALL.md, then PRD.md, PLAN.md, REFERENCES.md, PROGRESS.md,
+AGENT_RUNBOOK.md, and ARCHITECTURE.md in that order.
+
 ## Getting started
 
 Read `INSTALL.md` start to finish, then use `PROGRESS.md` to find the current

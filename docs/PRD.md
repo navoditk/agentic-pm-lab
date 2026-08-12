@@ -23,6 +23,45 @@ The build proceeds as a "walking skeleton" — every layer exists in mocked form
 
 ---
 
+### 2.1 PM AI platform fundamentals covered by the target
+
+The frameworks and cloud services are means to learn the platform fundamentals
+that make an AI system usable by a portfolio-management team:
+
+| Fundamental | Demonstration target |
+|---|---|
+| Data contracts and provenance | Every value has an identifier, source, observation time, release/vintage time, unit, currency, transformation, freshness, and quality status. |
+| Point-in-time correctness | Backtests and agent answers use only information available at decision time; revised macro data and later filings cannot leak into history. |
+| Portfolio representation | Positions, prices, accrued interest, cash, benchmark, weights, returns, FX, corporate actions, and instrument metadata have explicit schemas and reconciliation checks. |
+| Investment workflow | Research → risk review → scenario/optimization → human review → approved report, with no accidental order execution. |
+| Risk and portfolio construction | Constraints, turnover, liquidity, transaction costs, leverage, concentration, benchmark-relative risk, and explainable allocation changes are first-class inputs. |
+| Model and agent risk | Model/version, prompt, skill, tool, data vintage, evaluator, and approval state are recorded so an answer can be reproduced and challenged. |
+| Reliability and operations | Timeouts, retries, idempotency, checkpointing, cost budgets, freshness checks, and graceful degradation are tested. |
+| Privacy and governance | Entitlements are enforced at the resource boundary; sensitive data is minimized and excluded from prompts, logs, traces, and artifacts. |
+
+These fundamentals are broader than making an agent call a tool: they are the
+minimum mental model for assessing whether a PM AI platform is safe,
+reproducible, and useful in an investment workflow.
+
+### 2.2 Public-data realism track
+
+The core path remains small enough to complete, while the following extensions
+make the end-to-end use case more realistic:
+
+| Data need | Core path | Recommended extension | Main lesson |
+|---|---|---|---|
+| Prices and macro | yfinance and FRED | Treasury direct feeds and ALFRED vintages | Calendars, revisions, units, and freshness |
+| Fundamentals and filings | Mock security master | SEC EDGAR submissions, XBRL Company Facts, and N-PORT | As-filed data, identifiers, filing dates, point-in-time joins |
+| Fixed-income liquidity | Mock holdings and curve | FINRA TRACE aggregates or licensed transaction data | Sparse trades, capped volumes, and licensing |
+| Factors and benchmarks | Supplied factor returns | Kenneth French Data Library and public benchmark series | Factor definitions, excess returns, and survivorship controls |
+| News and sentiment | Mock research endpoint | SEC filing text plus GDELT event/news metadata | Evidence-linked retrieval and sentiment uncertainty |
+| Backtesting | Static toy backtest | Costs, slippage, turnover, liquidity, and rebalance timing | Research validity is separate from model sophistication |
+
+Public data is suitable for learning and prototyping, not automatically for
+production investment decisions. Each connector must document access terms,
+rate limits, attribution, update cadence, historical coverage, revisions,
+identifier quality, and redistribution rights.
+
 ## 2. Target Architecture
 
 | Platform Layer | What it means at a real firm | What this project builds, mock-first |

@@ -40,6 +40,10 @@ Not a "read before Day N" entry like the sections below — this is the source o
 ### Context engineering (Day 4, docs/PLAN.md §13)
 - Anthropic's "Effective context engineering for AI agents" — the conceptual grounding for treating context assembly as its own deliberate layer rather than incidental prompt accumulation
 - LangGraph/LangChain context management docs (memory, summarization, trimming) — the concrete APIs `src/context/` builds on
+- Anthropic, [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — context as a finite, managed resource with progressive disclosure and task-specific retrieval
+- OpenAI, [Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/) — repository maps, durable artifacts, instruction layering, and making context legible to agents
+- Anthropic, [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — initializer/coding-agent separation, resumable work, and cross-session artifacts
+- OpenAI, [Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) — the model loop, tool execution, and the harness responsibilities around an agent
 
 ### OpenTelemetry (Python)
 - Official Python getting-started guide: `opentelemetry.io/docs/languages/python/getting-started/`
@@ -51,6 +55,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - Official spec and docs: `modelcontextprotocol.io`
 - Python SDK: the official `mcp` package on PyPI and its README/examples
 - GitHub's own MCP context docs (for wiring a server into Copilot): `docs.github.com/en/copilot/concepts/context/mcp`
+- Anthropic, [MCP documentation](https://docs.anthropic.com/en/docs/mcp) — protocol concepts and how MCP connects models to tools and context
 
 ### AWS Bedrock & AgentCore
 - Main AgentCore documentation hub: `docs.aws.amazon.com/bedrock-agentcore/`
@@ -63,6 +68,32 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - Bedrock Guardrails: `docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html`
 - Bedrock custom models / fine-tuning (Day 14 optional stretch): `docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html`
 - AWS Cost Explorer (Day 14 optional cost review): `docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html`
+- AWS multi-agent investment research assistant using quantitative analysis,
+  news/research, summarization, Bedrock Data Automation, S3, OpenSearch, and
+  Lambda. Use it as an architecture comparison, not a replacement for the
+  Deep Agents implementation:
+  [AWS investment research assistant](https://aws.amazon.com/blogs/machine-learning/part-3-building-an-ai-powered-assistant-for-investment-research-with-multi-agent-collaboration-in-amazon-bedrock-and-amazon-bedrock-data-automation/)
+- AWS guidance for investment analysis using structured and unstructured data:
+  [Investment analysis using Amazon Bedrock](https://docs.aws.amazon.com/solutions/investment-analysis-using-amazon-bedrock/)
+- LinqAlpha Devil's Advocate case study: independent thesis challenge,
+  evidence-linked rebuttals, and machine-readable outputs:
+  [LinqAlpha Devil's Advocate](https://aws.amazon.com/blogs/machine-learning/how-linqalpha-assesses-investment-theses-using-devils-advocate-on-amazon-bedrock/)
+- AWS Deep Agents and AgentCore context-rich research pattern, including
+  browser, code interpretation, memory, and evaluation:
+  [Context-rich research agents](https://aws.amazon.com/blogs/machine-learning/build-context-rich-research-agents-with-deep-agents-and-bedrock-agentcore/)
+- AWS AgentCore AgentOps guidance covering governance, operations, evaluation,
+  and observability as separate production pillars:
+  [AgentOps with AgentCore](https://aws.amazon.com/blogs/machine-learning/agentops-operationalize-agentic-ai-at-scale-with-amazon-bedrock-agentcore/)
+- AWS AgentCore samples, including runtime, memory, gateway, policy, and
+  observability labs: [AgentCore samples](https://github.com/awslabs/amazon-bedrock-agent-samples)
+- AWS getting-started AgentCore labs:
+  [Runtime and Memory samples](https://github.com/aws-samples/sample-getting-started-with-amazon-agentcore)
+- AWS multi-agent orchestration guidance:
+  [Multi-agent orchestration on AWS](https://docs.aws.amazon.com/solutions/multi-agent-orchestration-on-aws/)
+- AWS video: [AgentCore introduction](https://www.youtube.com/watch?v=9LF6rz6Fe1Q)
+- AWS video: [AgentCore observability](https://www.youtube.com/watch?v=i2Pxnck_3tY)
+- AWS video/session: [Architecting multi-agent systems with AgentCore](https://builder.aws.com/content/3FeE9KhL4DUukPB5s4GgNwlspyJ/aws-tech-tales-or-s5-e19-or-architecting-multi-agent-systems-with-aws-bedrock-agentcore)
+- AWS re:Invent session: [How Yahoo Finance built multi-agent research systems](https://www.classcentral.com/course/youtube-aws-re-invent-2025-how-yahoo-finance-built-research-multi-agent-systems-with-gen-ai-sps321-509393)
 
 ### AWS IAM & account basics (Day 12 account setup)
 - IAM users, groups, and policies overview: `docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html`
@@ -72,6 +103,8 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - Cedar policy language docs and playground: `cedarpolicy.com`, `docs.cedarpolicy.com`
 - OWASP Top 10 for LLM Applications — prompt injection, sensitive information disclosure, excessive agency are the entries most relevant to the negative tests in `governance/tests/`: `owasp.org/www-project-top-10-for-large-language-model-applications/`
 - AWS Verified Permissions (Cedar-based, managed) — worth reading even if this project's own Cedar setup stays local/learning-scale, since it's the natural production analog: `docs.aws.amazon.com/verifiedpermissions/`
+- AWS security and enterprise best practices for AgentCore:
+  [AI agents in enterprises](https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/)
 
 ### GitHub Copilot App, Canvas, Prompts, Skills, Custom Agents
 - Canvas extensions how-to: `docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-canvas-extensions`
@@ -86,6 +119,19 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - Agent skills reference: `docs.github.com/en/copilot/concepts/agents/about-agent-skills`
 - GitHub Actions scheduled workflows (`on: schedule`, cron syntax), for `morning-brief.yml`: `docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule`
 
+### Agent harnesses, skills, prompts, and custom agents
+- OpenAI, [A practical guide to building agents](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/) — tools, instructions, manager/decentralized orchestration, guardrails, and human intervention
+- OpenAI, [New tools for building agents](https://openai.com/index/new-tools-for-building-agents/) — Agents SDK concepts: tools, handoffs, guardrails, and tracing
+- OpenAI, [The next evolution of the Agents SDK](https://openai.com/index/the-next-evolution-of-the-agents-sdk/) — harnesses, skills, MCP, AGENTS.md, sandboxing, memory, approvals, and long-running work
+- OpenAI, [Unlocking the Codex harness](https://openai.com/index/unlocking-the-codex-harness/) — separating the agent harness from product surfaces and reusing an app-server protocol
+- Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) — when to use workflows versus agents, prompt chaining, routing, parallelization, orchestrator-workers, and evaluator-optimizer patterns
+- Anthropic, [Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) — multi-turn evaluation design, trajectory checks, and using tests as the ground truth
+- Anthropic, [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) — tool descriptions and interfaces as part of the agent-control surface
+- Anthropic, [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) — parallel research, synthesis, context budgets, and research-agent tradeoffs
+- Anthropic, [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) — progressive disclosure, reusable skills, and tool/context packaging
+- Anthropic, [Agents for financial services](https://www.anthropic.com/news/finance-agents) — reference patterns combining skills, governed connectors, subagents, long-running sessions, and auditability in finance
+- AWS, [AgentCore resources and technical walkthroughs](https://aws.amazon.com/bedrock/agentcore/resources/) — videos and hands-on material across Runtime, Memory, Gateway, Identity, Policy, Observability, and Evaluations
+
 ### OpenAI Codex CLI (optional alternative dev tool — `INSTALL.md` §8)
 - Official CLI reference and overview: `developers.openai.com/codex/cli`
 - AGENTS.md guide: `developers.openai.com/codex` — Codex's own conceptual overview of the same file this project already uses for routing
@@ -93,9 +139,55 @@ Not a "read before Day N" entry like the sections below — this is the source o
 
 ### Public data APIs
 - FRED API docs: `fred.stlouisfed.org/docs/api/fred/`
+- FRED/ALFRED real-time periods and vintage dates, essential for avoiding
+  revised-data leakage in backtests:
+  `fred.stlouisfed.org/docs/api/fred/realtime_period.html`
 - FRED's Treasury yield curve series (the specific series Day 2 pulls to build `curve_points`): search FRED for "Treasury Constant Maturity Rate" (series like `DGS2`, `DGS10`, `DGS30`) — `fred.stlouisfed.org`
+- U.S. Treasury daily interest-rate XML feeds, including nominal and real
+  yield curves, bill rates, and long-term rates:
+  `home.treasury.gov/treasury-daily-interest-rate-xml-feed`
 - yfinance package docs/README: `pypi.org/project/yfinance`
 - SEC EDGAR full-text search and submissions APIs: `sec.gov/edgar/sec-api-documentation`
+- SEC Form N-PORT public datasets for monthly fund and ETF holdings:
+  `sec.gov/data-research/sec-markets-data/form-n-port-data-sets`
+- FINRA TRACE trade activity and licensing overview. Useful for fixed-income
+  liquidity exercises, but professional transaction-level access may be paid
+  or restricted: `finra.org/filing-reporting/trace/data`
+- FINRA Fixed Income API datasets, including Treasury aggregates, breadth, and
+  capped-volume datasets: `developer.finra.org/node/1171`
+- Kenneth French Data Library: daily/monthly factors, portfolios, and
+  international returns for factor regression and backtest validation:
+  `mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html`
+- GDELT Project event and Global Knowledge Graph codebooks for public news and
+  event metadata. Treat automated tone as a noisy feature, not truth:
+  `github.com/GDELT-API` and `data.gdeltproject.org/documentation/`
+
+### Data engineering, provenance, and research correctness
+- ALFRED vintage-aware observations: `fred.stlouisfed.org/docs/api/fred/alfred.html`
+- Pandas time-series and timezone handling:
+  `pandas.pydata.org/docs/user_guide/timeseries.html`
+- Apache Arrow and Parquet metadata concepts for immutable research snapshots:
+  `arrow.apache.org/docs/` and `parquet.apache.org/docs/`
+- Great Expectations or Soda for a later data-quality validation layer:
+  `docs.greatexpectations.io` or `docs.soda.io`
+
+### News, sentiment, and research retrieval
+- SEC filing text is the preferred first sentiment extension because it is
+  attributable, issuer-linked, and tied to filing timestamps.
+- GDELT is useful for event counts, themes, geography, and source diversity;
+  prefer the raw event/GKG codebooks over treating generated summaries as
+  ground truth.
+- For every news connector, study robots, terms, and licensing before caching
+  or redistributing article text. Store references and permitted excerpts.
+
+### Backtesting and portfolio construction realism
+- Add tests for look-ahead bias, survivorship bias, stale prices, corporate
+  actions, transaction costs, slippage, turnover, liquidity, rebalance timing,
+  and infeasible constraints before adding model sophistication.
+- Use the Kenneth French library as a public factor benchmark, while documenting
+  publication cadence, missing data, and return units.
+- Extend PyPortfolioOpt exercises with bounds, leverage, concentration,
+  transaction costs, turnover, and infeasible-constraint behavior.
 
 ### Python testing & mocking
 - `pytest` documentation, especially fixtures and markers (for the `unit`/`eval` split in docs/PLAN.md §4): `docs.pytest.org`

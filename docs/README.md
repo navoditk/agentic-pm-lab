@@ -26,6 +26,8 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Run, evaluate, deploy, or tear down the system | `RUNBOOK.md` *(created Day 11)* |
 | Review architecture decisions | `adr/` *(created as decisions are recorded)* |
 
+| Run custom agents and skills standalone | AGENT_RUNBOOK.md |
+
 ## Agent and contributor guidance
 
 [`../AGENTS.md`](../AGENTS.md) remains the canonical router for AI coding tools

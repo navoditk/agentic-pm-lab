@@ -669,6 +669,225 @@ Once the AWS integration exists, production/demo traffic must reach the Tool Lay
 
 ---
 
+## 16. Recommended curriculum additions
+
+The 12-day path teaches the implementation spine. The following cross-cutting
+fundamentals should be treated as acceptance criteria for the relevant days,
+not as a separate technology track:
+
+| Topic | Add to the exercise |
+|---|---|
+| Data provenance | Add source, observation time, release/vintage time, unit, currency, freshness, and quality fields to normalized records. |
+| Point-in-time research | Use ALFRED vintages and SEC filing dates; add a test proving later revisions and filings cannot enter an earlier backtest. |
+| Portfolio data model | Reconcile positions to market value, cash, weights, benchmark, returns, FX, accrued interest, and corporate-action assumptions. |
+| Execution realism | Add turnover, spread/slippage, commissions, liquidity limits, rebalance timing, and rejected/infeasible orders to backtests and optimization. |
+| Model risk | Record model, prompt, skill, tool, data vintage, evaluator, and approval versions in traces and reports. |
+| Research grounding | Require source IDs, timestamps, excerpts or permitted references, duplicate detection, and confidence/coverage limits for sentiment. |
+| Operational readiness | Add freshness, cost, latency, dependency health, dead-letter, and replay evidence to the operations canvas and runbook. |
+| Human workflow | Make the output state explicit: informational, draft recommendation, approved recommendation, or executable action. Keep execution out of scope. |
+
+### 16.1 Recommended data-extension sequence
+
+Use the smallest useful vertical slices:
+
+1. **ALFRED vintage-aware macro data:** repeat one macro backtest with
+   as-known-at-the-time observations.
+2. **SEC EDGAR filings and Company Facts:** ingest filing metadata and a small
+   set of XBRL concepts; preserve accession number, filing date, period end,
+   and source URL.
+3. **SEC N-PORT:** compare public fund holdings over time and learn reporting
+   lag, amendments, and as-filed data.
+4. **Kenneth French factors:** replace the toy factor series and test units,
+   excess-return conventions, and publication cadence.
+5. **FINRA TRACE aggregates:** add a liquidity/market-breadth feature while
+   documenting that professional transaction-level access may be licensed or
+   fee-based.
+6. **SEC filing text and GDELT metadata:** build evidence-linked research and
+   sentiment; never treat automated tone as a trade signal without uncertainty,
+   provenance, and an evaluation set.
+
+Every new connector needs a data card in data/README.md: owner/source,
+license/terms, endpoint, authentication, rate limit, update cadence, time
+coverage, schema, identifier mapping, revision behavior, quality checks,
+retention, and whether redistribution is allowed.
+
+### 16.2 Standalone agent documentation
+
+Day 2's personal FICC tutor and every later custom agent should have:
+
+- a committed template or definition;
+- a one-page purpose and scope statement;
+- three example prompts, including one negative or boundary case;
+- expected behavior and failure modes;
+- a local test or validation command;
+- evidence fields for model, data provenance, tool calls, output, and trace.
+
+The current examples live in docs/AGENT_RUNBOOK.md. Expand that document when
+risk-narrator-agent, pr-reviewer-agent, and skills-auditor-agent arrive on Days
+10–11.
+
+## 17. Forward plan from Day 9 to Day 20
+
+Days 1–9 are complete and should be treated as immutable learning history.
+The following plan is the authoritative forward extension. It preserves the
+existing architecture while adding the AWS investment-research and independent
+thesis-challenge patterns as new workflows.
+
+| Day | Focus | Primary outcome |
+|---|---|---|
+| 10 | Governed PM/Risk capstone | Portfolio/Risk Canvas connected to one governed MCP/tool boundary; fix direct-agent bypasses; add scenario and approval UX |
+| 11 | Runtime, prompts, automation, runbooks | Local stack, prompt library, custom agents, CI contract/freshness checks, standalone runbooks |
+| 12 | AgentCore foundation and optimization | Scenario engine, constrained optimization, AgentCore Runtime/Gateway/Identity/Policy, direct-code deployment |
+| 13 | AgentCore Memory and session state | Cross-session PM preferences, memory scopes, retention, deletion, memory isolation and tests |
+| 14 | Guardrails and AgentCore Evaluations | Bedrock Guardrails, online/on-demand evaluation, human review, quality gates |
+| 15 | Point-in-time data and provenance | ALFRED, Treasury reconciliation, data cards, vintage-aware backtest fixtures |
+| 16 | SEC research and multimodal evidence | EDGAR filings/Company Facts, filing retrieval, citations, source-grounded research agent |
+| 17 | AWS investment-research pattern | Quant, news/research, and summarizer specialists adapted to Deep Agents and shared MCP |
+| 18 | Devil's Advocate and committee challenge | Independent thesis critic, evidence grading, rebuttal workflow, no self-approval |
+| 19 | Production AgentOps and Canvas | Research/committee Canvas, deployment promotion, cost/latency/SLO dashboards, incident and replay exercises |
+| 20 | Institutional PM capstone | End-to-end governed PM workflow, full evaluation, security acceptance, final architecture and public write-up |
+
+### Day 10 — Governed PM/Risk capstone
+
+Complete the existing Portfolio/Risk Canvas, but make it the first real
+integration boundary rather than a seeded demonstration. The UI, Copilot
+agent, Deep Agent, FastAPI, and MCP capability must call the same adapter.
+Resource authorization must be re-checked inside that boundary so a direct
+agent tool call cannot bypass portfolio entitlements. Add scenario selection,
+provenance display, approval state, stale-data warnings, and a trace link for
+each result. The day is complete only when the same action works from the UI
+and Copilot and the positive/negative authorization tests pass.
+
+Recommended tools: Copilot App for the Canvas; Codex, Claude Code, or Copilot
+CLI for the governed adapter and tests.
+
+### Day 11 — Runtime, automation, and standalone operations
+
+Finish the existing runtime/automation work: docker-compose, prompts, PR
+workflow, skills freshness, contract CI, scheduled approval-only morning
+review, and docs/RUNBOOK.md. Expand docs/AGENT_RUNBOOK.md for
+docs-agent, eval-triage-agent, risk-narrator-agent, pr-reviewer-agent,
+skills-auditor-agent, and the personal FICC tutor. Every custom agent gets
+three examples, one negative case, expected tool calls, test command, and
+troubleshooting guidance.
+
+Recommended tools: Copilot CLI/App for GitHub workflow and Canvas integration;
+Codex or Claude Code for CI and runbook review.
+
+### Day 12 — AgentCore foundation and constrained portfolio construction
+
+Finish the scenario engine and optimization, but add institutional constraints:
+turnover, bounds, concentration, leverage, liquidity, transaction costs,
+benchmark-relative limits, and infeasible-constraint errors. Deploy the
+LangGraph/Deep Agent through AgentCore Runtime and expose tools through the
+Gateway-only path. Capture the local-to-managed mapping for Runtime, Gateway,
+Identity, Policy, Guardrails, and Observability in the architecture document.
+
+Recommended tool: Codex or Claude Code for AWS debugging; Copilot CLI for
+deployment scaffolding.
+
+### Day 13 — AgentCore Memory and durable session state
+
+Promote the former optional Memory day into the core curriculum. Demonstrate
+short-term context, cross-session PM preferences, explicit memory scopes,
+retention/deletion, user isolation, and a negative test proving one identity
+cannot retrieve another identity's memory. Compare LangGraph checkpoint state
+with AgentCore Memory and document what belongs in working state versus durable
+memory.
+
+### Day 14 — Guardrails, evaluation, and human review
+
+Promote the former Guardrails/Evaluations day into the core curriculum.
+Configure Bedrock Guardrails, run adversarial prompt and output cases, and
+compare local deterministic checks, LangSmith evaluators, and AgentCore
+Evaluations. Add expected trajectories, expected responses, assertions,
+repeated trials, and human review for high-impact outputs. A quality gate must
+consider correctness, tool trajectory, policy compliance, guardrail behavior,
+cost, latency, and unresolved uncertainty.
+
+### Day 15 — Point-in-time data and provenance
+
+Add ALFRED vintages and Treasury direct-feed reconciliation. Define normalized
+metadata for source, observation time, publication/release time, vintage,
+unit, currency, transformation, freshness, and quality. Build a small
+as-known-at-the-time backtest and prove that later revisions cannot affect the
+historical result. Update data/README.md with a completed data card.
+
+### Day 16 — SEC research and evidence-linked retrieval
+
+Add a deliberately narrow EDGAR connector: submissions metadata, selected XBRL
+Company Facts, filing accession numbers, filing URLs, period end, filed date,
+and a small set of issuer fixtures. Build a research retrieval tool that
+returns evidence objects rather than unqualified prose. Optionally use S3 and
+OpenSearch as the AWS retrieval comparison, but retain a local deterministic
+fixture path for unit tests. Add citation completeness, source freshness,
+duplicate, and unsupported-claim evaluations.
+
+### Day 17 — AWS investment-research assistant pattern
+
+Adapt the AWS investment-research example to the project rather than copying
+its Bedrock Agents implementation. Add three Deep Agent specialists:
+
+- Quantitative Analysis: prices, factors, risk, optimization;
+- News/Research: EDGAR and permitted public research evidence;
+- Smart Summarizer: structured synthesis with citations and uncertainty.
+
+The existing Macro, Quant, and Fundamental specialists remain the domain
+experts. The new research workflow becomes a separate task graph or
+capability, sharing the same deterministic Tool/MCP boundary. Compare the AWS
+supervisor pattern with Deep Agents native subagents on routing, context
+isolation, traceability, latency, cost, and failure recovery.
+
+### Day 18 — Devil's Advocate and investment committee challenge
+
+Add an independent Devil's Advocate agent inspired by LinqAlpha. It receives a
+draft thesis or proposed allocation plus its evidence bundle and attempts to
+disprove it. It must identify missing evidence, contradictory data, stale
+sources, concentration or liquidity risks, unsupported causal claims, and
+conditions that would invalidate the thesis. It must not approve its own
+recommendation.
+
+Create a challenge workflow:
+
+1. Research/PM agent drafts a thesis.
+2. Quant and research specialists attach calculations and evidence.
+3. Devil's Advocate independently attacks the thesis.
+4. PM orchestrator revises or explicitly declines the challenge.
+5. Human reviewer approves the committee artifact.
+
+Evaluate challenge coverage, evidence linkage, contradiction detection,
+false-positive criticism, and whether the final response preserves uncertainty.
+
+### Day 19 — Production AgentOps and Canvas integration
+
+Build the final research/committee Canvas with maximum feasible Copilot
+integration: evidence panels, source freshness, agent trace tree, thesis
+versus rebuttal comparison, allocation deltas, approval state, evaluation
+scores, cost/latency, and retry/replay controls. Add deployment promotion
+checks, SLOs, CloudWatch/OTel dashboards, data-health alerts, dead-letter
+replay, and an incident exercise. The Canvas remains an interaction surface,
+never a trust boundary.
+
+### Day 20 — Institutional PM capstone
+
+Run one complete workflow:
+
+1. authenticated PM asks for an overnight risk and research review;
+2. data and source freshness are checked;
+3. Macro, Quant, Fundamental, and Research specialists gather evidence;
+4. optimization or scenario analysis is run under constraints;
+5. Devil's Advocate challenges the draft;
+6. the PM agent produces a cited committee artifact;
+7. a human approves or rejects it;
+8. the system emits OTel traces, audit records, evaluation results, and
+   reproducible data/model/prompt versions.
+
+Run the complete security, quality, resilience, cost, and stale-data suites.
+Capture the final Canvas, traces, evaluation comparison, data cards, ADRs,
+runbook, architecture diagram, and public learning write-up. Explicitly label
+the result as a production-oriented proof of concept, not an investment
+management or order-execution system.
+
 ## Appendix A — Installation & Environment Setup
 
 **Moved to `INSTALL.md`.** Everything that used to live here — core dev environment, the full `uv` package list, GitHub-specific setup, the optional local-model variant, what can't be installed ahead of time, and the accounts/cost summary — is now a standalone, self-contained document so it can be worked through (by you or a dev tool) in one sitting, before ever opening Appendix B below. Complete `INSTALL.md`'s verification checklist, then come back here for Day 1.
@@ -678,6 +897,11 @@ Once the AWS integration exists, production/demo traffic must reach the Tool Lay
 ## Appendix B — Day-by-Day Implementation Deep Dive
 
 **Before Day 1: complete `INSTALL.md`.** Environment setup, repo bootstrap, and how to actually start a session with Claude Code, GitHub Copilot, or Codex CLI are all there now, self-contained, so they can be done in one sitting before any of the day-by-day content below. Day 1 picks up assuming `INSTALL.md`'s verification checklist is fully ticked.
+
+**Forward execution note:** Days 1–9 below document the completed learning
+history. For current work, section 17 is authoritative for Days 10–20. The
+older Day 10–14 entries remain as historical implementation detail and should
+be interpreted through the expanded objectives in section 17.
 
 ### Git workflow used throughout
 
