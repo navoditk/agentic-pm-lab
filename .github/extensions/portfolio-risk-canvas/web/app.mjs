@@ -11,6 +11,30 @@ const VIEWS = [
   { id: "evaluation", label: "Evaluation", icon: "flask-conical" },
 ];
 
+const SCENARIOS = {
+  rates_50bps: {
+    id: "rates_50bps",
+    label: "Rates +50 bps",
+    type: "macro",
+    impact: { volatility: 0.018, drawdown: -0.024, return: -0.006 },
+    note: "Duration-sensitive positions soften; hedge cost rises.",
+  },
+  credit_75bps: {
+    id: "credit_75bps",
+    label: "Credit +75 bps",
+    type: "credit",
+    impact: { volatility: 0.026, drawdown: -0.039, return: -0.012 },
+    note: "Credit spread risk dominates the stress outcome.",
+  },
+  convexity_rally: {
+    id: "convexity_rally",
+    label: "Mortgage rally",
+    type: "mortgage",
+    impact: { volatility: 0.014, drawdown: -0.019, return: -0.004 },
+    note: "Negative convexity creates asymmetric downside in a rally.",
+  },
+};
+
 function MetricCard({ title, value, caption }) {
   return html`
     <div class="ck-card metric-card">
@@ -60,13 +84,16 @@ function ScenarioButton({ scenario, active, onClick }) {
 
 function App({ state, invoke, connected }) {
   const [busy, setBusy] = useState(false);
-  const [selectedNode, setSelectedNode] = useState(state.selectedTraceNode ?? "root");
+  const [selectedNode, setSelectedNode] = useState(state?.selectedTraceNode ?? "root");
   const [approvalId, setApprovalId] = useState("run_backtest");
-  const [selectedScenario, setSelectedScenario] = useState(state.selectedScenario ?? "rates_50bps");
+  const [selectedScenario, setSelectedScenario] = useState(state?.selectedScenario ?? "rates_50bps");
 
-  const scenarioResult = state.scenarioResult;
-  const comparison = state.comparison;
-  const activeScenario = useMemo(() => state.selectedScenario, [state.selectedScenario]);
+  const scenarioResult = state?.scenarioResult;
+  const comparison = state?.comparison;
+  const activeScenario = useMemo(
+    () => state?.selectedScenario ?? "rates_50bps",
+    [state?.selectedScenario],
+  );
 
   async function run(action, input) {
     setBusy(true);
