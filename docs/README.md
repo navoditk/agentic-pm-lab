@@ -19,6 +19,7 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Need | Document |
 |---|---|
 | Review daily retrospectives | [`LEARNINGS.md`](LEARNINGS.md) |
+| Inspect Day 6 trace and evaluation evidence | [`observability-evaluation.md`](observability-evaluation.md) |
 | Find source material by topic | [`REFERENCES.md`](REFERENCES.md) |
 | Review model, context, tool, and AWS comparisons | [`comparison-notes.md`](comparison-notes.md) |
 | Look up FICC terminology | [`ficc-glossary.md`](ficc-glossary.md) |

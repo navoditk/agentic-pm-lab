@@ -126,3 +126,37 @@ same thread reran Quant but preserved Macro's completed result.
 around tools before the first live multi-agent run. The fail-first exercise was
 valuable, but these are infrastructure invariants rather than behavior that
 should depend on prompt compliance.
+
+---
+
+## 2026-08-12 — Day 6
+
+**What worked:** One OTel provider was enough for framework
+auto-instrumentation, deterministic tools, control operations, agent economics,
+and LangSmith export. Routing evaluation roots directly to LangSmith experiment
+sessions preserved the normal trace hierarchy while linking each run to its
+versioned dataset example.
+
+**What didn't work / had to be fixed along the way:**
+- LangSmith's HTTP exporter required `/otel/v1/traces`; the base `/otel`
+  endpoint returned 404 for this exporter configuration.
+- Overriding `langsmith.trace.id` broke native OTel parentage because descendant
+  spans retained their original trace lineage. The correct correlation is the
+  native OTel trace plus the root span ID that LangSmith pads into a run UUID.
+- The first SDK `evaluate()` attempt created the experiment shell but sent
+  OTel-only target traces to the general project. A manual experiment session
+  with `langsmith.trace.session_id` and
+  `langsmith.reference_example_id` routed them correctly.
+- Plain `inputs` and `outputs` span attributes were consumed without producing
+  usable run fields in the tested mapping. The documented
+  `gen_ai.prompt`/`gen_ai.completion` attributes produced evaluator-ready
+  dictionaries.
+- A five-case probe caught ingestion timing and feedback API assumptions before
+  another full run: the runner now waits for completed outputs and attaches
+  feedback with the experiment session ID.
+
+**One thing I'd do differently:** Start with one minimal OTel-native experiment
+case and verify project routing, example linkage, I/O mapping, and feedback in
+the UI before invoking the complete dataset. That would have avoided the first
+15-call experiment that proved model execution but could not serve as the
+accepted baseline.

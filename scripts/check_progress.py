@@ -32,7 +32,7 @@ LAYER_PATTERNS = {
     "Interactive Layer": [".github/extensions/**/*.js", ".github/extensions/**/*.ts"],
     "Runtime Layer": ["scripts/artifacts_host.py", "docker-compose.yml"],
     "Agent Layer": ["src/agents/**/*.py"],
-    "Observability": ["src/context/**/*.py"],
+    "Observability": ["src/context/**/*.py", "src/observability/**/*.py"],
     "Golden dataset / evals": ["evals/*.jsonl"],
     "AWS Bedrock AgentCore": ["src/agents/*agentcore*.py"],
 }

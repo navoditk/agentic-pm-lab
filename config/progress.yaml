@@ -62,7 +62,17 @@ day_5:
 
 day_6:
   label: "OpenTelemetry, LangSmith, eval dataset"
-  checks: []
+  checks:
+    - path_exists: src/observability/telemetry.py
+    - path_exists: evals/golden_dataset.jsonl
+    - path_exists: evals/routing_cases.jsonl
+    - path_exists: skills/eval-dataset-authoring/SKILL.md
+    - path_exists: scripts/run_eval.py
+    - path_exists: config/eval-baseline.json
+    - path_exists: .github/workflows/eval-regression.yml
+    - path_exists: .github/agents/eval-triage-agent.agent.md
+    - tests_pass: tests/unit/observability
+    - tests_pass: tests/unit/scripts
 
 day_7:
   label: "Control Layer for real"

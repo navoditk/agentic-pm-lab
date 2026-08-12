@@ -4,7 +4,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 5)
+## The layers, and what exists today (Day 6)
 
 | Layer | Target end-state (`docs/PRD.md` §2) | What exists today |
 |---|---|---|
@@ -14,6 +14,8 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Doesn't exist yet — starts Day 8. Today's only artifact is `.github/copilot-instructions.md`, a pointer to `AGENTS.md` so every harness reads the same routing rules. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. `multi_agent_local.py` reproduces the hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
+| **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
+| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Fifteen active golden/routing cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, and final-answer criteria; policy and guardrail evaluators remain explicit stubs until their implementation days. `config/eval-baseline.json` and `eval-regression.yml` enforce subset-specific score floors. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | Doesn't exist yet — starts Day 11. |
 
 The Data Layer is intentionally mixed: public price/macro data is real, while
@@ -22,7 +24,7 @@ their `# MOCK` markers in `PROGRESS.md` (`docs/PLAN.md` §6).
 
 ---
 
-## Logical components, through Day 5
+## Logical components, through Day 6
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -66,9 +68,17 @@ src/agents/multi_agent.py            Portfolio Manager -> three native specialis
 src/agents/multi_agent_local.py      same hierarchy on local Ollama/Qwen3 4B
 src/agents/recovery.py               retry, validation, limits, and dead-letter middleware
 
+src/observability/telemetry.py       shared OTel provider, spans, and LangSmith OTLP export
+evals/*.jsonl                        golden, routing, authorization, and guardrail cases
+scripts/run_eval.py                  OTel-native LangSmith experiment and scoring runner
+config/eval-baseline.json            accepted fast/full scores and regression tolerance
+skills/eval-dataset-authoring/       evaluation-case schema and authoring workflow
+
 .github/workflows/ci.yml             lint + test on push/PR
+.github/workflows/eval-regression.yml  fast PR/full main behavioral regression gate
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
 .github/workflows/skills-freshness.yml  placeholder, built out Day 11
+.github/agents/eval-triage-agent.agent.md  read-only regression investigation persona
 ```
 
 ## Governed Tool Layer sequence (Day 3)
@@ -140,6 +150,41 @@ Macro completed: the observed invocation counts changed from
 specialist tools make that retry idempotent. The built-in
 `create_checkpointed_multi_agent()` uses process-local memory for the Day 5
 exercise; a durable checkpointer is still required before deployment.
+
+---
+
+## Observability and evaluation (Day 6)
+
+`configure_telemetry()` owns one process-wide tracer provider. FastAPI
+auto-instrumentation and manual application spans share that provider, while an
+OTLP HTTP exporter sends the same hierarchy to LangSmith's
+`/otel/v1/traces` endpoint. Span attributes record counts, sizes, identifiers,
+status, timing, and estimated economics; raw analytics inputs are not copied
+into operational attributes.
+
+Evaluation wraps each Portfolio Manager invocation in an OTel root span. The
+root carries the LangSmith experiment session and reference-example IDs plus
+GenAI prompt/completion attributes, so every target trace lands in the
+experiment and links back to its dataset case. Evaluator feedback is attached
+per dimension rather than reduced to one aggregate score.
+
+The accepted `gpt-4.1-mini` baseline is versioned in
+`config/eval-baseline.json`:
+
+| Subset | Cases | Routing | Tool selection | Tool arguments | Retrieval context | Final answer | Tokens | Estimated cost | Latency |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Fast | 5 | 100% | 100% | 80% | 100% | 60% | 51,710 | $0.0239 | 78.4 s |
+| Full | 15 | 100% | 86.7% | 86.7% | 100% | 46.7% | 167,946 | $0.0774 | 363.4 s |
+
+Policy-compliance and guardrail-behavior scores are `null`, not passing
+placeholders; Days 7 and 12 activate those dimensions. CI permits at most a
+0.10 absolute drop from the matching subset baseline, which means one failed
+case in the five-case PR subset fails the gate. Operational totals establish a
+comparison footprint but are not CI failure thresholds because hosted-runner
+latency and generated-token volume vary independently of behavior.
+
+Detailed trace correlation and experiment links are in
+`docs/observability-evaluation.md`.
 
 ---
 
