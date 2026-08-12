@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agentic Kanban</title>
+    <link rel="stylesheet" href="/kit/theme.css" />
+    <style>
+      .kanban-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(210px, 1fr));
+        gap: 12px;
+        overflow-x: auto;
+      }
+      .kanban-column {
+        min-width: 210px;
+        padding: 12px;
+        border: 1px solid var(--borderColor-default, #30363d);
+        border-radius: 8px;
+        background: var(--bgColor-muted, #161b22);
+      }
+      @media (max-width: 800px) {
+        .kanban-grid { grid-template-columns: repeat(4, 240px); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"><p class="ck-muted">Loading…</p></div>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>
