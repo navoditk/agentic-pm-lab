@@ -1,0 +1,14 @@
+{
+  "input": {
+    "change": {
+      "kind": "identity_assignment",
+      "identity": "PM_USER",
+      "role": "pm"
+    }
+  },
+  "output": {
+    "changed_authority": "config/roles.yaml",
+    "allowed_test": "PM_USER may access PORT_A",
+    "denied_test": "PM_USER may not access PORT_B"
+  }
+}

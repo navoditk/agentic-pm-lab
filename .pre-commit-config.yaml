@@ -33,6 +33,12 @@ repos:
         entry: uv run python scripts/check_no_sensitive_data.py
         language: system
         pass_filenames: true
+      - id: cedar-policy-syntax
+        name: Cedar policy syntax
+        entry: uv run python scripts/check_cedar_policies.py
+        language: system
+        files: ^governance/policies/.*\.cedar$
+        pass_filenames: false
 
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v4.17.0

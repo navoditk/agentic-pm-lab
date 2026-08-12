@@ -1,0 +1,19 @@
+inputs:
+  change:
+    type: object
+allowed_tools: []
+forbidden_tools: []
+output_schema:
+  type: object
+  required:
+    - changed_authority
+    - allowed_test
+    - denied_test
+side_effects: Updates identity assignment, Cedar policy, authorization tests, and security documentation as required.
+approval_required: false
+covers:
+  - config/roles.yaml
+  - governance/policies
+  - src/control
+  - src/agents
+version: 1.0.0

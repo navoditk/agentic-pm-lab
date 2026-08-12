@@ -1,0 +1,48 @@
+name: Authorization Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "governance/**"
+      - "config/roles.yaml"
+      - "src/control/**"
+      - "src/agents/**"
+      - "scripts/check_cedar_policies.py"
+      - ".github/workflows/authorization-tests.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "governance/**"
+      - "config/roles.yaml"
+      - "src/control/**"
+      - "src/agents/**"
+      - "scripts/check_cedar_policies.py"
+      - ".github/workflows/authorization-tests.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: authorization-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  authorization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync
+
+      - name: Validate Cedar policies
+        run: uv run python scripts/check_cedar_policies.py
+
+      - name: Run authorization and negative tests
+        run: uv run pytest governance/tests tests/unit/control tests/unit/agents -q
