@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio Risk</title>
+    <link rel="stylesheet" href="/kit/theme.css" />
+    <style>
+      .ops-layout {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.35fr) minmax(280px, 0.8fr);
+        gap: 14px;
+        align-items: start;
+      }
+      .metric-card {
+        min-width: 140px;
+        flex: 1 1 0;
+      }
+      .scenario-card {
+        width: 100%;
+        text-align: left;
+        border: 1px solid var(--borderColor-default, #30363d);
+      }
+      .scenario-card-active {
+        border-color: var(--borderColor-accent-emphasis, #1f6feb);
+        box-shadow: 0 0 0 1px var(--borderColor-accent-emphasis, #1f6feb);
+      }
+      .trace-node {
+        border: 1px solid var(--borderColor-default, #30363d);
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 10px;
+      }
+      .trace-node-active {
+        border-color: var(--borderColor-accent-emphasis, #1f6feb);
+        background: var(--bgColor-muted, #161b22);
+      }
+      .trace-children {
+        margin-left: 14px;
+        padding-left: 12px;
+        border-left: 1px solid var(--borderColor-muted, #21262d);
+      }
+      @media (max-width: 1200px) {
+        .ops-layout { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"><p class="ck-muted">Loading…</p></div>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>
