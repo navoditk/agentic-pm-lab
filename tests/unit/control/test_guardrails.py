@@ -30,4 +30,4 @@ def test_guardrail_checks_named_context_before_model_access():
     }
 
     with pytest.raises(GuardrailViolation, match="during context"):
-        enforce_agent_input("Summarize the portfolio.", sources)
+        enforce_agent_input("Summarize the portfolio.", sources, "PM_USER")

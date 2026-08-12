@@ -5,6 +5,8 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from src.control.audit import record_audit_event
+from src.control.identity import role_for_identity
 from src.observability.telemetry import observe_operation
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -51,12 +53,43 @@ def enforce_content(text: str, stage: str) -> None:
 def enforce_agent_input(
     question: str,
     sources: Mapping[str, Any],
+    identity: str,
 ) -> None:
     """Check the user question and assembled source values before model access."""
-    enforce_content(question, "input")
-    enforce_content(json.dumps(sources, sort_keys=True, default=str), "context")
+    _enforce_and_audit(question, "input", identity)
+    _enforce_and_audit(
+        json.dumps(sources, sort_keys=True, default=str),
+        "context",
+        identity,
+    )
 
 
-def enforce_agent_output(result: Mapping[str, Any]) -> None:
+def enforce_agent_output(result: Mapping[str, Any], identity: str) -> None:
     """Check the completed agent result before returning it to the caller."""
-    enforce_content(json.dumps(result, sort_keys=True, default=str), "output")
+    _enforce_and_audit(
+        json.dumps(result, sort_keys=True, default=str),
+        "output",
+        identity,
+    )
+
+
+def _enforce_and_audit(text: str, stage: str, identity: str) -> None:
+    role = role_for_identity(identity) or "unknown"
+    try:
+        enforce_content(text, stage)
+    except GuardrailViolation:
+        record_audit_event(
+            identity,
+            role,
+            f"content-{stage}",
+            "denied",
+            "Guardrail",
+        )
+        raise
+    record_audit_event(
+        identity,
+        role,
+        f"content-{stage}",
+        "allowed",
+        "Guardrail",
+    )

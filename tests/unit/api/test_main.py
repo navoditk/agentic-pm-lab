@@ -71,7 +71,13 @@ def test_denied_tool_call_is_audited(monkeypatch):
     )
 
     assert response.status_code == 403
-    audit.assert_called_once_with("RISK_USER", "risk", "price-bond", False)
+    audit.assert_called_once_with(
+        "RISK_USER",
+        "risk",
+        "price-bond",
+        "denied",
+        "AuthZ",
+    )
 
 
 def test_portfolio_endpoint_runs_real_summary(monkeypatch, tmp_path):

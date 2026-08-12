@@ -8,18 +8,32 @@ here, so a denied or approved call is always reconstructable after the fact
 import json
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Literal
+
+from opentelemetry import trace
 
 from src.observability.telemetry import observe_operation
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_AUDIT_LOG_PATH = REPO_ROOT / "data" / "cache" / "audit.jsonl"
+AuditDecision = Literal["allowed", "denied", "interrupted"]
+AuditLayer = Literal["AuthN", "AuthZ", "Guardrail", "Tool"]
+
+
+def current_trace_id() -> str | None:
+    """Return the active OTel trace ID, if this call is currently traced."""
+    context = trace.get_current_span().get_span_context()
+    return f"{context.trace_id:032x}" if context.is_valid else None
 
 
 def record_audit_event(
     identity: str,
     role: str,
     tool_name: str,
-    allowed: bool,
+    decision: AuditDecision,
+    layer: AuditLayer,
+    *,
+    resource_id: str | None = None,
     log_path: Path = DEFAULT_AUDIT_LOG_PATH,
 ) -> dict:
     """Append one audit record and return it."""
@@ -29,7 +43,8 @@ def record_audit_event(
         {
             "app.auth.role": role,
             "app.auth.tool": tool_name,
-            "app.auth.allowed": allowed,
+            "app.auth.decision": decision,
+            "app.auth.layer": layer,
         },
     ):
         record = {
@@ -37,7 +52,10 @@ def record_audit_event(
             "identity": identity,
             "role": role,
             "tool_name": tool_name,
-            "allowed": allowed,
+            "resource_id": resource_id,
+            "decision": decision,
+            "layer": layer,
+            "trace_id": current_trace_id(),
         }
         log_path.parent.mkdir(parents=True, exist_ok=True)
         with log_path.open("a") as f:

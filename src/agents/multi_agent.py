@@ -33,9 +33,10 @@ from src.context.builder import (
     build_filtered_context,
     build_full_context,
 )
+from src.control.audit import record_audit_event
 from src.control.authorization import enforce_source_access, tools_for_identity
 from src.control.guardrails import enforce_agent_input, enforce_agent_output
-from src.control.identity import identity_from_sources
+from src.control.identity import identity_from_sources, role_for_identity
 from src.observability.telemetry import observe_agent_run
 
 PORTFOLIO_MANAGER_PROMPT = """You are the Portfolio Manager orchestrator.
@@ -94,6 +95,7 @@ FUNDAMENTAL_TOOLS: tuple[BaseTool, ...] = (
     get_portfolio_exposure,
     get_research_summary_tool,
 )
+DEFAULT_INTERRUPT_ON: dict[str, bool | dict[str, Any]] = {"run_backtest": True}
 
 
 def specialist_subagents(
@@ -150,6 +152,7 @@ def create_multi_agent(
     specialist_models: Mapping[str, str | BaseChatModel] | None = None,
     subagents: Sequence[SubAgent | CompiledSubAgent] | None = None,
     checkpointer: BaseCheckpointSaver | None = None,
+    interrupt_on: Mapping[str, bool | dict[str, Any]] = DEFAULT_INTERRUPT_ON,
 ) -> CompiledStateGraph:
     """Construct the Portfolio Manager with Macro, Quant, and Fundamental sub-agents."""
     return create_deep_agent(
@@ -160,6 +163,7 @@ def create_multi_agent(
         subagents=subagents or specialist_subagents(identity, specialist_models),
         skills=["./skills/"],
         checkpointer=checkpointer,
+        interrupt_on=dict(interrupt_on),
         name="portfolio-manager",
     )
 
@@ -195,7 +199,7 @@ def invoke_multi_agent(
     """Invoke the Portfolio Manager with context from named sources only."""
     identity = identity_from_sources(sources)
     enforce_source_access(identity, sources)
-    enforce_agent_input(question, sources)
+    enforce_agent_input(question, sources, identity)
     context = (
         build_filtered_context(sources, relevant_sources)
         if relevant_sources is not None
@@ -218,7 +222,16 @@ def invoke_multi_agent(
             {"messages": [{"role": "user", "content": prompt}]},
             config=config,
         )
-    enforce_agent_output(result)
+        if result.get("__interrupt__"):
+            role = role_for_identity(identity)
+            record_audit_event(
+                identity,
+                role or "unknown",
+                "run_backtest",
+                "interrupted",
+                "Tool",
+            )
+        enforce_agent_output(result, identity)
     return result
 
 

@@ -107,7 +107,8 @@ def test_authorization_and_audit_are_child_traceable_operations(
         "RISK_USER",
         "risk",
         "price-bond",
-        allowed,
+        "allowed" if allowed else "denied",
+        "AuthZ",
         log_path=tmp_path / "audit.jsonl",
     )
 
@@ -117,4 +118,5 @@ def test_authorization_and_audit_are_child_traceable_operations(
     assert permission.attributes["app.auth.allowed"] is False
     assert permission.attributes["app.auth.role"] == "risk"
     assert audit.attributes["app.operation.type"] == "audit"
-    assert audit.attributes["app.auth.allowed"] is False
+    assert audit.attributes["app.auth.decision"] == "denied"
+    assert audit.attributes["app.auth.layer"] == "AuthZ"

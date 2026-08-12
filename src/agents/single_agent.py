@@ -6,6 +6,7 @@ from typing import Any
 from deepagents import create_deep_agent
 from langchain_core.language_models import BaseChatModel
 from langchain_core.tools import BaseTool, tool
+from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.graph.state import CompiledStateGraph
 
 from src.analytics.backtest import run_backtest
@@ -19,13 +20,14 @@ from src.context.builder import (
     build_filtered_context,
     build_full_context,
 )
+from src.control.audit import record_audit_event
 from src.control.authorization import enforce_source_access, tools_for_identity
 from src.control.guardrails import enforce_agent_input, enforce_agent_output
-from src.control.identity import identity_from_sources
+from src.control.identity import identity_from_sources, role_for_identity
 from src.observability.telemetry import observe_agent_run
 
 DEFAULT_MODEL = "openai:gpt-4.1-mini"
-DEFAULT_INTERRUPT_ON: dict[str, bool | dict[str, Any]] = {}
+DEFAULT_INTERRUPT_ON: dict[str, bool | dict[str, Any]] = {"run_backtest": True}
 SYSTEM_PROMPT = """You are a portfolio analytics assistant.
 Use deterministic tools for every numeric claim. Never invent portfolio,
 market, or research data. State when a result depends on the mock security
@@ -172,6 +174,7 @@ def create_single_agent(
     model: str | BaseChatModel = DEFAULT_MODEL,
     *,
     interrupt_on: Mapping[str, bool | dict[str, Any]] = DEFAULT_INTERRUPT_ON,
+    checkpointer: BaseCheckpointSaver | None = None,
 ) -> CompiledStateGraph:
     """Construct the single portfolio analytics Deep Agent."""
     return create_deep_agent(
@@ -180,6 +183,7 @@ def create_single_agent(
         system_prompt=SYSTEM_PROMPT,
         skills=["./skills/"],
         interrupt_on=dict(interrupt_on),
+        checkpointer=checkpointer,
     )
 
 
@@ -190,11 +194,12 @@ def invoke_single_agent(
     agent: CompiledStateGraph | None = None,
     relevant_sources: Collection[str] | None = None,
     model_name: str | None = None,
+    thread_id: str | None = None,
 ) -> dict[str, Any]:
     """Invoke the agent with context supplied only by the context builder."""
     identity = identity_from_sources(sources)
     enforce_source_access(identity, sources)
-    enforce_agent_input(question, sources)
+    enforce_agent_input(question, sources, identity)
     context = (
         build_filtered_context(sources, relevant_sources)
         if relevant_sources is not None
@@ -205,13 +210,26 @@ def invoke_single_agent(
     observed_model = model_name or (
         DEFAULT_MODEL if agent is None else "configured-agent"
     )
+    config: dict[str, Any] = {"callbacks": []}
+    if thread_id is not None:
+        config["configurable"] = {"thread_id": thread_id}
     with observe_agent_run(
         "agent.single.invoke",
         observed_model,
     ) as (_span, metrics):
+        config["callbacks"] = [metrics]
         result = runtime.invoke(
             {"messages": [{"role": "user", "content": prompt}]},
-            config={"callbacks": [metrics]},
+            config=config,
         )
-    enforce_agent_output(result)
+        if result.get("__interrupt__"):
+            role = role_for_identity(identity)
+            record_audit_event(
+                identity,
+                role or "unknown",
+                "run_backtest",
+                "interrupted",
+                "Tool",
+            )
+        enforce_agent_output(result, identity)
     return result

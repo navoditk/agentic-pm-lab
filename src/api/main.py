@@ -74,12 +74,32 @@ def require_tool(
         x_identity: Annotated[str | None, Header(alias="X-Identity")] = None,
     ) -> AuthorizationContext:
         if x_identity is None:
+            record_audit_event(
+                "anonymous",
+                "unknown",
+                tool_name,
+                "denied",
+                "AuthN",
+            )
             raise HTTPException(status_code=401, detail="X-Identity header is required")
         role = role_for_identity(x_identity)
         if role is None:
+            record_audit_event(
+                x_identity,
+                "unknown",
+                tool_name,
+                "denied",
+                "AuthN",
+            )
             raise HTTPException(status_code=401, detail="Unknown identity")
         allowed = check_tool_permission(role, tool_name)
-        record_audit_event(x_identity, role, tool_name, allowed)
+        record_audit_event(
+            x_identity,
+            role,
+            tool_name,
+            "allowed" if allowed else "denied",
+            "AuthZ",
+        )
         if not allowed:
             raise HTTPException(status_code=403, detail="Tool access denied")
         return AuthorizationContext(x_identity, role)
@@ -92,7 +112,16 @@ def enforce_portfolio_boundary(
     portfolio_id: str,
 ) -> None:
     """Re-check resource access at the final tool boundary."""
-    if not check_portfolio_access(authorization.identity, portfolio_id):
+    allowed = check_portfolio_access(authorization.identity, portfolio_id)
+    record_audit_event(
+        authorization.identity,
+        authorization.role,
+        "portfolio-access",
+        "allowed" if allowed else "denied",
+        "Tool",
+        resource_id=portfolio_id,
+    )
+    if not allowed:
         raise HTTPException(status_code=403, detail="Portfolio access denied")
 
 
