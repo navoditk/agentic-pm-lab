@@ -109,3 +109,28 @@ def test_research_remains_mock_but_requires_permission(monkeypatch):
     assert allowed.status_code == 200
     assert allowed.json()["mock"] is True
     assert denied.status_code == 403
+
+
+def test_tool_boundary_rechecks_portfolio_resource(monkeypatch):
+    monkeypatch.setattr(api_main, "record_audit_event", Mock())
+    payload = {
+        "portfolio_id": "PORT_B",
+        "returns": [0.01, -0.01],
+        "portfolio_values": [100, 99],
+        "window": 2,
+    }
+
+    denied = TestClient(api_main.app).post(
+        "/tools/risk",
+        json=payload,
+        headers={"X-Identity": "PM_USER"},
+    )
+    allowed = TestClient(api_main.app).post(
+        "/tools/risk",
+        json=payload,
+        headers={"X-Identity": "RISK_USER"},
+    )
+
+    assert denied.status_code == 403
+    assert denied.json()["detail"] == "Portfolio access denied"
+    assert allowed.status_code == 200

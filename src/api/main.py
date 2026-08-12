@@ -16,7 +16,7 @@ from src.analytics.pricers import price_bond as calculate_bond_price
 from src.analytics.research import get_research_summary
 from src.analytics.risk import risk_metrics
 from src.control.audit import record_audit_event
-from src.control.authorization import check_tool_permission
+from src.control.authorization import check_portfolio_access, check_tool_permission
 from src.control.identity import role_for_identity
 from src.ingestion.load_mock_structured_data import DEFAULT_DB_PATH
 from src.observability.telemetry import instrument_fastapi
@@ -85,6 +85,15 @@ def require_tool(
         return AuthorizationContext(x_identity, role)
 
     return dependency
+
+
+def enforce_portfolio_boundary(
+    authorization: AuthorizationContext,
+    portfolio_id: str,
+) -> None:
+    """Re-check resource access at the final tool boundary."""
+    if not check_portfolio_access(authorization.identity, portfolio_id):
+        raise HTTPException(status_code=403, detail="Portfolio access denied")
 
 
 def _curve_points(curve_date: str | None = None) -> tuple[str, list[tuple]]:
@@ -196,11 +205,12 @@ def research(
 @app.post("/tools/econometrics")
 def econometrics(
     request: FactorRegressionRequest,
-    _authorization: Annotated[
+    authorization: Annotated[
         AuthorizationContext, Depends(require_tool("econometrics"))
     ],
 ) -> dict:
     """Run an OLS factor regression over caller-supplied aligned returns."""
+    enforce_portfolio_boundary(authorization, request.portfolio_id)
     try:
         result = factor_regression(request.portfolio_returns, request.factor_returns)
     except ValueError as error:
@@ -211,9 +221,10 @@ def econometrics(
 @app.post("/tools/backtest")
 def backtest(
     request: BacktestRequest,
-    _authorization: Annotated[AuthorizationContext, Depends(require_tool("backtest"))],
+    authorization: Annotated[AuthorizationContext, Depends(require_tool("backtest"))],
 ) -> dict:
     """Run a static-weight walk-forward backtest."""
+    enforce_portfolio_boundary(authorization, request.portfolio_id)
     try:
         result = run_backtest(
             request.asset_returns,
@@ -230,9 +241,10 @@ def backtest(
 @app.get("/tools/portfolio")
 def portfolio(
     portfolio_id: str,
-    _authorization: Annotated[AuthorizationContext, Depends(require_tool("portfolio"))],
+    authorization: Annotated[AuthorizationContext, Depends(require_tool("portfolio"))],
 ) -> dict:
     """Return weights and exposures using the explicitly mocked security master."""
+    enforce_portfolio_boundary(authorization, portfolio_id)
     if not DEFAULT_DB_PATH.exists():
         raise HTTPException(
             status_code=503, detail="Portfolio data has not been loaded"
@@ -271,9 +283,10 @@ def portfolio(
 @app.post("/tools/risk")
 def risk(
     request: RiskRequest,
-    _authorization: Annotated[AuthorizationContext, Depends(require_tool("risk"))],
+    authorization: Annotated[AuthorizationContext, Depends(require_tool("risk"))],
 ) -> dict:
     """Calculate rolling volatility and maximum drawdown."""
+    enforce_portfolio_boundary(authorization, request.portfolio_id)
     try:
         result = risk_metrics(
             request.returns,

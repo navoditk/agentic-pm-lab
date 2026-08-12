@@ -1,5 +1,6 @@
 from scripts.check_no_sensitive_data import load_banned_terms, scan_file
 from src.control.authorization import check_tool_permission
+from src.control.guardrails import GuardrailViolation, enforce_content
 
 
 def test_sensitive_output_scanner_blocks_configured_term(tmp_path):
@@ -9,6 +10,17 @@ def test_sensitive_output_scanner_blocks_configured_term(tmp_path):
 
     assert term.lower() in load_banned_terms()
     assert scan_file(candidate, load_banned_terms()) == [term.lower()]
+
+
+def test_runtime_guardrail_blocks_sensitive_output():
+    term = "ACME-" + "INTERNAL-PROJECT-CODE"
+
+    try:
+        enforce_content(f"Generated response: {term}", "output")
+    except GuardrailViolation:
+        pass
+    else:
+        raise AssertionError("expected denied output to be blocked")
 
 
 def test_permitted_read_role_cannot_request_unlisted_data_export():

@@ -34,6 +34,7 @@ from src.context.builder import (
     build_full_context,
 )
 from src.control.authorization import enforce_source_access, tools_for_identity
+from src.control.guardrails import enforce_agent_input, enforce_agent_output
 from src.control.identity import identity_from_sources
 from src.observability.telemetry import observe_agent_run
 
@@ -194,6 +195,7 @@ def invoke_multi_agent(
     """Invoke the Portfolio Manager with context from named sources only."""
     identity = identity_from_sources(sources)
     enforce_source_access(identity, sources)
+    enforce_agent_input(question, sources)
     context = (
         build_filtered_context(sources, relevant_sources)
         if relevant_sources is not None
@@ -212,10 +214,12 @@ def invoke_multi_agent(
         observed_model,
     ) as (_span, metrics):
         config["callbacks"] = [metrics, *callbacks]
-        return runtime.invoke(
+        result = runtime.invoke(
             {"messages": [{"role": "user", "content": prompt}]},
             config=config,
         )
+    enforce_agent_output(result)
+    return result
 
 
 def resume_multi_agent(
