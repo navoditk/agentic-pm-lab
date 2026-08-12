@@ -90,11 +90,21 @@ day_7:
 
 day_8:
   label: "Canvas fundamentals"
-  checks: []
+  checks:
+    - path_exists: skills/canvas-capability-authoring/SKILL.md
+    - path_exists: .github/extensions/agentic-kanban/canvas.mjs
+    - path_exists: .github/extensions/issue-triage-canvas/canvas.mjs
+    - path_exists: .github/extensions/agentic-kanban/tests/canvas-capabilities.test.mjs
+    - path_exists: .github/extensions/issue-triage-canvas/tests/canvas-capabilities.test.mjs
+    - path_exists: .github/agents/docs-agent.agent.md
 
 day_9:
   label: "Canvas: Agent Operations"
-  checks: []
+  checks:
+    - path_exists: .github/extensions/agent-ops-canvas/canvas.mjs
+    - path_exists: .github/extensions/agent-ops-canvas/web/app.mjs
+    - path_exists: .github/extensions/agent-ops-canvas/test/smoke.test.mjs
+    - path_exists: .github/extensions/agent-ops-canvas/tests/canvas-capabilities.test.mjs
 
 day_10:
   label: "Canvas: Portfolio/Risk capstone"

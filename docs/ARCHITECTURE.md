@@ -4,14 +4,14 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 7)
+## The layers, and what exists today (Day 9)
 
 | Layer | Target end-state (`docs/PRD.md` §2) | What exists today |
 |---|---|---|
 | **Data Layer** | Real yfinance/FRED/SEC EDGAR public ingestion | `src/ingestion/prices.py` loads daily OHLCV for six public ETFs from yfinance; `src/ingestion/macro.py` loads Treasury yields, Fed Funds, and CPI from FRED and derives `curve_points`. Both use a 24-hour JSON-file cache before replacing their DuckDB tables. `security_master` and `portfolio_positions` remain invented CSV fixtures and retain their `# MOCK` marker. |
 | **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`docs/PRD.md` §3, principle 10) | `config/roles.yaml` assigns three local test identities only. Cedar policies independently govern tools and portfolio resources, agent construction removes unauthorized tools before model binding, portfolio context is checked before model access, a denied-terms guardrail checks input/context/output, and FastAPI re-checks tool plus resource access. Backtests pause for human approval. Every decision records its layer and OTel trace ID. |
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/analytics/` contains deterministic bond/option pricing, curve interpolation, portfolio exposure/concentration, volatility/drawdown, OLS factor regression, and static-weight backtesting. `contracts/tools/` fixes each input/output shape, and `src/api/main.py` exposes the governed routes. Research intentionally remains mocked; MCP wrapping starts Day 10. |
-| **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Doesn't exist yet — starts Day 8. Today's only artifact is `.github/copilot-instructions.md`, a pointer to `AGENTS.md` so every harness reads the same routing rules. |
+| **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Three project canvases now exist: `agentic-kanban` for shared cards, `issue-triage-canvas` for repository issues, and `agent-ops-canvas` for run/trace/approval inspection. `agent-ops-canvas` seeds its comparison panel from the documented Day 4/5/6/7 run history and wires `run_evaluation` to `scripts/run_eval.py` so the live LangSmith experiment path is present even when the key is absent. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. `multi_agent_local.py` reproduces the hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
@@ -24,7 +24,7 @@ their `# MOCK` markers in `PROGRESS.md` (`docs/PLAN.md` §6).
 
 ---
 
-## Logical components, through Day 7
+## Logical components, through Day 9
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -55,6 +55,10 @@ src/api/main.py                      governed FastAPI wrappers; research mock
 
 scripts/artifacts_host.py            separate FastAPI app, serves artifacts/*
 
+.github/extensions/agentic-kanban/   shared board canvas for create/assign/move
+.github/extensions/issue-triage-canvas/  repository issue triage canvas
+.github/extensions/agent-ops-canvas/     agent run / trace / approval canvas
+
 skills/example-echo/                 proves the Agent Skills package mechanism
 skills/python-best-practices/        this project's actual coding conventions
 skills/mock-to-real-migration/       safe mock replacement checklist
@@ -63,6 +67,7 @@ skills/new-tool-onboarding/          end-to-end capability checklist
 skills/skill-creator/                complete skill-package scaffolding recipe
 skills/skill-tester/                 local static/mock skill validation recipe
 skills/portfolio-risk-summary/       exposure/volatility/drawdown synthesis
+skills/canvas-capability-authoring/  verb-first, shared-handler canvas standard
 
 src/context/builder.py               named full/filtered context composition
 src/agents/single_agent.py           OpenAI-configured Deep Agent
@@ -82,7 +87,25 @@ skills/eval-dataset-authoring/       evaluation-case schema and authoring workfl
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
 .github/workflows/skills-freshness.yml  placeholder, built out Day 11
 .github/agents/eval-triage-agent.agent.md  read-only regression investigation persona
+.github/agents/docs-agent.agent.md    docs maintenance agent for architecture/glossary
 ```
+
+## Interactive Layer (Days 8–9)
+
+The first two canvases were intentionally low-stakes. `agentic-kanban` proved
+the shared-state contract: UI and agent actions create, assign, and move the
+same cards through the same handlers. `issue-triage-canvas` raised the bar by
+pulling real GitHub issues, filtering and prioritizing them visually, and
+calling the GitHub API only from SDK-free handlers with a token acquired at
+runtime.
+
+`agent-ops-canvas` is the operational canvas: it surfaces the seeded Day 4/5/6/7
+history, selected run traces, guardrail summaries, cost metrics, a paused
+approval run, and a side-by-side comparison panel for single-agent versus
+multi-agent observations. `approve_run` and `retry_node` both call back into the
+main agent via `askAgent`, while `run_evaluation` shells out to
+`scripts/run_eval.py` and returns the real LangSmith experiment summary when
+`LANGSMITH_API_KEY` is present.
 
 ## Governed Tool Layer sequence (Day 7)
 

@@ -161,6 +161,31 @@ the UI before invoking the complete dataset. That would have avoided the first
 15-call experiment that proved model execution but could not serve as the
 accepted baseline.
 
+## 2026-08-12 — Day 9
+
+**What worked:** Pre-seeding the agent-ops canvas with the documented Day 4/5/6/7
+history let the UI show a meaningful operations console before any live
+LangSmith call was attempted. The shared handlers for `get_runs`, `get_trace`,
+`retry_node`, `approve_run`, `get_guardrail_results`, and `get_cost_metrics`
+stayed easy to test because the canvas kept the run data, trace tree, and
+approval state in one state object and used `askAgent` only at the approval and
+retry boundaries.
+
+**What didn't work / had to be fixed along the way:**
+- The live `run_evaluation` path is correctly wired to `scripts/run_eval.py`,
+  but it needs `LANGSMITH_API_KEY` at runtime. The repository environment here
+  does not have that key set, so the canvas surfaces a clear error instead of
+  pretending to complete the experiment.
+- The comparison panel needed two different kinds of seeded evidence: the Day 4
+  single-agent local run and the Day 5 multi-agent local/cloud notes. Keeping
+  those observations separate made the side-by-side view more honest than
+  collapsing them into one synthetic benchmark.
+
+**One thing I'd do differently:** Capture the live Day 9 evaluation output as a
+committed artifact the moment the key is available, instead of leaving the
+canvas on a "wired but blocked" state. That would make the comparison panel and
+the progress notes more concrete for the next person opening the repo.
+
 ---
 
 ## 2026-08-11 — Day 7
