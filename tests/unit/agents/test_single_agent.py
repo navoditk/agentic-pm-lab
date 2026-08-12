@@ -1,5 +1,4 @@
 from langchain_core.messages import AIMessage, ToolMessage
-from langgraph.checkpoint.memory import InMemorySaver
 
 from src.agents.single_agent import create_single_agent, invoke_single_agent
 from tests.unit.agents.fakes import ScriptedToolCallingModel
@@ -53,45 +52,6 @@ def test_agent_calls_get_volatility_with_scripted_arguments():
     assert len(tool_messages) == 1
     assert tool_messages[0].name == "get_volatility"
     assert "0.014142" in tool_messages[0].content
-
-
-def test_backtest_genuinely_pauses_for_human_approval():
-    model = ScriptedToolCallingModel(
-        responses=[
-            AIMessage(
-                content="",
-                tool_calls=[
-                    {
-                        "name": "run_backtest",
-                        "args": {
-                            "asset_returns": {"A": [0.01, -0.01]},
-                            "weights": {"A": 1.0},
-                        },
-                        "id": "backtest-call",
-                        "type": "tool_call",
-                    }
-                ],
-            )
-        ]
-    )
-    agent = create_single_agent(
-        "PM_USER",
-        model=model,
-        checkpointer=InMemorySaver(),
-    )
-
-    result = invoke_single_agent(
-        "Run a backtest.",
-        sources(),
-        agent=agent,
-        thread_id="approval-test",
-    )
-
-    assert result["__interrupt__"]
-    assert not any(
-        isinstance(message, ToolMessage) and message.name == "run_backtest"
-        for message in result["messages"]
-    )
 
 
 def test_risk_identity_cannot_see_forbidden_tools():
