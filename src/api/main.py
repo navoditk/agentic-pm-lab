@@ -15,8 +15,9 @@ from src.analytics.pricers import CashFlow
 from src.analytics.pricers import price_bond as calculate_bond_price
 from src.analytics.research import get_research_summary
 from src.analytics.risk import risk_metrics
-from src.control.allowlist import check_permission, role_for_identity
 from src.control.audit import record_audit_event
+from src.control.authorization import check_tool_permission
+from src.control.identity import role_for_identity
 from src.ingestion.load_mock_structured_data import DEFAULT_DB_PATH
 from src.observability.telemetry import instrument_fastapi
 
@@ -77,7 +78,7 @@ def require_tool(
         role = role_for_identity(x_identity)
         if role is None:
             raise HTTPException(status_code=401, detail="Unknown identity")
-        allowed = check_permission(role, tool_name)
+        allowed = check_tool_permission(role, tool_name)
         record_audit_event(x_identity, role, tool_name, allowed)
         if not allowed:
             raise HTTPException(status_code=403, detail="Tool access denied")

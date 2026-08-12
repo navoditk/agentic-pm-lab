@@ -12,7 +12,7 @@ from tests.unit.agents.fakes import ScriptedToolCallingModel
 
 def sources():
     return {
-        "user_role": {"identity": "pm_user", "role": "pm"},
+        "user_role": {"identity": "PM_USER", "role": "pm"},
         "portfolio_state": {"portfolio_id": "PORT_A"},
         "market_data": {"returns": [0.01, -0.01]},
         "retrieved_research": {"summary": "mock"},
@@ -103,6 +103,7 @@ def test_portfolio_manager_routes_each_domain_to_its_specialist(
     )
     specialist_models[specialist_name] = routed_model
     agent = create_multi_agent(
+        "PM_USER",
         model=parent_model,
         specialist_models=specialist_models,
     )
@@ -124,7 +125,7 @@ def test_portfolio_manager_routes_each_domain_to_its_specialist(
 
 
 def test_specialists_have_domain_specific_tool_boundaries():
-    specs = {spec["name"]: spec for spec in specialist_subagents()}
+    specs = {spec["name"]: spec for spec in specialist_subagents("PM_USER")}
 
     assert {tool.name for tool in specs["macro"]["tools"]} == {
         "interpolate_curve",
@@ -144,6 +145,16 @@ def test_specialists_have_domain_specific_tool_boundaries():
     assert specs["quant"]["skills"] == ["./skills/scenario-analysis/"]
 
 
+def test_cedar_filters_specialist_tools_before_model_binding():
+    specs = {spec["name"]: spec for spec in specialist_subagents("RISK_USER")}
+
+    assert {tool.name for tool in specs["macro"]["tools"]} == {"interpolate_curve"}
+    assert {tool.name for tool in specs["fundamental"]["tools"]} == {
+        "get_portfolio_exposure"
+    }
+    assert "run_backtest" in {tool.name for tool in specs["quant"]["tools"]}
+
+
 def test_local_variant_creates_separate_models_for_the_hierarchy(monkeypatch):
     created_models = []
 
@@ -154,7 +165,7 @@ def test_local_variant_creates_separate_models_for_the_hierarchy(monkeypatch):
 
     monkeypatch.setattr(multi_agent_local, "_local_model", fake_local_model)
 
-    agent = multi_agent_local.create_local_multi_agent("local-test")
+    agent = multi_agent_local.create_local_multi_agent("PM_USER", "local-test")
 
     assert agent.name == "portfolio-manager"
     assert len(created_models) == 4

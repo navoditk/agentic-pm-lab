@@ -19,6 +19,8 @@ from src.context.builder import (
     build_filtered_context,
     build_full_context,
 )
+from src.control.authorization import tools_for_identity
+from src.control.identity import identity_from_sources
 from src.observability.telemetry import observe_agent_run
 
 DEFAULT_MODEL = "openai:gpt-4.1-mini"
@@ -165,6 +167,7 @@ ANALYTICS_TOOLS: Sequence[BaseTool] = (
 
 
 def create_single_agent(
+    identity: str,
     model: str | BaseChatModel = DEFAULT_MODEL,
     *,
     interrupt_on: Mapping[str, bool | dict[str, Any]] = DEFAULT_INTERRUPT_ON,
@@ -172,7 +175,7 @@ def create_single_agent(
     """Construct the single portfolio analytics Deep Agent."""
     return create_deep_agent(
         model=model,
-        tools=ANALYTICS_TOOLS,
+        tools=tools_for_identity(identity, ANALYTICS_TOOLS),
         system_prompt=SYSTEM_PROMPT,
         skills=["./skills/"],
         interrupt_on=dict(interrupt_on),
@@ -193,7 +196,7 @@ def invoke_single_agent(
         if relevant_sources is not None
         else build_full_context(sources)
     )
-    runtime = agent or create_single_agent()
+    runtime = agent or create_single_agent(identity_from_sources(sources))
     prompt = f"{context['rendered']}\n\n## question\n{question}"
     observed_model = model_name or (
         DEFAULT_MODEL if agent is None else "configured-agent"

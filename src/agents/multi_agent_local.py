@@ -8,6 +8,7 @@ from langgraph.graph.state import CompiledStateGraph
 
 from src.agents.multi_agent import create_multi_agent, invoke_multi_agent
 from src.context.builder import ContextSources
+from src.control.identity import identity_from_sources
 
 DEFAULT_LOCAL_MODEL = "qwen3:4b"
 SPECIALIST_NAMES = ("macro", "quant", "fundamental")
@@ -23,10 +24,12 @@ def _local_model(model_name: str) -> ChatOllama:
 
 
 def create_local_multi_agent(
+    identity: str,
     model_name: str = DEFAULT_LOCAL_MODEL,
 ) -> CompiledStateGraph:
     """Construct the Portfolio Manager and each specialist on Ollama."""
     return create_multi_agent(
+        identity,
         model=_local_model(model_name),
         specialist_models={name: _local_model(model_name) for name in SPECIALIST_NAMES},
     )
@@ -44,7 +47,7 @@ def invoke_local_multi_agent(
     return invoke_multi_agent(
         question,
         sources,
-        agent=agent or create_local_multi_agent(),
+        agent=agent or create_local_multi_agent(identity_from_sources(sources)),
         relevant_sources=relevant_sources,
         iteration_limit=iteration_limit,
         model_name=f"ollama:{DEFAULT_LOCAL_MODEL}",

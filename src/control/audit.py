@@ -1,6 +1,6 @@
 """Append-only JSON Lines audit log for tool-call authorization decisions.
 
-Every check_permission() call at the Tool Layer boundary should also log
+Every Cedar authorization decision at the Tool Layer boundary should also log
 here, so a denied or approved call is always reconstructable after the fact
 — this becomes load-bearing once Day 7 wires it against real Cedar decisions.
 """

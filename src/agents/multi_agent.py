@@ -33,6 +33,8 @@ from src.context.builder import (
     build_filtered_context,
     build_full_context,
 )
+from src.control.authorization import tools_for_identity
+from src.control.identity import identity_from_sources
 from src.observability.telemetry import observe_agent_run
 
 PORTFOLIO_MANAGER_PROMPT = """You are the Portfolio Manager orchestrator.
@@ -94,6 +96,7 @@ FUNDAMENTAL_TOOLS: tuple[BaseTool, ...] = (
 
 
 def specialist_subagents(
+    identity: str,
     models: Mapping[str, str | BaseChatModel] | None = None,
 ) -> list[SubAgent]:
     """Build the three domain specialists with non-overlapping tool sets."""
@@ -128,7 +131,7 @@ def specialist_subagents(
             "name": name,
             "description": description,
             "system_prompt": system_prompt,
-            "tools": tools,
+            "tools": tools_for_identity(identity, tools),
         }
         if name in configured_models:
             spec["model"] = configured_models[name]
@@ -140,6 +143,7 @@ def specialist_subagents(
 
 
 def create_multi_agent(
+    identity: str,
     model: str | BaseChatModel = DEFAULT_MODEL,
     *,
     specialist_models: Mapping[str, str | BaseChatModel] | None = None,
@@ -152,7 +156,7 @@ def create_multi_agent(
         tools=(),
         system_prompt=PORTFOLIO_MANAGER_PROMPT,
         middleware=orchestrator_recovery_middleware(),
-        subagents=subagents or specialist_subagents(specialist_models),
+        subagents=subagents or specialist_subagents(identity, specialist_models),
         skills=["./skills/"],
         checkpointer=checkpointer,
         name="portfolio-manager",
@@ -160,6 +164,7 @@ def create_multi_agent(
 
 
 def create_checkpointed_multi_agent(
+    identity: str,
     model: str | BaseChatModel = DEFAULT_MODEL,
     *,
     specialist_models: Mapping[str, str | BaseChatModel] | None = None,
@@ -167,6 +172,7 @@ def create_checkpointed_multi_agent(
 ) -> CompiledStateGraph:
     """Construct a process-local checkpointed orchestrator for development."""
     return create_multi_agent(
+        identity,
         model=model,
         specialist_models=specialist_models,
         subagents=subagents,
@@ -191,7 +197,7 @@ def invoke_multi_agent(
         if relevant_sources is not None
         else build_full_context(sources)
     )
-    runtime = agent or create_multi_agent()
+    runtime = agent or create_multi_agent(identity_from_sources(sources))
     prompt = f"{context['rendered']}\n\n## question\n{question}"
     config: dict[str, Any] = {"recursion_limit": iteration_limit}
     if thread_id is not None:

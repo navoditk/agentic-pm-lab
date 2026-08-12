@@ -11,8 +11,8 @@ from opentelemetry.trace import StatusCode
 
 from src.analytics.pricers import black_scholes_price, price_bond
 from src.api.main import app
-from src.control.allowlist import check_permission
 from src.control.audit import record_audit_event
+from src.control.authorization import check_tool_permission
 from src.observability.telemetry import (
     configure_telemetry,
     observe_agent_run,
@@ -102,9 +102,9 @@ def test_authorization_and_audit_are_child_traceable_operations(
 ):
     span_exporter.clear()
 
-    allowed = check_permission("risk", "price-bond")
+    allowed = check_tool_permission("risk", "price-bond")
     record_audit_event(
-        "risk_user",
+        "RISK_USER",
         "risk",
         "price-bond",
         allowed,
@@ -112,7 +112,7 @@ def test_authorization_and_audit_are_child_traceable_operations(
     )
 
     spans = {span.name: span for span in span_exporter.get_finished_spans()}
-    permission = spans["control.check_permission"]
+    permission = spans["control.check_tool_permission"]
     audit = spans["control.record_audit_event"]
     assert permission.attributes["app.auth.allowed"] is False
     assert permission.attributes["app.auth.role"] == "risk"

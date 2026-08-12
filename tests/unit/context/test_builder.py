@@ -11,7 +11,7 @@ from src.context.builder import (
 @pytest.fixture
 def context_sources():
     return {
-        "user_role": {"identity": "pm_user", "role": "pm"},
+        "user_role": {"identity": "PM_USER", "role": "pm"},
         "portfolio_state": {"portfolio_id": "PORT_A"},
         "market_data": {"returns": [0.01, -0.01]},
         "retrieved_research": {"summary": "mock research"},

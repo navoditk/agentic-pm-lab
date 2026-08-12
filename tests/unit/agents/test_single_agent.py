@@ -6,7 +6,7 @@ from tests.unit.agents.fakes import ScriptedToolCallingModel
 
 def sources():
     return {
-        "user_role": {"identity": "pm_user", "role": "pm"},
+        "user_role": {"identity": "PM_USER", "role": "pm"},
         "portfolio_state": {"portfolio_id": "PORT_A"},
         "market_data": {"returns": [0.01, -0.01]},
         "retrieved_research": {"summary": "mock"},
@@ -37,7 +37,7 @@ def test_agent_calls_get_volatility_with_scripted_arguments():
             AIMessage(content="The tool calculated annualized volatility."),
         ]
     )
-    agent = create_single_agent(model=model)
+    agent = create_single_agent("PM_USER", model=model)
 
     result = invoke_single_agent(
         "What's my portfolio volatility?",
@@ -57,9 +57,27 @@ def test_agent_calls_get_volatility_with_scripted_arguments():
 def test_interrupt_policy_can_be_plugged_in_without_changing_agent_callers():
     model = ScriptedToolCallingModel(responses=[AIMessage(content="No tool needed.")])
 
-    agent = create_single_agent(model=model, interrupt_on={"run_backtest": True})
+    agent = create_single_agent(
+        "PM_USER", model=model, interrupt_on={"run_backtest": True}
+    )
 
     assert agent is not None
+
+
+def test_risk_identity_cannot_see_forbidden_tools():
+    model = ScriptedToolCallingModel(responses=[AIMessage(content="No tool needed.")])
+
+    agent = create_single_agent("RISK_USER", model=model)
+    risk_sources = {
+        **sources(),
+        "user_role": {"identity": "RISK_USER", "role": "risk"},
+    }
+
+    invoke_single_agent("Summarize risk.", risk_sources, agent=agent)
+
+    assert "get_volatility" in model.bound_tool_names
+    assert "price_bond" not in model.bound_tool_names
+    assert "price_option" not in model.bound_tool_names
 
 
 def test_filtered_invocation_excludes_irrelevant_research():

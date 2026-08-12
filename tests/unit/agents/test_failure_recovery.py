@@ -23,7 +23,7 @@ FAILURES_DIR = Path(__file__).resolve().parents[2] / "fixtures" / "failures"
 
 def sources():
     return {
-        "user_role": {"identity": "pm_user", "role": "pm"},
+        "user_role": {"identity": "PM_USER", "role": "pm"},
         "portfolio_state": {"portfolio_id": "PORT_A"},
         "market_data": {},
         "retrieved_research": {},
@@ -161,6 +161,7 @@ def test_resume_does_not_rerun_completed_parallel_specialist():
         },
     ]
     agent = create_multi_agent(
+        "PM_USER",
         model=parent_model,
         subagents=subagents,
         checkpointer=InMemorySaver(),
@@ -210,7 +211,7 @@ def test_iteration_limit_stops_looping_orchestrator():
             ),
         }
     ]
-    agent = create_multi_agent(model=parent_model, subagents=subagents)
+    agent = create_multi_agent("PM_USER", model=parent_model, subagents=subagents)
 
     with pytest.raises(GraphRecursionError):
         invoke_multi_agent(

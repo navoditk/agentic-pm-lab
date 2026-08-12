@@ -67,11 +67,11 @@ def test_denied_tool_call_is_audited(monkeypatch):
             "security_id": "A",
             "cash_flows": [{"time_years": 1, "amount": 100}],
         },
-        headers={"X-Identity": "risk_user"},
+        headers={"X-Identity": "RISK_USER"},
     )
 
     assert response.status_code == 403
-    audit.assert_called_once_with("risk_user", "risk", "price-bond", False)
+    audit.assert_called_once_with("RISK_USER", "risk", "price-bond", False)
 
 
 def test_portfolio_endpoint_runs_real_summary(monkeypatch, tmp_path):
@@ -83,7 +83,7 @@ def test_portfolio_endpoint_runs_real_summary(monkeypatch, tmp_path):
     response = TestClient(api_main.app).get(
         "/tools/portfolio",
         params={"portfolio_id": "PORT_A"},
-        headers={"X-Identity": "pm_user"},
+        headers={"X-Identity": "PM_USER"},
     )
 
     assert response.status_code == 200
@@ -98,12 +98,12 @@ def test_research_remains_mock_but_requires_permission(monkeypatch):
     allowed = TestClient(api_main.app).post(
         "/tools/research",
         params={"query": "public filing"},
-        headers={"X-Identity": "pm_user"},
+        headers={"X-Identity": "PM_USER"},
     )
     denied = TestClient(api_main.app).post(
         "/tools/research",
         params={"query": "public filing"},
-        headers={"X-Identity": "risk_user"},
+        headers={"X-Identity": "RISK_USER"},
     )
 
     assert allowed.status_code == 200

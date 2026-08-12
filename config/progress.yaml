@@ -7,7 +7,7 @@
 day_1:
   label: "Foundation: walking skeleton"
   checks:
-    - path_exists: src/control/allowlist.py
+    - path_exists: src/control/identity.py
     - path_exists: src/api/main.py
     - path_exists: skills/python-best-practices/SKILL.md
     - path_exists: docs/ARCHITECTURE.md
