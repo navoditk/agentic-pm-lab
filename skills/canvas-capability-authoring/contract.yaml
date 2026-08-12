@@ -1,0 +1,19 @@
+inputs:
+  capability:
+    type: object
+allowed_tools: []
+forbidden_tools: []
+output_schema:
+  type: object
+  required:
+    - action_name
+    - input_schema
+    - handler
+    - ui_control
+    - tests
+side_effects: Updates a project canvas capability, its shared state contract, UI control, and mocked handler tests.
+approval_required: false
+covers:
+  - .github/extensions
+  - tests/unit/extensions
+version: 1.0.0

@@ -1,0 +1,17 @@
+{
+  "input": {
+    "capability": {
+      "action_name": "add_card",
+      "fields": ["title", "assignee", "column"]
+    }
+  },
+  "output": {
+    "action_name": "add_card",
+    "input_schema": {
+      "required": ["title", "column"]
+    },
+    "handler": "canvas.mjs actions.add_card.handler",
+    "ui_control": "Add card form",
+    "tests": ["UI action", "agent action", "blank title rejection"]
+  }
+}
