@@ -16,7 +16,7 @@ from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.messages import AIMessage
 from langsmith import Client
 from langsmith.schemas import Example, Run
-from langsmith.utils import LangSmithNotFoundError
+from langsmith.utils import LangSmithNotFoundError, LangSmithRateLimitError
 from opentelemetry import trace
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
@@ -28,6 +28,11 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.agents.multi_agent import invoke_multi_agent
+from src.control.authorization import (
+    check_portfolio_access,
+    check_tool_permission,
+)
+from src.control.identity import role_for_identity
 from src.observability.telemetry import configure_telemetry
 
 EVALS_DIR = REPO_ROOT / "evals"
@@ -152,6 +157,33 @@ def _message_text(message: Any) -> str:
 
 def predict(inputs: dict[str, Any]) -> dict[str, Any]:
     """Run one case through the cloud Portfolio Manager configuration."""
+    policy_probe = inputs.get("policy_probe")
+    if isinstance(policy_probe, dict):
+        identity = policy_probe["identity"]
+        role = role_for_identity(identity)
+        decisions = {
+            "role_matches": role == policy_probe["role"],
+            "allowed_tool": bool(
+                role and check_tool_permission(role, policy_probe["allowed_tool"])
+            ),
+            "denied_tool": bool(
+                role and not check_tool_permission(role, policy_probe["denied_tool"])
+            ),
+            "allowed_portfolio": check_portfolio_access(
+                identity, policy_probe["allowed_portfolio"]
+            ),
+            "denied_portfolio": not check_portfolio_access(
+                identity, policy_probe["denied_portfolio"]
+            ),
+        }
+        return {
+            "answer": "Policy probe completed.",
+            "routing": [],
+            "tool_calls": [],
+            "context_sources": [],
+            "policy_compliant": all(decisions.values()),
+            "policy_decisions": decisions,
+        }
     recorder = EvalTraceRecorder()
     context_sources = inputs["required_context_sources"]
     result = invoke_multi_agent(
@@ -180,7 +212,21 @@ def _sets_match(actual: Sequence[str], expected: Sequence[str]) -> bool:
     return set(actual) == set(expected)
 
 
+def _policy_case(example: Example) -> bool:
+    return isinstance(example.inputs.get("policy_probe"), dict)
+
+
+def _not_applicable(key: str) -> dict[str, Any]:
+    return {
+        "key": key,
+        "score": None,
+        "comment": "Not applicable to a deterministic policy case.",
+    }
+
+
 def routing_evaluator(run: Run, example: Example) -> dict[str, Any]:
+    if _policy_case(example):
+        return _not_applicable("routing")
     expected = example.outputs["expected_routing"]
     actual = run.outputs.get("routing", [])
     return {
@@ -191,6 +237,8 @@ def routing_evaluator(run: Run, example: Example) -> dict[str, Any]:
 
 
 def tool_selection_evaluator(run: Run, example: Example) -> dict[str, Any]:
+    if _policy_case(example):
+        return _not_applicable("tool_selection")
     expected = example.outputs["expected_tools"]
     actual = [call["name"] for call in run.outputs.get("tool_calls", [])]
     return {
@@ -214,6 +262,8 @@ def _contains_subset(actual: Any, expected: Any) -> bool:
 
 
 def tool_arguments_evaluator(run: Run, example: Example) -> dict[str, Any]:
+    if _policy_case(example):
+        return _not_applicable("tool_arguments")
     expected = example.outputs["important_arguments"]
     actual_calls = run.outputs.get("tool_calls", [])
     actual_by_name = {call["name"]: call.get("arguments", {}) for call in actual_calls}
@@ -230,6 +280,8 @@ def tool_arguments_evaluator(run: Run, example: Example) -> dict[str, Any]:
 
 
 def retrieval_context_evaluator(run: Run, example: Example) -> dict[str, Any]:
+    if _policy_case(example):
+        return _not_applicable("retrieval_context")
     expected = example.outputs["required_context_sources"]
     actual = run.outputs.get("context_sources", [])
     return {
@@ -240,6 +292,8 @@ def retrieval_context_evaluator(run: Run, example: Example) -> dict[str, Any]:
 
 
 def final_answer_evaluator(run: Run, example: Example) -> dict[str, Any]:
+    if _policy_case(example):
+        return _not_applicable("final_answer")
     answer = run.outputs.get("answer", "").lower()
     required = example.outputs["required_facts"]
     missing = [fact for fact in required if str(fact).lower() not in answer]
@@ -258,11 +312,13 @@ def final_answer_evaluator(run: Run, example: Example) -> dict[str, Any]:
 
 
 def policy_compliance_evaluator(run: Run, example: Example) -> dict[str, Any]:
-    del run, example
+    if not _policy_case(example):
+        return _not_applicable("policy_compliance")
+    decisions = run.outputs.get("policy_decisions", {})
     return {
         "key": "policy_compliance",
-        "score": None,
-        "comment": "Stub until Day 7 authorization cases are active.",
+        "score": run.outputs.get("policy_compliant") is True,
+        "comment": f"deterministic Cedar decisions={decisions}",
     }
 
 
@@ -348,6 +404,8 @@ def sync_dataset(client: Client, cases: Sequence[dict[str, Any]]) -> str:
             "sources": case["sources"],
             "required_context_sources": case["required_context_sources"],
         }
+        if "policy_probe" in case:
+            inputs["policy_probe"] = case["policy_probe"]
         outputs = {
             key: case[key]
             for key in (
@@ -410,13 +468,13 @@ def _wait_for_run(
             run = client.read_run(run_id, project_id=project_id)
             if run.end_time is not None and run.outputs is not None:
                 return run
-        except LangSmithNotFoundError:
+        except (LangSmithNotFoundError, LangSmithRateLimitError):
             pass
         if attempt == attempts - 1:
             raise RuntimeError(
                 f"LangSmith run {run_id} was not fully ingested after {attempts} attempts"
             )
-        time.sleep(0.5)
+        time.sleep(min(0.5 * (2**attempt), 5.0))
     raise RuntimeError("run lookup exhausted unexpectedly")
 
 
@@ -437,7 +495,7 @@ def run_experiment(subset: str = "full") -> ExperimentSummary:
         for example in client.list_examples(dataset_name=dataset_name)
         if example.metadata and example.metadata.get("case_id") in selected_ids
     ]
-    experiment_name = f"day6-{subset}-{uuid4().hex[:8]}"
+    experiment_name = f"day7-{subset}-{uuid4().hex[:8]}"
     project = client.create_project(
         experiment_name,
         reference_dataset_id=dataset.id,

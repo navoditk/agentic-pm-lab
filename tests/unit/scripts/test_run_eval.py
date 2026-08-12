@@ -69,7 +69,7 @@ class FakeLangSmithClient:
         return SimpleNamespace(id=UUID("20000000-0000-0000-0000-000000000002"))
 
     def create_project(self, name: str, **kwargs):
-        assert name.startswith("day6-fast-")
+        assert name.startswith("day7-fast-")
         assert kwargs["reference_dataset_id"]
         assert kwargs["evaluator_keys"] == [
             "routing",
@@ -183,3 +183,33 @@ def test_load_cases_skips_future_stubs_and_filters_fast(
         "macro-case",
         "slow-case",
     ]
+
+
+def test_policy_probe_is_deterministic_and_scores_independently() -> None:
+    inputs = {
+        "policy_probe": {
+            "identity": "PM_USER",
+            "role": "pm",
+            "allowed_tool": "price-bond",
+            "denied_tool": "delete_portfolio",
+            "allowed_portfolio": "PORT_A",
+            "denied_portfolio": "PORT_B",
+        }
+    }
+    example = SimpleNamespace(inputs=inputs)
+
+    output = run_eval.predict(inputs)
+    feedback = run_eval.policy_compliance_evaluator(
+        SimpleNamespace(outputs=output),
+        example,
+    )
+
+    assert output["policy_compliant"] is True
+    assert feedback["score"] is True
+    assert (
+        run_eval.routing_evaluator(
+            SimpleNamespace(outputs=output),
+            example,
+        )["score"]
+        is None
+    )
