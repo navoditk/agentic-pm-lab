@@ -19,7 +19,7 @@ from src.context.builder import (
     build_filtered_context,
     build_full_context,
 )
-from src.control.authorization import tools_for_identity
+from src.control.authorization import enforce_source_access, tools_for_identity
 from src.control.identity import identity_from_sources
 from src.observability.telemetry import observe_agent_run
 
@@ -191,12 +191,14 @@ def invoke_single_agent(
     model_name: str | None = None,
 ) -> dict[str, Any]:
     """Invoke the agent with context supplied only by the context builder."""
+    identity = identity_from_sources(sources)
+    enforce_source_access(identity, sources)
     context = (
         build_filtered_context(sources, relevant_sources)
         if relevant_sources is not None
         else build_full_context(sources)
     )
-    runtime = agent or create_single_agent(identity_from_sources(sources))
+    runtime = agent or create_single_agent(identity)
     prompt = f"{context['rendered']}\n\n## question\n{question}"
     observed_model = model_name or (
         DEFAULT_MODEL if agent is None else "configured-agent"

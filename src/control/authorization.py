@@ -1,8 +1,8 @@
 """Cedar-backed tool and portfolio authorization decisions."""
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Protocol
+from typing import Any, Protocol
 
 from cedarpy import Decision, PolicySet, is_authorized
 
@@ -86,3 +86,21 @@ def tools_for_identity[ToolType: NamedTool](
     return tuple(
         candidate for candidate in tools if check_tool_permission(role, candidate.name)
     )
+
+
+def enforce_source_access(identity: str, sources: Mapping[str, Any]) -> None:
+    """Reject unauthorized portfolio context before it reaches an agent."""
+    portfolio_state = sources.get("portfolio_state")
+    portfolio_id = (
+        portfolio_state.get("portfolio_id")
+        if isinstance(portfolio_state, Mapping)
+        else None
+    )
+    if portfolio_id is None:
+        return
+    if not isinstance(portfolio_id, str):
+        raise TypeError("sources.portfolio_state.portfolio_id must be a string")
+    if not check_portfolio_access(identity, portfolio_id):
+        raise PermissionError(
+            f"{identity} is not authorized for portfolio {portfolio_id}"
+        )
