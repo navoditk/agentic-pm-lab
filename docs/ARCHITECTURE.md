@@ -4,12 +4,12 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 6)
+## The layers, and what exists today (Day 7)
 
 | Layer | Target end-state (`docs/PRD.md` §2) | What exists today |
 |---|---|---|
 | **Data Layer** | Real yfinance/FRED/SEC EDGAR public ingestion | `src/ingestion/prices.py` loads daily OHLCV for six public ETFs from yfinance; `src/ingestion/macro.py` loads Treasury yields, Fed Funds, and CPI from FRED and derives `curve_points`. Both use a 24-hour JSON-file cache before replacing their DuckDB tables. `security_master` and `portfolio_positions` remain invented CSV fixtures and retain their `# MOCK` marker. |
-| **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`docs/PRD.md` §3, principle 10) | Every `/tools/*` route now requires an `X-Identity`, resolves its temporary role from `config/roles.yaml`, re-checks `check_permission()` at the boundary, and appends the allow/deny decision to the audit log. The combined allowlist remains a `# MOCK` until Cedar splits identity from authorization on Day 7. |
+| **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`docs/PRD.md` §3, principle 10) | `config/roles.yaml` assigns three local test identities only. Cedar policies independently govern tools and portfolio resources, agent construction removes unauthorized tools before model binding, portfolio context is checked before model access, a denied-terms guardrail checks input/context/output, and FastAPI re-checks tool plus resource access. Backtests pause for human approval. Every decision records its layer and OTel trace ID. |
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/analytics/` contains deterministic bond/option pricing, curve interpolation, portfolio exposure/concentration, volatility/drawdown, OLS factor regression, and static-weight backtesting. `contracts/tools/` fixes each input/output shape, and `src/api/main.py` exposes the governed routes. Research intentionally remains mocked; MCP wrapping starts Day 10. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Doesn't exist yet — starts Day 8. Today's only artifact is `.github/copilot-instructions.md`, a pointer to `AGENTS.md` so every harness reads the same routing rules. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
@@ -24,7 +24,7 @@ their `# MOCK` markers in `PROGRESS.md` (`docs/PLAN.md` §6).
 
 ---
 
-## Logical components, through Day 6
+## Logical components, through Day 7
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -42,9 +42,12 @@ FRED                                  public macro and Treasury observations
       -> portfolio.duckdb/macro_series
       -> portfolio.duckdb/curve_points (latest complete Treasury curve)
 
-config/roles.yaml                    role->tool permission + identity->role (temporary, combined)
-  -> src/control/allowlist.py         check_permission(role, tool_name)
-  -> src/control/audit.py             record_audit_event(...) -> data/cache/audit.jsonl
+config/roles.yaml                    local identity -> role assignment only
+governance/policies/*.cedar         tool and portfolio authorization authority
+  -> src/control/identity.py         resolve PM/RISK/ADMIN test identities
+  -> src/control/authorization.py    Cedar decisions and agent tool filtering
+  -> src/control/guardrails.py       shared denied-term input/context/output check
+  -> src/control/audit.py            layered decisions + OTel trace -> audit.jsonl
 
 src/analytics/*.py                   pure deterministic financial engines
 contracts/tools/*.schema.json        input/output contract per engine
@@ -81,7 +84,7 @@ skills/eval-dataset-authoring/       evaluation-case schema and authoring workfl
 .github/agents/eval-triage-agent.agent.md  read-only regression investigation persona
 ```
 
-## Governed Tool Layer sequence (Day 3)
+## Governed Tool Layer sequence (Day 7)
 
 Public ingestion remains unchanged, while every direct Tool Layer API call
 follows the governed boundary:
@@ -95,19 +98,24 @@ yfinance/FRED
 caller + X-Identity
   --> src/api/main.py
         --> role_for_identity(identity)
-        --> check_permission(role, tool)
-              |-- denied --> audit(allowed=false) --> HTTP 403
-              |-- allowed --> audit(allowed=true)
+        --> Cedar: check_tool_permission(role, tool)
+              |-- denied --> audit(AuthZ, denied) --> HTTP 403
+              |-- allowed --> audit(AuthZ, allowed)
+                    --> Cedar: check_portfolio_access(identity, portfolio)
+                          |-- denied --> audit(Tool, denied) --> HTTP 403
+                          |-- allowed --> audit(Tool, allowed)
                     --> validate typed request
                     --> src/analytics/<deterministic function>
                     --> typed JSON response
 ```
 
-Day 4's LangChain tool wrappers currently call `src/analytics/` directly, as
-the day's Deep Agents exercise specifies. They are not yet a governed
-production path and must not be treated as authorization enforcement. Day 7
-plugs identity/authorization and human approval into this tool seam; Day 10
-then makes MCP the shared governed mount point.
+Deep Agent construction independently resolves the same identity and asks
+Cedar which tools may be bound. Invocation rejects unauthorized portfolio
+context before it reaches the model, checks content on both sides of model
+execution, and pauses `run_backtest` through `interrupt_on`. This is
+defense-in-depth, not a replacement for the API re-check. Day 10 makes MCP the
+shared governed mount point; Day 12 makes AgentCore Gateway the only deployed
+route to it.
 
 ---
 
@@ -210,15 +218,80 @@ volatility and concentration questions did call the correct real tools.
 
 ---
 
-## Security Boundaries
+## Security Model
 
-The FastAPI boundary is load-bearing for HTTP callers: missing or unknown identities receive
-401, denied tools receive 403, and both allowed and denied known-identity
-decisions are audited. This is still a learning-scale combined AuthN/AuthZ stub,
-not the final security model. Day 7 separates identity lookup, Cedar policy,
-guardrails, and parameter-level Tool enforcement and expands this section.
-Until Day 7, the new direct LangChain analytics wrappers sit outside that HTTP
-boundary and are explicitly non-governed learning code.
+### Trust boundaries and identity propagation
+
+The caller supplies `X-Identity` to FastAPI or an identity in the named
+`user_role` agent context. Only `src/control/identity.py` maps that value to a
+role. A caller-supplied role string is descriptive context and never an
+authorization input. Unknown identities receive no tools and HTTP callers
+receive 401.
+
+The local identities and effective access are:
+
+| Identity | Role | Tool access | Portfolio access |
+|---|---|---|---|
+| `PM_USER` | `pm` | Current pricing, curve, research, econometrics, backtest, portfolio, and risk tools | `PORT_A` only |
+| `RISK_USER` | `risk` | Curve, econometrics, backtest, portfolio, and risk tools; no pricing or research | `PORT_A` and `PORT_B` |
+| `ADMIN_USER` | `admin` | Every explicitly registered current tool | `PORT_A` and `PORT_B` |
+
+Cedar is default-deny: unknown tools, actions, portfolios, roles, and identities
+do not inherit access, including for administrators. `config/roles.yaml`
+contains no permissions; `governance/policies/` is their sole authority.
+
+### Four independently enforced concerns
+
+| Layer | Local enforcement | Failure behavior | AWS target (Day 12) |
+|---|---|---|---|
+| AuthN | Exact identity lookup from `config/roles.yaml` | Unknown/missing identity is rejected before authorization | AgentCore Identity |
+| AuthZ | Cedar tool and portfolio policies; tools filtered before model binding | Tool/resource is absent or denied | AgentCore Policy using equivalent Cedar rules |
+| Guardrails | Shared denied-term check on question, named context, and final output | Content is withheld with `GuardrailViolation` | Bedrock Guardrails; local check remains defense-in-depth |
+| Tool enforcement | FastAPI repeats tool authorization and portfolio-resource authorization | HTTP 403 before analytics/data access | Gateway-fronted MCP re-check; no direct deployed bypass |
+
+Authorization does not trust skill contracts or prompt intent. A permitted tool
+cannot reach `PORT_B` for `PM_USER`, because resource authorization runs before
+agent context assembly and again at the API boundary. A request describing an
+unknown write as a read remains denied because Cedar evaluates the actual tool
+resource, not the request's wording.
+
+### Threat model and tested negative paths
+
+The deterministic negative suite under `governance/tests/` covers role
+spoofing, instruction override attempts, system-instruction retrieval through
+an unregistered tool, permitted-tool portfolio bypass, unlisted data export,
+and write-shaped operations framed as reads. Content tests verify that the
+same denied-term list used by pre-commit blocks generated output at runtime.
+These controls reduce prompt-injection and excessive-agency risk; they do not
+claim that string matching detects every semantic attack.
+
+### Human approval, audit, and secrets
+
+`run_backtest` is visible only when Cedar permits it and is configured with
+`interrupt_on` by default. Execution pauses before the tool runs, producing an
+`interrupted` audit decision until a human approves or rejects it.
+
+Audit records are append-only JSON Lines with timestamp, identity, role, tool,
+resource (when applicable), decision (`allowed`, `denied`, or `interrupted`),
+enforcement layer, and the active 32-character OTel trace ID. Authorization and
+audit spans therefore correlate a denial or interruption with its end-to-end
+trace.
+
+Secrets remain outside version control in `.env` or GitHub Actions secrets.
+Neither spans nor audit records contain credentials, raw prompts, raw
+analytics inputs, or matched denied content. The local identity mechanism is a
+learning stand-in, not credential authentication; AgentCore Identity replaces
+it for deployment.
+
+### Local controls versus AgentCore
+
+The local stack proves policy separation, Cedar decisions, resource checks,
+tool filtering, approval interrupts, guardrail placement, and traced audit
+evidence. It does not provide signed identities, managed policy deployment,
+semantic content classification, or a network-enforced gateway. Day 12 maps
+those gaps respectively to AgentCore Identity, AgentCore Policy, Bedrock
+Guardrails, and Gateway. The deployed architecture must expose no interactive
+path that bypasses Gateway and its tool-boundary entitlement re-check.
 
 ---
 
