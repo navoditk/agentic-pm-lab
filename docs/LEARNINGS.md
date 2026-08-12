@@ -160,3 +160,37 @@ case and verify project routing, example linkage, I/O mapping, and feedback in
 the UI before invoking the complete dataset. That would have avoided the first
 15-call experiment that proved model execution but could not serve as the
 accepted baseline.
+
+---
+
+## 2026-08-11 — Day 7
+
+**What worked:** Separating identity assignment, Cedar policy, content
+guardrails, and final tool enforcement made each failure independently
+testable. Filtering agent tools before model binding reduced exposure, while
+re-checking the same identity and portfolio at the API boundary prevented that
+convenience from becoming the security control. LangGraph's native
+`interrupt_on` produced a real pre-tool pause with the scripted model.
+
+**What didn't work / had to be fixed along the way:**
+- Cedar's `in` operator expresses entity hierarchy, not membership in a list
+  of entity UIDs. Explicit resource comparisons were required for the tool
+  sets.
+- An initial administrator wildcard also allowed unknown tools. Administrator
+  permissions now enumerate registered tools and portfolios so default-deny
+  applies to every role.
+- Merely constructing an agent with `interrupt_on` did not prove approval
+  behavior. The final test invokes a scripted backtest call, asserts the graph
+  returns an interrupt, and proves no tool result exists.
+- The first Day 7 fast experiment hit a LangSmith 429 while polling ingested
+  runs. Bounded exponential backoff now handles both delayed ingestion and
+  explicit rate limiting.
+- Fast model behavior varied: one run omitted a tool and repeated malformed
+  portfolio arguments. Those observations were retained, but the known-good
+  behavioral floors were not lowered; only the new deterministic policy score
+  was added.
+
+**One thing I'd do differently:** Define the Cedar entity/action vocabulary
+and the deterministic policy-evaluation cases together before writing either
+policy file. That would have made unknown-resource behavior and the evaluation
+shape explicit before the first implementation pass.

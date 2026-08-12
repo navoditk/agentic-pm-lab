@@ -15,7 +15,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. `multi_agent_local.py` reproduces the hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
-| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Fifteen active golden/routing cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, and final-answer criteria; policy and guardrail evaluators remain explicit stubs until their implementation days. `config/eval-baseline.json` and `eval-regression.yml` enforce subset-specific score floors. |
+| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance; only guardrail-behavior remains stubbed until Day 12. `config/eval-baseline.json` and `eval-regression.yml` enforce subset-specific score floors. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | Doesn't exist yet — starts Day 11. |
 
 The Data Layer is intentionally mixed: public price/macro data is real, while
@@ -176,20 +176,25 @@ GenAI prompt/completion attributes, so every target trace lands in the
 experiment and links back to its dataset case. Evaluator feedback is attached
 per dimension rather than reduced to one aggregate score.
 
-The accepted `gpt-4.1-mini` baseline is versioned in
-`config/eval-baseline.json`:
+The Day 7 `gpt-4.1-mini` baseline extends Day 6 with deterministic policy
+cases:
 
-| Subset | Cases | Routing | Tool selection | Tool arguments | Retrieval context | Final answer | Tokens | Estimated cost | Latency |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Fast | 5 | 100% | 100% | 80% | 100% | 60% | 51,710 | $0.0239 | 78.4 s |
-| Full | 15 | 100% | 86.7% | 86.7% | 100% | 46.7% | 167,946 | $0.0774 | 363.4 s |
+| Subset | Cases | Routing | Tool selection | Tool arguments | Retrieval context | Final answer | Policy | Tokens | Estimated cost | Latency |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Fast floor | 7 | 100% | 100% | 80% | 100% | 60% | 100% | 57,221 | $0.0269 | 70.4 s |
+| Full | 18 | 100% | 86.7% | 93.3% | 100% | 53.3% | 100% | 168,940 | $0.0797 | 204.6 s |
 
-Policy-compliance and guardrail-behavior scores are `null`, not passing
-placeholders; Days 7 and 12 activate those dimensions. CI permits at most a
-0.10 absolute drop from the matching subset baseline, which means one failed
-case in the five-case PR subset fails the gate. Operational totals establish a
-comparison footprint but are not CI failure thresholds because hosted-runner
-latency and generated-token volume vary independently of behavior.
+The fast Day 7 probe observed one missed tool call and two argument failures.
+Because these were model variability rather than an intentional product
+change, `config/eval-baseline.json` records those observed scores separately
+and retains Day 6's stronger behavioral floors while adding policy compliance
+at 100%. Baselines are not lowered merely to make a run pass.
+
+Guardrail behavior remains `null`, not a passing placeholder, until Day 12.
+CI permits at most a 0.10 absolute drop from the matching floor. Operational
+totals establish a comparison footprint but are not CI failure thresholds
+because hosted-runner latency and generated-token volume vary independently of
+behavior.
 
 Detailed trace correlation and experiment links are in
 `docs/observability-evaluation.md`.

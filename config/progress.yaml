@@ -76,7 +76,17 @@ day_6:
 
 day_7:
   label: "Control Layer for real"
-  checks: []
+  checks:
+    - path_exists: src/control/identity.py
+    - path_exists: src/control/authorization.py
+    - path_exists: src/control/guardrails.py
+    - path_exists: governance/policies/tool-permissions.cedar
+    - path_exists: governance/policies/portfolio-access.cedar
+    - path_exists: governance/tests/test_authorization.py
+    - path_exists: skills/control-layer-role-change/SKILL.md
+    - path_exists: .github/workflows/authorization-tests.yml
+    - tests_pass: governance/tests
+    - tests_pass: tests/unit/control
 
 day_8:
   label: "Canvas fundamentals"

@@ -26,7 +26,10 @@ LAYER_PATTERNS = {
         "src/control/**/*.py",
         "governance/policies/*.cedar",
     ],
-    "Guardrails": ["governance/guardrails/*.yaml"],
+    "Guardrails": [
+        "src/control/guardrails.py",
+        "governance/guardrails/*.yaml",
+    ],
     "Tool Layer": ["src/analytics/**/*.py", "src/api/main.py"],
     "Portfolio Optimization": ["src/analytics/optimiz*.py"],
     "Interactive Layer": [".github/extensions/**/*.js", ".github/extensions/**/*.ts"],

@@ -32,5 +32,19 @@ LangSmith.
 [Open the accepted full experiment trace in LangSmith](https://smith.langchain.com/o/b14067a7-377e-4b5e-b908-e449593f3198/projects/p/196261c2-6c15-46b2-841d-f828ed02f7a3/r/00000000-0000-0000-4002-62fe5ebc55e3?poll=true).
 
 Per-dimension scores and regression tolerance are canonical in
-`config/eval-baseline.json`. Policy compliance and guardrail behavior are
-deliberately unscored until Days 7 and 12; they are not counted as passes.
+`config/eval-baseline.json`. In the Day 6 snapshot, policy compliance and
+guardrail behavior were deliberately unscored rather than counted as passes.
+
+## Day 7 policy extension
+
+Day 7 added three deterministic identity/tool/portfolio cases without spending
+model tokens on policy decisions. The accepted full experiment,
+`day7-full-450f21c2` (`94f6373f-231c-4c71-9812-55c32d4e1d8e`), ran 18 cases
+and scored policy compliance at 100%.
+
+[Open the Day 7 full experiment in LangSmith](https://smith.langchain.com/o/b14067a7-377e-4b5e-b908-e449593f3198/projects/p/94f6373f-231c-4c71-9812-55c32d4e1d8e/r/00000000-0000-0000-93f2-078c6ea5a183?poll=true).
+
+The seven-case fast probe exposed model variability in tool use. Its observed
+scores remain recorded separately in `config/eval-baseline.json`; the enforced
+fast behavioral floors were not reduced. Guardrail behavior remains unscored
+until the Day 12 semantic guardrail cases activate.
