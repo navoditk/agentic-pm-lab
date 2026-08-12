@@ -36,7 +36,7 @@ See `docs/PLAN.md` §6 (Automatic progress tracking) for how this mechanism work
 | Layer | Status | Detail |
 |---|---|---|
 | Data Layer | 🟡 Partial | 3/4 file(s) real |
-| Control Layer (AuthN/AuthZ) | 🟢 Real | 5 file(s), no `# MOCK` markers |
+| Control Layer (AuthN/AuthZ) | 🟢 Real | 6 file(s), no `# MOCK` markers |
 | Guardrails | 🔴 Not started | No files yet |
 | Tool Layer | 🟡 Partial | 6/8 file(s) real |
 | Portfolio Optimization | 🔴 Not started | No files yet |
