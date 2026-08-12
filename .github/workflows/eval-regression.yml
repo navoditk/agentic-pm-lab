@@ -1,0 +1,101 @@
+name: Evaluation Regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/agents/**"
+      - "src/observability/**"
+      - "config/roles.yaml"
+      - "config/eval-baseline.json"
+      - "governance/**"
+      - "evals/**"
+      - "scripts/run_eval.py"
+      - ".github/workflows/eval-regression.yml"
+  push:
+    branches: [main]
+    tags: ["v*"]
+    paths:
+      - "src/agents/**"
+      - "src/observability/**"
+      - "config/roles.yaml"
+      - "config/eval-baseline.json"
+      - "governance/**"
+      - "evals/**"
+      - "scripts/run_eval.py"
+      - ".github/workflows/eval-regression.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eval-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LANGSMITH_TRACING: "true"
+  LANGSMITH_TRACING_MODE: otel
+  LANGSMITH_PROJECT: agentic-pm-lab
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+
+jobs:
+  fast:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync
+
+      - name: Run fast evaluation
+        run: >-
+          uv run python scripts/run_eval.py
+          --subset fast
+          --baseline config/eval-baseline.json
+          | tee eval-summary.json
+
+      - name: Upload evaluation summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fast-eval-summary
+          path: eval-summary.json
+          if-no-files-found: ignore
+
+  full:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync
+
+      - name: Run full evaluation
+        run: >-
+          uv run python scripts/run_eval.py
+          --subset full
+          --baseline config/eval-baseline.json
+          | tee eval-summary.json
+
+      - name: Upload evaluation summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-eval-summary
+          path: eval-summary.json
+          if-no-files-found: ignore

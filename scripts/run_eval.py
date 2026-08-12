@@ -5,21 +5,30 @@ import json
 import os
 import subprocess
 import sys
+import time
 from collections.abc import Mapping, Sequence
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from uuid import NAMESPACE_URL, uuid5
+from uuid import NAMESPACE_URL, UUID, uuid4, uuid5
 
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.messages import AIMessage
-from langsmith import Client, evaluate
+from langsmith import Client
 from langsmith.schemas import Example, Run
+from langsmith.utils import LangSmithNotFoundError
+from opentelemetry import trace
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
+    InMemorySpanExporter,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.agents.multi_agent import invoke_multi_agent
+from src.observability.telemetry import configure_telemetry
 
 EVALS_DIR = REPO_ROOT / "evals"
 DATASET_NAME = "agentic-pm-lab-day6"
@@ -220,7 +229,7 @@ def tool_arguments_evaluator(run: Run, example: Example) -> dict[str, Any]:
     }
 
 
-def context_evaluator(run: Run, example: Example) -> dict[str, Any]:
+def retrieval_context_evaluator(run: Run, example: Example) -> dict[str, Any]:
     expected = example.outputs["required_context_sources"]
     actual = run.outputs.get("context_sources", [])
     return {
@@ -257,7 +266,7 @@ def policy_compliance_evaluator(run: Run, example: Example) -> dict[str, Any]:
     }
 
 
-def guardrail_evaluator(run: Run, example: Example) -> dict[str, Any]:
+def guardrail_behavior_evaluator(run: Run, example: Example) -> dict[str, Any]:
     del run, example
     return {
         "key": "guardrail_behavior",
@@ -270,11 +279,54 @@ EVALUATORS = (
     routing_evaluator,
     tool_selection_evaluator,
     tool_arguments_evaluator,
-    context_evaluator,
+    retrieval_context_evaluator,
     final_answer_evaluator,
     policy_compliance_evaluator,
-    guardrail_evaluator,
+    guardrail_behavior_evaluator,
 )
+
+
+@dataclass(frozen=True)
+class ExperimentSummary:
+    """Local summary of one OTel-routed LangSmith experiment."""
+
+    experiment_name: str
+    experiment_id: str
+    run_url: str
+    case_count: int
+    dimension_scores: dict[str, float | None]
+    input_tokens: int
+    output_tokens: int
+    estimated_cost_usd: float
+    total_latency_seconds: float
+
+
+def find_regressions(
+    summary: ExperimentSummary,
+    baseline_path: Path,
+    subset: str,
+) -> list[str]:
+    """Return dimensions whose score dropped beyond the versioned tolerance."""
+    baseline = json.loads(baseline_path.read_text())
+    subset_baseline = baseline["subsets"][subset]
+    expected_case_count = subset_baseline["case_count"]
+    regressions = []
+    if summary.case_count != expected_case_count:
+        regressions.append(
+            f"case_count: expected {expected_case_count}, got {summary.case_count}"
+        )
+    allowed_drop = float(baseline["allowed_score_drop"])
+    for dimension, expected in subset_baseline["dimension_scores"].items():
+        if expected is None:
+            continue
+        actual = summary.dimension_scores.get(dimension)
+        minimum = float(expected) - allowed_drop
+        if actual is None or actual < minimum:
+            regressions.append(
+                f"{dimension}: baseline={expected:.4f}, "
+                f"minimum={minimum:.4f}, actual={actual}"
+            )
+    return regressions
 
 
 def sync_dataset(client: Client, cases: Sequence[dict[str, Any]]) -> str:
@@ -346,32 +398,149 @@ def current_commit() -> str:
     ).strip()
 
 
-def run_experiment(subset: str = "full") -> Any:
-    """Synchronize cases and execute one LangSmith experiment."""
+def _wait_for_run(
+    client: Client,
+    run_id: UUID,
+    project_id: UUID,
+    *,
+    attempts: int = 20,
+) -> Run:
+    for attempt in range(attempts):
+        try:
+            run = client.read_run(run_id, project_id=project_id)
+            if run.end_time is not None and run.outputs is not None:
+                return run
+        except LangSmithNotFoundError:
+            pass
+        if attempt == attempts - 1:
+            raise RuntimeError(
+                f"LangSmith run {run_id} was not fully ingested after {attempts} attempts"
+            )
+        time.sleep(0.5)
+    raise RuntimeError("run lookup exhausted unexpectedly")
+
+
+def run_experiment(subset: str = "full") -> ExperimentSummary:
+    """Synchronize cases and execute an OTel-routed LangSmith experiment."""
     if not os.getenv("LANGSMITH_API_KEY"):
         raise RuntimeError("LANGSMITH_API_KEY is required for a real experiment")
     cases = load_cases(subset)
+    provider = configure_telemetry()
+    local_exporter = InMemorySpanExporter()
+    provider.add_span_processor(SimpleSpanProcessor(local_exporter))
     client = Client()
     dataset_name = sync_dataset(client, cases)
+    dataset = client.read_dataset(dataset_name=dataset_name)
     selected_ids = {case["id"] for case in cases}
     examples = [
         example
         for example in client.list_examples(dataset_name=dataset_name)
         if example.metadata and example.metadata.get("case_id") in selected_ids
     ]
-    return evaluate(
-        predict,
-        data=examples,
-        evaluators=EVALUATORS,
-        experiment_prefix=f"day6-{subset}",
+    experiment_name = f"day6-{subset}-{uuid4().hex[:8]}"
+    project = client.create_project(
+        experiment_name,
+        reference_dataset_id=dataset.id,
         description="Portfolio Manager quality baseline by independent dimension.",
         metadata={
             "git_commit": current_commit(),
             "model": "gpt-4.1-mini",
             "subset": subset,
         },
-        max_concurrency=1,
-        client=client,
+        evaluator_keys=[
+            "routing",
+            "tool_selection",
+            "tool_arguments",
+            "retrieval_context",
+            "final_answer",
+            "policy_compliance",
+            "guardrail_behavior",
+        ],
+    )
+    scores: dict[str, list[float]] = {
+        evaluator.__name__: [] for evaluator in EVALUATORS
+    }
+    input_tokens = 0
+    output_tokens = 0
+    estimated_cost = 0.0
+    total_latency_ms = 0.0
+    first_run: Run | None = None
+    tracer = trace.get_tracer("agentic_pm_lab.evaluation")
+
+    for example in examples:
+        local_exporter.clear()
+        with tracer.start_as_current_span("evaluation.case") as span:
+            context = span.get_span_context()
+            run_id = UUID(int=context.span_id)
+            span.set_attribute("langsmith.trace.session_id", str(project.id))
+            span.set_attribute("langsmith.trace.session_name", experiment_name)
+            span.set_attribute("langsmith.reference_example_id", str(example.id))
+            span.set_attribute("langsmith.trace.name", example.metadata["case_id"])
+            span.set_attribute("langsmith.span.kind", "chain")
+            span.set_attribute(
+                "gen_ai.prompt", json.dumps(example.inputs, sort_keys=True)
+            )
+            outputs = predict(example.inputs)
+            span.set_attribute("gen_ai.completion", json.dumps(outputs, sort_keys=True))
+            otel_trace_id = context.trace_id
+
+        if not provider.force_flush(timeout_millis=10_000):
+            raise RuntimeError("OpenTelemetry exporter did not flush within 10 seconds")
+        run = _wait_for_run(client, run_id, project.id)
+        first_run = first_run or run
+        for evaluator in EVALUATORS:
+            feedback = evaluator(run, example)
+            key = feedback["key"]
+            score = feedback["score"]
+            client.create_feedback(
+                run_id=run.id,
+                trace_id=run.trace_id,
+                key=key,
+                score=score,
+                value="stub" if score is None else None,
+                comment=feedback["comment"],
+                session_id=project.id,
+            )
+            if score is not None:
+                scores[evaluator.__name__].append(float(score))
+
+        case_spans = [
+            finished
+            for finished in local_exporter.get_finished_spans()
+            if finished.context.trace_id == otel_trace_id
+        ]
+        agent_spans = [
+            finished
+            for finished in case_spans
+            if finished.name == "agent.portfolio_manager.invoke"
+        ]
+        if agent_spans:
+            attributes = agent_spans[-1].attributes
+            input_tokens += int(attributes.get("gen_ai.usage.input_tokens", 0))
+            output_tokens += int(attributes.get("gen_ai.usage.output_tokens", 0))
+            estimated_cost += float(attributes.get("app.cost.estimated_usd", 0.0))
+            total_latency_ms += float(attributes.get("app.operation.duration_ms", 0.0))
+
+    if first_run is None:
+        raise RuntimeError("experiment has no examples")
+    score_summary = {
+        evaluator.__name__.removesuffix("_evaluator"): (
+            sum(values) / len(values) if values else None
+        )
+        for evaluator, values in (
+            (evaluator, scores[evaluator.__name__]) for evaluator in EVALUATORS
+        )
+    }
+    return ExperimentSummary(
+        experiment_name=experiment_name,
+        experiment_id=str(project.id),
+        run_url=client.get_run_url(run=first_run),
+        case_count=len(examples),
+        dimension_scores=score_summary,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        estimated_cost_usd=estimated_cost,
+        total_latency_seconds=total_latency_ms / 1000,
     )
 
 
@@ -383,13 +552,25 @@ def main() -> int:
         action="store_true",
         help="Validate local case files without calling LangSmith or a model.",
     )
+    parser.add_argument(
+        "--baseline",
+        type=Path,
+        help="Fail when scores regress beyond the versioned baseline tolerance.",
+    )
     args = parser.parse_args()
     cases = load_cases(args.subset)
     if args.validate_only:
         print(f"{len(cases)} active {args.subset} evaluation case(s) are valid.")
         return 0
     results = run_experiment(args.subset)
-    print(f"Experiment complete: {results.experiment_name}")
+    print(json.dumps(results.__dict__, indent=2, sort_keys=True))
+    if args.baseline:
+        regressions = find_regressions(results, args.baseline, args.subset)
+        if regressions:
+            print("Evaluation regression(s):", file=sys.stderr)
+            for regression in regressions:
+                print(f"- {regression}", file=sys.stderr)
+            return 1
     return 0
 
 

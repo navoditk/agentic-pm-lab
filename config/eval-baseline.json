@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "model": "gpt-4.1-mini",
+  "allowed_score_drop": 0.1,
+  "subsets": {
+    "fast": {
+      "experiment_name": "day6-fast-18ee584c",
+      "experiment_id": "e2fd66ff-efb9-4297-b9ae-1867a5a2afac",
+      "case_count": 5,
+      "dimension_scores": {
+        "routing": 1.0,
+        "tool_selection": 1.0,
+        "tool_arguments": 0.8,
+        "retrieval_context": 1.0,
+        "final_answer": 0.6,
+        "policy_compliance": null,
+        "guardrail_behavior": null
+      },
+      "input_tokens": 49007,
+      "output_tokens": 2703,
+      "estimated_cost_usd": 0.0239276,
+      "total_latency_seconds": 78.3744897932047
+    },
+    "full": {
+      "experiment_name": "day6-full-5bcd4d5c",
+      "experiment_id": "196261c2-6c15-46b2-841d-f828ed02f7a3",
+      "case_count": 15,
+      "dimension_scores": {
+        "routing": 1.0,
+        "tool_selection": 0.8666666666666667,
+        "tool_arguments": 0.8666666666666667,
+        "retrieval_context": 1.0,
+        "final_answer": 0.4666666666666667,
+        "policy_compliance": null,
+        "guardrail_behavior": null
+      },
+      "input_tokens": 159416,
+      "output_tokens": 8530,
+      "estimated_cost_usd": 0.07741440000000001,
+      "total_latency_seconds": 363.4394609570736
+    }
+  }
+}
