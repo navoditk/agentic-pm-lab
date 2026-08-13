@@ -40,6 +40,22 @@ Services:
 - MCP server: stdio process for a compatible local MCP client
 - Optional Streamlit comparison view: `docker compose --profile ui up`
 
+## Record an experiment
+
+Use the provider-neutral recorder for a quick local, hosted, or AWS-backed run:
+
+```bash
+uv run python scripts/experiment.py init \
+  --name "local smoke" --provider local --model mock-v1 --run-id smoke-001
+```
+
+Record the response, token usage, pricing basis, evidence, and result with
+`record`, then close the run with `finalize`. See
+[`experiments/README.md`](../experiments/README.md) for the common manifest,
+AWS cost fields, comparison rubric, and a complete example. Use
+[`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md) for deployment-specific
+credentials, packaging, logs, billing snapshots, and teardown.
+
 If Docker is unavailable, start individual services:
 
 ```bash
@@ -150,9 +166,12 @@ issue or draft comment, and require approval before any write. Do not grant
 order-entry, portfolio-write, or unrestricted network tools. Record the
 automation name and first issue URL in `PROGRESS.md`.
 
-## AgentCore deployment preview
+## AgentCore deployment preview and evidence boundary
 
-Day 12 turns the local boundary into the AWS path. Before deployment:
+The repository contains the local AgentCore-shaped entrypoint and deployment
+intent. A temporary Runtime and endpoint reached `READY` during the
+2026-08-13 trial and were then deleted; the controlled request returned HTTP
+500, so no successful hosted answer is claimed. Before another deployment:
 
 1. Review AWS account, region, budget alert, IAM, and Bedrock model access.
 2. Build/package the same agent entry point; keep deterministic analytics and
@@ -161,8 +180,9 @@ Day 12 turns the local boundary into the AWS path. Before deployment:
 4. Confirm deployed traffic reaches tools only through governed Gateway.
 5. Run smoke, authorization, guardrail, and evaluation checks; capture trace IDs.
 
-Do not deploy from a dirty worktree or with proprietary data. Use the AWS
-teardown checklist immediately after the learning exercise:
+Do not deploy from a dirty worktree, with the account root principal, or with
+proprietary data. Record live results in [EVIDENCE.md](EVIDENCE.md), and use
+the AWS teardown checklist immediately after the learning exercise:
 
 ```bash
 # Commands are intentionally placeholders until Day 12 creates the resources.

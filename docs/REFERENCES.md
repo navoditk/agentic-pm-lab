@@ -120,11 +120,52 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - GitHub Actions scheduled workflows (`on: schedule`, cron syntax), for `morning-brief.yml`: `docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule`
 
 ### Agent harnesses, skills, prompts, and custom agents
-- OpenAI, [A practical guide to building agents](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/) — tools, instructions, manager/decentralized orchestration, guardrails, and human intervention
-- OpenAI, [New tools for building agents](https://openai.com/index/new-tools-for-building-agents/) — Agents SDK concepts: tools, handoffs, guardrails, and tracing
-- OpenAI, [The next evolution of the Agents SDK](https://openai.com/index/the-next-evolution-of-the-agents-sdk/) — harnesses, skills, MCP, AGENTS.md, sandboxing, memory, approvals, and long-running work
-- OpenAI, [Unlocking the Codex harness](https://openai.com/index/unlocking-the-codex-harness/) — separating the agent harness from product surfaces and reusing an app-server protocol
-- Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) — when to use workflows versus agents, prompt chaining, routing, parallelization, orchestrator-workers, and evaluator-optimizer patterns
+
+**Reference maintenance:** reviewed 2026-08-13. This section prioritizes
+first-party engineering posts and product documentation. Agent harnesses are
+the execution layer around a model: context assembly, tool calls, state,
+permissions, sandboxes, approvals, retries, observability, and handoffs. Read
+these alongside the repo's `AGENTS.md`, `skills/`, contracts, traces, and
+experiment records; a vendor's capability or case study is not proof that this
+repo has reproduced it.
+
+#### Anthropic
+
+- Anthropic, [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) (Mar 24, 2026) — planner/generator/evaluator loops, task decomposition, structured handoffs, and long-running application work. Directly relevant to Days 5, 18, 19, and the capstone.
+- Anthropic, [Scaling Managed Agents: Decoupling the brain from the hands](https://www.anthropic.com/engineering/managed-agents) (Apr 8, 2026) — separates model/harness, execution environments, and session logs behind stable interfaces; useful for comparing local Deep Agents with managed AgentCore.
+- Anthropic, [How we built Claude Code auto mode](https://www.anthropic.com/engineering/claude-code-auto-mode) (Mar 25, 2026) — approval fatigue, input prompt-injection probes, output action classifiers, delegation checks, and deny-and-continue behavior. Relevant to the control and human-approval boundaries.
+- Anthropic, [How we contain Claude across products](https://www.anthropic.com/engineering/how-we-contain-claude) (May 25, 2026) — containment, sandboxes, egress controls, and blast-radius reduction. Use this when reviewing the repo's tool enforcement and AWS network assumptions.
+- Anthropic, [Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) (Jan 9, 2026) — tasks, trials, graders, transcripts, outcomes, evaluation harnesses, and agent harnesses; reinforces the repo's experiment and eval record format.
+- Anthropic, [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) (Oct 16, 2025) — progressive disclosure and reusable skill/context packaging; relevant to the project's skill contracts and document-to-skill track.
+- Anthropic, [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) (Jun 13, 2025) — parallel research, delegation, synthesis, and context budgets; useful for Day 17's research supervisor comparison.
+
+#### OpenAI and Codex
+
+- OpenAI, [Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) (Jan 23, 2026) — model inference, prompt construction, tool execution, and harness responsibilities; a concrete loop-level complement to the repo's runtime architecture.
+- OpenAI, [Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/) (Feb 11, 2026) — repository legibility, durable artifacts, feedback loops, observability, architectural invariants, and long-running agent work. This is especially relevant to `AGENTS.md`, experiment manifests, and CI checks.
+- OpenAI, [The next evolution of the Agents SDK](https://openai.com/index/the-next-evolution-of-the-agents-sdk/) (2026) — sandbox-aware orchestration, memory, skills, MCP, approvals, and a portable workspace manifest; compare its harness primitives with Deep Agents and AgentCore.
+- OpenAI, [Running Codex safely at OpenAI](https://openai.com/index/running-codex-safely/) (May 8, 2026) — access boundaries, approvals, telemetry, and security controls for coding agents; relevant to the repo's Cedar/tool-boundary model.
+- OpenAI, [An open-source spec for Codex orchestration: Symphony](https://openai.com/index/open-source-codex-orchestration-symphony/) (Apr 27, 2026) — turns a project-management board into an agent control plane; useful for comparing the repo's GitHub/Copilot automation and AgentOps Canvas.
+- OpenAI, [Inside OpenAI's in-house data agent](https://openai.com/index/inside-our-in-house-data-agent/) (Jan 29, 2026) — layered context, institutional knowledge, memory, runtime context, and safe data-agent operation; relevant to the research and provenance tracks.
+- OpenAI, [Codex is now generally available](https://openai.com/index/codex-now-generally-available/) (Oct 6, 2025) — Codex SDK, Slack/cloud surfaces, and admin visibility; use the product documentation for current availability rather than assuming every surface is enabled.
+
+#### GitHub Copilot and Agent HQ
+
+- GitHub, [Introducing Agent HQ](https://github.blog/news-insights/company-news/welcome-home-agents/) (Oct 28, 2025) — a unified control plane for multiple agents, plan mode, custom agents, MCP, review, governance, and metrics. This is the clearest landscape reference for the repo's Copilot Canvas and multi-agent operations goals.
+- GitHub, [Pick your agent: use Claude and Codex on Agent HQ](https://github.blog/news-insights/company-news/pick-your-agent-use-claude-and-codex-on-agent-hq/) (Feb 4, 2026) — public preview of cross-provider agents inside GitHub and VS Code; useful for comparing provider-neutral experiment runs, but availability depends on subscription and feature flags.
+- GitHub, [Research, plan, and code with Copilot cloud agent](https://github.blog/changelog/2026-04-01-research-plan-and-code-with-copilot-cloud-agent/) (Apr 1, 2026) — moves beyond PR-only workflows to research, implementation planning, and branch work; directly relevant to the repo's on-the-fly experiment and runbook workflow.
+- GitHub, [GitHub Copilot now supports Agent Skills](https://github.blog/changelog/2025-12-18-github-copilot-now-supports-agent-skills/) (Dec 18, 2025) — skills as instruction/script/resource folders across Copilot coding agent, CLI, and VS Code; compare with this repo's `SKILL.md` contracts and freshness checks.
+- GitHub, [Manage agent skills with GitHub CLI](https://github.blog/changelog/2026-04-16-manage-agent-skills-with-github-cli/) (Apr 16, 2026) — `gh skill` discovery, installation, update, and publishing across Copilot, Claude Code, Codex, Cursor, and Gemini; inspect skills before installing because they can contain prompt injection or scripts.
+- GitHub, [Shape Copilot code review around your team](https://github.blog/changelog/2026-06-02-shape-copilot-code-review-around-your-team/) (Jun 2, 2026) — skills and MCP in code review, configurable review depth, and shared review/cloud-agent configuration; relevant to the repo's PR reviewer and governance checks.
+- GitHub, [Delegate tasks to Copilot coding agent from the GitHub MCP server](https://github.blog/changelog/2025-07-09-delegate-tasks-to-copilot-coding-agent-from-the-github-mcp-server/) (Jul 9, 2025) — asynchronous delegation through MCP and GitHub workflows; useful for the repo's MCP and approval boundary.
+- GitHub, [Copilot coding agent network configuration changes](https://github.blog/changelog/2026-02-13-network-configuration-changes-for-copilot-coding-agent/) (Feb 13, 2026) — a practical reminder that hosted agent execution has network and plan-specific operational dependencies.
+
+#### Broader landscape and ongoing monitoring
+
+- Anthropic, [Engineering blog index](https://www.anthropic.com/engineering) — monitor for new harness, eval, security, MCP, and tool-use posts.
+- OpenAI, [Engineering and product index](https://openai.com/index/) — monitor Codex, Agents SDK, harness, eval, and safety updates.
+- GitHub, [AI and ML blog index](https://github.blog/ai-and-ml/) and [Copilot changelog](https://github.blog/changelog/label/copilot/) — monitor Copilot agent, skills, MCP, review, governance, and Agent HQ changes.
+- [Agent Skills specification](https://agentskills.io/) — provider-neutral specification for portable skills; compare implementation differences across hosts rather than assuming identical behavior.
 
 ### Tutor-agent study map
 - Use `portfolio-construction-tutor` with the [portfolio optimization and
@@ -204,6 +245,84 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - GDELT Project event and Global Knowledge Graph codebooks for public news and
   event metadata. Treat automated tone as a noisy feature, not truth:
   `github.com/GDELT-API` and `data.gdeltproject.org/documentation/`
+
+### BigData.com financial intelligence
+
+Use these as optional implementation references for the external
+financial-intelligence adapter. They are most useful for understanding research
+workflow composition, evidence retrieval, entity resolution, batching, and
+provider-backed MCP—not for replacing the repository's deterministic data or
+analytics layer.
+
+- [BigData.com GitHub organization](https://github.com/Bigdata-com) — overview
+  of the finance-agent ecosystem and public research projects.
+- [BigData cookbook](https://github.com/Bigdata-com/bigdata-cookbook) — thematic
+  screening, narrative mining, sentiment pulse, risk analysis, credit-rating
+  monitoring, central-bank/inflation monitoring, and portfolio-brief examples.
+- [BigData research tools](https://github.com/Bigdata-com/bigdata-research-tools)
+  — concurrent search, guided workflows, dashboards, query builders, entity
+  resolution, reranking, and optional LLM integration.
+- [Thematic screener](https://github.com/Bigdata-com/bigdata-thematic-screener)
+  — company exposure to themes and events; useful for thematic concentration
+  and supply-chain research exercises.
+- [Portfolio briefs](https://github.com/Bigdata-com/bigdata-briefs) and
+  [novelty-filtered briefs](https://github.com/Bigdata-com/bigdata-briefs-v2) —
+  batch issuer/portfolio research, citations, status handling, and change-aware
+  morning review patterns.
+- [Current BigData plugin marketplace](https://github.com/Bigdata-com/bigdata-plugins-marketplace)
+  — current skills/MCP packaging reference. The older
+  [skills-financial-research-analyst repository](https://github.com/Bigdata-com/skills-financial-research-analyst)
+  is marked obsolete, so use it only to understand the migration history.
+
+Study these projects through the `data-provenance-research-tutor`,
+`investment-committee-tutor`, and `agent-architecture-tutor`. A separate
+BigData-specific tutor is intentionally deferred: the durable learning is
+provider-neutral evidence handling, not memorizing one vendor's API. Add a
+dedicated tutor only if a substantial live adapter is implemented.
+
+### Fixed-income data sources and provider access
+
+#### Official/public sources
+
+- [U.S. Treasury daily interest rates](https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_) — official par yield, bill, real-yield, and related curve observations; read the methodology and series-break notes before backtesting.
+- [Treasury Daily Interest Rate XML feed](https://home.treasury.gov/treasury-daily-interest-rate-xml-feed) — machine-readable Treasury rates for a direct connector.
+- [Treasury Securities Auctions Data](https://fiscaldata.treasury.gov/datasets/treasury-securities-auctions-data/) — announced/auctioned security terms, issue and maturity dates, and auction outcomes for supply and security-master exercises.
+- [New York Fed SOFR and reference rates](https://www.newyorkfed.org/markets/reference-rates/sofr) — secured overnight funding observations and publication timing.
+- [FINRA Developer Center](https://developer.finra.org/docs) — public fixed-income aggregates, Treasury aggregates, market breadth, and capped-volume datasets.
+- [FINRA TRACE](https://www.finra.org/filing-reporting/trace) and [TRACE licensing](https://www.finra.org/filing-reporting/trace/data) — OTC fixed-income reporting, historical access, and licensing boundaries.
+- [SEC EDGAR APIs](https://www.sec.gov/edgar/sec-api-documentation) and [Form N-PORT datasets](https://www.sec.gov/data-research/sec-markets-data/form-n-port-data-sets) — issuer facts, fund holdings, filing timestamps, amendments, and reporting lags.
+- [CFTC Commitments of Traders](https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm) — Trader-in-Financial-Futures positioning, release schedule, and observation versus publication dates.
+
+#### OpenBB provider abstraction
+
+- [OpenBB fixed-income menu](https://docs.openbb.co/odp/python/reference/fixedincome) — rates, curves, Treasury auctions/prices, TIPS, corporate bond indices, OAS, SOFR-related spreads, and futures-related access.
+- [OpenBB provider extensions](https://docs.openbb.co/odp/python/extensions/providers) — FRED, FINRA, SEC, Federal Reserve, CFTC, ECB, Nasdaq Data Link, and other connectors. Use OpenBB as an adapter comparison; retain the underlying provider and raw-response metadata.
+- [OpenBB yield curves](https://docs.openbb.co/odp/python/reference/fixedincome/government/yield_curve) and [Svensson curves](https://docs.openbb.co/odp/python/reference/fixedincome/government/svensson_yield_curve) — useful for par/spot/forward and fitted-curve exercises.
+- [OpenBB corporate bond indices](https://docs.openbb.co/odp/python/reference/fixedincome/bond_indices) — yield, yield-to-worst, total-return, and OAS series for credit-market context.
+
+#### Fixed-income analytics libraries
+
+- [QuantLib](https://www.quantlib.org/) and [QuantLib-Python term structures](https://quantlib-python-docs.readthedocs.io/en/latest/termstructures/yield.html) — bonds, pricing engines, yield curves, bootstrapping, and risk calculations.
+- [Rateslib](https://rateslib.com/py/en/latest/) — modern multi-curve fixed-income instruments, curve solving, swaps, bonds, and portfolio risk. Review its [dual licensing](https://rateslib.com/py/en/latest/) before any institutional or commercial use; it is a study/comparison reference in this repository.
+
+#### Licensed production references
+
+- [CME futures and options data](https://www.cmegroup.com/market-data/browse-data/catalog/futures-and-options-data.html) — Treasury futures, historical data, market depth, and hedging research; requires appropriate licensing.
+- [CME market-data licensing](https://www.cmegroup.com/market-data/license-data.html) — internal display, non-display, historical, and AI/data-use considerations.
+- Institutional evaluated-pricing/security-master options to investigate conceptually: Bloomberg, LSEG/Refinitiv, ICE Data, and FactSet. Do not add credentials, proprietary payloads, or vendor-sensitive examples to this public repository.
+
+### Fixed-income PM analytics reading checklist
+
+- Bond cash flows, settlement, clean/dirty price, accrued interest, yield-to-
+  maturity, yield-to-worst, day-count, calendars, and callable features.
+- Key-rate duration, DV01, spread duration, OAS, carry, rolldown, curve twists,
+  steepeners, flatteners, butterflies, and scenario attribution.
+- Issuer, sector, rating, country, maturity-bucket, liquidity, and benchmark
+  concentration; distinguish nominal exposure from risk contribution.
+- Treasury issuance, auction demand, SOFR/repo funding, futures positioning,
+  basis risk, contract rolls, hedge ratios, and margin assumptions.
+- TRACE sparsity, bid/ask and market impact, stale prices, capped volumes,
+  reporting delays, evaluated prices, and point-in-time backtest controls.
 
 ### Data engineering, provenance, and research correctness
 - ALFRED vintage-aware observations: `fred.stlouisfed.org/docs/api/fred/alfred.html`

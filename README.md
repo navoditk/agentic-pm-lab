@@ -1,6 +1,6 @@
 # Agentic AI Learning Journey: Portfolio Management & Optimization
 
-This repository is a 20-day, hands-on roadmap for building an institutional-grade Portfolio Manager (PM) AI platform for the buy side. It combines deterministic portfolio analytics, multi-agent research and risk workflows, governance, evaluations, observability, and an interactive GitHub Copilot Canvas surface.
+This repository is a 20-day, hands-on roadmap for building an institutional-grade, fixed-income-first Portfolio Manager (PM) AI platform for the buy side. It combines deterministic bond and portfolio analytics, multi-agent research and risk workflows, governance, evaluations, observability, and an interactive GitHub Copilot Canvas surface.
 
 The project is deliberately company-agnostic and uses only public or clearly labelled mock data. It is a learning and prototyping environment—not an investment adviser, trading system, or production deployment.
 
@@ -17,9 +17,97 @@ The goal is to develop practical proficiency in the full lifecycle of a trusted 
 
 The end state is a defensible PM AI proof of concept: every recommendation should be explainable, evidence-linked, reproducible, tested, observable, and subject to appropriate approval—not merely plausible text from an LLM.
 
+## Structured and unstructured investment data
+
+The roadmap deliberately combines two data classes with different controls:
+
+| Data class | Examples | Primary use | Required controls |
+|---|---|---|---|
+| **Structured** | yfinance, FRED/ALFRED, Treasury feeds, SEC XBRL, N-PORT, Kenneth French, FINRA aggregates, mock positions | Pricing, risk, optimization, scenarios, backtests, reconciliation | Typed schemas, identifiers, units/currency, observation and publication times, vintages, quality checks, point-in-time joins |
+| **Unstructured or semi-structured** | SEC filing text, permitted news/event metadata, research narratives, thematic evidence, credit commentary, uploaded model PDFs | Retrieval, sentiment/narrative review, thematic exposure, thesis support, document learning | Citations, timestamps, extraction status, duplicate/novelty checks, permitted excerpts, uncertainty, prompt-injection isolation, human review |
+
+Structured data remains the source of truth for numerical calculations. Unstructured
+data supplies evidence and research context; it must not silently become a price,
+risk input, portfolio weight, or trading instruction. BigData.com is an optional
+external financial-intelligence adapter, not a required core dependency or a
+replacement for official/public sources. See the [data-source cards](data/README.md),
+the [BigData references](docs/REFERENCES.md#bigdatacom-financial-intelligence), and
+the [provider architecture in the PRD](docs/PRD.md#27-external-financial-intelligence-adapter).
+
+## Fixed-income data and analytics scope
+
+The project is not intended to become a generic equity-data demo. The forward
+scope adds a fixed-income data spine:
+
+- **Rates and funding:** Treasury daily curves and auctions, FRED/ALFRED,
+  Federal Reserve fitted curves, and NY Fed SOFR/repo observations.
+- **Bond reference and valuation:** a learning-scale instrument master with
+  identifiers, cash-flow terms, calendars, day-count conventions, calls/puts,
+  ratings, clean/dirty prices, accrued interest, and curve mappings.
+- **Credit and liquidity:** FINRA fixed-income/TRACE aggregates, rating and
+  watchlist events, issuer/sector/rating exposures, and explicit licensing gaps
+  for transaction-level data.
+- **Positioning and hedging:** CFTC Trader-in-Financial-Futures positioning and
+  optional licensed CME Treasury-futures data.
+- **Provider access:** OpenBB is studied as a normalized provider-access layer;
+  direct official connectors remain available for reproducibility and source
+  reconciliation.
+
+The fixed-income analytics layer will grow from bond price/yield and curve
+interpolation into key-rate duration, DV01, spread duration, carry/rolldown,
+curve-shape scenarios, liquidity-aware rebalancing, and basic cash-flow/duration
+matching. [QuantLib](https://www.quantlib.org/) and
+[rateslib](https://rateslib.com/py/en/latest/) are comparison references for
+pricing and multi-curve work. Licensed institutional security masters, evaluated
+prices, and real-time feeds are documented as production architecture options,
+not assumed to be available in this public learning repository.
+
 ## Current status and roadmap
 
-Days 1–14 are complete. They cover the walking skeleton, public-data layer, deterministic tool layer, Deep Agents, multi-agent orchestration, OpenTelemetry/evals, control-layer foundations, Canvas fundamentals through Agent Operations, AgentCore Memory/Evaluations boundaries, and extended Guardrails.
+Days 1–20 are complete locally. They cover the walking skeleton, public-data layer,
+deterministic tool layer, Deep Agents, multi-agent orchestration,
+OpenTelemetry/evals, control-layer foundations, Canvas fundamentals through
+Agent Operations, AgentCore Memory/Evaluations boundaries, extended
+Guardrails, point-in-time and SEC evidence, and the initial investment-research
+workflow, committee challenge, AgentOps Canvas, and institutional PM capstone.
+Live AWS/provider/browser capture remains separate and is tracked in
+[PROGRESS.md](PROGRESS.md) and the [evidence ledger](docs/EVIDENCE.md).
+
+## Experiment framework
+
+Experiments are a first-class part of this lab. The [experiments guide](experiments/README.md)
+defines a provider-neutral mandate for running and comparing local models,
+non-AWS hosted models, and AWS-backed deployments. Each run records its
+question, fixed input, setup, model/version, output, evidence, latency, token
+usage, pricing basis, pros, cons, limitations, decision, and cleanup state in a
+machine-readable `manifest.json` plus a human-readable `findings.md`.
+
+The accounting separates model token estimates from infrastructure spend. For
+AWS, the record can include Bedrock token usage plus observed or estimated AWS
+runtime, storage, logging, and other costs. For non-AWS providers, it records
+provider-specific token counts and rates. A local run must state when its
+runtime cannot expose token usage instead of inventing a number. Billing data
+and provider pricing are time-dependent, so every cost has a source and
+as-of/settlement status.
+
+Experiments exist to expose trade-offs, not to manufacture a universal winner:
+local runs teach model and orchestration behavior with limited operational
+realism; hosted runs teach capability, API, and pricing behavior; AWS runs add
+identity, packaging, deployment, observability, and cleanup complexity. A
+successful deployment is not automatically a successful request, and a local
+mock is not live-provider evidence.
+
+Start an ad hoc run with:
+
+```bash
+uv run python scripts/experiment.py init \
+  --name "model comparison" --provider local --model mock-v1 \
+  --run-id comparison-001
+```
+
+Then use `record`, `finalize`, and `check` as described in
+[`experiments/README.md`](experiments/README.md). The [AWS AgentCore runbook](docs/AWS_AGENTCORE_SETUP.md)
+provides the deployment-specific setup and evidence commands.
 
 Days 10–20 extend the project into the comprehensive institutional PM track:
 
@@ -40,7 +128,9 @@ The platform is designed around realistic PM and investment-team workflows:
 
 - **Overnight portfolio review:** summarize exposures, performance drivers, factor moves, concentration, liquidity, and exceptions with links to the underlying data.
 - **Risk and scenario analysis:** answer questions about duration, spread, volatility, drawdown, factor exposure, and macro or rates/credit shocks using deterministic tools.
+- **Fixed-income portfolio review:** analyze key-rate duration, DV01, spread duration, carry/rolldown, curve-shape shocks, issuer/rating/sector concentration, liquidity, and Treasury-futures hedging with explicit instrument and curve assumptions.
 - **Research assistant:** retrieve and summarize public filings, macro releases, market data, and news/sentiment while preserving dates, sources, and point-in-time validity.
+- **External financial-intelligence enrichment:** monitor thematic exposure, issuer narratives, abnormal attention, credit-rating events, macro language, and novelty-filtered portfolio briefs while preserving evidence and uncertainty.
 - **Document-to-skill learning:** turn a public model or methodology document into a cited, reviewable `SKILL.md` package and a Deep Agent that can explain sections, formulas, assumptions, examples, and validated calculations.
 - **Investment thesis review:** have fundamental, macro, quantitative, and risk specialists collaborate, then ask a Devil’s Advocate agent to identify missing evidence, contradictions, and downside cases.
 - **Portfolio construction:** compare constrained allocations, mean-variance, max-Sharpe, risk-parity, and scenario-aware alternatives; present recommendations for human review rather than placing trades.
@@ -83,7 +173,7 @@ the recommended progression.
 |---|---|
 | Agent orchestration | [LangGraph](https://langchain-ai.github.io/langgraph/), [Deep Agents](https://docs.langchain.com/oss/python/deepagents/), specialist sub-agents, structured handoffs, resumable workflows |
 | Models and cloud runtime | [Amazon Bedrock](https://aws.amazon.com/bedrock/), [Amazon Bedrock AgentCore](https://aws.amazon.com/bedrock/agentcore/), Runtime, Gateway, Identity, Policy, Memory, Evaluations, and Guardrails |
-| Data and analytics | Public market data, FRED macro data, SEC EDGAR filings, news/sentiment adapters, DuckDB, pandas, deterministic risk/portfolio engines, backtesting, and constrained optimization with PyPortfolioOpt; CVXPY is the current transitive solver layer, while Cvxportfolio, Riskfolio-Lib, and skfolio are comparison references rather than core dependencies |
+| Data and analytics | yfinance, FRED/ALFRED, U.S. Treasury rates and auctions, NY Fed SOFR, SEC EDGAR/N-PORT, FINRA fixed-income aggregates, CFTC positioning, OpenBB provider adapters, DuckDB, pandas, deterministic bond/risk/portfolio engines, backtesting, and constrained optimization; QuantLib and rateslib are fixed-income comparison libraries, not unreviewed production dependencies |
 | Tool boundary | Typed tool contracts, JSON Schema/YAML contracts, MCP-compatible access patterns, validation, timeouts, retries, and authorization re-checks at execution time |
 | Governance and security | Cedar policy-as-code, AuthN → AuthZ → guardrails → tool-enforcement layers, human approval, audit records, provenance, prompt-injection and adversarial tests |
 | Observability and evaluation | [OpenTelemetry](https://opentelemetry.io/), traces and metrics, LangSmith experiments, golden datasets, cost/token/latency telemetry, failure replay, regression gates |
@@ -123,6 +213,7 @@ The forward roadmap also studies and adapts these public examples:
 - AWS’s [multi-agent orchestration solution](https://docs.aws.amazon.com/solutions/multi-agent-orchestration-on-aws/) and [Bedrock AgentCore samples](https://github.com/awslabs/amazon-bedrock-agent-samples).
 - AWS’s [context-rich research agents with Deep Agents and AgentCore](https://aws.amazon.com/blogs/machine-learning/build-context-rich-research-agents-with-deep-agents-and-bedrock-agentcore/) and [AgentOps at scale](https://aws.amazon.com/blogs/machine-learning/agentops-operationalize-agentic-ai-at-scale-with-amazon-bedrock-agentcore/).
 - LinqAlpha’s [Devil’s Advocate investment-thesis workflow on Amazon Bedrock](https://aws.amazon.com/blogs/machine-learning/how-linqalpha-assesses-investment-theses-using-devils-advocate-on-amazon-bedrock/). This is the intended reference for the committee challenge and dissenting-view track. “LinqDQA” is treated here as the LinqAlpha/Devil’s Advocate example.
+- BigData.com’s [financial research GitHub organization](https://github.com/Bigdata-com), especially its [cookbook](https://github.com/Bigdata-com/bigdata-cookbook), [research tools](https://github.com/Bigdata-com/bigdata-research-tools), [thematic screener](https://github.com/Bigdata-com/bigdata-thematic-screener), and [portfolio briefs](https://github.com/Bigdata-com/bigdata-briefs). These are optional provider-adapter references for thematic exposure, narratives, credit events, sentiment/attention, and batch research—not core numerical data sources.
 - Portfolio-construction references are organized in the [optimization reading path](docs/REFERENCES.md#portfolio-optimization-and-portfolio-construction), covering PyPortfolioOpt, CVXPY, Cvxportfolio, Riskfolio-Lib, skfolio, and vectorbt examples. These resources extend the learning scope without implying that the current repo implements every method they expose.
 
 Additional background on agent harnesses, skills, context engineering, tools, and evals is curated in [docs/REFERENCES.md](docs/REFERENCES.md), including relevant OpenAI and Anthropic engineering articles, talks, and videos.
@@ -139,9 +230,12 @@ Additional background on agent harnesses, skills, context engineering, tools, an
 | [docs/PLAN.md](docs/PLAN.md) | Day-by-day implementation plan, contracts, skills, security, context engineering, and Days 10–20 extension |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Canonical architecture and security boundaries |
 | [docs/REFERENCES.md](docs/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |
+| [docs/PLAN_REVIEW.md](docs/PLAN_REVIEW.md) | 20-day completion audit, documentation review, and remaining live-evidence actions |
 | [docs/AGENT_RUNBOOK.md](docs/AGENT_RUNBOOK.md) | Standalone custom-agent and skill examples, test cases, expected outputs, and troubleshooting |
 | [docs/TUTOR_RUNBOOK.md](docs/TUTOR_RUNBOOK.md) | Tutor catalog, five worked examples and three negative examples per tutor, independent invocation, and evidence loop |
 | [docs/RUNBOOK.md](docs/RUNBOOK.md) | One-command local stack, tests, traces, evaluations, security checks, automation, and AWS teardown guidance |
+| [experiments/README.md](experiments/README.md) | Provider-neutral experiment mandate, run schema, token/cost accounting, comparisons, and ad hoc commands |
+| [experiments/](experiments/) | Reusable fixtures and dated experiment records |
 | [data/README.md](data/README.md) | Data-source cards, freshness, licensing, provenance, and mock-data rules |
 
 ## Getting started

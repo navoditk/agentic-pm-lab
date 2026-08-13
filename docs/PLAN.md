@@ -267,11 +267,11 @@ This doesn't replace `docs/LEARNINGS.md` or the narrative parts of `docs/ARCHITE
 
 **Track evidence, not just completion.** A day being "done" per `config/progress.yaml` is a weaker claim than a day being *demonstrated* — so each day's `PROGRESS.md` narrative entry links its evidence: the PR, the relevant test run, an eval-run link (once Day 6 exists), a trace URL, a screenshot (canvas days), and the ADR it produced (`docs/adr/`, where applicable). This is a one-line habit, not new tooling — the close-of-day checklist (Appendix B intro) already asks for a narrative sentence; evidence links are what that sentence should contain from Day 1 onward, not prose alone.
 
-**One free bonus, already in the plan:** the Day 6+ LangSmith experiment history is itself an automatic timeline of *agent quality* over the 12 days, independent of task-completion tracking but useful alongside it. Tagging each day (`git tag day-N`, in addition to the `v0.1`/`v0.2` milestone tags used in Appendix B) also gives a zero-effort timeline via `git log --graph --oneline`.
+**One free bonus, already in the plan:** the Day 6+ LangSmith experiment history is itself an automatic timeline of *agent quality* across the roadmap, independent of task-completion tracking but useful alongside it. Tagging each day (`git tag day-N`, in addition to the `v0.1`/`v0.2` milestone tags used in Appendix B) also gives a zero-effort timeline via `git log --graph --oneline`.
 
 ---
 
-## 7. 12-Day Overview
+## 7. 20-Day Overview
 
 Each day assumes ~3–5 focused hours, with Day 1, Day 8, Day 9, Day 10, and Day 12 running longer by design. Software and repo setup are front-loaded into `INSTALL.md`, done once before Day 1; everything below is added only when a later day first needs it. **Full numbered implementation steps, including git commit checkpoints, are in Appendix B.**
 
@@ -294,7 +294,7 @@ Each day assumes ~3–5 focused hours, with Day 1, Day 8, Day 9, Day 10, and Day
 | 11 | Runtime & Automation | Real Copilot-coding-agent PR through CI, scheduled/native automations, self-maintaining skills |
 | 12 | AWS Bedrock AgentCore | Real portfolio optimization (mean-variance, max-Sharpe, risk parity); deploy on a managed cloud agent runtime with real observability; wrap-up |
 
-**Optional AWS Deep-Dive Extension** (fully optional, reuses the Day 12 AWS account — see the dedicated section before Appendix C for full rationale):
+**AWS Deep-Dive Extension** (now part of the mainstream 20-day track; it reuses the Day 12 AWS account when live cloud work is available):
 
 | Day | Focus | Goal |
 |---|---|---|
@@ -513,7 +513,7 @@ A **custom agent** is a named, selectable persona with its own scope and (option
 | `docs-agent` | Day 8 | Keeps `docs/ARCHITECTURE.md` and `docs/ficc-glossary.md` current as the repo evolves — scoped narrowly so it doesn't touch application code |
 | `pr-reviewer-agent` | Day 11 | Reviews pull requests specifically for adherence to the `python-best-practices` skill, absence of company-sensitive data, and presence of a corresponding test — a domain-specific complement to Copilot's built-in code review |
 | `risk-narrator-agent` | Day 10 | Drafts PM-style narrative write-ups (committee memos, risk summaries) in a consistent voice — used ad hoc when you want polished prose distinct from the Portfolio Manager Deep Agent's own tool-calling responses |
-| `ficc-tutor-agent` | Day 2 | A personal-scope agent whose only job is explaining FICC terminology encountered while building — a learning aid, not part of the runtime system, so it's kept out of `.github/agents/` and defined at user scope instead |
+| `ficc-tutor-agent` | Day 2; extended Days 15–20 | Personal-scope tutor for FICC terminology, bond valuation, funding, liquidity, duration/DV01, convexity, hedging, and fixed-income data provenance; a learning aid, not part of the runtime system |
 | `eval-triage-agent` | Day 6 | Invoked when `eval-regression.yml` fails: investigates which dataset examples regressed, compares the two experiment runs in LangSmith, and drafts a hypothesis for what changed |
 | `skills-auditor-agent` | Day 11 | Invoked when `skills-freshness.yml` fails: drafts the SKILL.md update as a PR for review, per §8.4 |
 
@@ -539,6 +539,14 @@ evidence rules live in [`docs/TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md).
 | `governance-delivery-tutor` | CI/CD, policy-as-code, guardrails, approvals, audit, promotion, rollback, teardown | Days 6–7, 11–14, 19–20 |
 | `document-to-skill-tutor` | Document extraction, generated skills, formula validation, provenance, sandboxing, and Deep Agent interfaces | Days 15–20 |
 
+BigData.com use cases are intentionally rolled into `data-provenance-research-tutor`
+(source quality, point-in-time evidence, licensing, novelty, and uncertainty),
+`investment-committee-tutor` (credit, thematic, and narrative challenge), and
+`agent-architecture-tutor` (provider-neutral adapters and governed MCP). A
+vendor-specific tutor is not needed unless the project later commits to a
+substantial provider API implementation; the runbook should still include
+standalone BigData-style exercises using fixtures.
+
 The existing personal-scope `ficc-tutor-agent` remains the domain tutor for
 rates, credit, curves, duration, convexity, and FICC vocabulary. LangGraph,
 Deep Agents, and OpenTelemetry tutors are explicitly included because those
@@ -555,7 +563,7 @@ generated code as trusted.
 
 ### 11.1 Why local hooks, not just CI
 
-`ci.yml`, `skills-freshness.yml`, and `eval-regression.yml` all run on push/PR — but catching a problem locally, before it's even committed, is faster and cheaper than catching it in CI. `pre-commit` (the Python framework, `pre-commit.com`) runs a configured set of checks on `git commit`, installed once on Day 1 and expanded as new categories of risk appear through the 12 days.
+`ci.yml`, `skills-freshness.yml`, and `eval-regression.yml` all run on push/PR — but catching a problem locally, before it's even committed, is faster and cheaper than catching it in CI. `pre-commit` (the Python framework, `pre-commit.com`) runs a configured set of checks on `git commit`, installed once on Day 1 and expanded as new categories of risk appear through the 20-day track.
 
 ### 11.2 Recommended `.pre-commit-config.yaml` hooks
 
@@ -737,6 +745,24 @@ Use the smallest useful vertical slices:
 6. **SEC filing text and GDELT metadata:** build evidence-linked research and
    sentiment; never treat automated tone as a trade signal without uncertainty,
    provenance, and an evaluation set.
+7. **External financial-intelligence adapter (optional):** study BigData.com's
+   thematic screening, narrative mining/sentiment, credit-rating monitoring,
+   central-bank and inflation-driver digests, and large-scale portfolio briefs.
+   Start with mocked credit events or thematic exposure, normalize results into
+   the common evidence envelope, and compare claims with official/public sources.
+   Keep this adapter out of the critical path if access, licensing, or rate limits
+   are unavailable.
+
+8. **Fixed-income data spine:** add Treasury auction/security metadata, NY Fed
+   SOFR, Federal Reserve fitted curves, and a learning-scale bond instrument
+   master before relying on bond-level analytics.
+9. **Fixed-income risk and positioning:** add key-rate DV01, spread duration,
+   carry/rolldown, curve-shape shocks, CFTC financial-futures positioning, and
+   mocked Treasury-futures hedge examples. Treat CME and transaction-level TRACE
+   data as licensed production references.
+10. **Provider abstraction:** compare direct official connectors with OpenBB,
+    retaining underlying provider, raw-response metadata, timestamps, and
+    licensing status. OpenBB must not become an opaque source-of-truth call.
 
 Every new connector needs a data card in data/README.md: owner/source,
 license/terms, endpoint, authentication, rate limit, update cadence, time
@@ -861,6 +887,15 @@ unit, currency, transformation, freshness, and quality. Build a small
 as-known-at-the-time backtest and prove that later revisions cannot affect the
 historical result. Update data/README.md with a completed data card.
 
+Also define the structured/unstructured boundary and the provider-neutral
+`ResearchEvidence` envelope. Add BigData.com to the references and data-card
+catalogue as an optional external provider; do not require an API key for the
+core Day 15 exercise.
+
+Add Treasury auction/security metadata, NY Fed SOFR, and a bond instrument-master
+fixture. Define the minimum bond schema and reject missing coupon, maturity,
+settlement, day-count, or callability terms with `needs_review`.
+
 ### Day 16 — SEC research and evidence-linked retrieval
 
 Add a deliberately narrow EDGAR connector: submissions metadata, selected XBRL
@@ -870,6 +905,10 @@ returns evidence objects rather than unqualified prose. Optionally use S3 and
 OpenSearch as the AWS retrieval comparison, but retain a local deterministic
 fixture path for unit tests. Add citation completeness, source freshness,
 duplicate, and unsupported-claim evaluations.
+
+Keep bond reference data and SEC/N-PORT holdings in the structured path. Add
+tests for identifier resolution, reporting lag, clean-versus-dirty price,
+accrued interest, and observation-date versus publication-date semantics.
 
 ### Document-to-skill capability — Days 16–20 cross-cutting deliverable
 
@@ -956,6 +995,19 @@ capability, sharing the same deterministic Tool/MCP boundary. Compare the AWS
 supervisor pattern with Deep Agents native subagents on routing, context
 isolation, traceability, latency, cost, and failure recovery.
 
+Use the optional BigData.com cookbook and research-tools projects as a
+provider-adapter comparison: thematic screener, credit-rating monitor,
+narrative/sentiment miner, and large-scale portfolio brief. Implement at most
+one mocked provider operation in this day, returning cited evidence rather than
+free-form summaries. Record provider, query, entity, publication time, retrieval
+time, novelty, and licensing metadata in every result.
+
+Add a fixed-income research branch covering Treasury auction supply, SOFR/funding
+conditions, curve shape, TRACE liquidity aggregates, issuer/rating exposure,
+and CFTC rates positioning. The branch must pass structured observations to
+deterministic tools and unstructured commentary to evidence retrieval; it may
+not let a narrative signal create a risk number.
+
 ### Day 18 — Devil's Advocate and investment committee challenge
 
 Add an independent Devil's Advocate agent inspired by LinqAlpha. It receives a
@@ -986,6 +1038,16 @@ checks, SLOs, CloudWatch/OTel dashboards, data-health alerts, dead-letter
 replay, and an incident exercise. The Canvas remains an interaction surface,
 never a trust boundary.
 
+Include an evidence-provider health panel showing structured-source freshness
+separately from unstructured-source freshness, provider availability, licensing
+state, citation coverage, and `needs_review` items. A provider outage must
+produce a visible degraded state, never fabricated research.
+
+Add a fixed-income panel for curve date/vintage, key-rate DV01, spread duration,
+carry/rolldown, liquidity status, issuer/rating concentration, source coverage,
+and hedge assumptions. OpenBB/direct-provider fallback behavior must be visible
+in traces and Canvas state.
+
 ### Day 20 — Institutional PM capstone
 
 Run one complete workflow:
@@ -999,6 +1061,16 @@ Run one complete workflow:
 7. a human approves or rejects it;
 8. the system emits OTel traces, audit records, evaluation results, and
    reproducible data/model/prompt versions.
+
+The final run must demonstrate at least one structured calculation and one
+unstructured evidence workflow, with the two provenance paths visibly separate.
+If BigData.com access is unavailable, replay the adapter with fixtures and label
+the result as mocked; live provider evidence is not a completion requirement.
+
+The fixed-income capstone must include a curve-shape shock, a spread/liquidity
+review, a bond-level instrument validation, and one hedge or duration-matching
+proposal. It must show clean/dirty price and accrued-interest assumptions and
+refuse to proceed when required instrument terms are missing.
 
 Run the complete security, quality, resilience, cost, and stale-data suites.
 Capture the final Canvas, traces, evaluation comparison, data cards, ADRs,
@@ -1497,8 +1569,8 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 **Account setup — AWS, Bedrock model access, and AgentCore, step by step:**
 1. **Create the AWS account** (skip if you already have one): go to `aws.amazon.com`, "Create an AWS Account", provide email, a payment method (required even though Bedrock/AgentCore usage here will be small), and complete identity verification.
 2. **Set a budget alert immediately, before touching any service** — this is the single most important step for a learning project on a metered service: AWS Console → Billing and Cost Management → Budgets → "Create budget" → a cost budget with a low monthly threshold (e.g., $10–20) and an email alert at 80%/100%. This catches a misconfigured or forgotten-to-tear-down resource before it becomes a surprise.
-3. **Create an IAM user (or IAM Identity Center user) for daily work — don't use the root account.** IAM → Users → "Create user" → attach the managed policies needed for Bedrock and AgentCore (at minimum `AmazonBedrockFullAccess` for learning purposes, plus the AgentCore-specific permissions listed in AWS's current AgentCore CLI IAM Permissions doc, per docs/REFERENCES.md — the exact policy list changes as AgentCore evolves, so check that page rather than a remembered list) → generate an access key for CLI use.
-4. **Configure the AWS CLI with that IAM user's credentials:** `aws configure` — enter the access key ID, secret access key, a default region (pick one where AgentCore is available, e.g., `us-west-2` or `us-east-1` — confirm current regional availability in AWS's docs), and a default output format.
+3. **Create a daily-work identity through IAM Identity Center where available — do not use the root account.** Enable IAM Identity Center, create or verify the operator, create the least-privilege `AgenticPMLabDeveloper` permission set, assign it to the lab account, and provision the assignment. A direct IAM user/access-key path is a fallback only when Identity Center is unavailable; use the current AgentCore permissions documentation rather than broad remembered policies.
+4. **Configure the AWS CLI with the named SSO profile:** `aws configure sso --profile agentic-pm-lab`, then `aws sso login --profile agentic-pm-lab --use-device-code`. Verify the account and assumed `AWSReservedSSO_...` role with `aws sts get-caller-identity` before creating resources. Do not paste device codes or access keys into the repository.
 5. **Enable Bedrock model access:** AWS Console → Bedrock → "Model access" (left sidebar) → "Manage model access" → select at least one Anthropic Claude model → request access. Anthropic models on Bedrock are typically approved instantly; some other providers' models may require a brief review. Confirm the model shows "Access granted" before moving on.
 6. **Verify the AgentCore CLI is working against this account:** run its version/help command (per `INSTALL.md` §3's package list) and a minimal "list resources" call — if this fails, it's almost always a permissions gap from step 3, not a code problem, so fix IAM before debugging your agent.
 7. Keep the budget alert from step 2 active for the rest of the day; you'll tear resources down in step 8 of the main steps below regardless, but the alert is your safety net if anything is left running by accident.
@@ -1526,7 +1598,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 11. **Tear down or scale the AWS resources to zero** once you've captured screenshots/exported traces, to avoid ongoing cost. Note in `PROGRESS.md` that this is a captured demo, not a running service.
 12. Write the final `docs/LEARNINGS.md` entry, consolidating the daily entries into a short retro: what clicked, where local mocks under- or over-simplified the managed services, 3–5 FICC terms genuinely understood through implementation, and a final mock→real status table.
 13. Do a final pass on `docs/REFERENCES.md`, `docs/adr/` (confirm every major decision from the plan has an ADR — LangGraph choice, deterministic tool boundary, MCP boundary, OTel, skills/prompts/agents, Gateway trust boundary, policy vs. guardrails, local vs. managed runtime, direct-code vs. container deployment), and confirm `docs/PRD.md` §4 and §5 (success criteria, all three tiers and all three acceptance tests) are met.
-14. Draft a short public write-up summarizing the 12 days, framed explicitly as personal, company-agnostic tooling practice.
+14. Draft a short public write-up summarizing the 20-day track, framed explicitly as personal, company-agnostic tooling practice.
 
 **Commit checkpoints:**
 - After step 1: `feat(day-12): rates/credit scenario engine`
@@ -1540,9 +1612,17 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 
 ---
 
-## AWS Deep-Dive Extension (Days 13–14)
+## AWS Deep-Dive Foundation (Days 13–14)
 
-The 12-day path above is a complete, self-contained proof of concept — Day 12 gets a real multi-agent system genuinely running on AWS Bedrock AgentCore, with real traces and a real four-layer security model (AuthN/AuthZ/Guardrails/Tool enforcement), guardrails included in minimal form. It deliberately did not go deep on AgentCore Memory, AgentCore's own Evaluations product, richer Bedrock Guardrails configuration, model fine-tuning, multi-region/HA deployment, or cost optimization at scale, on the reasoning that a single integration day should prove the core mechanism at every layer, not survey the whole service catalog in depth.
+The original 12-day path remains the foundational implementation spine. The
+current 20-day track extends it with Memory, Evaluations, richer Guardrails,
+provenance, SEC evidence, research collaboration, committee challenge,
+AgentOps, and the final capstone. The repository has local contracts and
+entrypoints for the AWS path. A temporary Runtime and endpoint were also
+created and torn down during the 2026-08-13 trial; infrastructure reached
+`READY`, but request execution returned HTTP 500, so no successful cloud answer
+or managed Memory/Evaluation/Guardrail evidence is claimed. See
+[`docs/PLAN_REVIEW.md`](PLAN_REVIEW.md) and [`docs/EVIDENCE.md`](EVIDENCE.md).
 
 Given the goal of *proficiency* with the AWS Bedrock/AgentCore stack specifically (alongside LangGraph, telemetry, and the GitHub Copilot Canvas work already covered in full), these two days are now mainstream milestones. They reuse the same AWS account, budget alert, and torn-down-afterward discipline from Day 12. Memory and Evaluations get genuine hands-on treatment on Day 13; Day 14 deepens Day 12's Guardrail and keeps fine-tuning, multi-region, and cost-optimization-at-scale as clearly-marked stretch work.
 

@@ -1,0 +1,93 @@
+# 20-day plan completion audit
+
+Reviewed 2026-08-13 against `docs/PLAN.md`, `PROGRESS.md`, the repository
+implementation, `docs/EVIDENCE.md`, and the dated experiment records.
+
+## Bottom line
+
+The 20-day local learning plan is complete. The stronger interpretation,
+“every planned provider, AWS service, browser surface, and end-to-end hosted
+workflow has live evidence,” is not complete. `PROGRESS.md` intentionally marks
+the local slices complete while its narrative and `docs/EVIDENCE.md` preserve
+the live gaps.
+
+This distinction is correct and should remain the project's completion rule:
+
+```text
+local implementation + deterministic tests != live provider/cloud evidence
+deployment READY != successful request execution
+mock fixture != production data or provider availability
+```
+
+## Day-by-day audit
+
+| Day | Local slice | Live/evidence status | Assessment |
+|---|---|---|---|
+| 1 | Walking skeleton, CI, progress tracking, docs | GitHub Projects board/browser setup remains unclaimed | Local complete; browser follow-up |
+| 2 | Public-data adapters and provenance-aware DuckDB path | No new live provider capture is claimed | Local complete; provider capture optional |
+| 3 | Deterministic pricing, risk, optimization, contracts, and tool boundary | No production data or hosted tool boundary claimed | Local complete |
+| 4 | Single Deep Agent, skills, context, local-model comparison | OpenAI smoke evidence exists; local Qwen limitation recorded | Complete for learning scope |
+| 5 | Multi-agent orchestration, retries, dead letters, checkpoint/resume | Provider-dependent hosted replay is not a release gate | Complete for learning scope |
+| 6 | OTel, LangSmith runner, golden dataset, evaluators | Baseline experiment captured; future paid reruns require credentials/approval | Local/eval complete |
+| 7 | AuthN/AuthZ, Cedar, guardrails, human approval, adversarial tests | No managed authorization service claimed | Local complete |
+| 8 | Kanban and issue-triage Canvas foundations | Interactive browser/screenshot evidence remains unclaimed | Local complete; browser follow-up |
+| 9 | Agent Operations Canvas and run history | Live LangSmith path requires credentials | Local complete; live follow-up |
+| 10 | Governed MCP boundary and Portfolio/Risk Canvas | Visual/browser evidence remains unclaimed | Local complete; browser follow-up |
+| 11 | Runtime, automation, prompts, CI, runbooks | GitHub scheduled issue/native Copilot automation evidence remains unclaimed | Local complete; platform follow-up |
+| 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; request failed; no Gateway deployment | Local complete; live AWS incomplete |
+| 13 | Memory boundaries and evaluation manifest | No live cross-session Memory transcript or AgentCore Evaluation report | Local complete; live AWS incomplete |
+| 14 | Guardrail logic, cases, evaluation dimensions | No live Bedrock Guardrail or managed Evaluation run | Local complete; live AWS incomplete |
+| 15 | Point-in-time provenance and bond metadata | No live ALFRED/Treasury/TRACE/OpenBB capture | Local complete; provider follow-up |
+| 16 | SEC metadata, citations, document-to-skill foundation | EDGAR path is mocked/network-free by design | Local complete; provider follow-up |
+| 17 | Research specialists, fixed-income branch, mocked provider adapter | No live provider or successful AgentCore research run | Local complete; live AWS/provider incomplete |
+| 18 | Independent Devil's Advocate and committee challenge | Semantic truth and production liquidity analysis remain limited | Local complete with explicit limitations |
+| 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Live CloudWatch, AgentCore, provider uptime, and visual evidence unclaimed | Local complete; live follow-up |
+| 20 | Institutional PM capstone replay and release evidence structure | Live deployment reached `READY`, but version-3 invocation returned HTTP 500; resources were deleted | Local complete; live capstone incomplete |
+
+## Documentation audit
+
+The core documentation set is aligned as of this review:
+
+- `INSTALL.md`: one-time repository setup and tool onboarding.
+- `AGENTS.md`: routing, safety, skill selection, and current-day workflow.
+- `docs/PRD.md`: business problem, architecture intent, principles, acceptance
+  criteria, and non-goals.
+- `docs/PLAN.md`: day-by-day implementation plan and contracts.
+- `PROGRESS.md`: generated local completion table plus narrative evidence.
+- `docs/ARCHITECTURE.md`: current architecture and security model.
+- `docs/RUNBOOK.md`: local operation, tests, evaluations, and teardown.
+- `docs/AWS_AGENTCORE_SETUP.md`: reproducible AWS setup, deployment, evidence,
+  billing, and teardown runbook.
+- `experiments/README.md`: provider-neutral experiment mandate, run manifest,
+  token/infrastructure accounting, comparison rubric, and ad hoc commands.
+- `docs/EVIDENCE.md`: local versus live evidence ledger.
+- `docs/LEARNINGS.md`: dated retrospectives.
+- `docs/REFERENCES.md`: canonical bibliography, including the refreshed agent
+  harness section reviewed on 2026-08-13.
+
+The experiment framework is now the recommended place to record new local,
+non-AWS, or AWS trials. It requires an explicit question, setup, input/output,
+usage, pricing basis, evidence, findings, limitations, decision, and cleanup
+state. AWS model-token costs and AWS infrastructure costs are recorded as
+separate fields, with billing-lag status preserved.
+
+## Remaining actions if “fully complete” means live validation
+
+These are follow-on evidence tasks, not missing local implementation days:
+
+1. Resolve the minimal AgentCore fixture's version-3 HTTP 500 using the
+   CloudWatch/runtime contract, then capture one successful response with all
+   workflow stages.
+2. If desired, deploy and tear down a governed Gateway path with a real
+   HTTPS-hosted MCP target.
+3. Capture live AgentCore Memory, Evaluations, and Bedrock Guardrails evidence.
+4. Capture provider-backed EDGAR/ALFRED/Treasury/research responses under their
+   terms and preserve point-in-time metadata.
+5. Complete GitHub Projects, scheduled automation, Copilot/Canvas browser, and
+   screenshot evidence where the platform account makes those steps available.
+6. Rerun the full capstone against the selected hosted runtime and compare it
+   with the local fixture using the experiment manifest and cost record.
+
+Do not change the local status table to “incomplete” solely because these live
+tasks are unclaimed. Instead, keep the two evidence classes visible and update
+the ledger when a live run genuinely succeeds.
