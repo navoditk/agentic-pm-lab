@@ -13,6 +13,7 @@ TUTORS = (
     "copilot-canvas-mcp-tutor",
     "agent-development-lifecycle-tutor",
     "governance-delivery-tutor",
+    "document-to-skill-tutor",
 )
 
 

@@ -147,6 +147,27 @@ Not a "read before Day N" entry like the sections below — this is the source o
   custom agents, contracts, GitHub Copilot, Claude Code, and Codex resources.
 - Use `governance-delivery-tutor` with the security, Cedar, CI/CD, AgentCore
   Guardrails, evaluation-gate, human-approval, and AgentOps resources.
+- Use `document-to-skill-tutor` with the document-ingestion, provenance,
+  skills/contracts, Deep Agents, sandboxing, and evaluation resources. The
+  intended progression is document Q&A → generated skill package → validated
+  deterministic calculators → governed Deep Agent.
+
+### Document ingestion and document-to-skill design
+- [PyMuPDF documentation](https://pymupdf.readthedocs.io/) — page-aware PDF
+  text, image, and table extraction; useful for preserving page provenance.
+- [pypdf documentation](https://pypdf.readthedocs.io/) — lightweight PDF
+  parsing and metadata extraction for a simpler baseline.
+- [Unstructured documentation](https://docs.unstructured.io/) — comparison
+  reference for partitioning heterogeneous documents into structured elements.
+- [OWASP prompt injection guidance](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
+  — uploaded documents are untrusted content and may contain instructions that
+  must not become agent authority.
+- [Python AST documentation](https://docs.python.org/3/library/ast.html) —
+  static inspection reference for generated calculator code before sandboxed
+  execution.
+- Generated-document skills should follow this evidence chain: source page or
+  section → extracted structured element → skill statement/formula → function
+  contract → source-derived test vector → reviewed Deep Agent capability.
 - Anthropic, [Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) — multi-turn evaluation design, trajectory checks, and using tests as the ground truth
 - Anthropic, [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) — tool descriptions and interfaces as part of the agent-control surface
 - Anthropic, [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) — parallel research, synthesis, context budgets, and research-agent tradeoffs

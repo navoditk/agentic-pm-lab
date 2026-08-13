@@ -91,8 +91,17 @@ roadmap mapping, invocation prompts, and evidence rules. Tutors cover portfolio
 construction, agent architecture, LangGraph/Deep Agents, AWS AgentCore, data
 provenance/research, evaluation/AgentOps, OpenTelemetry, investment committee
 challenge, Copilot Canvas/MCP, agent development lifecycle, and governance/
-delivery. They are read-only teaching personas and do not replace the
+delivery, and document-to-skill conversion. They are read-only teaching
+personas and do not replace the
 operational agents below.
+
+Example document-to-skill request:
+
+    Use document-to-skill-tutor. Given this public equity-risk model PDF,
+    design a cited skill package for volatility, beta, tracking error, and
+    drawdown. Separate document Q&A from executable calculators, list every
+    ambiguity, propose source-derived test vectors, and explain what must be
+    human-reviewed before a Deep Agent can use the generated functions.
 
 ## 7. Skills as standalone exercises
 

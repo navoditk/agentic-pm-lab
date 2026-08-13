@@ -278,6 +278,23 @@ volatility and concentration questions did call the correct real tools.
 
 ---
 
+## Document intelligence boundary
+
+The document-to-skill capability is a future cross-cutting learning path for
+Days 16–20. A supplied PDF or model document is untrusted input. The intended
+flow preserves the original artifact and page-level extraction, creates a
+structured document manifest, generates a candidate `SKILL.md` and contract,
+and only then considers deterministic calculator candidates. Generated code
+must pass static inspection, restricted execution, source-derived tests, and
+human review before a Deep Agent can call it. The generated skill is a behavior
+description, not an authorization control; MCP/Tool policy remains the final
+enforcement boundary.
+
+The first useful milestone is document-grounded Q&A with citations. Executable
+model calculations are a later milestone because OCR, formula ambiguity, units,
+annualization, missing-data conventions, and document-embedded prompt
+injection can all change the meaning of a calculation.
+
 ## Security Model
 
 ### Trust boundaries and identity propagation

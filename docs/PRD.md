@@ -38,6 +38,7 @@ that make an AI system usable by a portfolio-management team:
 | Model and agent risk | Model/version, prompt, skill, tool, data vintage, evaluator, and approval state are recorded so an answer can be reproduced and challenged. |
 | Reliability and operations | Timeouts, retries, idempotency, checkpointing, cost budgets, freshness checks, and graceful degradation are tested. |
 | Privacy and governance | Entitlements are enforced at the resource boundary; sensitive data is minimized and excluded from prompts, logs, traces, and artifacts. |
+| Document intelligence | Public model documents can become cited, reviewable skill packages and document-grounded Deep Agents; executable calculators require explicit formulas, source examples, sandboxing, tests, and human review. |
 
 These fundamentals are broader than making an agent call a tool: they are the
 minimum mental model for assessing whether a PM AI platform is safe,
@@ -178,6 +179,7 @@ Success is tiered on purpose — **one working vertical slice matters more than 
 - Four working GitHub Copilot Canvas extensions exist, including one capstone (Portfolio/Risk Operations) that stands on its own as a demonstrable artifact, calling only governed interfaces.
 - The same agent runs successfully on AWS Bedrock AgentCore Runtime and Gateway at least once, with a captured trace and a passing evaluation run against the golden dataset, reachable only through the Gateway-governed path.
 - Every business question in §4 has a named prompt, skill, or agent-callable capability that answers it, traceable in `docs/PLAN.md` Appendix C, each with a contract and test.
+- The document-to-skill learning deliverable can take a public model document through a cited document map and candidate `SKILL.md`/contract package, with explicit ambiguity and human-review status; executable calculators are only accepted when source-derived tests pass.
 
 ### Tier 3 — time permitting
 - Local-model (Ollama) comparison against the cloud model, run against the same golden dataset.
@@ -207,6 +209,7 @@ A change that breaks a skill contract, a tool contract, a golden-eval threshold,
 - **Deep hallucination-detection metrics beyond dataset-experiment pass/fail scores.** A real, scored regression-testing loop exists (`docs/PLAN.md` §5), separated across routing/tool-selection/argument/retrieval/final-answer/policy/guardrail dimensions, but richer grounding/faithfulness metrics beyond LLM-as-judge and criteria evaluators are out of scope for this iteration.
 - **A fifth canvas** beyond the four in the progression.
 - **A persistent, always-on AWS deployment.** The AgentCore integration (and the optional Memory/Guardrails extension) is captured as a proof of concept and torn down afterward — not a running service.
+- **Unreviewed arbitrary PDF-to-code conversion.** The document-to-skill capability is staged: document-grounded Q&A comes before executable calculators, and generated code requires provenance, sandboxing, source-derived tests, and human review.
 - **Full production hardening of fine-tuning, multi-region/HA, and cost optimization.** The optional AWS extension (`docs/PLAN.md` Day 14) gives each a light, hands-on-if-you-want-it touch, but genuine production engineering on any of these stays out of scope, since it's a different skill from agent-building and would be disproportionate to a learning project.
 - **A formal policy-as-code engine beyond a learning-scale Cedar setup.** `docs/PLAN.md` §15 uses Cedar for policy-as-code as a real, hands-on exercise; production-scale policy infrastructure (a managed policy service, multi-tenant policy stores) is out of scope.
 - **Real production incident response.** Failure engineering (`docs/PLAN.md` §14) deliberately injects faults to observe and harden behavior; it does not stand up on-call rotations, paging, or incident-management tooling.

@@ -537,12 +537,17 @@ evidence rules live in [`docs/TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md).
 | `copilot-canvas-mcp-tutor` | Canvas state, MCP boundaries, approval UX, capability tests | Days 8–11, 19–20 |
 | `agent-development-lifecycle-tutor` | Skills, prompts, custom agents, contracts, tests, freshness, cross-tool workflows | Days 4, 8, 11, 19–20 |
 | `governance-delivery-tutor` | CI/CD, policy-as-code, guardrails, approvals, audit, promotion, rollback, teardown | Days 6–7, 11–14, 19–20 |
+| `document-to-skill-tutor` | Document extraction, generated skills, formula validation, provenance, sandboxing, and Deep Agent interfaces | Days 15–20 |
 
 The existing personal-scope `ficc-tutor-agent` remains the domain tutor for
 rates, credit, curves, duration, convexity, and FICC vocabulary. LangGraph,
 Deep Agents, and OpenTelemetry tutors are explicitly included because those
 fundamentals are central to the target stack and deserve independent practice,
-not only implementation exposure.
+not only implementation exposure. `document-to-skill-tutor` teaches the
+document-intelligence deliverable described in §17: it helps the learner turn
+an unfamiliar public methodology or model document into a cited, reviewable
+skill package, then use that package through a Deep Agent without treating
+generated code as trusted.
 
 ---
 
@@ -768,7 +773,7 @@ thesis-challenge patterns as new workflows.
 | 13 | AgentCore Memory and session state | Cross-session PM preferences, memory scopes, retention, deletion, memory isolation and tests |
 | 14 | Guardrails and AgentCore Evaluations | Bedrock Guardrails, online/on-demand evaluation, human review, quality gates |
 | 15 | Point-in-time data and provenance | ALFRED, Treasury reconciliation, data cards, vintage-aware backtest fixtures |
-| 16 | SEC research and multimodal evidence | EDGAR filings/Company Facts, filing retrieval, citations, source-grounded research agent |
+| 16 | SEC research, multimodal evidence, and document-to-skill foundation | EDGAR filings/Company Facts, filing retrieval, citations, source-grounded research agent, and document extraction/skill-package design |
 | 17 | AWS investment-research pattern | Quant, news/research, and summarizer specialists adapted to Deep Agents and shared MCP |
 | 18 | Devil's Advocate and committee challenge | Independent thesis critic, evidence grading, rebuttal workflow, no self-approval |
 | 19 | Production AgentOps and Canvas | Research/committee Canvas, deployment promotion, cost/latency/SLO dashboards, incident and replay exercises |
@@ -865,6 +870,76 @@ returns evidence objects rather than unqualified prose. Optionally use S3 and
 OpenSearch as the AWS retrieval comparison, but retain a local deterministic
 fixture path for unit tests. Add citation completeness, source freshness,
 duplicate, and unsupported-claim evaluations.
+
+### Document-to-skill capability — Days 16–20 cross-cutting deliverable
+
+Add a staged document-intelligence workflow for public model, methodology,
+risk-engine, and policy documents. The deliverable is a cited, reviewable skill
+package plus a bounded Deep Agent interface—not an unreviewed PDF-to-code
+system.
+
+#### Stage 1: document-grounded understanding
+
+Preserve the original document, page boundaries, headings, tables, formulas,
+figures, footnotes, metadata, and extraction warnings. Produce a structured
+manifest with sections, definitions, formulas, procedures, assumptions,
+examples, cross-references, ambiguities, and source locations. The first agent
+must answer document questions with page/section citations and explicitly say
+when the document does not contain the answer.
+
+#### Stage 2: generated skill package
+
+Generate a candidate package containing:
+
+```text
+generated-skills/<document-name>/
+├── SKILL.md
+├── contract.yaml
+├── document-manifest.json
+├── source/extracted-pages.jsonl
+├── examples/
+├── calculators/
+└── tests/
+```
+
+`SKILL.md` describes supported questions, source boundaries, assumptions,
+units, retrieval behavior, and refusal cases. `contract.yaml` declares tools.
+The package must record the source page/section for each generated definition,
+formula, tool, example, and test vector.
+
+#### Stage 3: validated deterministic calculators
+
+Generate code only for explicit, unambiguous formulas or procedures with
+defined inputs and source worked examples. Inspect generated Python with AST
+and allowlists, execute it in a restricted local sandbox, and test it against
+source-derived vectors. Ambiguous annualization, compounding, missing-data,
+unit, or sign conventions become `needs_human_review`; they are not guessed.
+
+#### Stage 4: Deep Agent interface
+
+Expose bounded, read-only capabilities such as `list_sections`,
+`retrieve_passage`, `show_formula`, `explain_assumption`,
+`find_contradictions`, `run_source_example`, and
+`run_validated_calculation`. The agent may explain and run validated functions,
+but it may not activate arbitrary generated code, access unrelated tools, or
+turn a model document into an investment recommendation.
+
+#### Stage 5: evaluation and platform integration
+
+Create document-specific evals for comprehension, citation accuracy, formula
+fidelity, numerical correctness, units, assumptions, missing inputs,
+contradictions, prompt injection inside documents, and refusal when evidence is
+absent. Integrate the reviewed package through MCP, OpenTelemetry, AgentOps
+Canvas, and AgentCore only after local evidence exists.
+
+Example benefit: an equity-risk model PDF can become an interactive tutor that
+explains volatility, beta, tracking error, and drawdown; reproduces only the
+document's validated examples; compares its definitions with the repository's
+risk engine; and identifies differences without silently changing formulas.
+
+The `document-to-skill-tutor` and [TUTOR_RUNBOOK.md](TUTOR_RUNBOOK.md) provide
+the standalone learning interface and five worked examples plus three negative
+examples for this deliverable.
 
 ### Day 17 — AWS investment-research assistant pattern
 

@@ -41,6 +41,7 @@ The platform is designed around realistic PM and investment-team workflows:
 - **Overnight portfolio review:** summarize exposures, performance drivers, factor moves, concentration, liquidity, and exceptions with links to the underlying data.
 - **Risk and scenario analysis:** answer questions about duration, spread, volatility, drawdown, factor exposure, and macro or rates/credit shocks using deterministic tools.
 - **Research assistant:** retrieve and summarize public filings, macro releases, market data, and news/sentiment while preserving dates, sources, and point-in-time validity.
+- **Document-to-skill learning:** turn a public model or methodology document into a cited, reviewable `SKILL.md` package and a Deep Agent that can explain sections, formulas, assumptions, examples, and validated calculations.
 - **Investment thesis review:** have fundamental, macro, quantitative, and risk specialists collaborate, then ask a Devil’s Advocate agent to identify missing evidence, contradictions, and downside cases.
 - **Portfolio construction:** compare constrained allocations, mean-variance, max-Sharpe, risk-parity, and scenario-aware alternatives; present recommendations for human review rather than placing trades.
 - **Active-risk and rebalance review:** assess benchmark-relative exposure, tracking-error budgets, turnover, estimated implementation cost, liquidity constraints, and infeasible constraints before a human approves a rebalance.
@@ -100,6 +101,7 @@ By the end of the roadmap, the learner should be able to:
 - write agent skills, prompts, tool contracts, custom agents, and runbooks that another engineer can execute and test independently;
 - use standalone tutor agents to build and check understanding of the financial, agent-framework, AWS, observability, evaluation, provenance, committee, and Canvas fundamentals;
 - use the agent-development-lifecycle and governance-delivery tutors to assimilate skills, prompts, custom agents, CI/CD, policy-as-code, guardrails, approvals, audit, and release evidence;
+- use the `document-to-skill-tutor` to assimilate unfamiliar model documents through a staged document-grounding, skill-generation, calculator-validation, and Deep Agent workflow;
 - apply context engineering, memory, retrieval, source freshness, provenance, and point-in-time correctness to financial workflows;
 - separate LLM reasoning from deterministic pricing, risk, optimization, and backtesting code;
 - distinguish an allocation proposal from an executable order: every optimization result carries assumptions, constraints, turnover/cost estimates, feasibility state, and human-approval requirements;
@@ -108,6 +110,7 @@ By the end of the roadmap, the learner should be able to:
 - understand how Bedrock AgentCore services line up end to end with application, tool, identity, policy, memory, evaluation, and observability concerns;
 - create a Copilot Canvas that communicates portfolio state and approvals clearly; and
 - document trade-offs, limitations, release criteria, and operational ownership for an institutional audience.
+- design a document-to-skill pipeline that preserves source provenance and refuses to execute unvalidated generated code.
 
 ## Key inspirations and reference implementations
 
