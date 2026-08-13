@@ -118,7 +118,20 @@ day_10:
 
 day_11:
   label: "Runtime & Automation"
-  checks: []
+  checks:
+    - path_exists: Dockerfile
+    - path_exists: docker-compose.yml
+    - path_exists: src/ui/app.py
+    - path_exists: docs/RUNBOOK.md
+    - path_exists: .github/prompts/morning-portfolio-review.prompt.md
+    - path_exists: .github/prompts/investment-committee-brief.prompt.md
+    - path_exists: .github/agents/pr-reviewer-agent.agent.md
+    - path_exists: .github/agents/skills-auditor-agent.agent.md
+    - path_exists: .github/workflows/contract-tests.yml
+    - path_exists: .github/workflows/morning-brief.yml
+    - path_exists: scripts/check_skill_contracts.py
+    - path_exists: scripts/check_skills_freshness.py
+    - tests_pass: tests/unit/scripts/test_check_skills_freshness.py
 
 day_12:
   label: "AWS Bedrock AgentCore, wrap-up"
@@ -130,4 +143,28 @@ day_13:
 
 day_14:
   label: "Bedrock Guardrails + stretch"
+  checks: []
+
+day_15:
+  label: "Point-in-time data and provenance"
+  checks: []
+
+day_16:
+  label: "SEC research and multimodal evidence"
+  checks: []
+
+day_17:
+  label: "AWS investment-research pattern"
+  checks: []
+
+day_18:
+  label: "Devil's Advocate and committee challenge"
+  checks: []
+
+day_19:
+  label: "Production AgentOps and Canvas"
+  checks: []
+
+day_20:
+  label: "Institutional PM capstone"
   checks: []

@@ -4,7 +4,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 10)
+## The layers, and what exists today (Day 11)
 
 | Layer | Target end-state (`docs/PRD.md` §2) | What exists today |
 |---|---|---|
@@ -12,7 +12,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 | **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`docs/PRD.md` §3, principle 10) | `config/roles.yaml` assigns three local test identities only. Cedar policies independently govern tools and portfolio resources, agent construction removes unauthorized tools before model binding, portfolio context is checked before model access, a denied-terms guardrail checks input/context/output, and FastAPI re-checks tool plus resource access. Backtests pause for human approval. Every decision records its layer and OTel trace ID. |
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | `src/analytics/` contains deterministic bond/option pricing, curve interpolation, portfolio exposure/concentration, volatility/drawdown, OLS factor regression, and static-weight backtesting. `contracts/tools/` fixes each input/output shape, `src/api/main.py` exposes governed routes, and `src/mcp_server/server.py` registers the same input contracts for MCP callers. Research and portfolio classifications intentionally remain mocked. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Four project canvases now exist: `agentic-kanban`, `issue-triage-canvas`, `agent-ops-canvas`, and the Portfolio/Risk capstone. The capstone exposes identity, portfolio, scenario, trace, provenance, and approval panels; its standalone capability tests exercise the same entitlement expectations as the MCP boundary. |
-| **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py`, a hand-built local FastAPI host serving anything dropped into `artifacts/` — a rough non-prod analog of a real artifact/report host. `.github/workflows/ci.yml` is the production-path skeleton (lint + test on push/PR); nothing deploys yet. |
+| **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `scripts/artifacts_host.py` now generates a labelled single-file risk report as well as serving artifacts. `Dockerfile`/`docker-compose.yml` bring up API, MCP, artifact host, and optional Streamlit together. `.github/workflows/ci.yml`, skill-contract/freshness checks, and approval-only `morning-brief.yml` exercise the local production path; nothing deploys to AWS yet. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. `multi_agent_local.py` reproduces the hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
 | **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance; only guardrail-behavior remains stubbed until Day 12. `config/eval-baseline.json` and `eval-regression.yml` enforce subset-specific score floors. |
@@ -24,7 +24,7 @@ their `# MOCK` markers in `PROGRESS.md` (`docs/PLAN.md` §6).
 
 ---
 
-## Logical components, through Day 10
+## Logical components, through Day 11
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -55,6 +55,8 @@ src/api/main.py                      governed FastAPI wrappers; research mock
 src/mcp_server/server.py              contract-backed MCP adapter; Cedar re-check
 
 scripts/artifacts_host.py            separate FastAPI app, serves artifacts/*
+src/ui/app.py                         optional Streamlit comparison surface
+Dockerfile/docker-compose.yml         one-command local API/MCP/artifact stack
 
 .github/extensions/agentic-kanban/   shared board canvas for create/assign/move
 .github/extensions/issue-triage-canvas/  repository issue triage canvas
@@ -86,11 +88,18 @@ config/eval-baseline.json            accepted fast/full scores and regression to
 skills/eval-dataset-authoring/       evaluation-case schema and authoring workflow
 
 .github/workflows/ci.yml             lint + test on push/PR
+.github/workflows/contract-tests.yml skill schema/static/mock/negative gates
+.github/workflows/skills-freshness.yml changed-code/skill synchronization gate
+.github/workflows/morning-brief.yml  weekday approval-only review issue
 .github/workflows/eval-regression.yml  fast PR/full main behavioral regression gate
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
 .github/workflows/skills-freshness.yml  placeholder, built out Day 11
 .github/agents/eval-triage-agent.agent.md  read-only regression investigation persona
 .github/agents/docs-agent.agent.md    docs maintenance agent for architecture/glossary
+.github/agents/pr-reviewer-agent.agent.md    read-only domain PR reviewer
+.github/agents/skills-auditor-agent.agent.md  read-only stale-skill reviewer
+.github/prompts/                       six PM workflows + one developer workflow
+docs/RUNBOOK.md                        local start/test/eval/security/deploy guide
 ```
 
 ## Interactive Layer (Days 8–9)

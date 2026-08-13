@@ -1,0 +1,30 @@
+name: Skill Contracts
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ["skills/**", "contracts/**", "governance/**", "scripts/**", ".github/workflows/contract-tests.yml"]
+  push:
+    branches: [main]
+    paths: ["skills/**", "contracts/**", "governance/**", "scripts/**", ".github/workflows/contract-tests.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  schema-static-mock-negative:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv sync
+      - name: Schema and static contract checks
+        run: uv run python scripts/check_skill_contracts.py
+      - name: Mock execution and negative tests
+        run: uv run pytest skills -q
+      - name: Governance negative tests
+        run: uv run pytest governance/tests -q
+      - name: Application contract tests
+        run: uv run pytest tests/unit/mcp_server tests/unit/analytics/test_contracts.py -q

@@ -32,7 +32,11 @@ LAYER_PATTERNS = {
     ],
     "Tool Layer": ["src/analytics/**/*.py", "src/api/main.py"],
     "Portfolio Optimization": ["src/analytics/optimiz*.py"],
-    "Interactive Layer": [".github/extensions/**/*.js", ".github/extensions/**/*.ts"],
+    "Interactive Layer": [
+        ".github/extensions/**/*.js",
+        ".github/extensions/**/*.mjs",
+        ".github/extensions/**/*.ts",
+    ],
     "Runtime Layer": ["scripts/artifacts_host.py", "docker-compose.yml"],
     "Agent Layer": ["src/agents/**/*.py"],
     "Observability": ["src/context/**/*.py", "src/observability/**/*.py"],

@@ -23,10 +23,10 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Find source material by topic | [`REFERENCES.md`](REFERENCES.md) |
 | Review model, context, tool, and AWS comparisons | [`comparison-notes.md`](comparison-notes.md) |
 | Look up FICC terminology | [`ficc-glossary.md`](ficc-glossary.md) |
-| Run, evaluate, deploy, or tear down the system | `RUNBOOK.md` *(created Day 11)* |
+| Run, evaluate, deploy, or tear down the system | [`RUNBOOK.md`](RUNBOOK.md) |
 | Review architecture decisions | `adr/` *(created as decisions are recorded)* |
 
-| Run custom agents and skills standalone | AGENT_RUNBOOK.md |
+| Run custom agents and skills standalone | [`AGENT_RUNBOOK.md`](AGENT_RUNBOOK.md) |
 
 ## Agent and contributor guidance
 

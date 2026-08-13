@@ -10,7 +10,7 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 - **`docs/PRD.md`** — the *why*. Vision, target architecture, design principles, the business problems this platform answers, tiered success criteria, acceptance tests, explicit non-goals. Read this when you need to understand intent, not steps.
 - **`docs/PLAN.md`** — the *how*. Repo layout, the full day-by-day implementation steps (Appendix B), the skills/contracts/prompts/custom-agents/pre-commit-hooks catalogs, context engineering (§13), failure engineering (§14), the security model (§15), references. Read this to actually do the work for a given day.
 - **`PROGRESS.md`** — the *where we are*. Current day, the auto-generated mock→real status table, completed vs. pending checklist, evidence links. Read this first among the others, to know what's already done.
-- **`docs/ARCHITECTURE.md`** — canonical current-state architecture (created Day 1, updated whenever a design decision changes it), including a dedicated Security Model section (AuthN/AuthZ/Guardrails/Tool-enforcement) added Day 7 — merged in rather than a separate `SECURITY.md`, since one doc is easier to keep current than two that need to agree with each other. **`docs/RUNBOOK.md`** — how to start/test/eval/deploy/teardown (created Day 11). Neither exists until its creation day — check `PROGRESS.md` if unsure whether it's there yet.
+- **`docs/ARCHITECTURE.md`** — canonical current-state architecture (created Day 1, updated whenever a design decision changes it), including a dedicated Security Model section (AuthN/AuthZ/Guardrails/Tool-enforcement) added Day 7 — merged in rather than a separate `SECURITY.md`, since one doc is easier to keep current than two that need to agree with each other. **`docs/RUNBOOK.md`** — how to start/test/eval/deploy/teardown (created Day 11).
 - **`docs/REFERENCES.md`** — curated reading by topic, pre-written from Day 1 and updated in place as you learn. `docs/PLAN.md`'s day-by-day steps each point at a specific subsection of this file rather than repeating it.
 
 ## Repo rules (non-negotiable, apply regardless of which day or tool)
@@ -52,12 +52,18 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 | 10 | Canvas: Portfolio/Risk capstone | docs/PLAN.md Appendix B, Day 10 |
 | 11 | Runtime & Automation, prompts, PR path | docs/PLAN.md Appendix B, Day 11 |
 | 12 | AWS Bedrock AgentCore, portfolio optimization, wrap-up | docs/PLAN.md Appendix B, Day 12 |
-| 13 *(optional)* | AgentCore Memory & Evaluations | docs/PLAN.md, Optional AWS Deep-Dive Extension, Day 13 |
-| 14 *(optional)* | Bedrock Guardrails + stretch | docs/PLAN.md, Optional AWS Deep-Dive Extension, Day 14 |
+| 13 | AgentCore Memory & Evaluations | docs/PLAN.md, Day 13 |
+| 14 | Bedrock Guardrails + stretch | docs/PLAN.md, Day 14 |
+| 15 | Point-in-time data and provenance | docs/PLAN.md, Day 15 |
+| 16 | SEC research and multimodal evidence | docs/PLAN.md, Day 16 |
+| 17 | AWS investment-research pattern | docs/PLAN.md, Day 17 |
+| 18 | Devil's Advocate and committee challenge | docs/PLAN.md, Day 18 |
+| 19 | Production AgentOps and Canvas | docs/PLAN.md, Day 19 |
+| 20 | Institutional PM capstone | docs/PLAN.md, Day 20 |
 
 ## Tool-specific notes
 
-- **Claude Code** reads this file automatically at session start. Best fit for architecture decisions, multi-file reasoning, and framework/cloud debugging — Days 1, 3, 4, 5, 7, 12, and the optional 13–14 lean on it most.
+- **Claude Code** reads this file automatically at session start. Best fit for architecture decisions, multi-file reasoning, and framework/cloud debugging — Days 1, 3, 4, 5, 7, 12, and 13–20 lean on it most.
 - **GitHub Copilot CLI, Desktop, and the Copilot app** read this file (via the `.github/copilot-instructions.md` pointer for surfaces that need it explicitly). Best fit for repetitive scaffolding, canvas building, and GitHub-platform work — Days 2, 6, 8, 9, 10, and 11 lean on it most.
 - **OpenAI Codex CLI** reads this file automatically too (its own `/init` command exists to create one, but this repo already has it). A reasonable substitute wherever Claude Code is the default — deep reasoning, debugging, architecture work — if you'd rather use it or want to compare the two on the same task. Doesn't substitute for the Copilot app on the canvas days (8–10) or the Day 11 PR exercise; those stay Copilot-specific regardless of which CLI tool handles everything else.
 - Any of the three CLI tools can be used any day; docs/PLAN.md's per-day "Recommended dev tool" line is a default, not a restriction. `INSTALL.md` §8 has exact launch commands for all three.

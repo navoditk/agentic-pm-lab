@@ -104,6 +104,7 @@ Additional background on agent harnesses, skills, context engineering, tools, an
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Canonical architecture and security boundaries |
 | [docs/REFERENCES.md](docs/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |
 | [docs/AGENT_RUNBOOK.md](docs/AGENT_RUNBOOK.md) | Standalone custom-agent and skill examples, test cases, expected outputs, and troubleshooting |
+| [docs/RUNBOOK.md](docs/RUNBOOK.md) | One-command local stack, tests, traces, evaluations, security checks, automation, and AWS teardown guidance |
 | [data/README.md](data/README.md) | Data-source cards, freshness, licensing, provenance, and mock-data rules |
 
 ## Getting started
