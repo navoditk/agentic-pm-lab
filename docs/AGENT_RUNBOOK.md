@@ -83,7 +83,17 @@ Example requests:
 The tutor should cite the glossary or a public source, expand acronyms, label
 mock data, avoid investment recommendations, and suggest a relevant tool/test.
 
-## 6. Skills as standalone exercises
+## 6. Tutor agents
+
+The project-scoped tutor catalog has five worked examples and three negative
+examples per tutor. Use [`TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md) for the catalog,
+roadmap mapping, invocation prompts, and evidence rules. Tutors cover portfolio
+construction, agent architecture, LangGraph/Deep Agents, AWS AgentCore, data
+provenance/research, evaluation/AgentOps, OpenTelemetry, investment committee
+challenge, and Copilot Canvas/MCP. They are read-only teaching personas and do
+not replace the operational agents below.
+
+## 7. Skills as standalone exercises
 
     uv run python scripts/validate_skill.py skills/portfolio-risk-summary
     uv run pytest skills/portfolio-risk-summary/tests -q
@@ -99,7 +109,7 @@ For scenario-analysis, expected Day 5 behavior is a normalized request with
 missing inputs and unavailable execution status. It must not invent a stress
 result before the Day 12 deterministic engine exists.
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 | Symptom | Likely cause | Check |
 |---|---|---|
@@ -109,7 +119,7 @@ result before the Day 12 deterministic engine exists.
 | Unauthorized portfolio appears | Resource check happened only before construction | Test direct tools and enforce the governed boundary |
 | Final-answer eval fails | Missing facts, weak criteria, or nondeterminism | Inspect the case and trace; do not lower the baseline first |
 
-## 8. Evidence to record
+## 9. Evidence to record
 
 Record agent/skill name, model, prompt, inputs, tool calls, output, test
 command, trace or screenshot, data provenance, and limitations. Keep real

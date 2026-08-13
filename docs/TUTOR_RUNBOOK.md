@@ -1,0 +1,83 @@
+# Tutor Agent Runbook
+
+The tutor agents are standalone, read-only learning personas for the 20-day
+PM AI roadmap. They are separate from operational agents such as
+`risk-narrator-agent`, `eval-triage-agent`, `pr-reviewer-agent`, and
+`skills-auditor-agent`. A tutor explains concepts, points to repository
+evidence, and proposes a small exercise; it does not edit code, authorize
+access, run paid evaluations, place orders, or make investment recommendations.
+
+## Tutor catalog
+
+| Tutor | Best used for | Main roadmap days |
+|---|---|---|
+| `ficc-tutor-agent` | Rates, credit, curves, duration, convexity, and FICC vocabulary | 2–3, 15–18 |
+| `portfolio-construction-tutor` | Optimization, constraints, risk budgets, implementation, and validation | 3, 12, 15, 20 |
+| `agent-architecture-tutor` | Agent/workflow design, context, skills, tools, memory, recovery | 4–7, 11–20 |
+| `langgraph-deep-agents-tutor` | LangGraph state, Deep Agents, delegation, interrupts, and checkpoints | 4–5, 11, 17–20 |
+| `aws-agentcore-tutor` | Bedrock, AgentCore services, IAM, deployment, observability, teardown | 12–14, 19–20 |
+| `data-provenance-research-tutor` | Point-in-time data, EDGAR, evidence, sentiment, and research quality | 2, 15–17, 20 |
+| `evaluation-agentops-tutor` | Golden datasets, eval dimensions, regression, SLOs, and operations | 6, 9, 13–14, 19–20 |
+| `opentelemetry-tutor` | Traces, spans, attributes, propagation, privacy, and AgentCore observability | 6, 9, 12–14, 19 |
+| `investment-committee-tutor` | Thesis review, Devil’s Advocate, evidence grading, dissent, and approval | 17–20 |
+| `copilot-canvas-mcp-tutor` | Canvas UX, shared state, MCP boundaries, approvals, and capability tests | 8–11, 19–20 |
+
+## How to use one independently
+
+Select the project-scoped agent in GitHub Copilot, Copilot CLI, Claude Code, or
+another compatible agent surface that reads `.github/agents/`. The same prompt
+works across tools:
+
+```text
+Use portfolio-construction-tutor. Explain minimum volatility versus maximum
+Sharpe using the repository's toy portfolio. Cite the implementation and tests,
+state which inputs are supplied or mock, and finish with one local exercise.
+```
+
+For a deeper session:
+
+```text
+Use aws-agentcore-tutor. Teach me the Day 12 direct-code deployment path. Start
+with the account prerequisites, map each repository config field to AgentCore,
+show what evidence would prove a live deployment, and quiz me one question at a
+time. Do not ask for credentials or claim that a resource exists.
+```
+
+For adversarial practice:
+
+```text
+Use opentelemetry-tutor. I want to put the full prompt and portfolio holdings
+into every span so debugging is easier. Challenge this design, propose a
+privacy-safe schema, and point to the repository test or policy that supports
+your answer.
+```
+
+Each tutor file contains five worked examples and three negative/adversarial
+examples. Use those examples as acceptance tests for tutor behavior. Record the
+tutor name, prompt, repository sources cited, answer, exercise, and limitation;
+never record credentials or private data.
+
+## Local evidence loop
+
+Tutors are read-only, so their primary test is answer quality and source
+grounding. Validate the implementation they reference with:
+
+```bash
+UV_CACHE_DIR=/tmp/agentic-pm-lab-uv-cache uv run pytest
+UV_CACHE_DIR=/tmp/agentic-pm-lab-uv-cache uv run ruff check src tests
+```
+
+Useful focused checks include:
+
+```bash
+uv run pytest tests/unit/analytics/test_optimizer.py -q
+uv run pytest tests/unit/control/test_guardrails.py -q
+uv run pytest tests/unit/runtime tests/unit/evals -q
+node --test .github/extensions/portfolio-risk-canvas/tests/*.test.mjs
+```
+
+When a tutor describes a live service, distinguish repository code/tests,
+local mocks/deployment intent, and captured cloud/API/Canvas evidence. Tutors
+must not upgrade the first two levels into the third. See
+[`AGENT_RUNBOOK.md`](AGENT_RUNBOOK.md), [`REFERENCES.md`](REFERENCES.md), and
+[`RUNBOOK.md`](RUNBOOK.md) for broader standalone, study, and operations flows.

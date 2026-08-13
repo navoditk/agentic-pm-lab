@@ -27,6 +27,7 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Review architecture decisions | `adr/` *(created as decisions are recorded)* |
 
 | Run custom agents and skills standalone | [`AGENT_RUNBOOK.md`](AGENT_RUNBOOK.md) |
+| Study roadmap topics with standalone tutor agents | [`TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md) |
 | Review AgentCore deployment intent and decisions | [`../config/agentcore.yaml`](../config/agentcore.yaml), [`adr/0016-agentcore-direct-code-deployment.md`](adr/0016-agentcore-direct-code-deployment.md), [`adr/0017-agentcore-gateway-only-tool-path.md`](adr/adr/0017-agentcore-gateway-only-tool-path.md) |
 
 ## Agent and contributor guidance

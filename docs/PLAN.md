@@ -517,6 +517,31 @@ A **custom agent** is a named, selectable persona with its own scope and (option
 | `eval-triage-agent` | Day 6 | Invoked when `eval-regression.yml` fails: investigates which dataset examples regressed, compares the two experiment runs in LangSmith, and drafts a hypothesis for what changed |
 | `skills-auditor-agent` | Day 11 | Invoked when `skills-freshness.yml` fails: drafts the SKILL.md update as a PR for review, per §8.4 |
 
+### 10.3 Tutor agent catalog
+
+Tutor agents are read-only learning personas, distinct from operational agents.
+Each has five worked examples, three adversarial/negative examples, repository
+source pointers, and a local exercise. Their independent invocation and
+evidence rules live in [`docs/TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md).
+
+| Tutor agent | Purpose | Roadmap coverage |
+|---|---|---|
+| `portfolio-construction-tutor` | Optimization, constraints, risk budgets, costs, robustness | Days 3, 12, 15, 20 |
+| `agent-architecture-tutor` | Agent/workflow design, context, skills, tools, memory, recovery | Days 4–7, 11–20 |
+| `langgraph-deep-agents-tutor` | LangGraph and Deep Agents state, delegation, interrupts, checkpoints | Days 4–5, 11, 17–20 |
+| `aws-agentcore-tutor` | Bedrock/AgentCore services, IAM, deployment, observability, teardown | Days 12–14, 19–20 |
+| `data-provenance-research-tutor` | Point-in-time data, EDGAR, evidence, sentiment, freshness | Days 2, 15–17, 20 |
+| `evaluation-agentops-tutor` | Evaluations, regression diagnosis, OTel evidence, SLOs, promotion | Days 6, 9, 13–14, 19–20 |
+| `opentelemetry-tutor` | Traces, spans, attributes, propagation, privacy | Days 6, 9, 12–14, 19 |
+| `investment-committee-tutor` | Thesis challenge, evidence grading, dissent, approval | Days 17–20 |
+| `copilot-canvas-mcp-tutor` | Canvas state, MCP boundaries, approval UX, capability tests | Days 8–11, 19–20 |
+
+The existing personal-scope `ficc-tutor-agent` remains the domain tutor for
+rates, credit, curves, duration, convexity, and FICC vocabulary. LangGraph,
+Deep Agents, and OpenTelemetry tutors are explicitly included because those
+fundamentals are central to the target stack and deserve independent practice,
+not only implementation exposure.
+
 ---
 
 ## 11. Pre-commit Hooks & SDLC Quality Gates

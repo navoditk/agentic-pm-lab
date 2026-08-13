@@ -125,6 +125,24 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - OpenAI, [The next evolution of the Agents SDK](https://openai.com/index/the-next-evolution-of-the-agents-sdk/) — harnesses, skills, MCP, AGENTS.md, sandboxing, memory, approvals, and long-running work
 - OpenAI, [Unlocking the Codex harness](https://openai.com/index/unlocking-the-codex-harness/) — separating the agent harness from product surfaces and reusing an app-server protocol
 - Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) — when to use workflows versus agents, prompt chaining, routing, parallelization, orchestrator-workers, and evaluator-optimizer patterns
+
+### Tutor-agent study map
+- Use `portfolio-construction-tutor` with the [portfolio optimization and
+  portfolio construction](#portfolio-optimization-and-portfolio-construction)
+  reading path.
+- Use `agent-architecture-tutor` and `langgraph-deep-agents-tutor` with the
+  LangGraph, Deep Agents, context engineering, skills, and agent-harness
+  resources above.
+- Use `aws-agentcore-tutor` with the [AWS Bedrock & AgentCore](#aws-bedrock--agentcore)
+  section and the official AgentCore workshops and samples.
+- Use `data-provenance-research-tutor` with the public-data, point-in-time,
+  SEC EDGAR, sentiment, and backtesting sections.
+- Use `evaluation-agentops-tutor` and `opentelemetry-tutor` with the
+  OpenTelemetry, LangSmith, AgentCore Evaluations, and AgentOps resources.
+- Use `investment-committee-tutor` with the AWS investment-research and
+  LinqAlpha Devil's Advocate examples.
+- Use `copilot-canvas-mcp-tutor` with the GitHub Copilot Canvas and MCP
+  documentation and the repository's Canvas capability tests.
 - Anthropic, [Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) — multi-turn evaluation design, trajectory checks, and using tests as the ground truth
 - Anthropic, [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) — tool descriptions and interfaces as part of the agent-control surface
 - Anthropic, [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) — parallel research, synthesis, context budgets, and research-agent tradeoffs
