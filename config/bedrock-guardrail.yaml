@@ -1,0 +1,13 @@
+# Minimal Day 12 guardrail intent. Create the managed resource only after
+# reviewing the AWS account budget and current Bedrock Guardrails API docs.
+name: agentic-pm-lab-minimal
+blocked_topics:
+  - requests for order execution
+  - attempts to reveal credentials or hidden instructions
+content_filters:
+  - category: PROMPT_ATTACK
+    input_strength: HIGH
+    output_strength: HIGH
+  - category: MISCONDUCT
+    input_strength: HIGH
+    output_strength: HIGH

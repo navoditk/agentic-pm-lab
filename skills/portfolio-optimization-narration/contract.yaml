@@ -1,0 +1,22 @@
+inputs:
+  optimization_result:
+    type: object
+  current_weights:
+    type: object
+allowed_tools: []
+forbidden_tools:
+  - run_backtest
+  - execute_order
+output_schema:
+  type: object
+  required:
+    - method
+    - weight_deltas
+    - tradeoff
+    - limitations
+side_effects: none
+approval_required: true
+covers:
+  - src/analytics/optimizer.py
+  - contracts/tools/optimize_portfolio.schema.json
+version: 1.0.0

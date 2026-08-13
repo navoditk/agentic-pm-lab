@@ -21,10 +21,12 @@ from mcp.server.mcpserver.tools.base import Tool as RegisteredTool
 from src.analytics.backtest import run_backtest
 from src.analytics.curves import interpolate_curve
 from src.analytics.econometrics import factor_regression
+from src.analytics.optimizer import optimize_portfolio
 from src.analytics.portfolio import portfolio_summary
 from src.analytics.pricers import CashFlow, black_scholes_price, price_bond
 from src.analytics.research import get_research_summary
 from src.analytics.risk import risk_metrics
+from src.analytics.scenario import scenario_analysis
 from src.control.authorization import check_portfolio_access, check_tool_permission
 from src.control.identity import role_for_identity
 
@@ -97,6 +99,12 @@ def _call_analytics(
         return run_backtest(**arguments)
     if spec.name == "get_research_summary":
         return get_research_summary(arguments["query"])
+    if spec.name == "scenario_analysis":
+        return scenario_analysis(**arguments)
+    if spec.name == "optimize_portfolio":
+        if "weight_bounds" in arguments:
+            arguments["weight_bounds"] = tuple(arguments["weight_bounds"])
+        return optimize_portfolio(**arguments)
     raise KeyError(f"No analytics handler registered for {spec.name}")
 
 
@@ -152,6 +160,20 @@ MCP_TOOL_SPECS: tuple[MCPToolSpec, ...] = (
         "get_research_summary.schema.json",
         "get_research_summary",
         get_research_summary,
+    ),
+    MCPToolSpec(
+        "scenario_analysis",
+        "scenario_analysis.schema.json",
+        "scenario_analysis",
+        scenario_analysis,
+        portfolio_field="portfolio_id",
+    ),
+    MCPToolSpec(
+        "optimize_portfolio",
+        "optimize_portfolio.schema.json",
+        "optimize_portfolio",
+        optimize_portfolio,
+        portfolio_field="portfolio_id",
     ),
 )
 

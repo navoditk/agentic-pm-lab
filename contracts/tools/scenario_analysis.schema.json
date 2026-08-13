@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "scenario_analysis contract",
+  "type": "object",
+  "required": ["input", "output"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["positions", "scenario_type", "shock_bps"],
+      "properties": {
+        "positions": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+        "scenario_type": {"enum": ["rates", "credit"]},
+        "shock_bps": {"type": "number", "not": {"const": 0}},
+        "horizon": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "required": ["scenario_type", "shock_bps", "portfolio_return_impact", "position_impacts", "assumptions", "mock"],
+      "properties": {
+        "scenario_type": {"type": "string"},
+        "shock_bps": {"type": "number"},
+        "horizon": {"type": "string"},
+        "portfolio_return_impact": {"type": "number"},
+        "position_impacts": {"type": "array"},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "mock": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "optimize_portfolio contract",
+  "type": "object",
+  "required": ["input", "output"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["method", "expected_returns", "covariance", "current_weights"],
+      "properties": {
+        "method": {"enum": ["max_sharpe", "min_volatility", "risk_parity"]},
+        "expected_returns": {"type": "object", "minProperties": 2, "additionalProperties": {"type": "number"}},
+        "covariance": {"type": "object", "minProperties": 2, "additionalProperties": {"type": "object"}},
+        "current_weights": {"type": "object", "minProperties": 2, "additionalProperties": {"type": "number"}},
+        "weight_bounds": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number"}},
+        "max_turnover": {"type": "number", "minimum": 0},
+        "max_concentration": {"type": "number", "exclusiveMinimum": 0},
+        "transaction_cost_bps": {"type": "number", "minimum": 0},
+        "risk_free_rate": {"type": "number"}
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "required": ["method", "weights", "expected_return", "volatility", "turnover", "transaction_cost", "constraints", "mock"],
+      "properties": {
+        "method": {"type": "string"},
+        "weights": {"type": "object", "additionalProperties": {"type": "number"}},
+        "expected_return": {"type": "number"},
+        "volatility": {"type": "number"},
+        "sharpe": {"type": ["number", "null"]},
+        "turnover": {"type": "number"},
+        "transaction_cost": {"type": "number"},
+        "constraints": {"type": "object"},
+        "mock": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

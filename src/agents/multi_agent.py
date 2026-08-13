@@ -23,9 +23,11 @@ from src.agents.single_agent import (
     get_risk_metrics,
     get_volatility,
     interpolate_curve_tool,
+    optimize_portfolio_tool,
     price_bond_tool,
     run_backtest_tool,
     run_factor_regression,
+    scenario_analysis_tool,
 )
 from src.analytics.research import get_research_summary
 from src.context.builder import (
@@ -89,6 +91,8 @@ QUANT_TOOLS: tuple[BaseTool, ...] = (
     get_risk_metrics,
     run_factor_regression,
     run_backtest_tool,
+    scenario_analysis_tool,
+    optimize_portfolio_tool,
 )
 
 FUNDAMENTAL_TOOLS: tuple[BaseTool, ...] = (

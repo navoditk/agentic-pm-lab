@@ -1,0 +1,4 @@
+{
+  "optimization_result": {"method": "min_volatility", "weights": {"A": 0.6, "B": 0.4}, "expected_return": 0.08, "volatility": 0.1, "turnover": 0.2, "transaction_cost": 0.0001, "mock": true},
+  "current_weights": {"A": 0.5, "B": 0.5}
+}

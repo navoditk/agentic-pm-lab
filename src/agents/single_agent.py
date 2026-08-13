@@ -12,9 +12,11 @@ from langgraph.graph.state import CompiledStateGraph
 from src.analytics.backtest import run_backtest
 from src.analytics.curves import interpolate_curve
 from src.analytics.econometrics import factor_regression
+from src.analytics.optimizer import optimize_portfolio
 from src.analytics.portfolio import portfolio_summary
 from src.analytics.pricers import black_scholes_price, price_bond
 from src.analytics.risk import max_drawdown, risk_metrics, rolling_volatility
+from src.analytics.scenario import scenario_analysis
 from src.context.builder import (
     ContextSources,
     build_filtered_context,
@@ -156,6 +158,43 @@ def run_backtest_tool(
     )
 
 
+@tool("scenario_analysis")
+def scenario_analysis_tool(
+    positions: list[dict[str, Any]],
+    scenario_type: str,
+    shock_bps: float,
+    horizon: str = "instantaneous",
+) -> dict[str, Any]:
+    """Run a first-order rates or credit scenario analysis."""
+    return scenario_analysis(positions, scenario_type, shock_bps, horizon=horizon)  # type: ignore[arg-type]
+
+
+@tool("optimize_portfolio")
+def optimize_portfolio_tool(
+    method: str,
+    expected_returns: dict[str, float],
+    covariance: dict[str, dict[str, float]],
+    current_weights: dict[str, float],
+    weight_bounds: list[float] | None = None,
+    max_turnover: float = 1.0,
+    max_concentration: float = 1.0,
+    transaction_cost_bps: float = 0.0,
+    risk_free_rate: float = 0.0,
+) -> dict[str, Any]:
+    """Compare a constrained portfolio allocation method."""
+    return optimize_portfolio(
+        method,
+        expected_returns,
+        covariance,
+        current_weights,
+        weight_bounds=tuple(weight_bounds) if weight_bounds else (0.0, 1.0),
+        max_turnover=max_turnover,
+        max_concentration=max_concentration,
+        transaction_cost_bps=transaction_cost_bps,
+        risk_free_rate=risk_free_rate,
+    )  # type: ignore[arg-type]
+
+
 ANALYTICS_TOOLS: Sequence[BaseTool] = (
     price_bond_tool,
     price_option_tool,
@@ -166,6 +205,8 @@ ANALYTICS_TOOLS: Sequence[BaseTool] = (
     get_risk_metrics,
     run_factor_regression,
     run_backtest_tool,
+    scenario_analysis_tool,
+    optimize_portfolio_tool,
 )
 
 

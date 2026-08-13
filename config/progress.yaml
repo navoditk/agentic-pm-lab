@@ -135,7 +135,19 @@ day_11:
 
 day_12:
   label: "AWS Bedrock AgentCore, wrap-up"
-  checks: []
+  checks:
+    - path_exists: src/analytics/scenario.py
+    - path_exists: src/analytics/optimizer.py
+    - path_exists: contracts/tools/scenario_analysis.schema.json
+    - path_exists: contracts/tools/optimize_portfolio.schema.json
+    - path_exists: src/runtime/agentcore_app.py
+    - path_exists: config/agentcore.yaml
+    - path_exists: config/bedrock-guardrail.yaml
+    - path_exists: docs/adr/0016-agentcore-direct-code-deployment.md
+    - path_exists: docs/adr/0017-agentcore-gateway-only-tool-path.md
+    - path_exists: skills/portfolio-optimization-narration/SKILL.md
+    - path_exists: .github/prompts/optimize-portfolio.prompt.md
+    - tests_pass: tests/unit/runtime
 
 day_13:
   label: "AgentCore Memory & Evaluations"

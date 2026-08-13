@@ -21,6 +21,8 @@ when {
     resource == Tool::"run_factor_regression" ||
     resource == Tool::"run_backtest" ||
     resource == Tool::"get_research_summary"
+    || resource == Tool::"scenario_analysis"
+    || resource == Tool::"optimize_portfolio"
 };
 
 permit (
@@ -41,6 +43,7 @@ when {
     resource == Tool::"get_risk_metrics" ||
     resource == Tool::"run_factor_regression" ||
     resource == Tool::"run_backtest"
+    || resource == Tool::"scenario_analysis"
 };
 
 permit (
@@ -66,4 +69,6 @@ when {
     resource == Tool::"run_factor_regression" ||
     resource == Tool::"run_backtest" ||
     resource == Tool::"get_research_summary"
+    || resource == Tool::"scenario_analysis"
+    || resource == Tool::"optimize_portfolio"
 };

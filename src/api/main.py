@@ -10,11 +10,13 @@ from pydantic import BaseModel, Field
 from src.analytics.backtest import run_backtest
 from src.analytics.curves import interpolate_curve
 from src.analytics.econometrics import factor_regression
+from src.analytics.optimizer import optimize_portfolio
 from src.analytics.portfolio import portfolio_summary
 from src.analytics.pricers import CashFlow
 from src.analytics.pricers import price_bond as calculate_bond_price
 from src.analytics.research import get_research_summary
 from src.analytics.risk import risk_metrics
+from src.analytics.scenario import scenario_analysis
 from src.control.audit import record_audit_event
 from src.control.authorization import check_portfolio_access, check_tool_permission
 from src.control.identity import role_for_identity
@@ -63,6 +65,34 @@ class RiskRequest(BaseModel):
     portfolio_values: list[float] = Field(min_length=1)
     window: int = Field(default=20, ge=2)
     periods_per_year: int = Field(default=252, ge=1)
+
+
+class ScenarioPositionInput(BaseModel):
+    security_id: str
+    weight: float = Field(ge=0)
+    duration: float = Field(default=0, ge=0)
+    spread_duration: float = Field(default=0, ge=0)
+
+
+class ScenarioRequest(BaseModel):
+    portfolio_id: str
+    positions: list[ScenarioPositionInput] = Field(min_length=1)
+    scenario_type: str
+    shock_bps: float
+    horizon: str = "instantaneous"
+
+
+class OptimizationRequest(BaseModel):
+    portfolio_id: str
+    method: str
+    expected_returns: dict[str, float]
+    covariance: dict[str, dict[str, float]]
+    current_weights: dict[str, float]
+    weight_bounds: tuple[float, float] = (0.0, 1.0)
+    max_turnover: float = Field(default=1.0, ge=0)
+    max_concentration: float = Field(default=1.0, gt=0)
+    transaction_cost_bps: float = Field(default=0.0, ge=0)
+    risk_free_rate: float = 0.0
 
 
 def require_tool(
@@ -326,3 +356,50 @@ def risk(
     except ValueError as error:
         raise _unprocessable(error) from error
     return {"portfolio_id": request.portfolio_id, **result, "mock": False}
+
+
+@app.post("/tools/scenario")
+def scenario(
+    request: ScenarioRequest,
+    authorization: Annotated[
+        AuthorizationContext, Depends(require_tool("scenario_analysis"))
+    ],
+) -> dict:
+    """Run a first-order rates or credit scenario against authorized data."""
+    enforce_portfolio_boundary(authorization, request.portfolio_id)
+    try:
+        result = scenario_analysis(
+            [position.model_dump() for position in request.positions],
+            request.scenario_type,  # type: ignore[arg-type]
+            request.shock_bps,
+            horizon=request.horizon,
+        )
+    except ValueError as error:
+        raise _unprocessable(error) from error
+    return {"portfolio_id": request.portfolio_id, **result}
+
+
+@app.post("/tools/optimize")
+def optimize(
+    request: OptimizationRequest,
+    authorization: Annotated[
+        AuthorizationContext, Depends(require_tool("optimize_portfolio"))
+    ],
+) -> dict:
+    """Return a constrained allocation proposal for human review."""
+    enforce_portfolio_boundary(authorization, request.portfolio_id)
+    try:
+        result = optimize_portfolio(
+            request.method,
+            request.expected_returns,
+            request.covariance,
+            request.current_weights,
+            weight_bounds=request.weight_bounds,
+            max_turnover=request.max_turnover,
+            max_concentration=request.max_concentration,
+            transaction_cost_bps=request.transaction_cost_bps,
+            risk_free_rate=request.risk_free_rate,
+        )
+    except ValueError as error:
+        raise _unprocessable(error) from error
+    return {"portfolio_id": request.portfolio_id, **result, "approval_required": True}

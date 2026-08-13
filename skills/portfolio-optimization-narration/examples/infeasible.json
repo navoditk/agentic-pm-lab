@@ -1,0 +1,4 @@
+{
+  "optimization_result": {"method": "max_sharpe", "error": "optimization exceeds max_turnover"},
+  "current_weights": {"A": 0.5, "B": 0.5}
+}

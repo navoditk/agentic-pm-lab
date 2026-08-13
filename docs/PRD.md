@@ -77,7 +77,7 @@ identifier quality, and redistribution rights.
 
 **Context is engineered, not assumed.** The agent's context window is assembled deliberately from named sources (user/role, portfolio state, market data, retrieved research, memory, tool outputs, skills) rather than accumulating implicitly — see §3, principle 11, and `docs/PLAN.md` §13.
 
-**End state:** the multi-agent Portfolio Manager system runs on AWS Bedrock AgentCore (Runtime, Gateway, Identity, Policy, Observability), reachable only through the Gateway-governed path, as an integration-depth proof of concept — real running code and real captured traces, deliberately not a persistent production service (resources are torn down after the final integration step; see `docs/PLAN.md` for why). An **optional two-day AWS extension** (`docs/PLAN.md` Days 13–14) goes deeper for anyone prioritizing full AWS proficiency specifically: real AgentCore Memory, a comparison against AWS-native Evaluations, and a richer Bedrock Guardrails configuration beyond the minimal one already wired in Day 12; fine-tuning, multi-region deployment, and cost optimization at scale are covered there too, but only to a clearly-marked light touch.
+**End state:** the multi-agent Portfolio Manager system runs on AWS Bedrock AgentCore (Runtime, Gateway, Identity, Policy, Observability), reachable only through the Gateway-governed path, as an integration-depth proof of concept — real running code and real captured traces, deliberately not a persistent production service (resources are torn down after the final integration step; see `docs/PLAN.md` for why). The expanded 20-day roadmap makes AgentCore Memory, AWS-native Evaluations, richer Bedrock Guardrails, point-in-time data, SEC research, investment-research collaboration, Devil's Advocate challenge, AgentOps, and the final institutional capstone mainstream milestones in Days 13–20.
 
 ---
 
@@ -168,7 +168,7 @@ Success is tiered on purpose — **one working vertical slice matters more than 
 
 ### Tier 3 — time permitting
 - Local-model (Ollama) comparison against the cloud model, run against the same golden dataset.
-- The richer optional AWS extension: AgentCore Memory across sessions, AgentCore Evaluations compared against LangSmith, and a deeper Bedrock Guardrails configuration beyond Day 12's minimal one.
+- The extended AWS and institutional track: AgentCore Memory across sessions, AgentCore Evaluations compared against LangSmith, and a deeper Bedrock Guardrails configuration beyond Day 12's minimal deployment intent, followed by provenance, research, committee, AgentOps, and capstone acceptance evidence.
 - Additional custom agents, canvases, ADRs, and general operational polish beyond what Tier 1/2 required.
 
 ### Core end-state acceptance test

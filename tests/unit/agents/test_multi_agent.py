@@ -137,6 +137,8 @@ def test_specialists_have_domain_specific_tool_boundaries():
         "get_risk_metrics",
         "run_factor_regression",
         "run_backtest",
+        "scenario_analysis",
+        "optimize_portfolio",
     }
     assert {tool.name for tool in specs["fundamental"]["tools"]} == {
         "get_portfolio_exposure",

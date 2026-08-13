@@ -2,6 +2,29 @@
 
 Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Finalized Day 12. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
 
+## 2026-08-12 — Day 12
+
+**What worked:** The Tool Layer remained genuinely reusable: the same scenario
+and optimization functions are now covered by contracts, FastAPI routes, MCP
+capabilities, and Deep Agent tools. The AgentCore SDK's direct-code entrypoint
+was small enough to keep the managed-runtime boundary visible without creating
+a second application implementation. The deployment intent files and ADRs
+make the local-to-managed mapping reviewable before any metered AWS call.
+
+**What didn't work / had to be fixed:** The installed PyPortfolioOpt release
+expects a private SciPy clustering constant that is absent in the installed
+SciPy version. HRP therefore needs a deterministic inverse-volatility fallback
+until the dependency pair is upgraded and validated. This is a useful
+production lesson: a library name in the target architecture is not evidence
+that its numerical path is compatible with the pinned environment.
+
+**One thing I'd do differently:** Establish a small dependency compatibility
+matrix for numerical libraries before integrating the optimizer, and test the
+actual AgentCore model/provider string and IAM permissions in a disposable AWS
+account before calling the deployment day complete. The repository now stops
+short of claiming that cloud evidence; Days 13–20 can extend it with managed
+Memory, evaluations, guardrails, provenance, research, and committee workflows.
+
 ---
 
 ## 2026-08-09 — Day 1

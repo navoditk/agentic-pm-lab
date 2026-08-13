@@ -24,4 +24,6 @@ side_effects: none
 approval_required: false
 covers:
   - src/agents/multi_agent.py
-version: 0.1.0
+  - src/analytics/scenario.py
+  - contracts/tools/scenario_analysis.schema.json
+version: 1.0.0

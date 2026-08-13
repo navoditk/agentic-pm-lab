@@ -7,10 +7,12 @@ from jsonschema import Draft202012Validator
 from src.analytics.backtest import run_backtest
 from src.analytics.curves import interpolate_curve
 from src.analytics.econometrics import factor_regression
+from src.analytics.optimizer import optimize_portfolio
 from src.analytics.portfolio import portfolio_summary
 from src.analytics.pricers import black_scholes_price, price_bond
 from src.analytics.research import get_research_summary
 from src.analytics.risk import risk_metrics
+from src.analytics.scenario import scenario_analysis
 
 CONTRACTS_DIR = Path(__file__).resolve().parents[3] / "contracts" / "tools"
 
@@ -73,6 +75,21 @@ def contract_case(name):
     elif name == "get_research_summary":
         function_input = {"query": "latest issuer developments"}
         output = get_research_summary(**function_input)
+    elif name == "scenario_analysis":
+        function_input = {
+            "positions": [{"security_id": "A", "weight": 1.0, "duration": 5.0}],
+            "scenario_type": "rates",
+            "shock_bps": 50,
+        }
+        output = scenario_analysis(**function_input)
+    elif name == "optimize_portfolio":
+        function_input = {
+            "method": "min_volatility",
+            "expected_returns": {"A": 0.1, "B": 0.08},
+            "covariance": {"A": {"A": 0.04, "B": 0.01}, "B": {"A": 0.01, "B": 0.0225}},
+            "current_weights": {"A": 0.5, "B": 0.5},
+        }
+        output = optimize_portfolio(**function_input)
     else:
         raise AssertionError(f"Unknown contract case: {name}")
     return function_input, output
@@ -89,6 +106,8 @@ def contract_case(name):
         "factor_regression",
         "run_backtest",
         "get_research_summary",
+        "scenario_analysis",
+        "optimize_portfolio",
     ],
 )
 def test_actual_input_and_output_match_contract(name):
