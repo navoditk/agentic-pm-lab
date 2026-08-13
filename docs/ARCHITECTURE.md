@@ -15,7 +15,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `src/runtime/agentcore_app.py` is a direct-code AgentCore entrypoint for the same Portfolio Manager, with `config/agentcore.yaml` capturing Runtime/Gateway/Identity/Policy/Guardrails/OTel intent. Local Docker remains the comparison stack; a live AWS resource deployment is not claimed until account setup and smoke evidence exist. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. `multi_agent_local.py` reproduces the hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
-| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. Managed AgentCore evaluation comparison remains a later Day 14 exercise; no live cloud evaluation is claimed here. |
+| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. Day 13 adds the AgentCore evaluation manifest; no live cloud evaluation is claimed here. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | Doesn't exist yet — starts Day 11. |
 
 The Data Layer is intentionally mixed: public price/macro data is real, while
@@ -306,7 +306,7 @@ contains no permissions; `governance/policies/` is their sole authority.
 |---|---|---|---|
 | AuthN | Exact identity lookup from `config/roles.yaml` | Unknown/missing identity is rejected before authorization | `config/agentcore.yaml` maps to AgentCore Identity; live resource not claimed |
 | AuthZ | Cedar tool and portfolio policies; tools filtered before model binding | Tool/resource is absent or denied | `config/agentcore.yaml` maps to AgentCore Policy; Cedar intent remains source for review |
-| Guardrails | Shared denied-term check on question, named context, and final output | Content is withheld with `GuardrailViolation` | `config/bedrock-guardrail.yaml` captures minimal Bedrock intent; live guardrail test remains pending |
+| Guardrails | Shared denied-term and topic check on question, named context, and final output | Content is withheld with `GuardrailViolation` | `config/bedrock-guardrail.yaml` captures extended Day 14 Bedrock intent; live guardrail test remains pending |
 | Tool enforcement | FastAPI and MCP repeat tool/resource authorization | HTTP/MCP denial before analytics/data access | ADR 0017 requires Gateway-fronted MCP; no direct deployed bypass |
 
 Authorization does not trust skill contracts or prompt intent. A permitted tool
@@ -321,9 +321,11 @@ The deterministic negative suite under `governance/tests/` covers role
 spoofing, instruction override attempts, system-instruction retrieval through
 an unregistered tool, permitted-tool portfolio bypass, unlisted data export,
 and write-shaped operations framed as reads. Content tests verify that the
-same denied-term list used by pre-commit blocks generated output at runtime.
-These controls reduce prompt-injection and excessive-agency risk; they do not
-claim that string matching detects every semantic attack.
+same denied-term list used by pre-commit blocks generated output at runtime,
+while topic tests block unqualified trading directives and prompt/credential
+exfiltration without blocking risk narration. These controls reduce
+prompt-injection and excessive-agency risk; they do not claim that string
+matching detects every semantic attack.
 
 ### Human approval, audit, and secrets
 
@@ -350,8 +352,9 @@ tool filtering, approval interrupts, guardrail placement, and traced audit
 evidence. It does not provide signed identities, managed policy deployment,
 semantic content classification, or a network-enforced gateway. Day 12 maps
 those gaps respectively to AgentCore Identity, AgentCore Policy, Bedrock
-Guardrails, and Gateway. The deployed architecture must expose no interactive
-path that bypasses Gateway and its tool-boundary entitlement re-check.
+Guardrails, and Gateway; Day 14 expands the content policy beyond simple
+terms. The deployed architecture must expose no interactive path that bypasses
+Gateway and its tool-boundary entitlement re-check.
 
 ---
 

@@ -18,7 +18,7 @@ policy:
     - governance/policies/tool-permissions.cedar
     - governance/policies/portfolio-access.cedar
 guardrails:
-  mode: minimal_day_12
+  mode: extended_day_14
   source: Amazon Bedrock Guardrails
 observability:
   source: OpenTelemetry and AgentCore Observability

@@ -159,7 +159,12 @@ day_13:
 
 day_14:
   label: "Bedrock Guardrails + stretch"
-  checks: []
+  checks:
+    - path_exists: config/bedrock-guardrail.yaml
+    - path_exists: src/control/guardrails.py
+    - path_exists: tests/unit/control/test_guardrails.py
+    - path_exists: evals/guardrail_cases.jsonl
+    - tests_pass: tests/unit/control/test_guardrails.py
 
 day_15:
   label: "Point-in-time data and provenance"

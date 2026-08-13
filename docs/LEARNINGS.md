@@ -1,6 +1,22 @@
 # Learnings
 
-Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Finalized Day 13. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
+Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Finalized Day 14. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
+
+## 2026-08-12 — Day 14
+
+**What worked:** Extending the local guardrail with named topic categories made
+the governance distinction testable: normal risk narration passes, while
+unqualified trade directives and prompt/credential exfiltration are blocked.
+The policy remains applied at input, context, and output boundaries.
+
+**What did not happen:** Fine-tuning, second-region deployment, and Cost
+Explorer review were intentionally skipped because no AWS sandbox resources
+are active. The configuration records the intended Bedrock Guardrails shape;
+it is not evidence of a live managed resource.
+
+**One thing I'd do differently:** Add semantic guardrail cases to the versioned
+evaluation dataset at the same time as the local policy, so false-positive
+rates and blocked-topic coverage are visible in the AgentOps Canvas earlier.
 
 ## 2026-08-12 — Day 13
 
