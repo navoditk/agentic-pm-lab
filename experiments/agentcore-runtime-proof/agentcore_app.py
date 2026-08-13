@@ -15,6 +15,8 @@ app = BedrockAgentCoreApp()
 LOGGER = logging.getLogger("agentic_pm_lab.agentcore_proof")
 logging.basicConfig(level=logging.INFO)
 MODEL_ID = os.getenv("MODEL_ID", "us.anthropic.claude-haiku-4-5-20251001-v1:0")
+GUARDRAIL_ID = os.getenv("GUARDRAIL_ID")
+GUARDRAIL_VERSION = os.getenv("GUARDRAIL_VERSION", "DRAFT")
 
 
 def _stage(stages: list[dict[str, Any]], name: str, **details: Any) -> None:
@@ -54,15 +56,29 @@ def invoke(payload: dict[str, Any]) -> dict[str, Any]:
         f"Question: {question}\nEvidence: {json.dumps(sources, sort_keys=True)}"
     )
     client = boto3.client("bedrock-runtime")
-    response = client.converse(
-        modelId=MODEL_ID,
-        messages=[{"role": "user", "content": [{"text": prompt}]}],
-        inferenceConfig={"maxTokens": 300, "temperature": 0},
-    )
+    converse_args: dict[str, Any] = {
+        "modelId": MODEL_ID,
+        "messages": [{"role": "user", "content": [{"text": prompt}]}],
+        "inferenceConfig": {"maxTokens": 300, "temperature": 0},
+    }
+    if GUARDRAIL_ID:
+        converse_args["guardrailConfig"] = {
+            "guardrailIdentifier": GUARDRAIL_ID,
+            "guardrailVersion": GUARDRAIL_VERSION,
+            "trace": "enabled",
+        }
+    response = client.converse(**converse_args)
     answer = response["output"]["message"]["content"][0]["text"]
     usage = response.get("usage", {})
     _stage(stages, "bedrock_completed", usage=usage)
-    _stage(stages, "guardrail_checked", decision="allow", violations=[])
+    guardrail_trace = response.get("trace", {}).get("guardrail", {})
+    _stage(
+        stages,
+        "guardrail_checked",
+        decision="allow",
+        guardrail_id=GUARDRAIL_ID,
+        violations=guardrail_trace.get("assessments", []),
+    )
     _stage(stages, "response_emitted", approval_required=True, order_execution=False)
 
     return {
