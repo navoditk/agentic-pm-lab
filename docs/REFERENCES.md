@@ -188,6 +188,14 @@ Not a "read before Day N" entry like the sections below — this is the source o
   publication cadence, missing data, and return units.
 - Extend PyPortfolioOpt exercises with bounds, leverage, concentration,
   transaction costs, turnover, and infeasible-constraint behavior.
+- Use [vectorbt](https://vectorbt.dev/) as an optional research/backtesting
+  comparison for vectorized portfolio simulations and parameter sweeps; keep
+  the repository's deterministic backtest as the reference implementation so
+  the learning path does not hide assumptions inside a large framework.
+- Read [skfolio's model-selection guide](https://skfolio.org/user_guide/model_selection.html)
+  for walk-forward, purged, embargoed, and randomized validation designed for
+  financial time series. This is a study/reference path before adding the
+  dependency.
 
 ### Python testing & mocking
 - `pytest` documentation, especially fixtures and markers (for the `unit`/`eval` split in docs/PLAN.md §4): `docs.pytest.org`
@@ -209,13 +217,76 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - Investopedia's Sharpe-ratio primer, used alongside the backtest metric:
   `investopedia.com/terms/s/sharperatio.asp`
 
-### Portfolio optimization (Day 12)
-- `PyPortfolioOpt` documentation hub (the library `src/analytics/optimizer.py` is built on): `pyportfolioopt.readthedocs.io`
-- `PyPortfolioOpt` User Guide, mean-variance optimization section specifically (`EfficientFrontier`, `min_volatility()`, `max_sharpe()`): `pyportfolioopt.readthedocs.io/en/latest/UserGuide.html`
-- `PyPortfolioOpt` cookbook notebook on mean-variance optimization (a full worked example, download-to-allocation): `github.com/robertmartin8/PyPortfolioOpt`, `cookbook/2-Mean-Variance-Optimisation.ipynb`
-- Harry Markowitz, "Portfolio Selection," *Journal of Finance*, 1952 — the original paper behind mean-variance optimization; PyPortfolioOpt's own docs cite it directly as the theoretical basis for `EfficientFrontier`. Investopedia's "Modern Portfolio Theory" page is a reasonable plain-language substitute if the original paper is more than you want today.
-- Investopedia: the efficient frontier and the Sharpe ratio — what `max_sharpe()` is actually maximizing, and why "highest return" alone isn't the optimization target
-- Investopedia (or PyPortfolioOpt's own HRP documentation page): Hierarchical Risk Parity — the conceptual difference between "equal risk contribution" (risk parity) and "maximum risk-adjusted return" (mean-variance), since `optimize_risk_parity()` and `optimize_max_sharpe()` are answering genuinely different questions, not two ways of asking the same one
+### Portfolio optimization and portfolio construction
+
+Use this as a staged reading path: first understand the investment decision,
+then the optimizer, then the estimation and implementation risks around it.
+
+#### Current project foundation
+- [PyPortfolioOpt documentation](https://pyportfolioopt.readthedocs.io/en/latest/)
+  and its [User Guide](https://pyportfolioopt.readthedocs.io/en/latest/UserGuide.html):
+  the current library behind `src/analytics/optimizer.py`, including efficient
+  frontiers, constraints, shrinkage, Black-Litterman, and HRP.
+- [PyPortfolioOpt cookbook](https://github.com/robertmartin8/PyPortfolioOpt/tree/master/cookbook),
+  especially the [mean-variance notebook](https://github.com/robertmartin8/PyPortfolioOpt/blob/master/cookbook/2-Mean-Variance-Optimisation.ipynb)
+  and the [Black-Litterman notebook](https://github.com/robertmartin8/PyPortfolioOpt/blob/master/cookbook/4-Black-Litterman-Allocation.ipynb).
+- [Markowitz, “Portfolio Selection” (1952)](https://doi.org/10.2307/2975974):
+  the original mean-variance framing; read alongside the project warning that
+  expected returns and covariance are estimates, not facts.
+- [PyPortfolioOpt Black-Litterman guide](https://pyportfolioopt.readthedocs.io/en/latest/BlackLitterman.html):
+  a practical bridge from PM views and confidence to expected-return inputs.
+- [PyPortfolioOpt HRP guide](https://pyportfolioopt.readthedocs.io/en/latest/OtherOptimizers.html):
+  why hierarchical risk parity is different from maximizing Sharpe ratio.
+
+#### Constraints, solvers, and institutional realism
+- [CVXPY documentation](https://www.cvxpy.org/) and its [finance/portfolio examples](https://www.cvxpy.org/examples/):
+  the explicit convex-modeling layer underneath PyPortfolioOpt. CVXPY is
+  currently present transitively through PyPortfolioOpt; it is not yet a new
+  direct application dependency because the project has not added a custom
+  optimization model.
+- [Cvxportfolio manual](https://www.cvxportfolio.com/en/stable/manual.html):
+  the strongest cookbook-style reference for multi-period policies, leverage,
+  transaction costs, holding costs, constraints, and backtesting. Treat it as
+  a future comparison framework, not a replacement for this repo's tool
+  boundary.
+- [Riskfolio-Lib documentation](https://riskfolio-lib.readthedocs.io/en/latest/):
+  useful for downside/CVaR, robust, Black-Litterman, factor-risk, tracking
+  error, turnover, cardinality, and risk-budgeting comparisons. It is broader
+  than the current learning slice and should be evaluated in an isolated
+  extension rather than added to the core environment immediately.
+- [Riskfolio-Lib convex portfolio models](https://riskfolio-lib.readthedocs.io/en/latest/riskfoliolib/portfolio.html):
+  worked reference for alternative risk measures and factor risk-contribution
+  constraints.
+
+#### Estimation risk, validation, and robustness
+- [skfolio](https://skfolio.org/) and its [walk-forward/model-selection guide](https://skfolio.org/user_guide/model_selection.html):
+  a modern scikit-learn-compatible comparison for covariance estimators,
+  shrinkage, robust risk measures, nested optimization, purged/embargoed
+  validation, and multiple randomized backtests. The project should study it
+  before deciding whether to add it as an optional dependency.
+- [skfolio model-selection examples](https://skfolio.org/auto_examples/model_selection/index.html):
+  practical examples for HRP/HERC, regularization, nested clusters, and
+  randomized validation.
+- [VectorBT documentation](https://vectorbt.dev/) and its
+  [portfolio optimization tutorial](https://vectorbt.pro/tutorials/portfolio-optimization/):
+  optional high-throughput research/backtesting comparison; the optimization
+  tutorial is a useful cookbook even if the Pro page is not used.
+- [Ledoit-Wolf covariance shrinkage](https://scikit-learn.org/stable/modules/covariance.html):
+  practical estimation-risk reference before trusting a sample covariance
+  matrix in an optimizer.
+
+#### Business-use-case reading checklist
+- Benchmark-relative construction: tracking error, active risk, information
+  ratio, benchmark-relative constraints, and active share.
+- Risk budgeting: asset, sector, issuer, duration, spread, and factor
+  contribution budgets rather than only nominal weight limits.
+- Implementation: turnover, bid/ask spread, market impact, liquidity capacity,
+  rebalance windows, and infeasible-constraint handling.
+- Downside and robustness: CVaR/expected shortfall, drawdown, stress regimes,
+  uncertainty sets, shrinkage, and sensitivity of weights to inputs.
+- PM communication: current-versus-proposed weights, binding constraints,
+  expected risk/return change, implementation cost, data vintage, and an
+  explicit human approval decision.
 
 ### FICC / fixed income fundamentals
 - Investopedia's fixed-income section, for plain-language first passes at any term before it goes in `docs/ficc-glossary.md`

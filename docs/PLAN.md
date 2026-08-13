@@ -776,15 +776,31 @@ Codex or Claude Code for CI and runbook review.
 
 ### Day 12 — AgentCore foundation and constrained portfolio construction
 
-Finish the scenario engine and optimization, but add institutional constraints:
-turnover, bounds, concentration, leverage, liquidity, transaction costs,
-benchmark-relative limits, and infeasible-constraint errors. Deploy the
+Finish the scenario engine and optimization, but add the first institutional
+constraints: turnover, bounds, concentration, transaction-cost estimates, and
+infeasible-constraint errors. Keep liquidity, leverage, benchmark-relative
+limits, and market-impact modeling as explicitly documented next-layer gaps;
+the current optimizer must not imply that a simple `max_concentration` check
+is a complete institutional constraint engine. Deploy the
 LangGraph/Deep Agent through AgentCore Runtime and expose tools through the
 Gateway-only path. Capture the local-to-managed mapping for Runtime, Gateway,
 Identity, Policy, Guardrails, and Observability in the architecture document.
 
 Recommended tool: Codex or Claude Code for AWS debugging; Copilot CLI for
 deployment scaffolding.
+
+### Portfolio optimization depth boundary
+
+Day 12 establishes the deterministic allocation seam used by the agents. The
+current methods are suitable for learning contracts, constraints, narration,
+and approval workflows, but expected returns and covariance are still supplied
+inputs and the holdings/security master are not production data. Before calling
+the optimizer institutional-grade, the capstone should add or explicitly
+demonstrate benchmark-relative tracking error, group/factor limits, downside or
+CVaR risk, shrinkage/Black-Litterman estimation, liquidity and impact costs,
+walk-forward validation, stress/regime stability, and a multi-period rebalance
+comparison. Tax-aware, derivatives-margin, liability-driven, cardinality, and
+order-generation paths remain out of scope.
 
 ### Day 13 — AgentCore Memory and durable session state
 
