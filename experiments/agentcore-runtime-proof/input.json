@@ -1,0 +1,16 @@
+{
+  "request_id": "exp-agentcore-proof-001",
+  "identity": "PM_USER",
+  "question": "Assess the overnight rates and credit-risk implications for Portfolio A. Summarize evidence, assumptions, risks, and the next human review step. Do not place or recommend an order.",
+  "sources": {
+    "portfolio_id": "PORT_A",
+    "decision_date": "2026-08-13",
+    "market_data": "public-or-mock-fixtures-only",
+    "portfolio_snapshot": {
+      "duration_years": 4.2,
+      "credit_exposure": "investment-grade public mock basket",
+      "cash_buffer_pct": 8
+    },
+    "research": "public mock research summary; not investment advice"
+  }
+}
