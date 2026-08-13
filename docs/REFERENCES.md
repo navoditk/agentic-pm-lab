@@ -143,6 +143,10 @@ Not a "read before Day N" entry like the sections below — this is the source o
   LinqAlpha Devil's Advocate examples.
 - Use `copilot-canvas-mcp-tutor` with the GitHub Copilot Canvas and MCP
   documentation and the repository's Canvas capability tests.
+- Use `agent-development-lifecycle-tutor` with the agent skills, prompts,
+  custom agents, contracts, GitHub Copilot, Claude Code, and Codex resources.
+- Use `governance-delivery-tutor` with the security, Cedar, CI/CD, AgentCore
+  Guardrails, evaluation-gate, human-approval, and AgentOps resources.
 - Anthropic, [Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) — multi-turn evaluation design, trajectory checks, and using tests as the ground truth
 - Anthropic, [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) — tool descriptions and interfaces as part of the agent-control surface
 - Anthropic, [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) — parallel research, synthesis, context budgets, and research-agent tradeoffs

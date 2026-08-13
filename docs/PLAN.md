@@ -535,6 +535,8 @@ evidence rules live in [`docs/TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md).
 | `opentelemetry-tutor` | Traces, spans, attributes, propagation, privacy | Days 6, 9, 12–14, 19 |
 | `investment-committee-tutor` | Thesis challenge, evidence grading, dissent, approval | Days 17–20 |
 | `copilot-canvas-mcp-tutor` | Canvas state, MCP boundaries, approval UX, capability tests | Days 8–11, 19–20 |
+| `agent-development-lifecycle-tutor` | Skills, prompts, custom agents, contracts, tests, freshness, cross-tool workflows | Days 4, 8, 11, 19–20 |
+| `governance-delivery-tutor` | CI/CD, policy-as-code, guardrails, approvals, audit, promotion, rollback, teardown | Days 6–7, 11–14, 19–20 |
 
 The existing personal-scope `ficc-tutor-agent` remains the domain tutor for
 rates, credit, curves, duration, convexity, and FICC vocabulary. LangGraph,

@@ -13,7 +13,7 @@ The goal is to develop practical proficiency in the full lifecycle of a trusted 
 3. Add the controls required for financial services: identity, authorization, policy-as-code, guardrails, provenance, human review, auditability, and failure recovery.
 4. Deploy and operate the system using AWS Bedrock and AgentCore patterns, with OpenTelemetry traces and evaluation evidence.
 5. Expose the workflows through GitHub Copilot Canvas and practice the same repository with Codex CLI, Claude Code, Copilot CLI, and the Copilot app.
-6. Learn each major platform concern independently through tutor agents for FICC, portfolio construction, agent architecture, LangGraph/Deep Agents, AWS AgentCore, data provenance, evaluations/AgentOps, OpenTelemetry, investment committees, and Copilot Canvas/MCP.
+6. Learn each major platform concern independently through tutor agents for FICC, portfolio construction, agent architecture, LangGraph/Deep Agents, AWS AgentCore, data provenance, evaluations/AgentOps, OpenTelemetry, investment committees, Copilot Canvas/MCP, agent development lifecycle, and governance/delivery.
 
 The end state is a defensible PM AI proof of concept: every recommendation should be explainable, evidence-linked, reproducible, tested, observable, and subject to appropriate approval—not merely plausible text from an LLM.
 
@@ -99,6 +99,7 @@ By the end of the roadmap, the learner should be able to:
 - design a production-oriented multi-agent architecture for investment research and portfolio decisions;
 - write agent skills, prompts, tool contracts, custom agents, and runbooks that another engineer can execute and test independently;
 - use standalone tutor agents to build and check understanding of the financial, agent-framework, AWS, observability, evaluation, provenance, committee, and Canvas fundamentals;
+- use the agent-development-lifecycle and governance-delivery tutors to assimilate skills, prompts, custom agents, CI/CD, policy-as-code, guardrails, approvals, audit, and release evidence;
 - apply context engineering, memory, retrieval, source freshness, provenance, and point-in-time correctness to financial workflows;
 - separate LLM reasoning from deterministic pricing, risk, optimization, and backtesting code;
 - distinguish an allocation proposal from an executable order: every optimization result carries assumptions, constraints, turnover/cost estimates, feasibility state, and human-approval requirements;

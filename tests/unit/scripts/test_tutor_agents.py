@@ -11,6 +11,8 @@ TUTORS = (
     "opentelemetry-tutor",
     "investment-committee-tutor",
     "copilot-canvas-mcp-tutor",
+    "agent-development-lifecycle-tutor",
+    "governance-delivery-tutor",
 )
 
 

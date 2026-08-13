@@ -90,8 +90,9 @@ examples per tutor. Use [`TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md) for the catalog,
 roadmap mapping, invocation prompts, and evidence rules. Tutors cover portfolio
 construction, agent architecture, LangGraph/Deep Agents, AWS AgentCore, data
 provenance/research, evaluation/AgentOps, OpenTelemetry, investment committee
-challenge, and Copilot Canvas/MCP. They are read-only teaching personas and do
-not replace the operational agents below.
+challenge, Copilot Canvas/MCP, agent development lifecycle, and governance/
+delivery. They are read-only teaching personas and do not replace the
+operational agents below.
 
 ## 7. Skills as standalone exercises
 

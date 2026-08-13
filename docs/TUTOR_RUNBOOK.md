@@ -21,6 +21,8 @@ access, run paid evaluations, place orders, or make investment recommendations.
 | `opentelemetry-tutor` | Traces, spans, attributes, propagation, privacy, and AgentCore observability | 6, 9, 12–14, 19 |
 | `investment-committee-tutor` | Thesis review, Devil’s Advocate, evidence grading, dissent, and approval | 17–20 |
 | `copilot-canvas-mcp-tutor` | Canvas UX, shared state, MCP boundaries, approvals, and capability tests | 8–11, 19–20 |
+| `agent-development-lifecycle-tutor` | Skills, prompts, custom agents, contracts, tests, freshness, and cross-tool practice | 4, 8, 11, 19–20 |
+| `governance-delivery-tutor` | CI/CD, policy-as-code, guardrails, approvals, audit, promotion, rollback, and teardown | 6–7, 11–14, 19–20 |
 
 ## How to use one independently
 
