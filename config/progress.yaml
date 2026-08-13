@@ -108,7 +108,13 @@ day_9:
 
 day_10:
   label: "Canvas: Portfolio/Risk capstone"
-  checks: []
+  checks:
+    - path_exists: src/mcp_server/server.py
+    - path_exists: src/mcp_server/__init__.py
+    - path_exists: .github/extensions/portfolio-risk-canvas/canvas.mjs
+    - path_exists: .github/extensions/portfolio-risk-canvas/tests/canvas-capabilities.test.mjs
+    - path_exists: .github/agents/risk-narrator-agent.agent.md
+    - tests_pass: tests/unit/mcp_server
 
 day_11:
   label: "Runtime & Automation"

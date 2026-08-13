@@ -18,7 +18,14 @@ web/app.mjs     your Preact view
 test/smoke.test.mjs  boots the runtime over HTTP and exercises the actions
 ```
 
-This is an **external-data** canvas: it fetches from a source URL inside an action handler (always with `AbortSignal.timeout`), captures failures into state, and auto-refreshes on a visibility-gated timer via the kit's `pollWhileVisible` helper.
+This is a **governed analytics** canvas: its production integration boundary is
+the contract-backed MCP adapter in `src/mcp_server/`, while standalone tests
+use deterministic fixtures. Identity and portfolio entitlement are rechecked
+at the MCP boundary; the Canvas state is not an authorization source of truth.
+
+The current portfolio and security-master fixtures are explicitly marked mock.
+Public FRED/Treasury inputs are shown separately in the provenance panel. A
+scenario result therefore cannot be read as a live valuation or trading signal.
 
 ## Validate
 

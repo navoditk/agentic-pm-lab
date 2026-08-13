@@ -73,7 +73,7 @@ function seedState() {
     provenance: [
       { id: "macro", label: "Rates / macro curve", kind: "real", note: "Public FRED / Treasury data already in the repo." },
       { id: "portfolio", label: "Holdings and classifications", kind: "mock", note: "Security master remains mock until a real fundamentals source exists." },
-      { id: "scenario", label: "Scenario impacts", kind: "mock", note: "Canvas shell only; MCP wiring comes later." },
+      { id: "scenario", label: "Scenario impacts", kind: "mock", note: "Scenario fixtures are mock; the governed MCP contract is documented separately." },
     ],
     guardrails: [
       { id: "port-a", title: "PORT_A access", result: "allowed", detail: "PM_USER can inspect the primary portfolio." },
@@ -140,6 +140,12 @@ function seedState() {
     },
     selectedScenario: "rates_50bps",
     selectedTraceNode: "root",
+    integration: {
+      boundary: "governed-mcp",
+      tool: "risk_metrics",
+      status: "contract-backed",
+      note: "Canvas capability tests use the same identity and portfolio boundary as the MCP adapter.",
+    },
     lastAction: "Canvas seeded with portfolio/risk summary.",
     updatedAt: new Date().toISOString(),
   };
@@ -278,6 +284,7 @@ export const canvasConfig = {
         set((current) => recordScenario(current, scenario));
         return {
           scenarioId: scenario.id,
+          adapter: "governed-mcp-contract",
           stressed: {
             volatility: state.currentMetrics.volatility + scenario.impact.volatility,
             maxDrawdown: state.currentMetrics.maxDrawdown + scenario.impact.drawdown,
