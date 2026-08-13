@@ -1,6 +1,23 @@
 # Learnings
 
-Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Finalized Day 12. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
+Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Finalized Day 13. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
+
+## 2026-08-12 — Day 13
+
+**What worked:** A narrow memory protocol made the boundary between Deep Agent
+working state and managed AgentCore Memory concrete. Identity and scope are
+checked before context is serialized, and the same golden dataset can be
+represented as an AWS-native evaluation plan without changing the LangSmith
+baseline.
+
+**What did not happen:** The AWS account is not configured yet, so there is no
+live cross-session Memory transcript, CloudWatch Transaction Search evidence,
+or AgentCore Evaluation report. The local tests deliberately do not imply
+those cloud capabilities.
+
+**One thing I'd do differently:** Create the AWS evaluation manifest alongside
+the Day 12 Runtime intent, so account setup and live evidence can be captured
+as one repeatable deployment exercise rather than as a later extension.
 
 ## 2026-08-12 — Day 12
 

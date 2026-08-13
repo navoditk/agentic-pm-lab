@@ -1422,22 +1422,22 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 
 ---
 
-## Optional AWS Deep-Dive Extension (Days 13–14)
+## AWS Deep-Dive Extension (Days 13–14)
 
 The 12-day path above is a complete, self-contained proof of concept — Day 12 gets a real multi-agent system genuinely running on AWS Bedrock AgentCore, with real traces and a real four-layer security model (AuthN/AuthZ/Guardrails/Tool enforcement), guardrails included in minimal form. It deliberately did not go deep on AgentCore Memory, AgentCore's own Evaluations product, richer Bedrock Guardrails configuration, model fine-tuning, multi-region/HA deployment, or cost optimization at scale, on the reasoning that a single integration day should prove the core mechanism at every layer, not survey the whole service catalog in depth.
 
-Given the goal of *proficiency* with the AWS Bedrock/AgentCore stack specifically (alongside LangGraph, telemetry, and the GitHub Copilot Canvas work already covered in full), these two extension days add that depth back in — **fully optional**, reusing the same AWS account, budget alert, and torn-down-afterward discipline from Day 12. Memory and Evaluations get genuine hands-on treatment on Day 13, since they're directly agent-proficiency-relevant and reasonably cheap/fast; Day 14 deepens Day 12's already-real Guardrail rather than introducing one from scratch, then offers fine-tuning, multi-region, and cost-optimization-at-scale as a clearly-marked lighter touch, since going deeper on any of them is a real production-engineering topic in its own right, disproportionate to a learning project, and orthogonal to agent-building skill specifically. Skipping some or all of the Day 14 stretch items is a legitimate outcome, not an incomplete day.
+Given the goal of *proficiency* with the AWS Bedrock/AgentCore stack specifically (alongside LangGraph, telemetry, and the GitHub Copilot Canvas work already covered in full), these two days are now mainstream milestones. They reuse the same AWS account, budget alert, and torn-down-afterward discipline from Day 12. Memory and Evaluations get genuine hands-on treatment on Day 13; Day 14 deepens Day 12's Guardrail and keeps fine-tuning, multi-region, and cost-optimization-at-scale as clearly-marked stretch work.
 
 ---
 
 ### Day 13 — AgentCore Memory & AWS-native Evaluations
 
-**Goal:** Give the Portfolio Manager agent real short-term and long-term memory via AgentCore Memory, and run the Appendix C evaluation dataset through AWS's native Evaluations product as a comparison against the LangSmith pipeline built Day 6.
+**Goal:** Establish the memory and evaluation boundaries locally, then give the Portfolio Manager agent real short-term and long-term memory via AgentCore Memory and run the Appendix C evaluation dataset through AWS's native Evaluations product when the sandbox account is available.
 
 **Install:** nothing new — reuses the AgentCore SDK from Day 1/12.
 
 **Account setup — extend Day 12's IAM policy:**
-1. IAM → find the user/role created Day 12 → attach the additional managed/custom policies AgentCore Memory and AgentCore Evaluations need (check AWS's current AgentCore IAM permissions doc, `docs/REFERENCES.md`, since exact policy names evolve).
+1. If live AWS work is planned, find the developer role created Day 12 and attach the additional least-privilege permissions AgentCore Memory and AgentCore Evaluations need (check AWS's current AgentCore IAM permissions doc, `docs/REFERENCES.md`, since exact policy names evolve). Otherwise use the local contract and mocks first.
 2. Confirm the Day 12 budget alert is still active — Memory storage and Evaluations runs add small incremental cost on top of Day 12's baseline.
 
 **Recommended dev tool:** Claude Code — this is the day most likely to need debugging against unfamiliar AWS APIs, similar to Day 12.

@@ -94,12 +94,45 @@ by each tool separately; `INSTALL.md` §8 identifies where to retrieve it.
 
 Update the running conclusion only after several comparable entries exist.
 
-## Optional AWS extension findings
+## Day 13 AWS extension findings
 
-This section fills in only if optional Days 13–14 are completed.
+Day 13 keeps the cloud boundary explicit. The local memory store and
+evaluation manifest are deterministic substitutes: they prove identity
+isolation, scope handling, context serialization, and same-dataset report
+comparison without creating AWS resources. The AgentCore adapter can be added
+at deployment time behind the same small contract.
+
+### AgentCore Memory vs. Deep Agent session state
+
+Deep Agent state is useful for the current run or an application-managed
+checkpoint. It should not silently become durable user memory. The Day 13
+boundary separates short-term session context from long-term, user-scoped
+preferences. Authorization and portfolio access remain control-layer
+decisions, not consequences of a remembered instruction.
+
+The standalone proof is the preference “Flag concentration above 5%.” A fresh
+lookup for `PM_USER` returns it, while a lookup for `RISK_USER` does not. The
+production AgentCore exercise must repeat this test with a real session
+boundary and deletion/retention evidence.
+
+### AgentCore Evaluations vs. LangSmith
+
+The comparison preserves separate dimensions instead of creating an opaque
+aggregate score. LangSmith remains the development baseline for dataset
+iteration, evaluator debugging, and OTel-linked traces. AgentCore Evaluations
+is the AWS-native production comparison path, using the same golden dataset
+and searchable runtime traces. The manifest in
+`src/evals/agentcore_evaluations.py` records trajectory, tool selection,
+response quality, and policy dimensions.
+
+No live AgentCore Evaluation report is claimed yet; that requires the AWS
+account, a deployed Runtime, CloudWatch Transaction Search, and an evaluator
+model.
+
+This section records Day 13 evidence and identifies the remaining live-cloud work.
 
 | Topic | Finding |
 |---|---|
-| AgentCore Memory vs. session-state handling | — |
-| AgentCore Evaluations vs. LangSmith | — |
+| AgentCore Memory vs. session-state handling | Local contract proves identity isolation and explicit scopes; live cross-session evidence remains pending AWS setup. |
+| AgentCore Evaluations vs. LangSmith | Same-dataset comparison manifest is ready; live AWS report remains pending Runtime and Transaction Search setup. |
 | Cost-lowering techniques | — |

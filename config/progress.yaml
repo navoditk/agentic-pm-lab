@@ -151,7 +151,11 @@ day_12:
 
 day_13:
   label: "AgentCore Memory & Evaluations"
-  checks: []
+  checks:
+    - path_exists: src/runtime/memory.py
+    - path_exists: src/evals/agentcore_evaluations.py
+    - path_exists: tests/unit/runtime/test_memory.py
+    - path_exists: tests/unit/evals/test_agentcore_evaluations.py
 
 day_14:
   label: "Bedrock Guardrails + stretch"
