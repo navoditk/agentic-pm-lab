@@ -117,6 +117,25 @@ or browser session was exercised.
   AgentCore runtime proof used the local `guardrail_checked` workflow stage,
   not a managed Guardrail attachment.
 
+## AgentCore Memory proof — 2026-08-14 UTC
+
+- Created temporary Memory `agentic_pm_optional_memory_194451-lPwSTeHdng` with
+  a seven-day event expiry and waited for `ACTIVE`.
+- Wrote one synthetic preference in namespace `user/PM_USER` and retrieved it
+  semantically with score `0.604`.
+- Deleted the Memory resource and verified `ListMemories` returned empty.
+
+## AgentCore Evaluation proof — 2026-08-14 UTC
+
+- Started batch evaluation
+  `agentic_pm_optional_eval_205228-562067e7db` using built-in
+  `Builtin.Helpfulness` against the successful runtime log group.
+- The job reached `COMPLETED` and was deleted. It reported zero sessions
+  because the minimal fixture emits application workflow logs but does not yet
+  emit the ADOT/OTel trace attributes required for AgentCore session
+  extraction. This proves the AWS Evaluation control path and records the
+  instrumentation gap; it is not a quality score.
+
 ## AWS preflight — 2026-08-13
 
 - AWS CLI: `2.36.22`.

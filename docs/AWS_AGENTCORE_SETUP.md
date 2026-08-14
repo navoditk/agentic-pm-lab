@@ -133,9 +133,11 @@ The SSO permission set needs these capabilities, with resource scoping where
 the service supports it:
 
 ```text
-bedrock-agentcore-control: create/update/delete runtime and endpoint;
-  get/list runtime and endpoint; future gateway and policy operations
-bedrock-agentcore: InvokeAgentRuntime
+bedrock-agentcore: create/update/delete runtime and endpoint;
+  get/list runtime and endpoint; future gateway and policy operations;
+  InvokeAgentRuntime. The CLI clients are named
+  `bedrock-agentcore-control` and `bedrock-agentcore`, but IAM uses the
+  single `bedrock-agentcore` service prefix for both.
 bedrock: InvokeModel, InvokeModelWithResponseStream, ApplyGuardrail,
   GetFoundationModel, ListFoundationModels
 s3: create bucket, put/get/head/delete object, list bucket, delete bucket
@@ -445,6 +447,13 @@ were deleted. The dated run is correctly classified as
 
 - [`experiments/2026-08-13-agentcore-pm-review/`](../experiments/2026-08-13-agentcore-pm-review/)
 - [`experiments/agentcore-runtime-proof/`](../experiments/agentcore-runtime-proof/)
+
+AgentCore IAM note: the CLI client names `bedrock-agentcore-control` and
+`bedrock-agentcore`, but IAM uses the single `bedrock-agentcore` service prefix
+for actions from both clients. AgentCore Evaluations also requires the caller
+and evaluation execution role to query CloudWatch Logs; the minimal fixture
+must emit the required ADOT/OTel trace attributes or an evaluation can complete
+with zero sessions.
 
 ## 12. AWS references
 

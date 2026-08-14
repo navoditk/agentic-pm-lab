@@ -77,10 +77,10 @@ These are follow-on evidence tasks, not missing local implementation days:
 
 1. If desired, deploy and tear down a governed Gateway path with a real
    HTTPS-hosted MCP target.
-2. Capture live AgentCore Memory and Evaluations evidence after the SSO
-   permission set includes the corresponding read/create/delete actions.
-   Standalone Bedrock Guardrails evidence is now complete; managed Guardrail
-   attachment remains a separate optional extension.
+2. Add ADOT/OTel evaluation attributes to the hosted fixture and rerun the
+   AWS-native Evaluation so it scores at least one session. Live Memory and
+   standalone Guardrails evidence are complete; managed Guardrail attachment
+   remains a separate optional extension.
 3. Capture provider-backed EDGAR/ALFRED/Treasury/research responses under their
    terms and preserve point-in-time metadata.
 4. Complete GitHub Projects, scheduled automation, Copilot/Canvas browser, and
