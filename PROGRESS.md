@@ -90,6 +90,13 @@ the narrative log explicitly says that evidence was captured.
   and an institutional capstone. This is a plan, not completed implementation.
   Evidence: `docs/PHASE_2_PLAN.md`.
 
+- **Phase 1 recap and learning path:** Added a review guide for the completed
+  20-day foundation, including the day-by-day outcome map, learner self-check,
+  expected question bank, repository traversal order, tutor prompts, reference
+  usage, evidence discipline, and transition criteria for Phase 2. This is a
+  documentation-only addition and does not change implementation status.
+  Evidence: `docs/PHASE_1_RECAP.md`.
+
 ## Daily narrative log
 
 *(One short entry per day, written by hand alongside the auto-generated table above — what happened, any deviation from docs/PLAN.md, anything worth flagging for tomorrow, and evidence links: PR, test run, eval run, trace, screenshot, ADR — whichever apply to that day. Full retrospective detail belongs in `docs/LEARNINGS.md`, not here — this is a log line, not a journal entry.)*

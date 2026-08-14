@@ -262,6 +262,7 @@ The next learning track is the [Phase 2 institutional PM AI production-readiness
 | [docs/README.md](docs/README.md) | Documentation index by intent |
 | [docs/PRD.md](docs/PRD.md) | Vision, business problems, architecture, principles, success criteria, and non-goals |
 | [docs/PLAN.md](docs/PLAN.md) | Day-by-day implementation plan, contracts, skills, security, context engineering, and Days 10–20 extension |
+| [docs/PHASE_1_RECAP.md](docs/PHASE_1_RECAP.md) | Completed Phase 1 recap, self-check checklist, learning path, tutor prompts, and evidence guide |
 | [docs/PHASE_2_PLAN.md](docs/PHASE_2_PLAN.md) | Follow-on 20-day institutional PM AI production-readiness track |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Canonical architecture and security boundaries |
 | [docs/REFERENCES.md](docs/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |

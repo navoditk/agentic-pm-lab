@@ -433,3 +433,13 @@ evidence, fixed-income implementation risk, decision records, typed workflow
 state, model risk, repeated evaluations, red-team testing, promotion gates,
 SLOs, resilience, and replay. It remains a public/mock-data learning track and
 does not claim that the Phase 2 implementation has begun.
+
+## Phase 1 recap and learning path
+
+The Phase 1 recap turns the completed 20-day implementation into a reviewable
+curriculum. It separates repository-local proof from live provider evidence,
+maps each day to its implementation outcome, and gives learners a staged path
+through investment data, deterministic tools, orchestration, governance,
+evaluation, Canvas, and AWS. Tutor prompts and reference checkpoints make the
+learning loop repeatable without implying that reading a reference proves a
+capability exists in the repository.

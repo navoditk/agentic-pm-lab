@@ -12,6 +12,7 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 - **`PROGRESS.md`** — the *where we are*. Current day, the auto-generated mock→real status table, completed vs. pending checklist, evidence links. Read this first among the others, to know what's already done.
 - **`docs/ARCHITECTURE.md`** — canonical current-state architecture (created Day 1, updated whenever a design decision changes it), including a dedicated Security Model section (AuthN/AuthZ/Guardrails/Tool-enforcement) added Day 7 — merged in rather than a separate `SECURITY.md`, since one doc is easier to keep current than two that need to agree with each other. **`docs/RUNBOOK.md`** — how to start/test/eval/deploy/teardown (created Day 11).
 - **`docs/REFERENCES.md`** — curated reading by topic, pre-written from Day 1 and updated in place as you learn. `docs/PLAN.md`'s day-by-day steps each point at a specific subsection of this file rather than repeating it.
+- **`docs/PHASE_1_RECAP.md`** — completed Phase 1 recap, self-check questions, recommended learning path, tutor prompts, evidence checkpoints, and transition to Phase 2.
 - **`docs/PHASE_2_PLAN.md`** — the follow-on 20-day institutional PM AI production-readiness track: mandate and risk policy, governed data, evidence/RAG, fixed-income risk, model risk, expanded evaluations, red-team testing, CI/CD, SLOs, resilience, and the Phase 2 capstone.
 
 ## Repo rules (non-negotiable, apply regardless of which day or tool)
