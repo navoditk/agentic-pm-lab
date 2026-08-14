@@ -198,6 +198,17 @@ The live trial initially failed with `On-demand throughput isn’t supported`.
 The cross-region inference profile in `MODEL_ID` resolved that model-selection
 problem.
 
+If the runtime reaches orchestration but CloudWatch records
+`Model use case details have not been submitted for this account`, complete the
+Anthropic use-case form for the selected Bedrock model in the account's Bedrock
+console as an administrator. Wait for model-access propagation, then rerun the
+same artifact and endpoint. Do not diagnose this message as a packaging or
+AgentCore failure. A diagnostic role may use
+`bedrock:GetUseCaseForModelAccess` and
+`bedrock:GetFoundationModelAvailability` to verify the account state, but the
+current lab developer role is intentionally not granted those account-level
+model-access operations.
+
 ## 5. Build a Linux ARM64 CodeZip
 
 AgentCore Runtime runs Linux ARM64. A macOS virtual environment in the zip

@@ -75,12 +75,18 @@ separate fields, with billing-lag status preserved.
 
 These are follow-on evidence tasks, not missing local implementation days:
 
-1. Resolve the minimal AgentCore fixture's version-3 HTTP 500 using the
-   CloudWatch/runtime contract, then capture one successful response with all
-   workflow stages.
+1. Complete the Anthropic model use-case form for the account, wait for model
+   access propagation, then rerun the minimal AgentCore fixture. The runtime,
+   endpoint, ARM64 package, IAM execution role, and request-stage logging are
+   now proven; the remaining HTTP 500 is an account-level model-access
+   prerequisite, not an unresolved runtime contract issue.
 2. If desired, deploy and tear down a governed Gateway path with a real
    HTTPS-hosted MCP target.
-3. Capture live AgentCore Memory, Evaluations, and Bedrock Guardrails evidence.
+3. Capture live AgentCore Memory, Evaluations, and Bedrock Guardrails evidence
+   after the SSO permission set includes the corresponding read/create/delete
+   actions. The current developer role is denied `bedrock:ListGuardrails` and
+   `logs:DeleteLogGroup`, so those evidence and teardown checks cannot be
+   completed by the current session.
 4. Capture provider-backed EDGAR/ALFRED/Treasury/research responses under their
    terms and preserve point-in-time metadata.
 5. Complete GitHub Projects, scheduled automation, Copilot/Canvas browser, and

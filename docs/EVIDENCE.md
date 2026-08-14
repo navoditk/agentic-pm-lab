@@ -46,6 +46,25 @@ or browser session was exercised.
 - Temporary runtime, endpoints, S3 package bucket, and empty log groups were
   removed. Organization, Identity Center, roles, and budget remain.
 
+## AgentCore retry — 2026-08-14 UTC
+
+- A fresh Linux ARM64 CodeZip was built and verified with
+  `pydantic_core/_pydantic_core.cpython-313-aarch64-linux-gnu.so`.
+- Runtime `agentic_pm_agentcore_proof_20260813_175047-f6d71VAxMz` and endpoint
+  `default` both reached `READY` in `us-west-2`.
+- The invocation reached request receipt, input validation, authorization
+  (`read_only_research: allow`), orchestration start, and execution-role
+  credential discovery. CloudWatch then recorded:
+  `ResourceNotFoundException: Model use case details have not been submitted
+  for this account` from the Bedrock `Converse` call.
+- This is the definitive cause of the HTTP 500 for this retry. It requires an
+  account administrator to complete Anthropic's Bedrock model use-case form,
+  followed by the documented propagation wait, before rerunning the request.
+- The temporary runtime, endpoint, and S3 object were deleted. The current SSO
+  role lacks `logs:DeleteLogGroup`, so two empty AgentCore log groups remain
+  for administrator cleanup. The role also lacks `bedrock:ListGuardrails`,
+  preventing an independent live Guardrails proof in this session.
+
 ## AWS preflight — 2026-08-13
 
 - AWS CLI: `2.36.22`.
