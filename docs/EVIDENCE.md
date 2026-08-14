@@ -6,10 +6,10 @@ or browser session was exercised.
 
 | Area | Local proof | Live evidence | Current state |
 |---|---|---|---|
-| Institutional PM capstone | `src/capstone/workflow.py`, focused tests, replay artifact script | AgentCore infrastructure deployment and teardown; request execution failed | Local complete; live deployment evidence captured, live answer unclaimed |
+| Institutional PM capstone | `src/capstone/workflow.py`, focused tests, replay artifact script | Successful AgentCore runtime invocation, CloudWatch stages, token usage, and teardown | Local and live proof captured |
 | OpenTelemetry and evaluation | Local exporters, golden dataset, deterministic evaluators, Day 6/7 records | No new hosted run in this session | Local complete; hosted rerun requires credentials |
 | LangSmith / paid model | Runner and contracts exist | `OPENAI_API_KEY` and `LANGSMITH_API_KEY` are unset | Blocked pending credentials and explicit spend approval |
-| AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; invocation failed; no Gateway | Deployment proof captured; request execution remains blocked; see [`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md) |
+| AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md) |
 | AWS observability | Local OTel path and CloudWatch target documented | AgentCore namespace currently has no metrics; control-plane listing is denied | Unclaimed |
 | Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | No new live provider capture | Unclaimed; must preserve terms and point-in-time metadata |
 | Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence | Local complete; visual capture unclaimed |
@@ -88,6 +88,22 @@ or browser session was exercised.
 - The runtime, endpoint, and S3 artifact were deleted; the runtime listing is
   empty. The next retry requires the runtime role policy update and a short
   subscription-propagation wait.
+
+## Successful AgentCore end-to-end run — 2026-08-14 UTC
+
+- Runtime `agentic_pm_agentcore_proof_20260814_185208-QU9geM6P3S` and endpoint
+  `default` reached `READY` in `us-west-2`.
+- The read-only Portfolio A request completed successfully using Anthropic
+  Claude Haiku through the cross-region inference profile.
+- Returned stages: `request_received`, `input_validated`,
+  `authorization_checked`, `orchestration_started`, `bedrock_completed`,
+  `guardrail_checked`, and `response_emitted`.
+- Usage: 199 input tokens, 300 output tokens, 499 total tokens. The response
+  included `approval_required: true` and `order_execution: false`.
+- The temporary runtime, endpoint, and S3 package were deleted; the runtime
+  listing is empty. Budget snapshot: `$0.179` actual, `$0.449` forecast, `$50`
+  monthly limit. The response and final runtime metadata were retained in the
+  local temporary evidence directory for this session.
 
 ## AWS preflight — 2026-08-13
 

@@ -56,6 +56,23 @@ The current developer role also cannot delete CloudWatch log groups or list
 Guardrails, so two empty log groups remain and a live Guardrails proof is
 deferred until the permission set is extended.
 
+## Successful run after model-access and Marketplace permissions
+
+Runtime `agentic_pm_agentcore_proof_20260814_185208-QU9geM6P3S` and endpoint
+`default` reached `READY`, and the same public/mock input completed successfully.
+The response contained all required stages:
+
+```text
+request_received -> input_validated -> authorization_checked
+-> orchestration_started -> bedrock_completed -> guardrail_checked
+-> response_emitted
+```
+
+Usage was 199 input tokens, 300 output tokens, and 499 total tokens. The result
+included `approval_required=true` and `order_execution=false`. This is the
+first successful live end-to-end AgentCore proof for the lab. The temporary
+runtime, endpoint, and S3 artifact were deleted after capture.
+
 ## Safe input
 
 See [`input.json`](input.json). It contains only public/mock data.
@@ -64,8 +81,11 @@ See [`input.json`](input.json). It contains only public/mock data.
 
 - Cost Explorer same-day estimate at capture: `$0.00`.
 - Monthly budget: `$50`; final actual `$0.179`, forecast `$0.464`.
-- Temporary runtime, endpoint, and S3 artifact: deleted. Two empty log groups
-  remain because the current role lacks `logs:DeleteLogGroup`.
+- Temporary runtime, endpoint, and S3 artifact: deleted. The current role still
+  lacks `logs:DeleteLogGroup`, so empty AgentCore log groups require separate
+  administrator cleanup.
+- Budget snapshot for the successful run: `$0.179` actual, `$0.449` forecast,
+  against the `$50` monthly limit.
 - Persistent SSO, roles, organization, account, and budget: retained.
 
 ## Follow-up

@@ -34,7 +34,7 @@ mock fixture != production data or provider availability
 | 9 | Agent Operations Canvas and run history | Live LangSmith path requires credentials | Local complete; live follow-up |
 | 10 | Governed MCP boundary and Portfolio/Risk Canvas | Visual/browser evidence remains unclaimed | Local complete; browser follow-up |
 | 11 | Runtime, automation, prompts, CI, runbooks | GitHub scheduled issue/native Copilot automation evidence remains unclaimed | Local complete; platform follow-up |
-| 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; request failed; no Gateway deployment | Local complete; live AWS incomplete |
+| 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful read-only invocation and teardown; no Gateway deployment | Local complete; Runtime live-complete; Gateway follow-up |
 | 13 | Memory boundaries and evaluation manifest | No live cross-session Memory transcript or AgentCore Evaluation report | Local complete; live AWS incomplete |
 | 14 | Guardrail logic, cases, evaluation dimensions | No live Bedrock Guardrail or managed Evaluation run | Local complete; live AWS incomplete |
 | 15 | Point-in-time provenance and bond metadata | No live ALFRED/Treasury/TRACE/OpenBB capture | Local complete; provider follow-up |
@@ -42,7 +42,7 @@ mock fixture != production data or provider availability
 | 17 | Research specialists, fixed-income branch, mocked provider adapter | No live provider or successful AgentCore research run | Local complete; live AWS/provider incomplete |
 | 18 | Independent Devil's Advocate and committee challenge | Semantic truth and production liquidity analysis remain limited | Local complete with explicit limitations |
 | 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Live CloudWatch, AgentCore, provider uptime, and visual evidence unclaimed | Local complete; live follow-up |
-| 20 | Institutional PM capstone replay and release evidence structure | Live deployment reached `READY`, but version-3 invocation returned HTTP 500; resources were deleted | Local complete; live capstone incomplete |
+| 20 | Institutional PM capstone replay and release evidence structure | Live AgentCore request completed with workflow stages, usage, safety flags, and teardown | Local and live capstone proof complete |
 
 ## Documentation audit
 
@@ -75,23 +75,19 @@ separate fields, with billing-lag status preserved.
 
 These are follow-on evidence tasks, not missing local implementation days:
 
-1. Verify that the Anthropic model-use-case form was finally submitted in
-   `us-west-2` (including the final Model access submission), then wait for
-   the full propagation window and rerun the minimal AgentCore fixture. Two fresh runtime
-   deployments reached `READY`, but both invocations still received the
-   account-level use-case error; the runtime contract is not the issue.
-2. If desired, deploy and tear down a governed Gateway path with a real
+1. If desired, deploy and tear down a governed Gateway path with a real
    HTTPS-hosted MCP target.
-3. Capture live AgentCore Memory, Evaluations, and Bedrock Guardrails evidence
+2. Capture live AgentCore Memory, Evaluations, and Bedrock Guardrails evidence
    after the SSO permission set includes the corresponding read/create/delete
    actions. The current developer role is denied `bedrock:ListGuardrails` and
    `logs:DeleteLogGroup`, so those evidence and teardown checks cannot be
    completed by the current session.
-4. Capture provider-backed EDGAR/ALFRED/Treasury/research responses under their
+3. Capture provider-backed EDGAR/ALFRED/Treasury/research responses under their
    terms and preserve point-in-time metadata.
-5. Complete GitHub Projects, scheduled automation, Copilot/Canvas browser, and
+4. Complete GitHub Projects, scheduled automation, Copilot/Canvas browser, and
    screenshot evidence where the platform account makes those steps available.
-6. Rerun the full capstone against the selected hosted runtime and compare it
+5. Expand the successful minimal proof into the full capstone against the
+   selected hosted runtime and compare it
    with the local fixture using the experiment manifest and cost record.
 
 Do not change the local status table to “incomplete” solely because these live
