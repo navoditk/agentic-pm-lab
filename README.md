@@ -77,6 +77,21 @@ standalone Guardrails and Memory proofs, and a scored on-demand AgentCore
 Evaluation fixture. A real Gateway target, provider-backed data captures, and
 Copilot-hosted browser screenshots remain optional or account-dependent tasks.
 
+### Architectural positioning
+
+This repository reflects the current production-oriented agent engineering
+direction without claiming to be a production system. Its state-of-the-art
+elements are the separation of deterministic computation from model reasoning,
+specialist orchestration, explicit tool contracts, provenance and point-in-time
+data, policy enforcement outside prompts, human approval, OpenTelemetry traces,
+multi-dimensional evaluation, replayable experiments, and cost accounting.
+The current frontier is still moving: managed runtimes, MCP, skills, memory,
+sandboxes, harnesses, and AgentOps are compared through the references and
+experiments rather than treated as interchangeable products. The repo does not
+claim live institutional data, production liquidity/market-impact modeling,
+autonomous execution, high-availability hardening, or a universal best agent
+framework.
+
 ## Experiment framework
 
 Experiments are a first-class part of this lab. The [experiments guide](experiments/README.md)

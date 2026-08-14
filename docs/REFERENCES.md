@@ -1,8 +1,18 @@
 # REFERENCES: Curated Reading, by Topic
 
-One or two best starting points per topic, favoring official docs and hands-on tutorials over general blog posts — not exhaustive. This is the single, canonical copy: update it directly as you find something genuinely useful or a link goes stale, rather than maintaining a separate mirror elsewhere.
+**Freshness:** reviewed 2026-08-14 UTC. The harness section prioritizes current
+first-party engineering material from Anthropic, OpenAI, and GitHub; the
+technical sections retain stable specifications and implementation references.
 
-**How this is used day to day:** you don't need to browse this whole file mid-session. Each day in `docs/PLAN.md`'s Appendix B has its own short "While it builds, read" list (1–5 items) pointing at the specific subsection below that's relevant to that day's work — this file is the full bibliography those pointers link into, for whenever you want the complete picture on a topic rather than just today's slice.
+One or two best starting points per topic, favoring official docs and hands-on tutorials over general blog posts — not exhaustive. This is the single, canonical copy: update it directly as you find something genuinely useful or a link goes stale, rather than maintaining a separate mirror elsewhere. External resources are clickable Markdown links; repository references use relative links.
+
+**How this is used day to day:** you don't need to browse this whole file mid-session. Each day in [`PLAN.md`](PLAN.md)'s Appendix B has its own short "While it builds, read" list (1–5 items) pointing at the specific subsection below that's relevant to that day's work — this file is the full bibliography those pointers link into, for whenever you want the complete picture on a topic rather than just today's slice.
+
+**Repository navigation:** [README](../README.md) · [INSTALL](../INSTALL.md) ·
+[AGENTS](../AGENTS.md) · [PRD](PRD.md) · [PLAN](PLAN.md) ·
+[PROGRESS](../PROGRESS.md) · [ARCHITECTURE](ARCHITECTURE.md) ·
+[RUNBOOK](RUNBOOK.md) · [EVIDENCE](EVIDENCE.md) ·
+[experiments guide](../experiments/README.md)
 
 ---
 
@@ -10,34 +20,34 @@ One or two best starting points per topic, favoring official docs and hands-on t
 
 Not a "read before Day N" entry like the sections below — this is the source of the core idea, worth reading once for context rather than as day-specific prep.
 
-- **OpenAI Cookbook: "Multi-Agent Portfolio Collaboration with OpenAI Agents SDK"** (Raj Pathak, Chelsea Hu) — `developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration`. This is where the Portfolio-Manager-orchestrating-Macro/Fundamental/Quant-specialists pattern that structures this entire project comes from — a Portfolio Manager agent using specialist agents *as tools* to solve an investment research problem, built there on OpenAI's Agents SDK. This project translates the same pattern onto LangGraph Deep Agents' native `subagents` mechanism instead (`docs/PRD.md` §1, `docs/PLAN.md` Day 5) — worth reading the original once to see the pattern in its native habitat before building the LangGraph version, and worth a second look on Day 5 specifically to compare the two frameworks' takes on the same idea (agents-as-tools vs. native sub-agent spawning).
+- **OpenAI Cookbook: "Multi-Agent Portfolio Collaboration with OpenAI Agents SDK"** (Raj Pathak, Chelsea Hu) — [cookbook example](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration). This is where the Portfolio-Manager-orchestrating-Macro/Fundamental/Quant-specialists pattern comes from. This project translates the same pattern onto LangGraph Deep Agents' native `subagents` mechanism instead ([PRD](PRD.md) §1, [PLAN](PLAN.md) Day 5).
 
 ---
 
 ### FastAPI & DuckDB (Day 1 foundation)
-- FastAPI official tutorial: `fastapi.tiangolo.com/tutorial/`
-- DuckDB Python API guide: `duckdb.org/docs/api/python/overview`
+- FastAPI official [tutorial](https://fastapi.tiangolo.com/tutorial/)
+- DuckDB [Python API guide](https://duckdb.org/docs/api/python/overview)
 
 ### LangGraph & LangGraph Deep Agents
-- **Where this project's multi-agent pattern originally comes from**: OpenAI's own cookbook, "Multi-Agent Portfolio Collaboration with the Agents SDK" (Raj Pathak, Chelsea Hu) — the Portfolio-Manager-orchestrates-Macro/Fundamental/Quant-specialists shape that Day 5 reimplements natively on LangGraph Deep Agents' `subagents` support instead of the OpenAI Agents SDK. Worth reading directly before Day 5, not just taking the reimplementation on faith: `developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration`
-- Deep Agents overview and quickstart: `docs.langchain.com/oss/python/deepagents`
+- **Where this project's multi-agent pattern originally comes from**: OpenAI's [Multi-Agent Portfolio Collaboration](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration) cookbook. Day 5 reimplements the shape with LangGraph Deep Agents' native `subagents` support.
+- Deep Agents [overview and quickstart](https://docs.langchain.com/oss/python/deepagents)
 - Deep Agents customization reference (`tools`, `skills`, `interrupt_on`, and
   provider model strings), used on Day 4:
-  `docs.langchain.com/oss/python/deepagents/customization`
-- Deep Agents GitHub repo (source, examples, issues): `github.com/langchain-ai/deepagents`
-- LangGraph core concepts (the runtime Deep Agents sits on): `docs.langchain.com` LangGraph section
-- LangGraph human-in-the-loop / `interrupt` patterns (used Day 4 and Day 7): `docs.langchain.com` LangGraph "Human-in-the-loop" section
+  [customization reference](https://docs.langchain.com/oss/python/deepagents/customization)
+- Deep Agents [GitHub repository](https://github.com/langchain-ai/deepagents)
+- LangGraph [core concepts](https://docs.langchain.com/oss/python/langgraph)
+- LangGraph [human-in-the-loop](https://docs.langchain.com/oss/python/langgraph/interrupts) patterns
 - Ollama tool-calling documentation and the Qwen3 4B model page, used for the
-  optional Day 4 local variant: `docs.ollama.com/capabilities/tool-calling` and
-  `ollama.com/library/qwen3:4b`
-- `langchain-ai/langchain-skills` — official example skills and quickstarts, including the `SKILL.md` format spec
+  optional Day 4 local variant: [Ollama tool calling](https://docs.ollama.com/capabilities/tool-calling) and
+  [Qwen3 4B](https://ollama.com/library/qwen3:4b)
+- [langchain-ai/langchain-skills](https://github.com/langchain-ai/langchain-skills) — official example skills and quickstarts
 
 ### LangSmith (tracing, datasets, experiments, evaluation)
-- LangSmith evaluation docs (datasets, experiments, evaluators): `docs.langchain.com/langsmith/evaluation`
-- LangSmith quickstart (sign up, first trace, first eval): `smith.langchain.com` → Settings → API Keys, then the in-product quickstart
-- LangSmith + pytest / GitHub Actions integration, for wiring `eval-regression.yml`: LangSmith docs, "Test before you ship" section
+- LangSmith [evaluation docs](https://docs.langchain.com/langsmith/evaluation)
+- LangSmith [application](https://smith.langchain.com/) → Settings → API Keys, then the in-product quickstart
+- LangSmith + pytest / GitHub Actions integration, for wiring `eval-regression.yml`: LangSmith's ["Test before you ship" guidance](https://docs.langchain.com/langsmith/testing)
 
-### Context engineering (Day 4, docs/PLAN.md §13)
+### Context engineering (Day 4, [`PLAN.md`](PLAN.md) §13)
 - Anthropic's "Effective context engineering for AI agents" — the conceptual grounding for treating context assembly as its own deliberate layer rather than incidental prompt accumulation
 - LangGraph/LangChain context management docs (memory, summarization, trimming) — the concrete APIs `src/context/` builds on
 - Anthropic, [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — context as a finite, managed resource with progressive disclosure and task-specific retrieval
@@ -46,28 +56,28 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - OpenAI, [Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) — the model loop, tool execution, and the harness responsibilities around an agent
 
 ### OpenTelemetry (Python)
-- Official Python getting-started guide: `opentelemetry.io/docs/languages/python/getting-started/`
-- FastAPI auto-instrumentation reference: `opentelemetry-python-contrib.readthedocs.io`, `instrumentation/fastapi`
-- OpenTelemetry Collector docs, if you add a local Jaeger/Collector service in Docker Compose
-- OpenTelemetry GenAI semantic conventions (token counts, model, cost attributes) — the standard attribute names to use when extending spans with cost/token telemetry (Day 6): `opentelemetry.io/docs/specs/semconv/gen-ai/`
+- Official OpenTelemetry [Python getting-started guide](https://opentelemetry.io/docs/languages/python/getting-started/)
+- OpenTelemetry Python [FastAPI instrumentation](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/fastapi/fastapi.html)
+- OpenTelemetry [Collector documentation](https://opentelemetry.io/docs/collector/), if you add a local Jaeger/Collector service in Docker Compose
+- OpenTelemetry [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)
 
 ### Model Context Protocol (MCP)
-- Official spec and docs: `modelcontextprotocol.io`
-- Python SDK: the official `mcp` package on PyPI and its README/examples
-- GitHub's own MCP context docs (for wiring a server into Copilot): `docs.github.com/en/copilot/concepts/context/mcp`
+- Official [MCP specification and docs](https://modelcontextprotocol.io/)
+- Official [MCP Python SDK](https://pypi.org/project/mcp/)
+- GitHub's [MCP context docs](https://docs.github.com/en/copilot/concepts/context/mcp)
 - Anthropic, [MCP documentation](https://docs.anthropic.com/en/docs/mcp) — protocol concepts and how MCP connects models to tools and context
 
 ### AWS Bedrock & AgentCore
-- Main AgentCore documentation hub: `docs.aws.amazon.com/bedrock-agentcore/`
-- Quickstart (CLI, zero to running agent): `docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-get-started-cli.html`
-- Runtime deployment methods — direct code deployment (Python) vs. container-based (Dockerfile → ECR), the choice made explicit in Day 12: `docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-getting-started.html`
-- "Diving Deep into Bedrock AgentCore" official workshop (hands-on, service-by-service labs): `catalog.workshops.aws/agentcore-deep-dive`
-- Samples repo (Python examples across Gateway, Memory, Identity, Observability): `github.com/awslabs/agentcore-samples`
-- AgentCore Memory (short-term/long-term agent memory): `docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory.html`
-- AgentCore Evaluations: `docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations.html`
-- Bedrock Guardrails: `docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html`
-- Bedrock custom models / fine-tuning (Day 14 optional stretch): `docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html`
-- AWS Cost Explorer (Day 14 optional cost review): `docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html`
+- Main [AgentCore documentation hub](https://docs.aws.amazon.com/bedrock-agentcore/)
+- [CLI quickstart](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-get-started-cli.html)
+- Runtime deployment methods — direct code deployment (Python) vs. container-based (Dockerfile → ECR), the choice made explicit in Day 12: [Runtime getting started](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-getting-started.html)
+- [Diving Deep into Bedrock AgentCore](https://catalog.workshops.aws/agentcore-deep-dive) official workshop
+- [AgentCore samples](https://github.com/awslabs/agentcore-samples)
+- [AgentCore Memory](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory.html)
+- [AgentCore Evaluations](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations.html)
+- [Bedrock Guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)
+- [Bedrock custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) (optional stretch)
+- [AWS Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html)
 - AWS multi-agent investment research assistant using quantitative analysis,
   news/research, summarization, Bedrock Data Automation, S3, OpenSearch, and
   Lambda. Use it as an architecture comparison, not a replacement for the
@@ -96,36 +106,35 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - AWS re:Invent session: [How Yahoo Finance built multi-agent research systems](https://www.classcentral.com/course/youtube-aws-re-invent-2025-how-yahoo-finance-built-research-multi-agent-systems-with-gen-ai-sps321-509393)
 
 ### AWS IAM & account basics (Day 12 account setup)
-- IAM users, groups, and policies overview: `docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html`
-- AWS Budgets (for the Day 12 budget-alert step): `docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html`
+- [IAM users, groups, and policies overview](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html)
+- [AWS Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html)
 
-### Security: AuthN/AuthZ, policy-as-code, prompt injection (Day 7, docs/PLAN.md §15)
-- Cedar policy language docs and playground: `cedarpolicy.com`, `docs.cedarpolicy.com`
-- OWASP Top 10 for LLM Applications — prompt injection, sensitive information disclosure, excessive agency are the entries most relevant to the negative tests in `governance/tests/`: `owasp.org/www-project-top-10-for-large-language-model-applications/`
-- AWS Verified Permissions (Cedar-based, managed) — worth reading even if this project's own Cedar setup stays local/learning-scale, since it's the natural production analog: `docs.aws.amazon.com/verifiedpermissions/`
+### Security: AuthN/AuthZ, policy-as-code, prompt injection (Day 7, [`PLAN.md`](PLAN.md) §15)
+- Cedar [policy language](https://www.cedarpolicy.com/) and [documentation](https://docs.cedarpolicy.com/)
+- OWASP [Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+- AWS [Verified Permissions](https://docs.aws.amazon.com/verifiedpermissions/) — the managed Cedar production analog
 - AWS security and enterprise best practices for AgentCore:
   [AI agents in enterprises](https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/)
 
 ### GitHub Copilot App, Canvas, Prompts, Skills, Custom Agents
-- Canvas extensions how-to: `docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-canvas-extensions`
+- GitHub [Canvas extensions how-to](https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-canvas-extensions)
 - "How to build interactive experiences with canvases" (best conceptual tutorial): GitHub Blog, AI & ML / GitHub Copilot section
 - "GitHub Copilot app for Beginners: Getting started" (Canvas Dev Mode, Pick & Polish, Agent Merge): GitHub Blog
-- Jon Gallant's `create-canvas-app` skill and blog series: `blog.jongallant.com`, repo `github.com/jongio/skills`
-- Prompt files: `docs.github.com/en/copilot/tutorials/customization-library/prompt-files/your-first-prompt-file`
-- Custom agents: `docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/create-custom-agents`
+- Jon Gallant's `create-canvas-app` [blog](https://blog.jongallant.com/) and [skills repository](https://github.com/jongio/skills)
+- [Prompt files](https://docs.github.com/en/copilot/tutorials/customization-library/prompt-files/your-first-prompt-file)
+- [Custom agents](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/create-custom-agents)
 - Creating and using personal custom agents in Copilot CLI (including the
-  `~/.copilot/agents/` scope):
-  `docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli`
-- Agent skills reference: `docs.github.com/en/copilot/concepts/agents/about-agent-skills`
-- GitHub Actions scheduled workflows (`on: schedule`, cron syntax), for `morning-brief.yml`: `docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule`
+  `~/.copilot/agents/` scope): [Copilot CLI custom agents](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli)
+- [Agent skills reference](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
+- GitHub Actions [scheduled workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
 
 ### Agent harnesses, skills, prompts, and custom agents
 
-**Reference maintenance:** reviewed 2026-08-13. This section prioritizes
+**Reference maintenance:** reviewed 2026-08-14 UTC. This section prioritizes
 first-party engineering posts and product documentation. Agent harnesses are
 the execution layer around a model: context assembly, tool calls, state,
 permissions, sandboxes, approvals, retries, observability, and handoffs. Read
-these alongside the repo's `AGENTS.md`, `skills/`, contracts, traces, and
+these alongside the repo's [`AGENTS.md`](../AGENTS.md), `skills/`, contracts, traces, and
 experiment records; a vendor's capability or case study is not proof that this
 repo has reproduced it.
 
@@ -147,6 +156,7 @@ repo has reproduced it.
 - OpenAI, [Running Codex safely at OpenAI](https://openai.com/index/running-codex-safely/) (May 8, 2026) — access boundaries, approvals, telemetry, and security controls for coding agents; relevant to the repo's Cedar/tool-boundary model.
 - OpenAI, [An open-source spec for Codex orchestration: Symphony](https://openai.com/index/open-source-codex-orchestration-symphony/) (Apr 27, 2026) — turns a project-management board into an agent control plane; useful for comparing the repo's GitHub/Copilot automation and AgentOps Canvas.
 - OpenAI, [Inside OpenAI's in-house data agent](https://openai.com/index/inside-our-in-house-data-agent/) (Jan 29, 2026) — layered context, institutional knowledge, memory, runtime context, and safe data-agent operation; relevant to the research and provenance tracks.
+- OpenAI, [How agents are transforming work](https://openai.com/index/how-agents-are-transforming-work/) (Jun 25, 2026) — evidence on longer-horizon, cross-functional agent work; useful context for why this lab measures task horizon, orchestration, evidence quality, and operating cost rather than single-turn answer quality alone.
 - OpenAI, [Codex is now generally available](https://openai.com/index/codex-now-generally-available/) (Oct 6, 2025) — Codex SDK, Slack/cloud surfaces, and admin visibility; use the product documentation for current availability rather than assuming every surface is enabled.
 
 #### GitHub Copilot and Agent HQ
@@ -166,6 +176,29 @@ repo has reproduced it.
 - OpenAI, [Engineering and product index](https://openai.com/index/) — monitor Codex, Agents SDK, harness, eval, and safety updates.
 - GitHub, [AI and ML blog index](https://github.blog/ai-and-ml/) and [Copilot changelog](https://github.blog/changelog/label/copilot/) — monitor Copilot agent, skills, MCP, review, governance, and Agent HQ changes.
 - [Agent Skills specification](https://agentskills.io/) — provider-neutral specification for portable skills; compare implementation differences across hosts rather than assuming identical behavior.
+
+#### Videos and podcasts
+
+- OpenAI [Podcast](https://openai.com/podcast/) — long-form conversations with
+  people building and shaping OpenAI technology; use alongside the engineering
+  posts rather than as a substitute for API documentation.
+- AWS [Developers Podcast, Episode 206](https://developers.podcast.go-aws.com/web/episodes/206/index.html)
+  — agents, distributed-systems boundaries, AgentCore Runtime, MCP, A2A, and
+  agentic operations.
+- AWS [AgentCore resources and technical walkthroughs](https://aws.amazon.com/bedrock/agentcore/resources/)
+  — current official videos and hands-on material across Runtime, Memory,
+  Gateway, Identity, Policy, Observability, and Evaluations.
+- AWS [AgentCore introduction video](https://www.youtube.com/watch?v=9LF6rz6Fe1Q)
+  and [AgentCore observability video](https://www.youtube.com/watch?v=i2Pxnck_3tY)
+  — useful visual introductions to the deployment and operations layers.
+- AWS [Architecting multi-agent systems with AgentCore](https://builder.aws.com/content/3FeE9KhL4DUukPB5s4GgNwlspyJ/aws-tech-tales-or-s5-e19-or-architecting-multi-agent-systems-with-aws-bedrock-agentcore)
+  — architecture discussion aligned with the repo's supervisor, Gateway, and
+  operational-boundary goals.
+
+Anthropic currently publishes its most relevant harness, evaluation, security,
+and agent-development material through the [Engineering index](https://www.anthropic.com/engineering)
+rather than a dedicated official podcast feed; OpenAI and AWS links above are
+the maintained audio starting points for this bibliography.
 
 ### Tutor-agent study map
 - Use `portfolio-construction-tutor` with the [portfolio optimization and
@@ -216,35 +249,32 @@ repo has reproduced it.
 - Anthropic, [Agents for financial services](https://www.anthropic.com/news/finance-agents) — reference patterns combining skills, governed connectors, subagents, long-running sessions, and auditability in finance
 - AWS, [AgentCore resources and technical walkthroughs](https://aws.amazon.com/bedrock/agentcore/resources/) — videos and hands-on material across Runtime, Memory, Gateway, Identity, Policy, Observability, and Evaluations
 
-### OpenAI Codex CLI (optional alternative dev tool — `INSTALL.md` §8)
-- Official CLI reference and overview: `developers.openai.com/codex/cli`
-- AGENTS.md guide: `developers.openai.com/codex` — Codex's own conceptual overview of the same file this project already uses for routing
-- npm package (install source): `npmjs.com/package/@openai/codex`
+### OpenAI Codex CLI (optional alternative dev tool — [`INSTALL.md`](../INSTALL.md) §8)
+- Official [Codex CLI reference](https://developers.openai.com/codex/cli)
+- [Codex overview](https://developers.openai.com/codex), including the `AGENTS.md` concept
+- [Codex npm package](https://www.npmjs.com/package/@openai/codex)
 
 ### Public data APIs
-- FRED API docs: `fred.stlouisfed.org/docs/api/fred/`
+- [FRED API docs](https://fred.stlouisfed.org/docs/api/fred/)
 - FRED/ALFRED real-time periods and vintage dates, essential for avoiding
   revised-data leakage in backtests:
-  `fred.stlouisfed.org/docs/api/fred/realtime_period.html`
-- FRED's Treasury yield curve series (the specific series Day 2 pulls to build `curve_points`): search FRED for "Treasury Constant Maturity Rate" (series like `DGS2`, `DGS10`, `DGS30`) — `fred.stlouisfed.org`
+  [FRED real-time periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html)
+- FRED's [Treasury yield curve series](https://fred.stlouisfed.org/categories/115) (the specific series Day 2 pulls to build `curve_points`): search for "Treasury Constant Maturity Rate" (series like `DGS2`, `DGS10`, `DGS30`)
 - U.S. Treasury daily interest-rate XML feeds, including nominal and real
   yield curves, bill rates, and long-term rates:
-  `home.treasury.gov/treasury-daily-interest-rate-xml-feed`
-- yfinance package docs/README: `pypi.org/project/yfinance`
-- SEC EDGAR full-text search and submissions APIs: `sec.gov/edgar/sec-api-documentation`
-- SEC Form N-PORT public datasets for monthly fund and ETF holdings:
-  `sec.gov/data-research/sec-markets-data/form-n-port-data-sets`
+- [Treasury daily-interest XML feed](https://home.treasury.gov/treasury-daily-interest-rate-xml-feed)
+- [yfinance package](https://pypi.org/project/yfinance/)
+- [SEC EDGAR APIs](https://www.sec.gov/edgar/sec-api-documentation)
+- SEC [Form N-PORT public datasets](https://www.sec.gov/data-research/sec-markets-data/form-n-port-data-sets) for monthly fund and ETF holdings
 - FINRA TRACE trade activity and licensing overview. Useful for fixed-income
   liquidity exercises, but professional transaction-level access may be paid
-  or restricted: `finra.org/filing-reporting/trace/data`
+  or restricted: [TRACE data and licensing](https://www.finra.org/filing-reporting/trace/data)
 - FINRA Fixed Income API datasets, including Treasury aggregates, breadth, and
-  capped-volume datasets: `developer.finra.org/node/1171`
+  capped-volume datasets: [FINRA fixed-income datasets](https://developer.finra.org/node/1171)
 - Kenneth French Data Library: daily/monthly factors, portfolios, and
   international returns for factor regression and backtest validation:
   `mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html`
-- GDELT Project event and Global Knowledge Graph codebooks for public news and
-  event metadata. Treat automated tone as a noisy feature, not truth:
-  `github.com/GDELT-API` and `data.gdeltproject.org/documentation/`
+- GDELT Project [API organization](https://github.com/GDELT-API) and [documentation](https://data.gdeltproject.org/documentation/) for public news and event metadata. Treat automated tone as a noisy feature, not truth.
 
 ### BigData.com financial intelligence
 
@@ -325,13 +355,13 @@ dedicated tutor only if a substantial live adapter is implemented.
   reporting delays, evaluated prices, and point-in-time backtest controls.
 
 ### Data engineering, provenance, and research correctness
-- ALFRED vintage-aware observations: `fred.stlouisfed.org/docs/api/fred/alfred.html`
+- [ALFRED vintage-aware observations](https://fred.stlouisfed.org/docs/api/fred/alfred.html)
 - Pandas time-series and timezone handling:
-  `pandas.pydata.org/docs/user_guide/timeseries.html`
+  [pandas time series](https://pandas.pydata.org/docs/user_guide/timeseries.html)
 - Apache Arrow and Parquet metadata concepts for immutable research snapshots:
-  `arrow.apache.org/docs/` and `parquet.apache.org/docs/`
+  [Arrow](https://arrow.apache.org/docs/) and [Parquet](https://parquet.apache.org/docs/)
 - Great Expectations or Soda for a later data-quality validation layer:
-  `docs.greatexpectations.io` or `docs.soda.io`
+  [Great Expectations](https://docs.greatexpectations.io/) or [Soda](https://docs.soda.io/)
 
 ### News, sentiment, and research retrieval
 - SEC filing text is the preferred first sentiment extension because it is
@@ -360,24 +390,22 @@ dedicated tutor only if a substantial live adapter is implemented.
   dependency.
 
 ### Python testing & mocking
-- `pytest` documentation, especially fixtures and markers (for the `unit`/`eval` split in docs/PLAN.md §4): `docs.pytest.org`
-- `unittest.mock` standard library docs, for mocking network calls
-- `responses` library (mocking `requests`-based HTTP calls like yfinance/FRED): its PyPI/GitHub README
-- LangChain's testing utilities for fake/scripted chat models (used in `src/agents/` tests, docs/PLAN.md §4)
+- [pytest documentation](https://docs.pytest.org/), especially fixtures and markers
+- [`unittest.mock`](https://docs.python.org/3/library/unittest.mock.html) standard library docs
+- [`responses`](https://github.com/getsentry/responses) for mocking `requests`-based HTTP calls
+- LangChain's [testing utilities](https://python.langchain.com/docs/contributing/testing/) for fake/scripted chat models
 
 ### Quant/fixed-income formulas (Day 3 tool layer)
-- `statsmodels` OLS regression docs (used for the factor regression tool): `statsmodels.org/stable/regression.html`
+- [statsmodels OLS regression docs](https://www.statsmodels.org/stable/regression.html)
 - Investopedia: bond pricing, duration, and convexity — plain-language first pass before implementing `src/analytics/pricers.py`
 - Investopedia: Black-Scholes model — plain-language first pass before implementing the option pricer
 - Investopedia: yield curve construction and interpolation — before implementing `src/analytics/curves.py`; covers what "bootstrapping" a curve from discrete tenor points actually means
-- Investopedia: credit spreads (and OAS — option-adjusted spread) — before the scenario engine's credit-shock path (Day 12) and docs/PRD.md §4's spread-risk questions
-- Investopedia: mortgage-backed securities and negative convexity — a genuinely distinct concept from plain bond convexity (prepayment risk flips the sign), directly relevant to docs/PRD.md §4's "how does mortgage convexity affect the portfolio" question
+- Investopedia: credit spreads (and OAS — option-adjusted spread) — before the scenario engine's credit-shock path (Day 12) and [`PRD.md`](PRD.md) §4's spread-risk questions
+- Investopedia: mortgage-backed securities and negative convexity — a genuinely distinct concept from plain bond convexity (prepayment risk flips the sign), directly relevant to [`PRD.md`](PRD.md) §4's "how does mortgage convexity affect the portfolio" question
 - Investopedia: volatility, maximum drawdown, and correlation as risk metrics — before implementing `src/analytics/risk.py`; these currently have no dedicated primer elsewhere in this file, easy to assume they're self-explanatory and skip
 - Investopedia: factor investing / factor models, conceptual overview — read before `statsmodels`' API docs above, since the API is easy to use correctly while still not knowing what a "factor" means economically
-- Investor.gov's beta glossary entry, used for the Day 3 factor-beta definition:
-  `investor.gov/introduction-investing/investing-basics/glossary/beta`
-- Investopedia's Sharpe-ratio primer, used alongside the backtest metric:
-  `investopedia.com/terms/s/sharperatio.asp`
+- Investor.gov's [beta glossary entry](https://www.investor.gov/introduction-investing/investing-basics/glossary/beta)
+- Investopedia's [Sharpe-ratio primer](https://www.investopedia.com/terms/s/sharperatio.asp)
 
 ### Portfolio optimization and portfolio construction
 
@@ -451,19 +479,17 @@ then the optimizer, then the estimation and implementation risks around it.
   explicit human approval decision.
 
 ### FICC / fixed income fundamentals
-- Investopedia's fixed-income section, for plain-language first passes at any term before it goes in `docs/ficc-glossary.md`
-- U.S. Treasury interest-rate statistics, the public source used for the yield
-  curve glossary entry: `home.treasury.gov/resource-center/data-chart-center/interest-rates`
-- FINRA's duration primer, used for the Day 2 glossary definition:
-  `finra.org/investors/insights/duration-what-interest-rate-hike-could-do-your-bond-portfolio`
+- Investopedia's fixed-income section, for plain-language first passes at any term before it goes in [`ficc-glossary.md`](ficc-glossary.md)
+- U.S. Treasury [interest-rate statistics](https://home.treasury.gov/resource-center/data-chart-center/interest-rates)
+- FINRA's [duration primer](https://www.finra.org/investors/insights/duration-what-interest-rate-hike-could-do-your-bond-portfolio)
 - A standard CFA-curriculum-level fixed income text, if you want a more rigorous second pass once the practical vocabulary from building the tools is in place
 
 ### Git & version control
-- `git-scm.com/doc` — the official Git reference, especially `git commit`, `git push`, and `git tag`
-- GitHub's own "About pull requests" and "Conventional Commits" (`conventionalcommits.org`), for the commit-message convention used throughout Appendix B
+- [Git reference](https://git-scm.com/doc), especially `git commit`, `git push`, and `git tag`
+- GitHub's [pull-request documentation](https://docs.github.com/en/pull-requests) and [Conventional Commits](https://www.conventionalcommits.org/)
 
 ### Pre-commit & CI tooling
-- `pre-commit` framework docs: `pre-commit.com`
-- `ruff` docs (linting + formatting): `docs.astral.sh/ruff`
-- `detect-secrets` (`github.com/Yelp/detect-secrets`) or `gitleaks` (`github.com/gitleaks/gitleaks`) — pick one, both are well-documented
-- `uv` docs (dependency management, this project's package manager — docs/PLAN.md §1, `INSTALL.md`): `docs.astral.sh/uv`
+- [pre-commit](https://pre-commit.com/) framework docs
+- [Ruff](https://docs.astral.sh/ruff/) docs
+- [detect-secrets](https://github.com/Yelp/detect-secrets) or [gitleaks](https://github.com/gitleaks/gitleaks)
+- [uv](https://docs.astral.sh/uv/) docs
