@@ -4,27 +4,33 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 12)
+## The layers, and what exists today (Day 17)
 
 | Layer | Target end-state (`docs/PRD.md` §2) | What exists today |
 |---|---|---|
 | **Data Layer** | Real yfinance/FRED/SEC EDGAR public ingestion | `src/ingestion/prices.py` loads daily OHLCV for six public ETFs from yfinance; `src/ingestion/macro.py` loads Treasury yields, Fed Funds, and CPI from FRED and derives `curve_points`. Both use a 24-hour JSON-file cache before replacing their DuckDB tables. `security_master` and `portfolio_positions` remain invented CSV fixtures and retain their `# MOCK` marker. |
 | **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`docs/PRD.md` §3, principle 10) | `config/roles.yaml` assigns three local test identities only. Cedar policies independently govern tools and portfolio resources, agent construction removes unauthorized tools before model binding, portfolio context is checked before model access, a denied-terms guardrail checks input/context/output, and FastAPI re-checks tool plus resource access. Backtests pause for human approval. Every decision records its layer and OTel trace ID. |
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | In addition to pricing, curves, exposure, risk, regression, and backtest, `src/analytics/scenario.py` provides first-order rates/credit shocks and `src/analytics/optimizer.py` provides max-Sharpe, minimum-volatility, and risk-parity allocation proposals with turnover/concentration checks. FastAPI and MCP expose both under the same contracts. Research and portfolio classifications intentionally remain mocked. |
-| **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Four project canvases now exist: `agentic-kanban`, `issue-triage-canvas`, `agent-ops-canvas`, and the Portfolio/Risk capstone. The capstone exposes identity, portfolio, scenario, trace, provenance, and approval panels; its standalone capability tests exercise the same entitlement expectations as the MCP boundary. |
+| **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Four project canvases now exist: `agentic-kanban`, `issue-triage-canvas`, `agent-ops-canvas`, and the Portfolio/Risk capstone. Day 19 extends Agent Operations with evidence-provider health, committee rebuttal, fixed-income, promotion/SLO, and incident/replay panels. The Canvas remains an interaction surface, not a trust boundary. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `src/runtime/agentcore_app.py` is a direct-code AgentCore entrypoint for the same Portfolio Manager, with `config/agentcore.yaml` capturing Runtime/Gateway/Identity/Policy/Guardrails/OTel intent. Local Docker remains the comparison stack; a live AWS resource deployment is not claimed until account setup and smoke evidence exist. |
-| **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. Each specialist receives only its domain tools, and the orchestrator receives no analytics tools directly. `multi_agent_local.py` reproduces the hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
+| **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. `src/agents/investment_research.py` adds a separate research supervisor with Quantitative Analysis, News/Research, and Smart Summarizer specialists. Each specialist receives only its domain tools, and the orchestrators receive no ungoverned analytics tools directly. `multi_agent_local.py` reproduces the original hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
 | **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. Day 13 adds the AgentCore evaluation manifest; no live cloud evaluation is claimed here. |
-| **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | Doesn't exist yet — starts Day 11. |
+| **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | `.github/workflows/morning-brief.yml` provides an approval-only scheduled review; native Copilot automation remains a platform/browser evidence task. |
 
 The Data Layer is intentionally mixed: public price/macro data is real, while
-portfolio and security metadata remains mock. Remaining stubs are tracked from
-their `# MOCK` markers in `PROGRESS.md` (`docs/PLAN.md` §6).
+portfolio and security metadata remains mock. The target separates a structured
+calculation path from an unstructured evidence path. Structured records may feed
+deterministic analytics only after point-in-time and quality checks; unstructured
+records (filings, narratives, news metadata, and document-derived skills) support
+retrieval and explanation, but cannot directly set a risk number or allocation.
+The optional BigData.com adapter sits behind the evidence path and the governed
+MCP/Gateway boundary. Remaining stubs are tracked from their `# MOCK` markers in
+`PROGRESS.md` (`docs/PLAN.md` §6).
 
 ---
 
-## Logical components, through Day 12
+## Logical components, through Day 17
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -57,6 +63,17 @@ src/api/main.py                      governed FastAPI wrappers; research mock
 src/mcp_server/server.py              contract-backed MCP adapter; Cedar re-check
 src/runtime/agentcore_app.py          direct-code AgentCore Runtime entrypoint
 
+ResearchEvidence provider adapters   src/research/provider.py returns cited,
+                                     licensing-aware evidence fixtures; the
+                                     optional BigData.com thematic operation is
+                                     mocked and cannot create a risk number
+
+Fixed-income data spine               src/research/fixed_income.py partitions
+                                     point-in-time structured observations from
+                                     cited commentary; Treasury auctions, SOFR,
+                                     TRACE, CFTC, and provider connectors remain
+                                     fixture/provider-adapter work
+
 scripts/artifacts_host.py            separate FastAPI app, serves artifacts/*
 src/ui/app.py                         optional Streamlit comparison surface
 Dockerfile/docker-compose.yml         one-command local API/MCP/artifact stack
@@ -64,6 +81,7 @@ Dockerfile/docker-compose.yml         one-command local API/MCP/artifact stack
 .github/extensions/agentic-kanban/   shared board canvas for create/assign/move
 .github/extensions/issue-triage-canvas/  repository issue triage canvas
 .github/extensions/agent-ops-canvas/     agent run / trace / approval canvas
+                                         + research/committee AgentOps panels
 .github/extensions/portfolio-risk-canvas/ governed PM/risk review canvas
 
 skills/example-echo/                 proves the Agent Skills package mechanism
@@ -82,6 +100,13 @@ src/agents/single_agent.py           OpenAI-configured Deep Agent
 src/agents/single_agent_local.py     same agent on local Ollama/Qwen3 4B
 src/agents/multi_agent.py            Portfolio Manager -> three native specialist sub-agents
 src/agents/multi_agent_local.py      same hierarchy on local Ollama/Qwen3 4B
+src/agents/investment_research.py    separate supervisor -> quantitative,
+                                     news/research, and smart-summarizer agents
+src/agents/devils_advocate.py        independent read-only challenge engine,
+                                     critic agent, and human-review workflow
+src/capstone/workflow.py             reproducible authenticated PM capstone,
+                                     structured/unstructured provenance split,
+                                     audit/evaluation/version metadata
 src/agents/recovery.py               retry, validation, limits, and dead-letter middleware
 
 src/observability/telemetry.py       shared OTel provider, spans, and LangSmith OTLP export
@@ -96,7 +121,6 @@ skills/eval-dataset-authoring/       evaluation-case schema and authoring workfl
 .github/workflows/morning-brief.yml  weekday approval-only review issue
 .github/workflows/eval-regression.yml  fast PR/full main behavioral regression gate
 .github/workflows/progress-tracker.yml  regenerates PROGRESS.md's status table on push to main
-.github/workflows/skills-freshness.yml  placeholder, built out Day 11
 .github/agents/eval-triage-agent.agent.md  read-only regression investigation persona
 .github/agents/docs-agent.agent.md    docs maintenance agent for architecture/glossary
 .github/agents/pr-reviewer-agent.agent.md    read-only domain PR reviewer

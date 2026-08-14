@@ -63,6 +63,27 @@ function initialState() {
     evaluationError: null,
     error: null,
     lastRefresh: null,
+    evidenceHealth: {
+      structured: { freshness: "2026-08-12", status: "healthy", provider: "public-fixtures" },
+      unstructured: { freshness: "2026-08-11", status: "degraded", provider: "mock" },
+      providers: [],
+      note: "Unstructured provider is degraded; no replacement narrative was generated.",
+    },
+    committee: {
+      thesisId: "THESIS-001",
+      thesis: "Test thesis",
+      approvalState: "pending_human_review",
+      findings: [
+        { category: "contradictory_data", severity: "high", message: "Contradiction", evidenceIds: ["E1"] },
+        { category: "liquidity_risk", severity: "medium", message: "Liquidity", evidenceIds: [] },
+        { category: "invalidation_conditions", severity: "high", message: "No invalidation", evidenceIds: [] },
+      ],
+      allocationDelta: [],
+    },
+    fixedIncome: { curveDate: "2026-08-12", vintage: "2026-08-12", liquidityStatus: "degraded" },
+    promotion: { promotable: false, checks: [{ name: "live", status: "blocked" }] },
+    slo: { citationCoverage: 1, p95LatencySeconds: 1 },
+    incident: { status: "ready", lastExercise: null, steps: [] },
   };
 }
 
@@ -135,6 +156,31 @@ async function run() {
 
   const runs = await invoke("get_runs", { kind: "approval", query: "paused" });
   assert.equal(runs.result.count, 1);
+
+  const health = await invoke("get_evidence_health", {});
+  assert.equal(health.result.evidenceHealth.unstructured.status, "degraded");
+  assert.match(health.result.evidenceHealth.note, /no replacement narrative/);
+
+  const committee = await invoke("get_committee_artifact", {});
+  assert.equal(committee.result.committee.approvalState, "pending_human_review");
+  assert.equal(committee.result.committee.findings.length, 3);
+
+  const fixedIncome = await invoke("get_fixed_income_panel", {});
+  assert.equal(fixedIncome.result.fixedIncome.curveDate, "2026-08-12");
+  assert.equal(fixedIncome.result.fixedIncome.liquidityStatus, "degraded");
+
+  const promotion = await invoke("get_promotion_checks", {});
+  assert.equal(promotion.result.promotion.promotable, false);
+  assert.equal(promotion.result.promotion.checks.some((check) => check.status === "blocked"), true);
+
+  const incident = await invoke("run_incident_exercise", { provider: "fixture-provider" });
+  assert.equal(incident.result.fabricatedResearch, false);
+  assert.equal(incident.state.incident.status, "degraded");
+
+  await assert.rejects(
+    invoke("replay_dead_letter", { run_id: "approval-run", node_id: "gate" }),
+    /not replayable/,
+  );
 }
 
 await run();

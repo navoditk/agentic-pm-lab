@@ -1,9 +1,11 @@
-# Deployment intent for Day 12. Resource creation remains an explicit AWS
-# exercise; review this file before running any AgentCore CLI command.
+# Deployment configuration used by the documented AWS AgentCore experiment.
+# The runtime uses a cross-region inference profile because the selected Haiku
+# model does not support direct on-demand invocation in us-west-2.
 runtime:
   deployment_mode: direct_code
   entrypoint: src.runtime.agentcore_app:app
   region: us-west-2
+  model: bedrock_converse:us.anthropic.claude-haiku-4-5-20251001-v1:0
   model_env: AGENTCORE_MODEL
 gateway:
   protocol: MCP

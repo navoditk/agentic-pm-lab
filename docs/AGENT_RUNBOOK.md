@@ -80,8 +80,22 @@ Example requests:
     Quiz me on duration, spread duration, OAS, convexity, and drawdown. Ask one
     question at a time and reveal the solution only after I try.
 
+    Explain key-rate DV01, carry/rolldown, and a steepener versus flattener
+    shock. State the curve, settlement, and instrument assumptions, then point
+    to the fixed-income references and future deterministic tools.
+
+    Compare Treasury/FRED data, OpenBB, FINRA TRACE aggregates, and a licensed
+    security master. Classify each as source, adapter, or production dependency,
+    and list the provenance fields needed to reproduce an answer.
+
+    Given a bond missing its day-count convention and call schedule, explain why
+    the result must be needs_review rather than silently calculated.
+
 The tutor should cite the glossary or a public source, expand acronyms, label
-mock data, avoid investment recommendations, and suggest a relevant tool/test.
+mock data, preserve observation/publication timestamps, distinguish direct
+sources from OpenBB adapters, avoid investment recommendations, and suggest a
+relevant tool/test. The expanded examples and adversarial cases are maintained
+in [`TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md).
 
 ## 6. Tutor agents
 

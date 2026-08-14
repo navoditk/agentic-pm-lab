@@ -80,6 +80,52 @@ function PanelTitle({ icon, title, action }) {
   `;
 }
 
+function Day19Panels({ state, runAction, busy }) {
+  const health = state.evidenceHealth;
+  const committee = state.committee;
+  const fixedIncome = state.fixedIncome;
+  const promotion = state.promotion;
+  return html`
+    <div class="ck-col" style="gap:10px; margin:12px 0">
+      <div class="ck-row" style="gap:10px; flex-wrap:wrap">
+        <div class="ck-card" style="flex:1; min-width:240px">
+          <${PanelTitle} icon="database" title="Evidence provider health" action=${html`<button class="ck-btn ck-btn-sm" disabled=${busy} onClick=${() => runAction("get_evidence_health", {})}><${Icon} name="refresh-cw" size=${14}/>Check</button>`} />
+          <div class="ck-row ck-caption" style="gap:8px; flex-wrap:wrap">
+            <span class="ck-badge ck-badge-success">structured ${health.structured.status}</span>
+            <span class="ck-badge ${health.unstructured.status === "degraded" ? "ck-badge-attention" : "ck-badge-success"}">unstructured ${health.unstructured.status}</span>
+          </div>
+          <div class="ck-muted" style="margin-top:8px">${health.note}</div>
+          <div class="ck-col" style="gap:5px; margin-top:8px">${health.providers.map((provider) => html`<div class="ck-row ck-caption" key=${provider.name} style="justify-content:space-between"><span>${provider.name}</span><span>${provider.availability} · ${provider.needsReview} review</span></div>`)}</div>
+        </div>
+        <div class="ck-card" style="flex:1; min-width:240px">
+          <${PanelTitle} icon="shield-alert" title="Promotion & SLOs" action=${html`<button class="ck-btn ck-btn-sm" disabled=${busy} onClick=${() => runAction("get_promotion_checks", {})}>Inspect</button>`} />
+          <span class="ck-badge ck-badge-danger">${promotion.promotable ? "promotable" : "blocked"}</span>
+          <div class="ck-col" style="gap:5px; margin-top:8px">${promotion.checks.map((check) => html`<div class="ck-row ck-caption" key=${check.name} style="justify-content:space-between"><span>${check.name}</span><span class="ck-badge ${check.status === "pass" ? "ck-badge-success" : check.status === "warn" ? "ck-badge-attention" : "ck-badge-danger"}">${check.status}</span></div>`)}</div>
+          <div class="ck-muted" style="margin-top:8px">p95 ${promotion.slo?.p95LatencySeconds ?? state.slo?.p95LatencySeconds}s · citation ${(Number(state.slo?.citationCoverage ?? 0) * 100).toFixed(0)}%</div>
+        </div>
+      </div>
+      <div class="ck-row" style="gap:10px; flex-wrap:wrap">
+        <div class="ck-card" style="flex:1; min-width:240px">
+          <${PanelTitle} icon="scale" title="Thesis vs rebuttal" action=${html`<button class="ck-btn ck-btn-sm" disabled=${busy} onClick=${() => runAction("get_committee_artifact", {})}>Refresh</button>`} />
+          <div><strong>${committee.thesisId}</strong> · <span class="ck-badge ck-badge-attention">${committee.approvalState}</span></div>
+          <div class="ck-muted" style="margin-top:6px">${committee.thesis}</div>
+          <div class="ck-col" style="gap:5px; margin-top:8px">${committee.findings.map((finding) => html`<div class="ck-row" key=${finding.category} style="gap:6px; align-items:flex-start"><span class="ck-badge ${finding.severity === "high" ? "ck-badge-danger" : "ck-badge-attention"}">${finding.severity}</span><span class="ck-caption">${finding.category}: ${finding.message}</span></div>`)}</div>
+          <div class="ck-caption" style="margin-top:8px">Allocation delta: ${committee.allocationDelta.map((delta) => `${delta.securityId} ${(delta.delta * 100).toFixed(1)}pp`).join(", ")}</div>
+        </div>
+        <div class="ck-card" style="flex:1; min-width:240px">
+          <${PanelTitle} icon="landmark" title="Fixed income" action=${html`<button class="ck-btn ck-btn-sm" disabled=${busy} onClick=${() => runAction("get_fixed_income_panel", {})}>Inspect</button>`} />
+          <div class="ck-row ck-caption" style="gap:8px; flex-wrap:wrap"><span>curve ${fixedIncome.curveDate}</span><span>vintage ${fixedIncome.vintage}</span><span class="ck-badge ck-badge-attention">${fixedIncome.liquidityStatus}</span></div>
+          <div class="ck-col" style="gap:5px; margin-top:8px"><span class="ck-caption">DV01: ${fixedIncome.keyRateDv01} · spread duration: ${fixedIncome.spreadDuration}</span><span class="ck-caption">${fixedIncome.issuerRatingConcentration}</span><span class="ck-muted">${fixedIncome.hedgeAssumptions}</span><span class="ck-caption">Fallback: ${fixedIncome.fallback}</span></div>
+        </div>
+      </div>
+      <div class="ck-card">
+        <${PanelTitle} icon="siren" title="Incident exercise" action=${html`<button class="ck-btn ck-btn-sm" disabled=${busy} onClick=${() => runAction("run_incident_exercise", { provider: "mock-bigdata-thematic-screen" })}><${Icon} name="triangle-alert" size=${14}/>Exercise outage</button>`} />
+        <div class="ck-row" style="gap:8px; flex-wrap:wrap"><span class="ck-badge ck-badge-attention">${state.incident.status}</span><span class="ck-caption">${state.incident.steps?.join(" → ") || "Ready to exercise provider degradation."}</span></div>
+      </div>
+    </div>
+  `;
+}
+
 function App({ state, invoke, connected }) {
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState("all");
@@ -211,6 +257,8 @@ function App({ state, invoke, connected }) {
               </div>
             `
             : null}
+
+          <${Day19Panels} state=${state} runAction=${runAction} busy=${busy} />
 
           <div class="ck-row" style="gap:8px; flex-wrap:wrap; margin:12px 0">
             <select class="ck-input" value=${subset} onChange=${(e) => setSubset(e.target.value)}>

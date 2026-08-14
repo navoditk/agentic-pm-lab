@@ -168,24 +168,49 @@ day_14:
 
 day_15:
   label: "Point-in-time data and provenance"
-  checks: []
+  checks:
+    - path_exists: src/ingestion/provenance.py
+    - path_exists: src/ingestion/fixed_income.py
+    - path_exists: data/README.md
+    - tests_pass: tests/unit/ingestion/test_provenance.py
 
 day_16:
   label: "SEC research and multimodal evidence"
-  checks: []
+  checks:
+    - path_exists: src/ingestion/sec.py
+    - path_exists: tests/unit/ingestion/test_sec.py
+    - path_exists: docs/REFERENCES.md
+    - tests_pass: tests/unit/ingestion/test_sec.py
 
 day_17:
   label: "AWS investment-research pattern"
-  checks: []
+  checks:
+    - path_exists: src/research/provider.py
+    - path_exists: src/research/fixed_income.py
+    - path_exists: src/agents/investment_research.py
+    - path_exists: docs/adr/0018-research-supervisor-pattern.md
+    - tests_pass: tests/unit/research
+    - tests_pass: tests/unit/agents/test_investment_research.py
 
 day_18:
   label: "Devil's Advocate and committee challenge"
-  checks: []
+  checks:
+    - path_exists: src/agents/devils_advocate.py
+    - path_exists: docs/adr/0019-devils-advocate-committee-challenge.md
+    - tests_pass: tests/unit/agents/test_devils_advocate.py
 
 day_19:
   label: "Production AgentOps and Canvas"
-  checks: []
+  checks:
+    - path_exists: .github/extensions/agent-ops-canvas/canvas.mjs
+    - path_exists: .github/extensions/agent-ops-canvas/tests/canvas-capabilities.test.mjs
+    - path_exists: docs/adr/0020-production-agentops-canvas.md
+    - tests_pass: tests/unit/agents
 
 day_20:
   label: "Institutional PM capstone"
-  checks: []
+  checks:
+    - path_exists: src/capstone/workflow.py
+    - path_exists: tests/unit/capstone/test_workflow.py
+    - path_exists: docs/adr/0021-institutional-pm-capstone.md
+    - tests_pass: tests/unit/capstone

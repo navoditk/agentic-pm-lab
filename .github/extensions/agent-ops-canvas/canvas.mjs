@@ -289,6 +289,56 @@ function createState() {
     evaluationError: null,
     error: null,
     lastRefresh: null,
+    evidenceHealth: {
+      structured: { freshness: "2026-08-12", status: "healthy", provider: "public-fixtures" },
+      unstructured: { freshness: "2026-08-11", status: "degraded", provider: "mock-bigdata-thematic-screen" },
+      providers: [
+        { name: "SEC EDGAR", availability: "fixture", licensing: "public", citationCoverage: 1, needsReview: 0 },
+        { name: "Treasury/FRED", availability: "available", licensing: "public", citationCoverage: 1, needsReview: 0 },
+        { name: "Thematic provider", availability: "degraded", licensing: "fixture-only", citationCoverage: 1, needsReview: 1 },
+      ],
+      lastChecked: "2026-08-13T08:00:00Z",
+      note: "Unstructured provider is degraded; no replacement narrative was generated.",
+    },
+    committee: {
+      thesisId: "THESIS-001",
+      thesis: "Issuer A can absorb higher funding costs.",
+      rebuttalStatus: "challenged",
+      findings: [
+        { category: "contradictory_data", severity: "high", message: "Linked evidence contradicts the claim.", evidenceIds: ["E1"] },
+        { category: "liquidity_risk", severity: "medium", message: "Liquidity status is illiquid.", evidenceIds: [] },
+        { category: "invalidation_conditions", severity: "high", message: "No condition would invalidate the thesis.", evidenceIds: [] },
+      ],
+      allocationDelta: [
+        { securityId: "ISSUER-A", currentWeight: 0.4, proposedWeight: 0.25, delta: -0.15 },
+      ],
+      approvalState: "pending_human_review",
+      reviewer: null,
+    },
+    fixedIncome: {
+      curveDate: "2026-08-12",
+      vintage: "2026-08-12",
+      keyRateDv01: "needs_review",
+      spreadDuration: "needs_review",
+      carryRolldown: "not available",
+      liquidityStatus: "degraded",
+      issuerRatingConcentration: "mock security master",
+      sourceCoverage: "3/6 topics fixture-backed",
+      hedgeAssumptions: "Human review required; no hedge order generated.",
+      fallback: "direct-provider fallback not configured",
+    },
+    promotion: {
+      environment: "local",
+      checks: [
+        { name: "unit tests", status: "pass", detail: "Deterministic suite is green." },
+        { name: "governance negatives", status: "pass", detail: "Authorization and guardrail negatives are green." },
+        { name: "provider health", status: "warn", detail: "Unstructured provider is degraded." },
+        { name: "live AgentCore smoke", status: "blocked", detail: "No live AWS evidence is claimed." },
+      ],
+      promotable: false,
+    },
+    slo: { traceCoverage: 1, citationCoverage: 1, p95LatencySeconds: 363.44, providerAvailability: 0.67 },
+    incident: { status: "ready", lastExercise: null, steps: [] },
   };
 }
 
@@ -516,13 +566,79 @@ export function createActions(runEvaluation = runRealEvaluation) {
         return { run_id: run.id, metrics: run.metrics };
       },
     },
+
+    get_evidence_health: {
+      description: "Return structured and unstructured evidence-provider health without fabricating degraded data.",
+      inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      handler: ({ state }) => ({ evidenceHealth: state.evidenceHealth }),
+    },
+
+    get_committee_artifact: {
+      description: "Return the thesis, rebuttal findings, allocation delta, and human approval state.",
+      inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      handler: ({ state }) => ({ committee: state.committee }),
+    },
+
+    get_fixed_income_panel: {
+      description: "Return fixed-income provenance, risk, liquidity, source coverage, and hedge assumptions.",
+      inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      handler: ({ state }) => ({ fixedIncome: state.fixedIncome }),
+    },
+
+    get_promotion_checks: {
+      description: "Return deployment promotion checks and refuse promotion when a check is blocked or warned.",
+      inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      handler: ({ state }) => ({ promotion: state.promotion, slo: state.slo }),
+    },
+
+    replay_dead_letter: {
+      description: "Replay one failed or dead-lettered trace node and record the request for the main agent.",
+      inputSchema: {
+        type: "object",
+        properties: { run_id: { type: "string" }, node_id: { type: "string" }, reason: { type: "string" } },
+        required: ["run_id", "node_id"],
+        additionalProperties: false,
+      },
+      handler: async ({ state, set, input, askAgent }) => {
+        const run = findRun(state.runs, input.run_id);
+        if (!run) throw new Error(`Unknown run ${input.run_id}`);
+        const nodes = walkNodes(run.trace, []);
+        const target = nodes.find((node_) => node_.id === input.node_id);
+        if (!target) throw new Error(`Unknown node ${input.node_id} in ${input.run_id}`);
+        if (!['failed', 'dead_letter', 'retried'].includes(target.status)) {
+          throw new Error(`Node ${input.node_id} is not replayable`);
+        }
+        if (typeof askAgent === "function") {
+          await askAgent(`Replay dead-letter node ${input.node_id} in run "${run.title}".` + (input.reason ? ` Reason: ${input.reason}` : ""));
+        }
+        set((current) => ({ ...current, incident: { ...current.incident, status: "replay-requested", lastExercise: new Date().toISOString() }, error: null }));
+        return { run_id: run.id, node_id: input.node_id, status: "replay-requested" };
+      },
+    },
+
+    run_incident_exercise: {
+      description: "Exercise provider outage handling and make degraded state visible.",
+      inputSchema: { type: "object", properties: { provider: { type: "string" } }, required: ["provider"], additionalProperties: false },
+      handler: ({ state, set, input }) => {
+        const provider = String(input.provider).trim();
+        if (!provider) throw new Error("provider must not be empty");
+        const steps = [
+          `Detected outage for ${provider}`,
+          "Marked unstructured evidence degraded",
+          "Suppressed fabricated replacement research",
+          "Queued human/provider recovery review",
+        ];
+        set((current) => ({ ...current, incident: { status: "degraded", lastExercise: new Date().toISOString(), steps }, evidenceHealth: { ...current.evidenceHealth, unstructured: { ...current.evidenceHealth.unstructured, status: "degraded", provider }, note: "Incident exercise active; no fabricated research returned." } }));
+        return { provider, status: "degraded", fabricatedResearch: false, steps };
+      },
+    },
   };
 }
 
 export const canvasConfig = {
   id: "agent-ops-canvas",
   displayName: "Agent Operations",
-  description: "Inspect agent runs, traces, guardrails, approvals, and evaluation results.",
+  description: "Inspect agent runs, research evidence health, committee rebuttals, fixed-income panels, approvals, SLOs, and replay controls.",
   assetsDir: fileURLToPath(new URL("./web/", import.meta.url)),
   inputSchema: {
     type: "object",

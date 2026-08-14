@@ -1,11 +1,20 @@
 # Agent Operations
 
-Agent Operations — a canvas built on the Canvas Kit.
+Agent Operations — a canvas built on the Canvas Kit. Day 19 extends it into the
+research and committee operations surface.
 
 A GitHub Copilot App **canvas extension** generated with the `create-canvas-app`
 skill (data template). The agent and the user share the same live
 state through the same action handlers; the view renders with Preact + htm and a
 vendored kit — no build step, no `package.json`.
+
+## Day 19 panels
+
+The shared state and handlers expose evidence-provider health, thesis versus
+rebuttal findings, allocation deltas, fixed-income provenance and hedge
+assumptions, promotion/SLO checks, and incident/replay controls. A degraded
+provider is shown as degraded; the Canvas never fabricates replacement research
+and remains an interaction surface rather than a trust boundary.
 
 ## Layout
 

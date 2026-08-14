@@ -1,6 +1,111 @@
 # Learnings
 
-Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Finalized Day 14. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
+Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
+
+## 2026-08-13 — AWS runbook hardening
+
+**What worked:** Converting the live setup into a direct CodeZip runbook made
+the hidden gates explicit: IAM Identity Center refresh after permission changes,
+cross-region model selection, Linux ARM64 packaging, scoped S3 access,
+service-linked-role initialization, endpoint readiness, bounded invocation,
+CloudWatch correlation, cost capture, and teardown. A minimal fixture and SDK
+probe now give a new operator a stable starting point without packaging the full
+application.
+
+**What remains limited:** The live version-3 runtime reached `READY` but its
+bounded request still returned HTTP 500 without a new application traceback.
+The documentation records that as deployment-ready/request-failed evidence and
+does not claim a successful cloud inference until the minimal fixture completes
+one response.
+
+## 2026-08-13 — Day 20
+
+**What worked:** A deterministic capstone replay can exercise the full governed
+PM sequence without overstating live infrastructure: authentication,
+portfolio entitlement, freshness, fixed-income calculations, cited research,
+Devil's Advocate challenge, human review, audit, OTel, evaluation dimensions,
+and version metadata all appear in one artifact. Clean/dirty price, accrued
+interest, duration matching, and order suppression make the fixed-income safety
+boundary concrete.
+
+**What remains unclaimed:** The capstone uses fixture research and local
+structured observations. Live AgentCore, CloudWatch, provider uptime, Canvas
+capture, and live external-data evidence remain deployment/evidence work rather
+than being inferred from this replay.
+
+## 2026-08-13 — Day 19
+
+**What worked:** Extending the existing Agent Operations Canvas preserved the
+four-Canvas scope while adding a useful production surface for research and
+committee work. Provider health, promotion checks, SLOs, fixed-income source
+coverage, thesis rebuttals, and incident replay are all visible through shared
+handlers and durable state.
+
+**What remains unclaimed:** The local Canvas exercises degraded-provider and
+replay behavior, but it does not claim live CloudWatch dashboards, LangSmith
+traces, AgentCore promotion, or provider uptime. Those require external
+platform evidence and remain visibly blocked in the promotion panel.
+
+## 2026-08-13 — Day 18
+
+**What worked:** A deterministic challenge report makes the committee safety
+rules executable: the critic has no tools, cannot approve its own artifact, and
+the workflow remains pending until a distinct authorized human decides. The
+challenge categories also provide a measurable coverage surface instead of an
+unbounded request for skepticism.
+
+**What remains limited:** Contradictions and causal support are represented by
+explicit evidence metadata; semantic truth requires a reviewed model/evidence
+evaluation. Concentration and liquidity checks are learning-scale thresholds,
+not a production risk engine.
+
+## 2026-08-12 — Day 17
+
+**What worked:** The AWS investment-research shape maps cleanly to a separate
+native Deep Agents graph when the provider adapter returns evidence records
+instead of prose. Keeping quantitative tools and unstructured evidence in
+different specialist contracts makes the key trust rule testable: narrative
+signals can be cited and summarized but cannot create a risk number.
+
+**What remains mocked:** The thematic provider, EDGAR retrieval, Treasury
+auction/SOFR/TRACE/CFTC connectors, and live AgentCore deployment remain
+fixture or local evidence. No provider licensing or cloud access is implied by
+the local tests.
+
+## 2026-08-12 — Day 15
+
+**What worked:** A small provenance envelope is enough to make the critical
+point-in-time rule executable: an observation date describes the economic period,
+while a release date describes when the PM could know it. Selecting the latest
+eligible vintage by source, series, and observation date prevents a revised
+macro value from leaking into an earlier backtest. The bond instrument-master
+validator also makes missing conventions visible before valuation.
+
+**What did not happen:** No live ALFRED, Treasury, TRACE, OpenBB, or licensed
+market-data call was made. That is deliberate: the local contract and negative
+cases should exist before credentials, terms, or provider-specific schemas are
+introduced.
+
+**One thing I'd do differently:** Treat bond terms as a first-class contract
+before adding more market endpoints. A curve or price feed without settlement,
+day-count, coupon, callability, and identifier semantics is not yet usable for a
+fixed-income PM calculation.
+
+## 2026-08-12 — Day 16
+
+**What worked:** SEC filing metadata can be made useful without loading a full
+document corpus: accession number, CIK, form, filing date, reporting period,
+canonical URL, excerpt, and retrieval time provide an attributable evidence
+object. The same release-date rule used for macro vintages filters filings for
+as-of research.
+
+**What did not happen:** No live EDGAR request was made. The connector is tested
+with mocked payloads, keeping unit tests network-free and avoiding premature
+decisions about rate limits, caching, and excerpt retention.
+
+**One thing I'd do differently:** Add citation completeness and document-content
+extraction only after the metadata contract is stable; otherwise a research
+agent can produce polished prose without a reproducible filing identity.
 
 ## 2026-08-12 — Day 14
 

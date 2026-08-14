@@ -67,3 +67,30 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 - **GitHub Copilot CLI, Desktop, and the Copilot app** read this file (via the `.github/copilot-instructions.md` pointer for surfaces that need it explicitly). Best fit for repetitive scaffolding, canvas building, and GitHub-platform work — Days 2, 6, 8, 9, 10, and 11 lean on it most.
 - **OpenAI Codex CLI** reads this file automatically too (its own `/init` command exists to create one, but this repo already has it). A reasonable substitute wherever Claude Code is the default — deep reasoning, debugging, architecture work — if you'd rather use it or want to compare the two on the same task. Doesn't substitute for the Copilot app on the canvas days (8–10) or the Day 11 PR exercise; those stay Copilot-specific regardless of which CLI tool handles everything else.
 - Any of the three CLI tools can be used any day; docs/PLAN.md's per-day "Recommended dev tool" line is a default, not a restriction. `INSTALL.md` §8 has exact launch commands for all three.
+
+## AWS Agent Toolkit guidance
+
+The AWS Agent Toolkit is configured for this repository. These rules apply to
+AWS-related work in addition to the project routing and safety rules above:
+
+- Prefer the AWS MCP Server for AWS interactions because it provides sandboxed
+  execution, observability, and audit logging. If unavailable, use the AWS CLI
+  directly.
+- Before starting an AWS task, check whether a relevant AWS skill is available;
+  load that skill and prefer its guidance over general knowledge.
+- When uncertain about AWS details such as API parameters, permissions, limits,
+  or error codes, verify against documentation rather than guessing and state
+  uncertainty explicitly.
+- When creating infrastructure, prefer AWS CDK or CloudFormation over direct
+  CLI commands, and follow AWS Well-Architected principles.
+- Do not use em dashes in AWS resource names or descriptions; use hyphens.
+
+### AWS secret safety
+
+- Load the `aws-secrets-manager` skill first for any secret, credential, API
+  key, token, or password task.
+- Do not call `secretsmanager get-secret-value` or
+  `secretsmanager batch-get-secret-value`, and do not access the Secrets
+  Manager Agent daemon directly.
+- Use `{{resolve:secretsmanager:secret-id:SecretString:json-key}}` with
+  `asm-exec` so secrets resolve at runtime without entering agent context.

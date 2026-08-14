@@ -17,7 +17,7 @@ Four things inform this project, stitched together instead of treated as separat
 
 The build proceeds as a "walking skeleton" — every layer exists in mocked form from day one, and each subsequent step of `docs/PLAN.md` replaces one layer's mock with a real implementation: public data, a real agent framework, real observability, real governance, a four-project progression through Canvas extensions, and finally a real managed cloud agent runtime. FICC vocabulary (rates, credit, mortgages, curves, spreads) is absorbed naturally because it's the subject matter of the analytics being built, not a separate study track.
 
-**One project, one architecture, one repository, one end-state.** Production-grade concerns — context engineering, end-to-end authorization, a real eval harness, failure engineering, skills as tested software artifacts, and policy/guardrails as code — deepen the existing 12-day progression rather than forming a parallel "enterprise" track. Nothing here creates a second architecture to maintain.
+**One project, one architecture, one repository, one end-state.** Production-grade concerns — context engineering, end-to-end authorization, a real eval harness, failure engineering, skills as tested software artifacts, and policy/guardrails as code — deepen the foundational 12-day progression through the current 20-day track rather than forming a parallel "enterprise" track. Nothing here creates a second architecture to maintain.
 
 **No company-sensitive information, system names, or internal product names appear anywhere in this project.** Every data source, mock, and folder name is either a real public API/dataset or a plainly descriptive, invented label — never a reference to a proprietary internal platform. This is a hard constraint, not a preference.
 
@@ -58,18 +58,72 @@ make the end-to-end use case more realistic:
 | News and sentiment | Mock research endpoint | SEC filing text plus GDELT event/news metadata | Evidence-linked retrieval and sentiment uncertainty |
 | Backtesting | Static toy backtest | Costs, slippage, turnover, liquidity, and rebalance timing | Research validity is separate from model sophistication |
 
+### 2.7 External financial-intelligence adapter
+
+The roadmap adds an optional provider-neutral adapter for external financial
+research intelligence. BigData.com is the first public implementation reference;
+the PM platform's contracts and governance must not become vendor-specific. The
+adapter enriches unstructured or semi-structured research with:
+
+| Capability | PM problem addressed | Output boundary |
+|---|---|---|
+| Thematic screening | Which issuers and holdings are exposed to a theme, event, or supply-chain risk? | Evidence and exposure candidates, not a position instruction |
+| Narrative mining and sentiment/attention | Which issuers show deteriorating narrative, unusual attention, or changing language? | Time-stamped signals with uncertainty and source links |
+| Credit-rating monitoring | Which issuers have rating, outlook, watchlist, or downgrade events? | FICC/credit review queue reconciled with authoritative sources |
+| Central-bank and inflation-driver monitoring | Which macro narratives may affect curve, duration, spread, or regime assumptions? | Macro evidence for scenario selection, never an unvalidated rate input |
+| Large-scale and novelty-filtered briefs | How can a PM review a large universe without rereading unchanged information? | Cited batch summaries with novelty and freshness metadata |
+
+The first vertical slice should be either credit-event monitoring (best aligned
+with the FICC scope) or thematic exposure. Sentiment and batch briefs follow only
+after provenance and novelty tests exist. The adapter should expose provider-neutral
+operations such as `search_research`, `monitor_credit_events`,
+`analyze_thematic_exposure`, and `generate_portfolio_brief` through the governed
+MCP/Gateway boundary. It must not be used as a source of prices, holdings,
+portfolio weights, or executable orders.
+
+Every evidence object records provider, entity ID, source URL or permitted
+reference, publication date, retrieval timestamp, query/filters, confidence,
+freshness, licensing status, and a point-in-time eligibility result. Unit tests
+use fixtures and mocked provider responses; live credentials and provider-specific
+data are optional integration evidence only.
+
 Public data is suitable for learning and prototyping, not automatically for
 production investment decisions. Each connector must document access terms,
 rate limits, attribution, update cadence, historical coverage, revisions,
 identifier quality, and redistribution rights.
 
+### 2.8 Fixed-income-first data and analytics spine
+
+The platform's primary investment domain is fixed income. The roadmap therefore
+adds a dedicated data and analytics spine rather than treating bonds as another
+price series:
+
+| Capability | Public/learning path | Institutional gap to understand |
+|---|---|---|
+| Rates and curves | Treasury rates, FRED/ALFRED, Federal Reserve fitted curves, NY Fed SOFR | Multiple curve types, funding/discounting, methodology changes, and curve vintages |
+| Issuance and reference | Treasury auctions and security metadata | Complete security master, corporate actions, and authoritative identifiers |
+| Bond valuation | Cash-flow terms, clean/dirty price, accrued interest, yield, duration, convexity | Evaluated pricing, bid/ask, callable/MBS models, and vendor entitlements |
+| Credit and liquidity | FINRA fixed-income aggregates/TRACE reports, rating events, issuer facts | Transaction-level TRACE, ratings feeds, OAS, liquidity scores, and licensing |
+| Portfolio risk | Key-rate DV01, spread duration, carry/rolldown, curve-shape scenarios, issuer/rating/sector limits | Full risk-factor model, derivatives, hedges, intraday positions, and model governance |
+| Hedging and positioning | CFTC financial-futures positioning and mocked Treasury futures | Licensed CME data, contract rolls, hedge execution, margin, and basis risk |
+
+The minimum bond instrument master includes identifier, issuer, coupon,
+frequency, issue/maturity dates, call/put/sink features, day-count convention,
+settlement calendar, currency, seniority, rating, sector, benchmark/curve map,
+clean and dirty price, accrued interest, yield, spread, duration, and convexity.
+Missing or ambiguous terms produce `needs_review`; they do not fall back to
+equity-style calculations. OpenBB is used as a provider-access comparison and
+normalization aid, while direct official connectors preserve reproducibility.
+QuantLib and rateslib are deterministic pricing/curve references, not data
+vendors or substitutes for licensed institutional feeds.
+
 ## 2. Target Architecture
 
 | Platform Layer | What it means at a real firm | What this project builds, mock-first |
 |---|---|---|
-| Data Layer | Governed access to structured, unstructured, and enterprise data | An invented mock structured-data layer (synthetic portfolio/security/curve tables) → real yfinance/FRED/SEC EDGAR public ingestion; the security master stays a documented mock unless real fundamentals are added as a stretch |
+| Data Layer | Governed access to structured, unstructured, and enterprise data | Structured path: mock portfolio/security/curve tables → yfinance/FRED/SEC EDGAR public ingestion. Unstructured path: filing text, event metadata, document skills, and the optional external financial-intelligence adapter. Each path has separate contracts and provenance rules. |
 | Control Layer | Four separate concerns, not one: **AuthN** (who is calling), **AuthZ** (what they may access), **Guardrails** (content/behavior constraints), **Tool enforcement** (the final boundary that actually withholds unauthorized data) — see §3, principle 10 | A local role-based allowlist, audit log, and test-identity authorization matrix → human-in-the-loop approval wired into the agent → AWS Bedrock AgentCore Identity/Policy plus Bedrock Guardrails as the managed equivalents |
-| Tool Layer | Callable APIs over data: instrument pricers, curve APIs, portfolio APIs, research APIs, econometrics, backtests, **portfolio optimization** — each with a machine-readable input/output contract | Stub endpoints with canned responses → real deterministic engines (bond/option pricer, curve interpolation, exposure/vol/drawdown, factor regression, walk-forward backtest, scenario shock, **constrained mean-variance/max-Sharpe/risk-parity allocation via PyPortfolioOpt, Day 12**), wrapped once as MCP and mounted everywhere, each with a JSON Schema contract and entitlement check at the boundary; benchmark-relative, downside/robust, liquidity-aware, and multi-period extensions are documented learning targets, not current production claims; the research API stays a documented mock unless EDGAR full-text search is added as a stretch |
+| Tool Layer | Callable APIs over data: bond/instrument pricers, curve APIs, portfolio APIs, research APIs, econometrics, backtests, **portfolio optimization** — each with a machine-readable input/output contract | Stub endpoints with canned responses → real deterministic engines (bond/option pricer, curve interpolation, key-rate/DV01 and spread risk, exposure/vol/drawdown, factor regression, walk-forward backtest, scenario shock, **constrained mean-variance/max-Sharpe/risk-parity allocation via PyPortfolioOpt, Day 12**), wrapped once as MCP and mounted everywhere, each with a JSON Schema contract and entitlement check at the boundary; benchmark-relative, downside/robust, liquidity-aware, fixed-income cash-flow, and multi-period extensions are documented learning targets, not current production claims |
 | Interactive Layer | Rich, agent-built, shareable visual surfaces for people to work alongside agents — an interaction surface, not a trust boundary | A four-project progression through real GitHub Copilot Canvas extensions, plus a minimal framework-agnostic UI for comparison; every canvas capability calls the same governed Tool/MCP interface everything else does, never a shortcut around it |
 | Runtime Layer | Non-production single-file artifact hosting; a production path is a real agentic app tied to a repo with real CI/CD | A hand-built local artifact host as a rough analog → each canvas extension's own persisted-state folder as the real, product-native equivalent → a real Copilot-coding-agent-authored PR merged through real CI (including skill, contract, eval, and authorization regression checks) → AWS Bedrock AgentCore Runtime, reached only through the Gateway-governed path |
 | Automation (sub-layer) | Event-triggered pipelines, approval-only | A scheduled pipeline and a native platform automation, both producing a report and executing nothing |
@@ -117,6 +171,17 @@ Every capability in this platform traces back to a specific question a portfolio
 | 14 | How exposed are we to tightening liquidity? | Sizing an appropriate liquidity buffer |
 | 16 | Are we exposed to yield-curve steepening risk? | Curve positioning — barbell vs. bullet duration structure |
 | 17 | How much did rates contribute to returns? | Macro attribution — validating whether P&L matches the rates thesis |
+
+The fixed-income extension adds these PM questions:
+
+| PM question | Business problem / decision |
+|---|---|
+| Which key-rate buckets drive our DV01? | Identify curve-node concentration and hedge the relevant maturity rather than applying a blunt parallel shock. |
+| How much return came from carry and rolldown? | Separate structural income from curve movement and security selection. |
+| Which holdings have spread-duration and liquidity concentration? | Prioritize credit-risk reduction when spreads widen or market depth deteriorates. |
+| Did the latest Treasury auction, SOFR move, or futures positioning change the rates thesis? | Combine supply, funding, and positioning evidence without turning commentary into an unvalidated risk input. |
+| Can a proposed duration hedge be implemented with acceptable basis, roll, margin, and liquidity assumptions? | Compare Treasury-futures hedge alternatives for human review. |
+| Are bond price, accrued interest, settlement, and cash-flow terms reconciled? | Prevent incorrect valuation and P&L attribution caused by instrument-master or convention errors. |
 
 ### 4.2 Quant/Risk sub-agent — exposure, concentration, factor, and optimization questions
 
