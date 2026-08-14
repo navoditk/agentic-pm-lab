@@ -37,7 +37,7 @@ mock fixture != production data or provider availability
 | 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful read-only invocation and teardown; no Gateway deployment | Local complete; Runtime live-complete; Gateway follow-up |
 | 13 | Memory boundaries and evaluation manifest | Live semantic Memory retrieval and scored on-demand Evaluation fixture captured; hosted-runtime span collection remains optional | Local complete; AWS control/data paths evidenced |
 | 14 | Guardrail logic, cases, evaluation dimensions | Live standalone Bedrock Guardrail pass/block proof captured; managed attachment remains optional | Local complete; standalone AWS proof complete |
-| 15 | Point-in-time provenance and bond metadata | No live ALFRED/Treasury/TRACE/OpenBB capture | Local complete; provider follow-up |
+| 15 | Point-in-time provenance and bond metadata | ALFRED/Treasury connector and sample fixtures exist; no live capture or TRACE/OpenBB integration | Local complete; provider follow-up |
 | 16 | SEC metadata, citations, document-to-skill foundation | EDGAR path is mocked/network-free by design | Local complete; provider follow-up |
 | 17 | Research specialists, fixed-income branch, mocked provider adapter | No live provider or successful AgentCore research run | Local complete; live AWS/provider incomplete |
 | 18 | Independent Devil's Advocate and committee challenge | Semantic truth and production liquidity analysis remain limited | Local complete with explicit limitations |

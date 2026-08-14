@@ -67,8 +67,10 @@ and finish with the local command I can run to inspect the sample.
 The source catalog is also available without an agent through
 `uv run python scripts/investment_data_tutor.py` and accepts source IDs such as
 `sec-companyfacts`, `treasury-auctions`, `sofr`, `cftc-cot`, and
-`kenneth-french`. The output is educational sample data, not a live provider
-response or investment recommendation.
+`kenneth-french`. Add `--browse` to include the representative records from
+[`data/samples/public_investment/README.md`](../data/samples/public_investment/README.md).
+The output is educational sample data, not a live provider response or
+investment recommendation.
 
 Each tutor file contains five worked examples and three negative/adversarial
 examples. Use those examples as acceptance tests for tutor behavior. Record the

@@ -1,0 +1,26 @@
+[
+  {
+    "source": "sec-edgar-companyfacts",
+    "cik": "0000001234",
+    "taxonomy": "us-gaap",
+    "concept": "Assets",
+    "unit": "USD",
+    "value": 1250000000,
+    "observation_date": "2025-12-31",
+    "filing_date": "2026-02-01",
+    "form": "10-K",
+    "accession_number": "0000000001-26-000001",
+    "frame": "CY2025",
+    "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000001234.json"
+  },
+  {
+    "source": "sec-edgar-submissions",
+    "cik": "0000001234",
+    "accession_number": "0000000001-26-000001",
+    "form": "10-K",
+    "filing_date": "2026-02-01",
+    "period_of_report": "2025-12-31",
+    "primary_document": "annual.htm",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1234/000000000126000001/annual.htm"
+  }
+]

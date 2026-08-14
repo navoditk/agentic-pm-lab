@@ -60,20 +60,41 @@ and normalization paths for the next six sources. These connectors are safe to
 exercise with recorded payloads in unit tests; a connector being implemented is
 not the same as a live response being captured in an experiment.
 
-| Source | Module/function | Status | Main decision use |
-|---|---|---|---|
-| SEC Company Facts/submissions | `src/ingestion/public_investment.py` | Real-capable public connector; `SEC_USER_AGENT` required | As-filed issuer fundamentals and filing evidence |
-| ALFRED | `src/ingestion/public_investment.py` | Real-capable; `FRED_API_KEY` required | Revision-safe macro and curve backtests |
-| Treasury auctions | `src/ingestion/public_investment.py` | Real-capable bounded Fiscal Data API path | Issuance and auction-demand context |
-| NY Fed SOFR | `src/ingestion/public_investment.py` | Real-capable daily public path | Funding and repo conditions |
-| CFTC COT | `src/ingestion/public_investment.py` | Real-capable public-reporting path | Weekly futures positioning context |
-| Kenneth French factors | `src/ingestion/public_investment.py` | Real-capable public archive path | Factor exposure and attribution inputs |
+| Category | Source | Module/function | Status | Main decision use | Browse sample |
+|---|---|---|---|---|---|
+| Structured fundamentals/filings | SEC Company Facts/submissions | `src/ingestion/public_investment.py` | Real-capable public connector; `SEC_USER_AGENT` required | As-filed issuer fundamentals and filing evidence | [`sec_companyfacts.json`](samples/public_investment/sec_companyfacts.json) |
+| Structured macro vintages | ALFRED | `src/ingestion/public_investment.py` | Real-capable; `FRED_API_KEY` required | Revision-safe macro and curve backtests | [`alfred_vintages.json`](samples/public_investment/alfred_vintages.json) |
+| Structured issuance | Treasury auctions | `src/ingestion/public_investment.py` | Real-capable bounded Fiscal Data API path | Issuance and auction-demand context | [`treasury_auctions.json`](samples/public_investment/treasury_auctions.json) |
+| Structured funding rates | NY Fed SOFR | `src/ingestion/public_investment.py` | Real-capable daily public path | Funding and repo conditions | [`sofr.json`](samples/public_investment/sofr.json) |
+| Structured positioning | CFTC COT | `src/ingestion/public_investment.py` | Real-capable public-reporting path | Weekly futures positioning context | [`cftc_cot.json`](samples/public_investment/cftc_cot.json) |
+| Structured factor returns | Kenneth French factors | `src/ingestion/public_investment.py` | Real-capable public archive path | Factor exposure and attribution inputs | [`kenneth_french_factors.csv`](samples/public_investment/kenneth_french_factors.csv) |
+
+### Browsable sample dataset
+
+The complete representative sample pack is indexed in
+[`data/samples/public_investment/README.md`](samples/public_investment/README.md).
+Each file is intentionally small and uses the normalized field shape expected
+from the connector. It is invented educational data, not a live snapshot.
+
+Use the samples to answer four questions before connecting a provider:
+
+1. **What does one row represent?** For example, an SEC fact is a concept/unit
+   observation, while an ALFRED row is an observation plus a release vintage.
+2. **Which fields make it usable?** Look at identifiers, units, observation dates,
+   release dates, filing dates, and source URLs.
+3. **What investment question can it support?** The samples show whether a
+   source is useful for fundamentals, macro regime, issuance, funding,
+   positioning, or factor attribution.
+4. **What can it not prove?** None of the samples alone establishes causality,
+   an allocation, a trade, or investment advice.
 
 Inspect the catalog and sample records without credentials:
 
 ```bash
 uv run python scripts/investment_data_tutor.py
 uv run python scripts/investment_data_tutor.py alfred
+uv run python scripts/investment_data_tutor.py alfred --browse
+uv run python scripts/investment_data_tutor.py sec-companyfacts --browse
 ```
 
 Use `.github/agents/investment-data-tutor.agent.md` for a guided explanation of
@@ -105,9 +126,9 @@ request, while an expired cache is replaced atomically.
 
 ## Data-card template for future connectors
 
-Before adding a source such as ALFRED, SEC EDGAR, N-PORT, FINRA TRACE,
-Kenneth French, GDELT, or an external financial-intelligence provider such as
-BigData.com, document:
+For future sources such as SEC N-PORT, FINRA TRACE, GDELT, or an external
+financial-intelligence provider such as BigData.com—and before promoting any
+connector into canonical tables—document:
 
 | Field | Record |
 |---|---|

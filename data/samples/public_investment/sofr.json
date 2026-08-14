@@ -1,0 +1,13 @@
+[
+  {
+    "source": "new-york-fed-sofr",
+    "series_id": "SOFR",
+    "observation_date": "2026-08-12",
+    "release_date": "2026-08-13",
+    "vintage": "2026-08-13",
+    "value": 5.31,
+    "unit": "percent",
+    "volume_in_billions": 2100.0,
+    "source_url": "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "source": "treasury-fiscal-data-auctions",
+    "record_date": "2026-08-13",
+    "auction_date": "2026-08-12",
+    "issue_date": "2026-08-17",
+    "maturity_date": "2036-08-15",
+    "security_type": "Note",
+    "security_term": "10-Year",
+    "cusip": "9128XXZZZ",
+    "bid_to_cover": 2.4,
+    "source_url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/auctions_query"
+  }
+]

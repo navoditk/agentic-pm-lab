@@ -1,12 +1,18 @@
 """Small, read-only catalog used by the investment-data tutor."""
 
+import csv
+import json
+from pathlib import Path
 from typing import Any
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+SAMPLE_ROOT = REPO_ROOT / "data" / "samples" / "public_investment"
 SOURCE_CATALOG: dict[str, dict[str, Any]] = {
     "sec-companyfacts": {
         "name": "SEC Company Facts and submissions",
         "kind": "structured plus filing metadata",
         "status": "real-capable public connector; credentials are not stored",
+        "sample_file": "data/samples/public_investment/sec_companyfacts.json",
         "sample": {"concept": "Assets", "unit": "USD", "value": 1250000000},
         "investment_use": "Compare issuer fundamentals as known at a filing date; never use a later amendment in an earlier decision.",
         "key_terms": [
@@ -21,6 +27,7 @@ SOURCE_CATALOG: dict[str, dict[str, Any]] = {
         "name": "ALFRED vintage-aware macro data",
         "kind": "structured time series",
         "status": "real-capable connector; FRED_API_KEY required",
+        "sample_file": "data/samples/public_investment/alfred_vintages.json",
         "sample": {
             "series_id": "DGS10",
             "observation_date": "2020-01-02",
@@ -40,6 +47,7 @@ SOURCE_CATALOG: dict[str, dict[str, Any]] = {
         "name": "U.S. Treasury auction data",
         "kind": "structured issuance data",
         "status": "real-capable public connector; bounded API retrieval",
+        "sample_file": "data/samples/public_investment/treasury_auctions.json",
         "sample": {
             "security_type": "Note",
             "security_term": "10-Year",
@@ -59,6 +67,7 @@ SOURCE_CATALOG: dict[str, dict[str, Any]] = {
         "name": "New York Fed SOFR",
         "kind": "structured funding-rate data",
         "status": "real-capable public connector; daily publication timing must be retained",
+        "sample_file": "data/samples/public_investment/sofr.json",
         "sample": {
             "series_id": "SOFR",
             "observation_date": "2026-08-12",
@@ -78,6 +87,7 @@ SOURCE_CATALOG: dict[str, dict[str, Any]] = {
         "name": "CFTC Commitments of Traders",
         "kind": "structured positioning data",
         "status": "real-capable public connector; weekly and delayed by design",
+        "sample_file": "data/samples/public_investment/cftc_cot.json",
         "sample": {
             "market": "UST futures",
             "report_date": "2026-08-11",
@@ -97,6 +107,7 @@ SOURCE_CATALOG: dict[str, dict[str, Any]] = {
         "name": "Kenneth French research factors",
         "kind": "structured factor returns",
         "status": "real-capable public archive connector; monthly factor definitions must be recorded",
+        "sample_file": "data/samples/public_investment/kenneth_french_factors.csv",
         "sample": {
             "series_id": "Mkt-RF",
             "observation_date": "2026-07-01",
@@ -117,7 +128,7 @@ def list_sources() -> list[dict[str, str]]:
     ]
 
 
-def teach_source(source_id: str) -> dict[str, Any]:
+def teach_source(source_id: str, *, browse_sample: bool = False) -> dict[str, Any]:
     """Return sample data, terminology, and decision use for one source."""
     try:
         record = SOURCE_CATALOG[source_id]
@@ -126,9 +137,25 @@ def teach_source(source_id: str) -> dict[str, Any]:
         raise ValueError(
             f"unknown source {source_id}; choose one of: {available}"
         ) from exc
-    return {
+    result = {
         "source_id": source_id,
         **record,
         "read_only": True,
         "investment_advice": False,
     }
+    if browse_sample:
+        result["sample_records"] = read_sample(source_id)
+    return result
+
+
+def read_sample(source_id: str) -> list[dict[str, Any]]:
+    """Read the small repository sample pack for one source."""
+    record = teach_source(source_id)
+    path = REPO_ROOT / str(record["sample_file"])
+    if path.suffix == ".json":
+        payload = json.loads(path.read_text())
+        if not isinstance(payload, list):
+            raise ValueError(f"sample file must contain a record list: {path}")
+        return payload
+    with path.open(newline="") as handle:
+        return [dict(row) for row in csv.DictReader(handle)]

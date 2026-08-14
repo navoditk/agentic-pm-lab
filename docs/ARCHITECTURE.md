@@ -25,6 +25,9 @@ calculation path from an unstructured evidence path. Structured records may feed
 deterministic analytics only after point-in-time and quality checks; unstructured
 records (filings, narratives, news metadata, and document-derived skills) support
 retrieval and explanation, but cannot directly set a risk number or allocation.
+The normalized connector shapes and field meanings can be browsed in
+`data/samples/public_investment/`; those files are representative fixtures, not
+live provider captures.
 The optional BigData.com adapter sits behind the evidence path and the governed
 MCP/Gateway boundary. Remaining stubs are tracked from their `# MOCK` markers in
 `PROGRESS.md` (`docs/PLAN.md` §6).

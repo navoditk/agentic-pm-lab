@@ -84,7 +84,9 @@ Kenneth French factors. These paths are live-capable but do not claim that a
 provider response has been captured or that the data is already in the
 canonical DuckDB portfolio tables. Use the [investment-data tutor](.github/agents/investment-data-tutor.agent.md)
 or run `uv run python scripts/investment_data_tutor.py alfred` to inspect sample
-records and decision-use explanations.
+records and decision-use explanations. The [browsable public-data sample
+pack](data/samples/public_investment/README.md) links each source to a small
+representative dataset and field-level explanation.
 
 ### Architectural positioning
 

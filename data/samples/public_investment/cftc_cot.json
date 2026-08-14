@@ -1,0 +1,14 @@
+[
+  {
+    "source": "cftc-commitments-of-traders",
+    "series_id": "UST-FUTURES",
+    "observation_date": "2026-08-11",
+    "market_and_exchange_names": "U.S. Treasury futures - public sample",
+    "open_interest_all": 100000,
+    "asset_mgr_positions_long_all": 42000,
+    "asset_mgr_positions_short_all": 30000,
+    "leveraged_money_positions_long_all": 18000,
+    "leveraged_money_positions_short_all": 24000,
+    "source_url": "https://publicreporting.cftc.gov/resource/srt6-5q2f.json"
+  }
+]

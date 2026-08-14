@@ -1724,7 +1724,8 @@ and live provider evidence.
    archive into decimal-return records.
 7. **Investment-data tutor:** expose sample records, key terminology, decision
    use, limitations, and implementation status through a read-only custom agent
-   and `scripts/investment_data_tutor.py`.
+   and `scripts/investment_data_tutor.py`. Link each catalog entry to a small
+   browsable representative file under `data/samples/public_investment/`.
 
 ### Implementation rules
 
@@ -1751,7 +1752,8 @@ and live provider evidence.
 - `tests/unit/scripts/test_tutor_agents.py` verifies the tutor remains read-only
   and contains independent and negative examples.
 - `uv run python scripts/investment_data_tutor.py` lists all six sources, while
-  passing a source ID returns sample data, terms, decision use, and limitations.
+  passing a source ID returns sample data, terms, decision use, and limitations;
+  `--browse` returns the corresponding repository sample records.
 - After a live response is intentionally captured, add source-specific DuckDB
   tables and a dated experiment under `experiments/`; do not mark the source
   “real” based solely on a passing fixture test.

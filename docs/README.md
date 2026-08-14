@@ -27,6 +27,7 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Find source material by topic | [`REFERENCES.md`](REFERENCES.md) |
 | Review structured/unstructured data sources and provider cards | [`../data/README.md`](../data/README.md) |
 | Explore public investment-data samples and decision use | [`../.github/agents/investment-data-tutor.agent.md`](../.github/agents/investment-data-tutor.agent.md), [`../scripts/investment_data_tutor.py`](../scripts/investment_data_tutor.py) |
+| Browse representative normalized public-data records | [`../data/samples/public_investment/README.md`](../data/samples/public_investment/README.md) |
 | Review model, context, tool, and AWS comparisons | [`comparison-notes.md`](comparison-notes.md) |
 | Look up FICC terminology | [`ficc-glossary.md`](ficc-glossary.md) |
 | Run, evaluate, deploy, or tear down the system | [`RUNBOOK.md`](RUNBOOK.md) |

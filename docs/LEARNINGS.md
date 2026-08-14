@@ -9,8 +9,10 @@ silent replacement of the learning fixtures. SEC Company Facts/submissions,
 ALFRED, Treasury auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors
 now have bounded fetch paths, source-specific normalization, and fixture-only
 unit tests. The new investment-data tutor makes the sample shape and decision
-use explicit while preserving the distinction between a live-capable connector,
-a captured provider response, and canonical DuckDB integration.
+use explicit, and the six-file sample pack makes the normalized shapes
+browsable without credentials. This preserves the distinction between a
+live-capable connector, a captured provider response, and canonical DuckDB
+integration.
 
 The main remaining lesson is that source access is not the hardest part. SEC
 XBRL units, ALFRED vintages, Treasury security identifiers, SOFR publication
