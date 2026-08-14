@@ -17,6 +17,7 @@ access, run paid evaluations, place orders, or make investment recommendations.
 | `langgraph-deep-agents-tutor` | LangGraph state, Deep Agents, delegation, interrupts, and checkpoints | 4–5, 11, 17–20 |
 | `aws-agentcore-tutor` | Bedrock, AgentCore services, IAM, deployment, observability, teardown | 12–14, 19–20 |
 | `data-provenance-research-tutor` | Point-in-time data, EDGAR, evidence, sentiment, and research quality | 2, 15–17, 20 |
+| `investment-data-tutor` | SEC, ALFRED, Treasury auctions, SOFR, CFTC positioning, Kenneth French factors, terminology, and decision use | post-Day-20 public-data expansion |
 | `evaluation-agentops-tutor` | Golden datasets, eval dimensions, regression, SLOs, and operations | 6, 9, 13–14, 19–20 |
 | `opentelemetry-tutor` | Traces, spans, attributes, propagation, privacy, and AgentCore observability | 6, 9, 12–14, 19 |
 | `investment-committee-tutor` | Thesis review, Devil’s Advocate, evidence grading, dissent, and approval | 17–20 |
@@ -54,6 +55,20 @@ into every span so debugging is easier. Challenge this design, propose a
 privacy-safe schema, and point to the repository test or policy that supports
 your answer.
 ```
+
+For public investment data:
+
+```text
+Use investment-data-tutor. Show me an ALFRED sample with two vintages, explain
+which one is eligible for a 2020 decision, compare it with current FRED data,
+and finish with the local command I can run to inspect the sample.
+```
+
+The source catalog is also available without an agent through
+`uv run python scripts/investment_data_tutor.py` and accepts source IDs such as
+`sec-companyfacts`, `treasury-auctions`, `sofr`, `cftc-cot`, and
+`kenneth-french`. The output is educational sample data, not a live provider
+response or investment recommendation.
 
 Each tutor file contains five worked examples and three negative/adversarial
 examples. Use those examples as acceptance tests for tutor behavior. Record the

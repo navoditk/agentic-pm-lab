@@ -53,6 +53,41 @@ source-specific terms, security-master resolution, quality checks, or licensed
 institutional data. QuantLib and rateslib should be evaluated as deterministic
 pricing/curve references; they are not substitutes for market data.
 
+## High-feasibility public connectors
+
+The post-Day-20 public-data expansion adds tested, provider-neutral retrieval
+and normalization paths for the next six sources. These connectors are safe to
+exercise with recorded payloads in unit tests; a connector being implemented is
+not the same as a live response being captured in an experiment.
+
+| Source | Module/function | Status | Main decision use |
+|---|---|---|---|
+| SEC Company Facts/submissions | `src/ingestion/public_investment.py` | Real-capable public connector; `SEC_USER_AGENT` required | As-filed issuer fundamentals and filing evidence |
+| ALFRED | `src/ingestion/public_investment.py` | Real-capable; `FRED_API_KEY` required | Revision-safe macro and curve backtests |
+| Treasury auctions | `src/ingestion/public_investment.py` | Real-capable bounded Fiscal Data API path | Issuance and auction-demand context |
+| NY Fed SOFR | `src/ingestion/public_investment.py` | Real-capable daily public path | Funding and repo conditions |
+| CFTC COT | `src/ingestion/public_investment.py` | Real-capable public-reporting path | Weekly futures positioning context |
+| Kenneth French factors | `src/ingestion/public_investment.py` | Real-capable public archive path | Factor exposure and attribution inputs |
+
+Inspect the catalog and sample records without credentials:
+
+```bash
+uv run python scripts/investment_data_tutor.py
+uv run python scripts/investment_data_tutor.py alfred
+```
+
+Use `.github/agents/investment-data-tutor.agent.md` for a guided explanation of
+each source, terminology, provenance, limitations, and how the data can inform
+an investment decision. The tutor is read-only and does not provide investment
+advice.
+
+The current slice normalizes provider responses but does not silently promote
+them into the canonical DuckDB portfolio tables. Live captures should be run as
+dated experiments with source terms, raw-response hashes, point-in-time fields,
+and findings recorded under `experiments/`. The next implementation step is to
+add source-specific DuckDB tables and scheduled/cache policies after a live
+response has been reviewed.
+
 ## Ingestion
 
 Set `FRED_API_KEY` in the environment or in the gitignored repo-root `.env`,

@@ -2,6 +2,23 @@
 
 Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
 
+## 2026-08-14 — High-feasibility public investment-data expansion
+
+The safest first expansion was a connector/normalizer slice rather than a
+silent replacement of the learning fixtures. SEC Company Facts/submissions,
+ALFRED, Treasury auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors
+now have bounded fetch paths, source-specific normalization, and fixture-only
+unit tests. The new investment-data tutor makes the sample shape and decision
+use explicit while preserving the distinction between a live-capable connector,
+a captured provider response, and canonical DuckDB integration.
+
+The main remaining lesson is that source access is not the hardest part. SEC
+XBRL units, ALFRED vintages, Treasury security identifiers, SOFR publication
+timing, CFTC release lag, and factor definitions all require source-specific
+provenance before deterministic analytics can consume them. The next slice
+should capture one bounded response per source, record terms and raw hashes,
+then promote only reviewed schemas into source-specific tables.
+
 ## 2026-08-14 — Final plan and documentation audit
 
 The 20-day implementation remit is complete and the repository is clean and

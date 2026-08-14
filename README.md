@@ -77,6 +77,15 @@ standalone Guardrails and Memory proofs, and a scored on-demand AgentCore
 Evaluation fixture. A real Gateway target, provider-backed data captures, and
 Copilot-hosted browser screenshots remain optional or account-dependent tasks.
 
+The first post-Day-20 public-data expansion is now implemented locally as a
+tested connector/normalization slice for SEC Company Facts and submissions,
+ALFRED, Treasury auctions, NY Fed SOFR, CFTC Commitments of Traders, and
+Kenneth French factors. These paths are live-capable but do not claim that a
+provider response has been captured or that the data is already in the
+canonical DuckDB portfolio tables. Use the [investment-data tutor](.github/agents/investment-data-tutor.agent.md)
+or run `uv run python scripts/investment_data_tutor.py alfred` to inspect sample
+records and decision-use explanations.
+
 ### Architectural positioning
 
 This repository reflects the current production-oriented agent engineering
@@ -256,6 +265,11 @@ Additional background on agent harnesses, skills, context engineering, tools, an
 | [experiments/README.md](experiments/README.md) | Provider-neutral experiment mandate, run schema, token/cost accounting, comparisons, and ad hoc commands |
 | [experiments/](experiments/) | Reusable fixtures and dated experiment records |
 | [data/README.md](data/README.md) | Data-source cards, freshness, licensing, provenance, and mock-data rules |
+
+For the public-data expansion, start with [`data/README.md`](data/README.md),
+then use the [investment-data tutor](.github/agents/investment-data-tutor.agent.md)
+to compare sample records, terminology, provenance requirements, and investment
+decision use without calling a live provider.
 
 ## Getting started
 

@@ -45,7 +45,7 @@ the narrative log explicitly says that evidence was captured.
 
 | Layer | Status | Detail |
 |---|---|---|
-| Data Layer | 🟡 Partial | 6/7 file(s) real |
+| Data Layer | 🟡 Partial | 7/8 file(s) real |
 | Control Layer (AuthN/AuthZ) | 🟢 Real | 6 file(s), no `# MOCK` markers |
 | Guardrails | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Tool Layer | 🟡 Partial | 8/10 file(s) real |
@@ -58,6 +58,17 @@ the narrative log explicitly says that evidence was captured.
 | AWS Bedrock AgentCore | 🟢 Real | 1 file(s), no `# MOCK` markers |
 
 <!-- PROGRESS:END -->
+
+## Post-Day-20 extension log
+
+- **Public investment-data expansion:** Added tested, real-capable provider
+  connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
+  auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. Added the
+  read-only `investment-data-tutor` and CLI sample catalog. No live provider
+  response or canonical DuckDB promotion is claimed yet; the next step is a
+  dated live experiment with source-specific tables, caching, and provenance.
+  Evidence: `tests/unit/ingestion/test_public_investment.py`,
+  `scripts/investment_data_tutor.py`, and `data/README.md`.
 
 ## Daily narrative log
 

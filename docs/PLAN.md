@@ -1700,6 +1700,62 @@ Given the goal of *proficiency* with the AWS Bedrock/AgentCore stack specificall
 
 ---
 
+## Post-Day-20 Extension — High-Feasibility Public Investment Data
+
+This extension begins after the 20-day local plan. It turns the next-lowest
+friction public sources into provider-neutral, testable connector paths while
+preserving the repository's strict distinction between implementation evidence
+and live provider evidence.
+
+### Scope
+
+1. **SEC Company Facts and submissions:** retrieve public issuer facts and
+   filing metadata with a descriptive `SEC_USER_AGENT`; flatten XBRL units,
+   concepts, forms, accession numbers, filing dates, and periods of report.
+2. **ALFRED:** retrieve a bounded series for an explicit real-time period or
+   vintage and retain observation date, release/vintage date, value, and unit.
+3. **Treasury Fiscal Data auctions:** retrieve a bounded page of auction rows
+   and retain record, auction, issue, maturity, security type/term, and CUSIP.
+4. **NY Fed SOFR:** retrieve a bounded date range and retain rate timing and raw
+   provider fields.
+5. **CFTC COT:** retrieve a bounded public-reporting page and preserve trader
+   classification fields and report date.
+6. **Kenneth French factors:** retrieve and parse the public monthly factor
+   archive into decimal-return records.
+7. **Investment-data tutor:** expose sample records, key terminology, decision
+   use, limitations, and implementation status through a read-only custom agent
+   and `scripts/investment_data_tutor.py`.
+
+### Implementation rules
+
+- Unit tests use payloads and archive text fixtures only; they never call a
+  provider or cloud resource.
+- Fetchers are bounded, injectable, and source-specific. Credentials are read
+  from environment variables and never logged or committed.
+- Provider output is normalized before it can enter provenance selection or
+  deterministic analytics. No narrative, auction statistic, positioning row,
+  or factor return directly creates an allocation or order.
+- The first slice does not silently write these sources into the canonical
+  portfolio DuckDB tables. A later step must add source-specific tables,
+  caching, raw-response hashes, source cards, and a live experiment record.
+- SEC, ALFRED, and CFTC records must distinguish observation/report dates from
+  publication/release dates. Treasury and SOFR records must preserve provider
+  timing and revision semantics.
+- The tutor must label a connector as real-capable rather than claiming that a
+  live response or production data entitlement exists.
+
+### Acceptance checks and next step
+
+- `tests/unit/ingestion/test_public_investment.py` covers each normalizer and
+  the SEC contact requirement.
+- `tests/unit/scripts/test_tutor_agents.py` verifies the tutor remains read-only
+  and contains independent and negative examples.
+- `uv run python scripts/investment_data_tutor.py` lists all six sources, while
+  passing a source ID returns sample data, terms, decision use, and limitations.
+- After a live response is intentionally captured, add source-specific DuckDB
+  tables and a dated experiment under `experiments/`; do not mark the source
+  “real” based solely on a passing fixture test.
+
 ## Appendix C — Traceability, Evaluation & Model-Switching Regression Tests
 
 This appendix is the concrete, per-agent detail behind §5's evaluation strategy: what actually goes in `evals/golden_dataset.jsonl` and its three companion files, and how it's used every time a model changes. It's the machine-checkable companion to the business problems catalog in `docs/PRD.md` §4.

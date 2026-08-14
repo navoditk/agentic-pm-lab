@@ -51,8 +51,8 @@ make the end-to-end use case more realistic:
 
 | Data need | Core path | Recommended extension | Main lesson |
 |---|---|---|---|
-| Prices and macro | yfinance and FRED | Treasury direct feeds and ALFRED vintages | Calendars, revisions, units, and freshness |
-| Fundamentals and filings | Mock security master | SEC EDGAR submissions, XBRL Company Facts, and N-PORT | As-filed data, identifiers, filing dates, point-in-time joins |
+| Prices and macro | yfinance, FRED, and tested ALFRED connector | Live vintage capture, Treasury direct feeds, and source-specific DuckDB tables | Calendars, revisions, units, and freshness |
+| Fundamentals and filings | SEC Company Facts/submissions connector and mock security master | Live evidence capture, N-PORT, issuer/security-master reconciliation | As-filed data, identifiers, filing dates, point-in-time joins |
 | Fixed-income liquidity | Mock holdings and curve | FINRA TRACE aggregates or licensed transaction data | Sparse trades, capped volumes, and licensing |
 | Factors and benchmarks | Supplied factor returns | Kenneth French Data Library and public benchmark series | Factor definitions, excess returns, and survivorship controls |
 | News and sentiment | Mock research endpoint | SEC filing text plus GDELT event/news metadata | Evidence-linked retrieval and sentiment uncertainty |
@@ -121,7 +121,7 @@ vendors or substitutes for licensed institutional feeds.
 
 | Platform Layer | What it means at a real firm | What this project builds, mock-first |
 |---|---|---|
-| Data Layer | Governed access to structured, unstructured, and enterprise data | Structured path: mock portfolio/security/curve tables → yfinance/FRED/SEC EDGAR public ingestion. Unstructured path: filing text, event metadata, document skills, and the optional external financial-intelligence adapter. Each path has separate contracts and provenance rules. |
+| Data Layer | Governed access to structured, unstructured, and enterprise data | Structured path: mock portfolio/security/curve tables → yfinance/FRED plus tested public connectors for ALFRED, SEC, Treasury, NY Fed SOFR, CFTC, and Kenneth French. Unstructured path: filing text, event metadata, document skills, and the optional external financial-intelligence adapter. Each path has separate contracts and provenance rules. |
 | Control Layer | Four separate concerns, not one: **AuthN** (who is calling), **AuthZ** (what they may access), **Guardrails** (content/behavior constraints), **Tool enforcement** (the final boundary that actually withholds unauthorized data) — see §3, principle 10 | A local role-based allowlist, audit log, and test-identity authorization matrix → human-in-the-loop approval wired into the agent → AWS Bedrock AgentCore Identity/Policy plus Bedrock Guardrails as the managed equivalents |
 | Tool Layer | Callable APIs over data: bond/instrument pricers, curve APIs, portfolio APIs, research APIs, econometrics, backtests, **portfolio optimization** — each with a machine-readable input/output contract | Stub endpoints with canned responses → real deterministic engines (bond/option pricer, curve interpolation, key-rate/DV01 and spread risk, exposure/vol/drawdown, factor regression, walk-forward backtest, scenario shock, **constrained mean-variance/max-Sharpe/risk-parity allocation via PyPortfolioOpt, Day 12**), wrapped once as MCP and mounted everywhere, each with a JSON Schema contract and entitlement check at the boundary; benchmark-relative, downside/robust, liquidity-aware, fixed-income cash-flow, and multi-period extensions are documented learning targets, not current production claims |
 | Interactive Layer | Rich, agent-built, shareable visual surfaces for people to work alongside agents — an interaction surface, not a trust boundary | A four-project progression through real GitHub Copilot Canvas extensions, plus a minimal framework-agnostic UI for comparison; every canvas capability calls the same governed Tool/MCP interface everything else does, never a shortcut around it |
@@ -269,7 +269,7 @@ A change that breaks a skill contract, a tool contract, a golden-eval threshold,
 
 ## 6. Non-Goals / Deferred for This Iteration
 
-- **Real security-master fundamentals (SEC EDGAR-backed).** The mocked security master stays a documented stub; wiring real EDGAR fundamentals is a clean next-iteration task.
+- **Authoritative security-master replacement.** SEC Company Facts/submissions retrieval and normalization are now implemented as a public connector slice; authoritative security-master joins, N-PORT integration, corporate actions, ratings, and live evidence capture remain deferred.
 - **A real research/sentiment tool.** The research endpoint stays mocked; EDGAR full-text search or GDELT-based sentiment are natural next steps.
 - **Deep hallucination-detection metrics beyond dataset-experiment pass/fail scores.** A real, scored regression-testing loop exists (`docs/PLAN.md` §5), separated across routing/tool-selection/argument/retrieval/final-answer/policy/guardrail dimensions, but richer grounding/faithfulness metrics beyond LLM-as-judge and criteria evaluators are out of scope for this iteration.
 - **A fifth canvas** beyond the four in the progression.

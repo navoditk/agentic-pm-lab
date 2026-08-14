@@ -14,6 +14,7 @@ TUTORS = (
     "agent-development-lifecycle-tutor",
     "governance-delivery-tutor",
     "document-to-skill-tutor",
+    "investment-data-tutor",
 )
 
 

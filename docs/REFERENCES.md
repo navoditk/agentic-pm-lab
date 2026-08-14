@@ -265,6 +265,7 @@ the maintained audio starting points for this bibliography.
 - [Treasury daily-interest XML feed](https://home.treasury.gov/treasury-daily-interest-rate-xml-feed)
 - [yfinance package](https://pypi.org/project/yfinance/)
 - [SEC EDGAR APIs](https://www.sec.gov/edgar/sec-api-documentation)
+- SEC [EDGAR API overview](https://www.sec.gov/search-filings/edgar-application-programming-interfaces), including Company Facts, submissions, bulk archives, fair-access limits, and `User-Agent` expectations
 - SEC [Form N-PORT public datasets](https://www.sec.gov/data-research/sec-markets-data/form-n-port-data-sets) for monthly fund and ETF holdings
 - FINRA TRACE trade activity and licensing overview. Useful for fixed-income
   liquidity exercises, but professional transaction-level access may be paid
@@ -275,6 +276,15 @@ the maintained audio starting points for this bibliography.
   international returns for factor regression and backtest validation:
   `mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html`
 - GDELT Project [API organization](https://github.com/GDELT-API) and [documentation](https://data.gdeltproject.org/documentation/) for public news and event metadata. Treat automated tone as a noisy feature, not truth.
+
+### Public-data terminology and decision-use primers
+
+- SEC, [Company Facts and XBRL API overview](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) — CIKs, taxonomies, units, accession numbers, filing dates, and as-filed facts
+- FRED/ALFRED, [FRED versus ALFRED](https://fred.stlouisfed.org/docs/api/fred/fred_vs_alfred.html) and [real-time periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html) — observation date versus the information set available at a decision date
+- U.S. Treasury, [Treasury Securities Auctions Data](https://fiscaldata.treasury.gov/datasets/treasury-securities-auctions-data/) — announcement, auction, issue, maturity, CUSIP, security type, and auction-demand fields
+- New York Fed, [SOFR methodology and reference rates](https://www.newyorkfed.org/markets/reference-rates) and [SOFR user guide](https://www.newyorkfed.org/medialibrary/microsites/arrc/files/2019/Guide_to_SOFR.pdf) — repo, publication timing, revisions, and compounded averages
+- CFTC, [Commitments of Traders descriptions](https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm) and [historical variable definitions](https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalViewable/cotvariablestfm.html) — report date, open interest, trader classifications, and release lag
+- Kenneth French, [Data Library](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) — Mkt-RF, SMB, HML, risk-free rate, factor construction, and archive conventions
 
 ### BigData.com financial intelligence
 

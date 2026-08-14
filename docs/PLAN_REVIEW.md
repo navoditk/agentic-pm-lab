@@ -91,7 +91,9 @@ must not claim those external validations until their prerequisites exist.
    evidence are complete; managed Guardrail attachment remains a separate
    optional extension.
 3. Capture provider-backed EDGAR/ALFRED/Treasury/research responses under their
-   terms and preserve point-in-time metadata.
+   terms and preserve point-in-time metadata. The high-feasibility
+   connector/normalization slice now exists locally; live capture and
+   canonical-table promotion remain separate evidence work.
 4. Complete GitHub Projects, scheduled automation, Copilot/Canvas browser, and
    screenshot evidence where the platform account makes those steps available.
 5. Expand the successful minimal proof into the full capstone against the
