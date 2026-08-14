@@ -13,6 +13,7 @@ The project is deliberately company-agnostic and uses only public or clearly lab
 | Follow the recommended learning sequence | [`docs/PHASE_1_RECAP.md`](docs/PHASE_1_RECAP.md) |
 | Understand the business goals | [`docs/PRD.md`](docs/PRD.md) |
 | Understand the current architecture | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) |
+| See the key architecture diagrams | [`docs/DIAGRAMS.md`](docs/DIAGRAMS.md) |
 | Find topic-specific reading | [`docs/REFERENCES.md`](docs/REFERENCES.md) |
 | Run the local system | [`docs/RUNBOOK.md`](docs/RUNBOOK.md) |
 | Understand CI and GitHub automation | [`docs/GITHUB_WORKFLOWS.md`](docs/GITHUB_WORKFLOWS.md) |
@@ -284,6 +285,7 @@ The next learning track is the [Phase 2 institutional PM AI production-readiness
 | [docs/GITHUB_WORKFLOWS.md](docs/GITHUB_WORKFLOWS.md) | GitHub Actions workflow map, triggers, checks, permissions, local equivalents, and troubleshooting |
 | [docs/PHASE_2_PLAN.md](docs/PHASE_2_PLAN.md) | Follow-on 20-day institutional PM AI production-readiness track |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Canonical architecture and security boundaries |
+| [docs/DIAGRAMS.md](docs/DIAGRAMS.md) | Mermaid diagrams for layers, request flow, agents, data, governance, AWS, and CI |
 | [docs/REFERENCES.md](docs/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |
 | [docs/PLAN_REVIEW.md](docs/PLAN_REVIEW.md) | 20-day completion audit, documentation review, and remaining live-evidence actions |
 | [docs/AGENT_RUNBOOK.md](docs/AGENT_RUNBOOK.md) | Standalone custom-agent and skill examples, test cases, expected outputs, and troubleshooting |

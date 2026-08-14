@@ -12,6 +12,11 @@ observability, evaluation, and security sections. Use the implementation paths
 as navigation aids; use [`EVIDENCE.md`](EVIDENCE.md) to distinguish local
 behavior from hosted or live evidence.
 
+The visual companion is [`DIAGRAMS.md`](DIAGRAMS.md). It contains the platform
+layer view, governed request sequence, multi-agent topology, data/evidence
+separation, security boundaries, local-versus-AWS comparison, and CI/evaluation
+flow.
+
 | If you want to understand... | Read... |
 |---|---|
 | The platform shape | [The layers](#the-layers-and-what-exists-today-day-20) |

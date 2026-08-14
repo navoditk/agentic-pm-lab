@@ -187,13 +187,17 @@ Read:
 3. PROGRESS.md
 4. docs/PRD.md
 5. docs/ARCHITECTURE.md
-6. docs/PLAN.md
+6. docs/DIAGRAMS.md
+7. docs/PLAN.md
 7. docs/PLAN_REVIEW.md
 
 Ask agent-architecture-tutor:
 
     Explain the five architecture layers. For each, identify its trust boundary,
     current implementation, main failure mode, and the next file to read.
+
+Then use [`DIAGRAMS.md`](DIAGRAMS.md) to trace the same architecture visually
+before moving to the detailed implementation files.
 
 ### Stage 2 — Learn the investment data and analytics
 

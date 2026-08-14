@@ -20,6 +20,7 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Understand why the project exists | [`PRD.md`](PRD.md) |
 | Follow the day-by-day build | [`PLAN.md`](PLAN.md) |
 | Understand the current system design | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
+| See the key architecture diagrams | [`DIAGRAMS.md`](DIAGRAMS.md) |
 
 ## Learn and operate
 
