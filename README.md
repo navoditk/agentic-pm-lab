@@ -72,6 +72,10 @@ Guardrails, point-in-time and SEC evidence, and the initial investment-research
 workflow, committee challenge, AgentOps Canvas, and institutional PM capstone.
 Live AWS/provider/browser capture remains separate and is tracked in
 [PROGRESS.md](PROGRESS.md) and the [evidence ledger](docs/EVIDENCE.md).
+Latest live evidence includes a successful temporary AgentCore Runtime request,
+standalone Guardrails and Memory proofs, and a scored on-demand AgentCore
+Evaluation fixture. A real Gateway target, provider-backed data captures, and
+Copilot-hosted browser screenshots remain optional or account-dependent tasks.
 
 ## Experiment framework
 

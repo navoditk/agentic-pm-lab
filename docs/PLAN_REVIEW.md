@@ -1,6 +1,6 @@
 # 20-day plan completion audit
 
-Reviewed 2026-08-13 against `docs/PLAN.md`, `PROGRESS.md`, the repository
+Reviewed 2026-08-14 UTC against `docs/PLAN.md`, `PROGRESS.md`, the repository
 implementation, `docs/EVIDENCE.md`, and the dated experiment records.
 
 ## Bottom line
@@ -35,13 +35,13 @@ mock fixture != production data or provider availability
 | 10 | Governed MCP boundary and Portfolio/Risk Canvas | Visual/browser evidence remains unclaimed | Local complete; browser follow-up |
 | 11 | Runtime, automation, prompts, CI, runbooks | GitHub scheduled issue/native Copilot automation evidence remains unclaimed | Local complete; platform follow-up |
 | 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful read-only invocation and teardown; no Gateway deployment | Local complete; Runtime live-complete; Gateway follow-up |
-| 13 | Memory boundaries and evaluation manifest | No live cross-session Memory transcript or AgentCore Evaluation report | Local complete; live AWS incomplete |
-| 14 | Guardrail logic, cases, evaluation dimensions | No live Bedrock Guardrail or managed Evaluation run | Local complete; live AWS incomplete |
+| 13 | Memory boundaries and evaluation manifest | Live semantic Memory retrieval and scored on-demand Evaluation fixture captured; hosted-runtime span collection remains optional | Local complete; AWS control/data paths evidenced |
+| 14 | Guardrail logic, cases, evaluation dimensions | Live standalone Bedrock Guardrail pass/block proof captured; managed attachment remains optional | Local complete; standalone AWS proof complete |
 | 15 | Point-in-time provenance and bond metadata | No live ALFRED/Treasury/TRACE/OpenBB capture | Local complete; provider follow-up |
 | 16 | SEC metadata, citations, document-to-skill foundation | EDGAR path is mocked/network-free by design | Local complete; provider follow-up |
 | 17 | Research specialists, fixed-income branch, mocked provider adapter | No live provider or successful AgentCore research run | Local complete; live AWS/provider incomplete |
 | 18 | Independent Devil's Advocate and committee challenge | Semantic truth and production liquidity analysis remain limited | Local complete with explicit limitations |
-| 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Live CloudWatch, AgentCore, provider uptime, and visual evidence unclaimed | Local complete; live follow-up |
+| 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Canvas loopback/capability tests pass; Copilot-hosted visual capture and provider uptime remain unclaimed | Local complete; account-dependent visual/provider evidence |
 | 20 | Institutional PM capstone replay and release evidence structure | Live AgentCore request completed with workflow stages, usage, safety flags, and teardown | Local and live capstone proof complete |
 
 ## Documentation audit
@@ -71,9 +71,15 @@ usage, pricing basis, evidence, findings, limitations, decision, and cleanup
 state. AWS model-token costs and AWS infrastructure costs are recorded as
 separate fields, with billing-lag status preserved.
 
-## Remaining actions if “fully complete” means live validation
+## Remaining optional or account-dependent evidence
 
-These are follow-on evidence tasks, not missing local implementation days:
+These are not missing implementation days or blockers for the core 20-day plan:
+
+The PRD interpretation is therefore: Tier 1 is implemented and locally
+validated; the core Tier 2 architecture is implemented, with temporary Runtime
+evidence captured; Tier 2 Gateway/provider/browser evidence and Tier 3
+comparisons remain intentionally optional or account-dependent. The project
+must not claim those external validations until their prerequisites exist.
 
 1. If desired, deploy and tear down a governed Gateway path with a real
    HTTPS-hosted MCP target.

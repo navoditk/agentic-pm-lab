@@ -4,7 +4,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
-## The layers, and what exists today (Day 17)
+## The layers, and what exists today (Day 20)
 
 | Layer | Target end-state (`docs/PRD.md` §2) | What exists today |
 |---|---|---|
@@ -12,10 +12,10 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 | **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`docs/PRD.md` §3, principle 10) | `config/roles.yaml` assigns three local test identities only. Cedar policies independently govern tools and portfolio resources, agent construction removes unauthorized tools before model binding, portfolio context is checked before model access, a denied-terms guardrail checks input/context/output, and FastAPI re-checks tool plus resource access. Backtests pause for human approval. Every decision records its layer and OTel trace ID. |
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | In addition to pricing, curves, exposure, risk, regression, and backtest, `src/analytics/scenario.py` provides first-order rates/credit shocks and `src/analytics/optimizer.py` provides max-Sharpe, minimum-volatility, and risk-parity allocation proposals with turnover/concentration checks. FastAPI and MCP expose both under the same contracts. Research and portfolio classifications intentionally remain mocked. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Four project canvases now exist: `agentic-kanban`, `issue-triage-canvas`, `agent-ops-canvas`, and the Portfolio/Risk capstone. Day 19 extends Agent Operations with evidence-provider health, committee rebuttal, fixed-income, promotion/SLO, and incident/replay panels. The Canvas remains an interaction surface, not a trust boundary. |
-| **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `src/runtime/agentcore_app.py` is a direct-code AgentCore entrypoint for the same Portfolio Manager, with `config/agentcore.yaml` capturing Runtime/Gateway/Identity/Policy/Guardrails/OTel intent. Local Docker remains the comparison stack; a live AWS resource deployment is not claimed until account setup and smoke evidence exist. |
+| **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime | `src/runtime/agentcore_app.py` is a direct-code AgentCore entrypoint for the same Portfolio Manager, with `config/agentcore.yaml` capturing Runtime/Gateway/Identity/Policy/Guardrails/OTel intent. A temporary Runtime reached `READY`, completed a bounded read-only request, and was torn down; no Gateway target is claimed. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. `src/agents/investment_research.py` adds a separate research supervisor with Quantitative Analysis, News/Research, and Smart Summarizer specialists. Each specialist receives only its domain tools, and the orchestrators receive no ungoverned analytics tools directly. `multi_agent_local.py` reproduces the original hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
-| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. Day 13 adds the AgentCore evaluation manifest; no live cloud evaluation is claimed here. |
+| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. AgentCore Memory, standalone Guardrails, batch control-path, and scored on-demand Evaluation evidence are recorded in `docs/EVIDENCE.md`; hosted-runtime span collection remains optional. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | `.github/workflows/morning-brief.yml` provides an approval-only scheduled review; native Copilot automation remains a platform/browser evidence task. |
 
 The Data Layer is intentionally mixed: public price/macro data is real, while
@@ -30,7 +30,7 @@ MCP/Gateway boundary. Remaining stubs are tracked from their `# MOCK` markers in
 
 ---
 
-## Logical components, through Day 17
+## Logical components, through Day 20
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -347,7 +347,7 @@ contains no permissions; `governance/policies/` is their sole authority.
 |---|---|---|---|
 | AuthN | Exact identity lookup from `config/roles.yaml` | Unknown/missing identity is rejected before authorization | `config/agentcore.yaml` maps to AgentCore Identity; live resource not claimed |
 | AuthZ | Cedar tool and portfolio policies; tools filtered before model binding | Tool/resource is absent or denied | `config/agentcore.yaml` maps to AgentCore Policy; Cedar intent remains source for review |
-| Guardrails | Shared denied-term and topic check on question, named context, and final output | Content is withheld with `GuardrailViolation` | `config/bedrock-guardrail.yaml` captures extended Day 14 Bedrock intent; live guardrail test remains pending |
+| Guardrails | Shared denied-term and topic check on question, named context, and final output | Content is withheld with `GuardrailViolation` | `config/bedrock-guardrail.yaml` captures extended Day 14 intent; standalone Bedrock Guardrails pass/block evidence is recorded |
 | Tool enforcement | FastAPI and MCP repeat tool/resource authorization | HTTP/MCP denial before analytics/data access | ADR 0017 requires Gateway-fronted MCP; no direct deployed bypass |
 
 Authorization does not trust skill contracts or prompt intent. A permitted tool

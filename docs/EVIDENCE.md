@@ -7,10 +7,10 @@ or browser session was exercised.
 | Area | Local proof | Live evidence | Current state |
 |---|---|---|---|
 | Institutional PM capstone | `src/capstone/workflow.py`, focused tests, replay artifact script | Successful AgentCore runtime invocation, CloudWatch stages, token usage, and teardown | Local and live proof captured |
-| OpenTelemetry and evaluation | Local exporters, golden dataset, deterministic evaluators, Day 6/7 records | No new hosted run in this session | Local complete; hosted rerun requires credentials |
+| OpenTelemetry and evaluation | Local exporters, golden dataset, deterministic evaluators, Day 6/7 records | Scored AgentCore on-demand fixture; hosted-runtime span collection not claimed | Local and on-demand evaluation proof complete; hosted rerun requires instrumentation and credentials |
 | LangSmith / paid model | Runner and contracts exist | `OPENAI_API_KEY` and `LANGSMITH_API_KEY` are unset | Blocked pending credentials and explicit spend approval |
 | AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md) |
-| AWS observability | Local OTel path and CloudWatch target documented | Successful runtime CloudWatch trace captured; AgentCore namespace metrics remain unclaimed | Partial live proof |
+| AWS observability | Local OTel path and CloudWatch target documented | Successful runtime CloudWatch trace captured; AgentCore namespace metrics remain unclaimed | Runtime trace proof complete; metrics remain optional |
 | Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | No new live provider capture | Unclaimed; must preserve terms and point-in-time metadata |
 | Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence | Local complete; visual capture unclaimed |
 
