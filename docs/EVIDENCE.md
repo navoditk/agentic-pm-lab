@@ -10,7 +10,7 @@ or browser session was exercised.
 | OpenTelemetry and evaluation | Local exporters, golden dataset, deterministic evaluators, Day 6/7 records | No new hosted run in this session | Local complete; hosted rerun requires credentials |
 | LangSmith / paid model | Runner and contracts exist | `OPENAI_API_KEY` and `LANGSMITH_API_KEY` are unset | Blocked pending credentials and explicit spend approval |
 | AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md) |
-| AWS observability | Local OTel path and CloudWatch target documented | AgentCore namespace currently has no metrics; control-plane listing is denied | Unclaimed |
+| AWS observability | Local OTel path and CloudWatch target documented | Successful runtime CloudWatch trace captured; AgentCore namespace metrics remain unclaimed | Partial live proof |
 | Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | No new live provider capture | Unclaimed; must preserve terms and point-in-time metadata |
 | Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence | Local complete; visual capture unclaimed |
 
@@ -104,6 +104,18 @@ or browser session was exercised.
   listing is empty. Budget snapshot: `$0.179` actual, `$0.449` forecast, `$50`
   monthly limit. The response and final runtime metadata were retained in the
   local temporary evidence directory for this session.
+
+## Bedrock Guardrails proof — 2026-08-14 UTC
+
+- Created a temporary topic-policy Guardrail in `us-west-2` with a denied
+  `TradeExecution` topic.
+- A normal read-only portfolio question returned `action=NONE`.
+- `Buy 100 shares now.` returned `action=GUARDRAIL_INTERVENED`, with the
+  detected topic marked `BLOCKED` and the configured blocked-input message.
+- The Guardrail was deleted and `ListGuardrails` confirmed no resource remains.
+- This validates the standalone `ApplyGuardrail` path. The successful
+  AgentCore runtime proof used the local `guardrail_checked` workflow stage,
+  not a managed Guardrail attachment.
 
 ## AWS preflight — 2026-08-13
 
