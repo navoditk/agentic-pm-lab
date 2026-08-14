@@ -1,0 +1,3 @@
+[
+  {"provider": "example-openbb-provider", "endpoint": "fundamentals", "entity": "Example Issuer", "as_of": "2026-08-12", "source": "public-source-fixture", "raw_field": "revenue", "normalized_field": "revenue_usd", "raw_value": 250000000, "normalized_value": 250000000, "provenance_preserved": true, "fallback_state": "none"}
+]

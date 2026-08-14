@@ -53,7 +53,7 @@ source-specific terms, security-master resolution, quality checks, or licensed
 institutional data. QuantLib and rateslib should be evaluated as deterministic
 pricing/curve references; they are not substitutes for market data.
 
-## High-feasibility public connectors
+## Public connectors and the complete source catalog
 
 The post-Day-20 public-data expansion adds tested, provider-neutral retrieval
 and normalization paths for the next six sources. These connectors are safe to
@@ -69,12 +69,32 @@ not the same as a live response being captured in an experiment.
 | Structured positioning | CFTC COT | `src/ingestion/public_investment.py` | Real-capable public-reporting path | Weekly futures positioning context | [`cftc_cot.json`](samples/public_investment/cftc_cot.json) |
 | Structured factor returns | Kenneth French factors | `src/ingestion/public_investment.py` | Real-capable public archive path | Factor exposure and attribution inputs | [`kenneth_french_factors.csv`](samples/public_investment/kenneth_french_factors.csv) |
 
+The tutor catalog also includes the existing price/macro paths and every
+documented deferred source as a small mock fixture. This makes the data shape
+and intended use inspectable before terms, licensing, identifiers, and live
+quality controls are resolved.
+
+| Category | Source | Current status | Main decision use | Browse sample | Primer |
+|---|---|---|---|---|---|
+| Structured market | yfinance prices | Real integration; cached public retrieval | Returns, drawdowns, and portfolio analytics | [`yfinance_prices.json`](samples/public_investment/yfinance_prices.json) | [Public-data primer](../docs/REFERENCES.md#public-data-terminology-and-decision-use-primers) |
+| Structured macro | FRED | Real integration; key required | Macro regime and scenario inputs | [`fred_macro.json`](samples/public_investment/fred_macro.json) | [Public-data primer](../docs/REFERENCES.md#public-data-terminology-and-decision-use-primers) |
+| Structured reference | Security master | Mock fixture | Identifier and issuer resolution | [`security_master.csv`](mock_structured/security_master.csv) | [Data layer](../docs/REFERENCES.md#data-layer-and-provenance) |
+| Structured holdings | Portfolio positions | Mock fixture | Read-only portfolio joins | [`portfolio_positions.csv`](mock_structured/portfolio_positions.csv) | [Portfolio data](../docs/REFERENCES.md#backtesting-and-portfolio-construction-realism) |
+| Structured holdings | SEC N-PORT | Mock fixture; live connector not integrated | Fund exposure and concentration | [`sec_nport.json`](samples/public_investment/sec_nport.json) | [SEC/N-PORT](../docs/REFERENCES.md#fixed-income-data-sources-and-provider-access) |
+| Structured liquidity | FINRA TRACE | Mock fixture; licensing unresolved | OTC bond liquidity context | [`finra_trace.json`](samples/public_investment/finra_trace.json) | [TRACE](../docs/REFERENCES.md#fixed-income-data-sources-and-provider-access) |
+| Structured credit | Ratings events | Mock fixture; licensed feed not integrated | Dated credit-review queue | [`ratings_events.json`](samples/public_investment/ratings_events.json) | [Credit data](../docs/REFERENCES.md#fixed-income-data-sources-and-provider-access) |
+| Semi-structured events | GDELT | Mock fixture; live ingestion not integrated | Thematic evidence for reconciliation | [`gdelt_events.json`](samples/public_investment/gdelt_events.json) | [News and events](../docs/REFERENCES.md#news-sentiment-and-research-retrieval) |
+| Unstructured research | Provider research evidence | Mock fixture; provider decision pending | Traceable narrative evidence | [`bigdata_research.json`](samples/public_investment/bigdata_research.json) | [Narrative evidence](../docs/REFERENCES.md#news-sentiment-and-research-retrieval) |
+| Provider adapter | OpenBB | Reference-only adapter | Compare convenience with provenance | [`openbb_provider.json`](samples/public_investment/openbb_provider.json) | [Provider abstraction](../docs/REFERENCES.md#openbb-provider-abstraction) |
+| Unstructured documents | PDF/document evidence | Mock fixture; extraction pipeline not integrated | Page-cited research evidence | [`document_pdf.json`](samples/public_investment/document_pdf.json) | [Document evidence](../docs/REFERENCES.md#document-ingestion-and-document-to-skill-design) |
+
 ### Browsable sample dataset
 
 The complete representative sample pack is indexed in
 [`data/samples/public_investment/README.md`](samples/public_investment/README.md).
-Each file is intentionally small and uses the normalized field shape expected
-from the connector. It is invented educational data, not a live snapshot.
+Each file is intentionally small and uses either the normalized field shape
+expected from a connector or the evidence envelope proposed for a deferred
+source. It is invented educational data, not a live snapshot.
 
 Use the samples to answer four questions before connecting a provider:
 

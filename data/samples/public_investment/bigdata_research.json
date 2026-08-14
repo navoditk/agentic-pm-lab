@@ -1,0 +1,4 @@
+[
+  {"evidence_id": "EVID-MOCK-001", "provider": "example-research-provider", "query": "issuer supply chain", "entity": "Example Issuer", "publication_time": "2026-08-12T11:00:00Z", "retrieval_time": "2026-08-12T11:05:00Z", "title": "Illustrative supply-chain update", "excerpt": "Mock evidence: management commentary points to a possible logistics delay.", "source_url": "https://example.invalid/research/mock-001", "novelty": "new", "confidence": 0.78, "licensing": "fixture-only"},
+  {"evidence_id": "EVID-MOCK-002", "provider": "example-research-provider", "query": "issuer supply chain", "entity": "Example Issuer", "publication_time": "2026-08-10T10:00:00Z", "retrieval_time": "2026-08-12T11:05:00Z", "title": "Earlier illustrative update", "excerpt": "Mock evidence: an earlier report discussed normal delivery conditions.", "source_url": "https://example.invalid/research/mock-002", "novelty": "duplicate", "confidence": 0.66, "licensing": "fixture-only"}
+]

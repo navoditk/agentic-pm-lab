@@ -279,6 +279,13 @@ the maintained audio starting points for this bibliography.
 
 ### Public-data terminology and decision-use primers
 
+The browsable source catalog and representative records are maintained in
+[`data/README.md`](../data/README.md) and the
+[`public investment sample pack`](../data/samples/public_investment/README.md).
+Each tutor response should map the source's field shape to one of the primers
+below and label mock, connector-capable, and live experiment evidence
+separately.
+
 - SEC, [Company Facts and XBRL API overview](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) — CIKs, taxonomies, units, accession numbers, filing dates, and as-filed facts
 - FRED/ALFRED, [FRED versus ALFRED](https://fred.stlouisfed.org/docs/api/fred/fred_vs_alfred.html) and [real-time periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html) — observation date versus the information set available at a decision date
 - U.S. Treasury, [Treasury Securities Auctions Data](https://fiscaldata.treasury.gov/datasets/treasury-securities-auctions-data/) — announcement, auction, issue, maturity, CUSIP, security type, and auction-demand fields

@@ -1,0 +1,3 @@
+[
+  {"document_id": "DOC-MOCK-001", "document_title": "Illustrative issuer risk report", "source_url": "https://example.invalid/documents/mock-001.pdf", "retrieved_at": "2026-08-12T15:00:00Z", "page": 4, "section": "Risk factors", "text_excerpt": "Mock excerpt: the issuer identifies refinancing and supply-chain uncertainty as monitored risks.", "extraction_method": "fixture_text", "trust_level": "review", "point_in_time_eligible": true}
+]

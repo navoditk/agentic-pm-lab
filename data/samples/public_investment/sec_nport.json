@@ -1,0 +1,4 @@
+[
+  {"fund_id": "F-001", "cik": "0000000001", "reporting_period": "2026-06-30", "filing_date": "2026-08-12", "cusip": "000000AA1", "issuer": "Example Issuer", "asset_type": "corporate_bond", "quantity": 12000000, "market_value": 12500000, "currency": "USD", "amendment": false},
+  {"fund_id": "F-001", "cik": "0000000001", "reporting_period": "2026-06-30", "filing_date": "2026-08-12", "cusip": "000000BB2", "issuer": "Example Treasury", "asset_type": "government_bond", "quantity": 8000000, "market_value": 7950000, "currency": "USD", "amendment": false}
+]

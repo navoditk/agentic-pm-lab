@@ -1,0 +1,4 @@
+[
+  {"event_id": "RATING-MOCK-001", "issuer_id": "ISS-001", "issuer": "Example Issuer", "agency": "Example Ratings", "event_type": "outlook_change", "old_rating": "A-", "new_rating": "BBB+", "outlook": "negative", "effective_date": "2026-08-11", "publication_date": "2026-08-12", "source_url": "https://example.invalid/ratings/mock-001"},
+  {"event_id": "RATING-MOCK-002", "issuer_id": "ISS-002", "issuer": "Example Utility", "agency": "Example Ratings", "event_type": "affirmation", "old_rating": "BBB", "new_rating": "BBB", "outlook": "stable", "effective_date": "2026-08-10", "publication_date": "2026-08-10", "source_url": "https://example.invalid/ratings/mock-002"}
+]

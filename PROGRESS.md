@@ -72,6 +72,17 @@ the narrative log explicitly says that evidence was captured.
   `scripts/investment_data_tutor.py`, and
   `data/samples/public_investment/README.md`.
 
+- **Public investment-data catalog completion:** Extended the tutor and sample
+  pack to cover the full documented source universe: yfinance/FRED, mock
+  security master and positions, SEC N-PORT, TRACE, ratings, GDELT,
+  provider-shaped research, OpenBB metadata, and document/PDF evidence. Each
+  source now has a browsable fixture, decision-use description, integration
+  status, and reference primer link. These fixtures are educational evidence;
+  they do not upgrade deferred sources to live integrations.
+  Evidence: `data/README.md`, `data/samples/public_investment/README.md`,
+  `src/education/investment_data_tutor.py`, and
+  `docs/TUTOR_RUNBOOK.md`.
+
 ## Daily narrative log
 
 *(One short entry per day, written by hand alongside the auto-generated table above — what happened, any deviation from docs/PLAN.md, anything worth flagging for tomorrow, and evidence links: PR, test run, eval run, trace, screenshot, ADR — whichever apply to that day. Full retrospective detail belongs in `docs/LEARNINGS.md`, not here — this is a log line, not a journal entry.)*

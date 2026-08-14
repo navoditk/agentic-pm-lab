@@ -117,6 +117,220 @@ SOURCE_CATALOG: dict[str, dict[str, Any]] = {
         "investment_use": "Estimate factor exposures and separate market excess return from size, value, and risk-free components.",
         "key_terms": ["Mkt-RF", "SMB", "HML", "risk-free rate", "factor construction"],
     },
+    "yfinance-prices": {
+        "name": "yfinance public price history",
+        "kind": "structured market prices",
+        "status": "real integration; cached public retrieval",
+        "sample_file": "data/samples/public_investment/yfinance_prices.json",
+        "sample": {
+            "symbol": "AGG",
+            "date": "2026-08-12",
+            "close": 99.42,
+            "volume": 1842300,
+        },
+        "investment_use": "Provide price and volume inputs for return, drawdown, and portfolio analytics after quality checks.",
+        "key_terms": [
+            "adjusted close",
+            "corporate action",
+            "volume",
+            "stale price",
+            "ticker",
+        ],
+    },
+    "fred-macro": {
+        "name": "FRED macro time series",
+        "kind": "structured macro time series",
+        "status": "real integration; FRED_API_KEY required",
+        "sample_file": "data/samples/public_investment/fred_macro.json",
+        "sample": {
+            "series_id": "CPIAUCSL",
+            "date": "2026-07-01",
+            "value": 329.8,
+            "unit": "index",
+        },
+        "investment_use": "Supply macro regime inputs such as inflation and policy rates for scenario and risk analysis.",
+        "key_terms": [
+            "series ID",
+            "observation date",
+            "release date",
+            "revision",
+            "unit",
+        ],
+    },
+    "security-master": {
+        "name": "Learning security master",
+        "kind": "structured reference data",
+        "status": "mock fixture; no production security master",
+        "sample_file": "data/mock_structured/security_master.csv",
+        "sample": {
+            "security_id": "AGG",
+            "asset_class": "etf",
+            "currency": "USD",
+            "issuer": "iShares",
+        },
+        "investment_use": "Resolve portfolio identifiers to asset class, issuer, sector, and currency before analytics.",
+        "key_terms": [
+            "security ID",
+            "issuer",
+            "asset class",
+            "canonical identifier",
+            "mapping",
+        ],
+    },
+    "portfolio-positions": {
+        "name": "Learning portfolio positions",
+        "kind": "structured holdings data",
+        "status": "mock fixture; user portfolio positions intentionally excluded",
+        "sample_file": "data/mock_structured/portfolio_positions.csv",
+        "sample": {
+            "portfolio_id": "P-001",
+            "security_id": "AGG",
+            "quantity": 1000,
+            "market_value": 99420,
+        },
+        "investment_use": "Join holdings to market, risk, and evidence data for a read-only portfolio review.",
+        "key_terms": [
+            "as-of date",
+            "quantity",
+            "market value",
+            "position",
+            "portfolio ID",
+        ],
+    },
+    "sec-nport": {
+        "name": "SEC Form N-PORT fund holdings",
+        "kind": "structured holdings and filing metadata",
+        "status": "mock fixture; live connector not yet integrated",
+        "sample_file": "data/samples/public_investment/sec_nport.json",
+        "sample": {
+            "fund_id": "F-001",
+            "cusip": "000000AA1",
+            "reporting_period": "2026-06-30",
+            "market_value": 12500000,
+        },
+        "investment_use": "Study reported fund exposures, concentration, and holdings changes subject to reporting lag and amendments.",
+        "key_terms": [
+            "N-PORT",
+            "reporting period",
+            "filing date",
+            "CUSIP",
+            "reported value",
+        ],
+    },
+    "finra-trace": {
+        "name": "FINRA TRACE fixed-income activity",
+        "kind": "structured OTC liquidity observations",
+        "status": "mock fixture; licensing and live access unresolved",
+        "sample_file": "data/samples/public_investment/finra_trace.json",
+        "sample": {
+            "cusip": "000000AA1",
+            "trade_date": "2026-08-12",
+            "trade_count": 18,
+            "par_volume": 4500000,
+        },
+        "investment_use": "Evaluate observed bond liquidity and transaction context; it is not a complete executable order book.",
+        "key_terms": [
+            "TRACE",
+            "par volume",
+            "capped volume",
+            "reporting delay",
+            "OTC liquidity",
+        ],
+    },
+    "ratings-events": {
+        "name": "Issuer ratings and outlook events",
+        "kind": "structured credit event metadata",
+        "status": "mock fixture; licensed ratings feed not integrated",
+        "sample_file": "data/samples/public_investment/ratings_events.json",
+        "sample": {
+            "issuer_id": "ISS-001",
+            "agency": "Example Ratings",
+            "event_type": "outlook_change",
+            "new_rating": "BBB+",
+        },
+        "investment_use": "Create a dated credit-review queue and challenge exposure assumptions; do not infer spreads from a rating alone.",
+        "key_terms": [
+            "rating action",
+            "outlook",
+            "watchlist",
+            "effective date",
+            "publication date",
+        ],
+    },
+    "gdelt-events": {
+        "name": "GDELT public event and news metadata",
+        "kind": "semi-structured event and narrative metadata",
+        "status": "mock fixture; live event ingestion not integrated",
+        "sample_file": "data/samples/public_investment/gdelt_events.json",
+        "sample": {
+            "event_id": "GDELT-MOCK-001",
+            "event_date": "2026-08-12",
+            "theme": "energy_supply",
+            "tone": -1.4,
+        },
+        "investment_use": "Surface dated thematic or geopolitical evidence for human review and reconciliation with authoritative sources.",
+        "key_terms": ["event date", "publication date", "theme", "tone", "source URL"],
+    },
+    "bigdata-research": {
+        "name": "Provider-shaped research evidence",
+        "kind": "unstructured narrative evidence",
+        "status": "mock fixture; provider and licensing decision pending",
+        "sample_file": "data/samples/public_investment/bigdata_research.json",
+        "sample": {
+            "evidence_id": "EVID-MOCK-001",
+            "entity": "Example Issuer",
+            "novelty": "new",
+            "confidence": 0.78,
+        },
+        "investment_use": "Organize thematic, sentiment, and credit commentary into traceable evidence for committee challenge.",
+        "key_terms": [
+            "evidence envelope",
+            "novelty",
+            "confidence",
+            "retrieval time",
+            "licensing state",
+        ],
+    },
+    "openbb-provider": {
+        "name": "OpenBB provider abstraction",
+        "kind": "provider adapter metadata",
+        "status": "reference-only adapter; mock sample, no canonical source promotion",
+        "sample_file": "data/samples/public_investment/openbb_provider.json",
+        "sample": {
+            "provider": "example",
+            "endpoint": "fundamentals",
+            "source": "public-source",
+            "provenance_preserved": True,
+        },
+        "investment_use": "Compare provider ergonomics while retaining the raw source, timestamps, transformations, and fallback state.",
+        "key_terms": [
+            "provider",
+            "adapter",
+            "raw response",
+            "normalization",
+            "provenance",
+        ],
+    },
+    "document-pdf": {
+        "name": "Document and PDF evidence",
+        "kind": "unstructured document evidence",
+        "status": "mock fixture; live corpus and extraction pipeline not integrated",
+        "sample_file": "data/samples/public_investment/document_pdf.json",
+        "sample": {
+            "document_id": "DOC-MOCK-001",
+            "page": 4,
+            "section": "Risk factors",
+            "trust_level": "review",
+        },
+        "investment_use": "Ground a research explanation in page-level excerpts while preserving document and extraction provenance.",
+        "key_terms": [
+            "document ID",
+            "page citation",
+            "section",
+            "extraction method",
+            "trust level",
+        ],
+    },
 }
 
 
@@ -140,6 +354,7 @@ def teach_source(source_id: str, *, browse_sample: bool = False) -> dict[str, An
     result = {
         "source_id": source_id,
         **record,
+        "reference": "docs/REFERENCES.md#public-data-terminology-and-decision-use-primers",
         "read_only": True,
         "investment_advice": False,
     }
@@ -157,5 +372,9 @@ def read_sample(source_id: str) -> list[dict[str, Any]]:
         if not isinstance(payload, list):
             raise ValueError(f"sample file must contain a record list: {path}")
         return payload
-    with path.open(newline="") as handle:
-        return [dict(row) for row in csv.DictReader(handle)]
+    lines = [
+        line
+        for line in path.read_text().splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    return [dict(row) for row in csv.DictReader(lines)]

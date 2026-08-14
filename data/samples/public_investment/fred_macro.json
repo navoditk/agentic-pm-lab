@@ -1,0 +1,4 @@
+[
+  {"series_id": "CPIAUCSL", "observation_date": "2026-07-01", "release_date": "2026-08-12", "value": 329.8, "unit": "index", "source": "FRED"},
+  {"series_id": "FEDFUNDS", "observation_date": "2026-07-01", "release_date": "2026-08-01", "value": 4.33, "unit": "percent", "source": "FRED"}
+]

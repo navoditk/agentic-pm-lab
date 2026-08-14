@@ -411,3 +411,15 @@ convenience from becoming the security control. LangGraph's native
 and the deterministic policy-evaluation cases together before writing either
 policy file. That would have made unknown-resource behavior and the evaluation
 shape explicit before the first implementation pass.
+
+## Public investment-data catalog extension
+
+The sample pack now mirrors the documented source universe instead of only the
+six real-capable public connectors. Small fixtures for N-PORT, TRACE, ratings,
+GDELT, provider-shaped research, OpenBB metadata, and document/PDF evidence
+make schemas and decision boundaries concrete while preserving honest status
+labels. The tutor returns the same records, links the public-data primer, and
+requires the learner to distinguish mock evidence from connector capability and
+live experiment evidence. This is useful because licensing, point-in-time
+semantics, entity resolution, and extraction quality are themselves part of the
+integration problem.

@@ -1,0 +1,4 @@
+[
+  {"event_id": "GDELT-MOCK-001", "event_date": "2026-08-12", "publication_date": "2026-08-12T14:30:00Z", "actor1": "Example Government", "actor2": "Example Energy", "theme": "energy_supply", "tone": -1.4, "language": "English", "confidence": 0.62, "url": "https://example.invalid/news/mock-001"},
+  {"event_id": "GDELT-MOCK-002", "event_date": "2026-08-11", "publication_date": "2026-08-11T09:15:00Z", "actor1": "Example Central Bank", "actor2": "Example Economy", "theme": "monetary_policy", "tone": 0.3, "language": "English", "confidence": 0.71, "url": "https://example.invalid/news/mock-002"}
+]

@@ -1,0 +1,4 @@
+[
+  {"cusip": "000000AA1", "trade_date": "2026-08-12", "reporting_date": "2026-08-12", "side": "buy", "price": 98.42, "par_volume": 4500000, "trade_count": 18, "capped_volume": false, "reporting_delay_minutes": 4, "license_state": "fixture-only"},
+  {"cusip": "000000BB2", "trade_date": "2026-08-12", "reporting_date": "2026-08-12", "side": "sell", "price": 101.08, "par_volume": 10000000, "trade_count": 7, "capped_volume": true, "reporting_delay_minutes": 7, "license_state": "fixture-only"}
+]

@@ -17,7 +17,7 @@ access, run paid evaluations, place orders, or make investment recommendations.
 | `langgraph-deep-agents-tutor` | LangGraph state, Deep Agents, delegation, interrupts, and checkpoints | 4–5, 11, 17–20 |
 | `aws-agentcore-tutor` | Bedrock, AgentCore services, IAM, deployment, observability, teardown | 12–14, 19–20 |
 | `data-provenance-research-tutor` | Point-in-time data, EDGAR, evidence, sentiment, and research quality | 2, 15–17, 20 |
-| `investment-data-tutor` | SEC, ALFRED, Treasury auctions, SOFR, CFTC positioning, Kenneth French factors, terminology, and decision use | post-Day-20 public-data expansion |
+| `investment-data-tutor` | SEC, prices, macro, N-PORT, TRACE, ratings, GDELT, research evidence, documents, terminology, and decision use | post-Day-20 public-data expansion |
 | `evaluation-agentops-tutor` | Golden datasets, eval dimensions, regression, SLOs, and operations | 6, 9, 13–14, 19–20 |
 | `opentelemetry-tutor` | Traces, spans, attributes, propagation, privacy, and AgentCore observability | 6, 9, 12–14, 19 |
 | `investment-committee-tutor` | Thesis review, Devil’s Advocate, evidence grading, dissent, and approval | 17–20 |
@@ -71,6 +71,16 @@ The source catalog is also available without an agent through
 [`data/samples/public_investment/README.md`](../data/samples/public_investment/README.md).
 The output is educational sample data, not a live provider response or
 investment recommendation.
+
+The full source map includes fixture-backed deferred sources. Try prompts such
+as “Use investment-data-tutor to browse the mock SEC N-PORT and TRACE records;
+explain what one row represents, which fields are point-in-time eligible, what
+the source could support in a credit review, and why it is not a live
+integration.” Other useful IDs are `ratings-events`, `gdelt-events`,
+`bigdata-research`, `openbb-provider`, `document-pdf`, `security-master`, and
+`portfolio-positions`. The sample index and source-specific primers are linked
+from [`data/README.md`](../data/README.md) and
+[`docs/REFERENCES.md`](REFERENCES.md).
 
 Each tutor file contains five worked examples and three negative/adversarial
 examples. Use those examples as acceptance tests for tutor behavior. Record the
