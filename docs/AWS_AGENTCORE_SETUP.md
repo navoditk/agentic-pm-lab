@@ -438,12 +438,12 @@ Persistent setup retained for future experiments:
 - `AgenticPMLabGatewayExecutionRole`: retained for a future HTTPS/MCP path.
 - `agentic-pm-lab-monthly`: `$50` spend guardrail.
 
-The 2026-08-13 deployment reached `READY`, including endpoint `default`.
-Version 1 proved the macOS-wheel failure; version 3 used Linux ARM64 but a
-bounded SDK invocation still returned HTTP 500, so no successful model answer
-was captured. The runtime, endpoint, S3 artifact bucket, and empty log groups
-were deleted. The dated run is correctly classified as
-`deployment_ready_request_failed`, not successful end to end:
+The final 2026-08-14 deployment reached `READY`, including endpoint `default`,
+and a bounded SDK invocation returned a successful model answer. Earlier
+iterations proved the macOS-wheel and model-access failure modes. All temporary
+runtime, endpoint, S3 artifact, and evaluation resources were deleted after
+evidence capture. The successful run and optional capability results are
+recorded in [`docs/EVIDENCE.md`](EVIDENCE.md):
 
 - [`experiments/2026-08-13-agentcore-pm-review/`](../experiments/2026-08-13-agentcore-pm-review/)
 - [`experiments/agentcore-runtime-proof/`](../experiments/agentcore-runtime-proof/)
@@ -455,6 +455,33 @@ and evaluation execution role to query CloudWatch Logs; the minimal fixture
 must emit the required ADOT/OTel trace attributes or an evaluation can complete
 with zero sessions.
 
+### 11a. On-demand Evaluation from a saved span fixture
+
+For a direct evaluator test, keep a JSON request containing `evaluatorId`, an
+`evaluationInput.sessionSpans` array, and optional trace-level reference
+inputs. The fixture in
+`experiments/agentcore-runtime-proof/evaluation_input.example.json` is
+synthetic and safe to reuse:
+
+```bash
+AWS_PROFILE=agentic-pm-lab aws bedrock-agentcore evaluate \
+  --region us-west-2 \
+  --cli-input-json file://experiments/agentcore-runtime-proof/evaluation_input.example.json \
+  --output json
+```
+
+Supported evaluation spans need a supported scope such as
+`strands.telemetry.tracer`, a matching event with the same `traceId` and
+`spanId`, `attributes.session.id`, `attributes.event.name`, and an event body
+with input/output messages. A span-only or application-log-only fixture may
+complete with zero sessions or return `LogEventMissingException`/
+`AgentSpanMappingException`. The successful lab fixture returned
+`Builtin.Helpfulness` value `0.33` and 1,034 evaluator tokens. For a hosted
+runtime, use Strands OTEL instrumentation and collect the corresponding
+CloudWatch spans/events before evaluating. LLM-judge values can vary between
+identical calls; record the returned value and evaluator token usage for each
+run rather than asserting an exact score.
+
 ## 12. AWS references
 
 - [Deploy code to an AgentCore Runtime](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-get-started-code-deploy-python.html)
@@ -462,5 +489,7 @@ with zero sessions.
 - [AgentCore Runtime permissions](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-permissions.html)
 - [AgentCore service-linked roles](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/service-linked-roles.html)
 - [AgentCore pricing](https://aws.amazon.com/bedrock/agentcore/pricing/)
+- [AgentCore on-demand evaluation](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/getting-started-on-demand.html)
+- [AgentCore input span format](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/understanding-input-spans.html)
 - [AWS Budgets pricing](https://aws.amazon.com/aws-cost-management/aws-budgets/pricing/)
 - [AWS Organizations pricing](https://docs.aws.amazon.com/organizations/latest/userguide/pricing.html)

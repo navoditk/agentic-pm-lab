@@ -77,10 +77,13 @@ These are follow-on evidence tasks, not missing local implementation days:
 
 1. If desired, deploy and tear down a governed Gateway path with a real
    HTTPS-hosted MCP target.
-2. Add ADOT/OTel evaluation attributes to the hosted fixture and rerun the
-   AWS-native Evaluation so it scores at least one session. Live Memory and
-   standalone Guardrails evidence are complete; managed Guardrail attachment
-   remains a separate optional extension.
+2. The AgentCore Evaluation item is now complete for the on-demand API: a
+   documented Strands-compatible span/event fixture scored one session. A
+   future hosted-runtime rerun can still validate CloudWatch collection of
+   those spans, but it is an instrumentation enhancement rather than an
+   unresolved evaluation API blocker. Live Memory and standalone Guardrails
+   evidence are complete; managed Guardrail attachment remains a separate
+   optional extension.
 3. Capture provider-backed EDGAR/ALFRED/Treasury/research responses under their
    terms and preserve point-in-time metadata.
 4. Complete GitHub Projects, scheduled automation, Copilot/Canvas browser, and

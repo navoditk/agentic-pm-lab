@@ -135,6 +135,30 @@ or browser session was exercised.
   emit the ADOT/OTel trace attributes required for AgentCore session
   extraction. This proves the AWS Evaluation control path and records the
   instrumentation gap; it is not a quality score.
+- The gap was then closed for the on-demand API using the documented Strands
+  OpenTelemetry span-and-event shape in
+  `experiments/agentcore-runtime-proof/evaluation_input.example.json`.
+- On-demand `Builtin.Helpfulness` returned one scored result on the final
+  redacted fixture: value `0.17`, label `Very Unhelpful`, with 988 evaluator
+  tokens. A preceding identical-shape run returned `0.33`/`Somewhat Unhelpful`;
+  this variation is a useful reminder that LLM-judge scores should be treated
+  as experimental measurements, not deterministic unit-test assertions. Both
+  explanations correctly identified that the synthetic response did not
+  actually summarize portfolio risks. This is a valid evaluator proof, not a
+  production quality claim.
+
+## Canvas validation — 2026-08-14 UTC
+
+- The Agent Operations Canvas loopback smoke test passed all six checks, and the
+  capability test passed. This validates the local runtime and action handlers;
+  no Copilot-hosted browser session or screenshot is claimed.
+
+## Gateway status — 2026-08-14 UTC
+
+- `list-gateways` returned no Gateway resources. No Gateway was created because
+  the experiment does not yet have a user-supplied HTTPS MCP target and
+  authentication/credential-provider configuration. Creating a placeholder
+  target would not be a meaningful or safe end-to-end test.
 
 ## AWS preflight — 2026-08-13
 
