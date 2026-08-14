@@ -15,6 +15,7 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Run and compare local, hosted, and AWS experiments | [`../experiments/README.md`](../experiments/README.md) |
 | Audit the 20-day plan and separate local completion from live evidence | [`PLAN_REVIEW.md`](PLAN_REVIEW.md) |
 | Review the completed Phase 1 recap and learning path | [`PHASE_1_RECAP.md`](PHASE_1_RECAP.md) |
+| Understand the GitHub Actions checks and automation | [`GITHUB_WORKFLOWS.md`](GITHUB_WORKFLOWS.md) |
 | Follow the institutional PM AI production-readiness track | [`PHASE_2_PLAN.md`](PHASE_2_PLAN.md) |
 | Understand why the project exists | [`PRD.md`](PRD.md) |
 | Follow the day-by-day build | [`PLAN.md`](PLAN.md) |

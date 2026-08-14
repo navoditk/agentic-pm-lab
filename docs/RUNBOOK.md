@@ -4,6 +4,10 @@ This is the operational entry point for the Day 11 local stack and the later
 AWS/AgentCore exercises. It is explicit about what is real, what is mock, and
 where human approval is required.
 
+For the GitHub Actions operating model, including each workflow's trigger,
+checks, permissions, local equivalent, and troubleshooting path, see
+[`GITHUB_WORKFLOWS.md`](GITHUB_WORKFLOWS.md).
+
 ## Safety boundary
 
 This repository uses public data and labelled mock holdings/security metadata.

@@ -311,6 +311,7 @@ Ask opentelemetry-tutor:
 ### Stage 8 — Learn Canvas and operations
 
 Read src/ui/app.py, .github/extensions/, docs/RUNBOOK.md,
+docs/GITHUB_WORKFLOWS.md,
 docs/EVIDENCE.md, and docs/comparison-notes.md.
 
 Ask copilot-canvas-mcp-tutor:
@@ -390,4 +391,3 @@ Start Phase 2 when:
 
 The recommended first Phase 2 task is Day 1: select one institutional workflow
 and define its decision rights before adding new agents or providers.
-
