@@ -75,11 +75,11 @@ separate fields, with billing-lag status preserved.
 
 These are follow-on evidence tasks, not missing local implementation days:
 
-1. Complete the Anthropic model use-case form for the account, wait for model
-   access propagation, then rerun the minimal AgentCore fixture. The runtime,
-   endpoint, ARM64 package, IAM execution role, and request-stage logging are
-   now proven; the remaining HTTP 500 is an account-level model-access
-   prerequisite, not an unresolved runtime contract issue.
+1. Verify that the Anthropic model-use-case form was finally submitted in
+   `us-west-2` (including the final Model access submission), then wait for
+   propagation and rerun the minimal AgentCore fixture. Two fresh runtime
+   deployments reached `READY`, but both invocations still received the
+   account-level use-case error; the runtime contract is not the issue.
 2. If desired, deploy and tear down a governed Gateway path with a real
    HTTPS-hosted MCP target.
 3. Capture live AgentCore Memory, Evaluations, and Bedrock Guardrails evidence

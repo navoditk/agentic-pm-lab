@@ -65,6 +65,19 @@ or browser session was exercised.
   for administrator cleanup. The role also lacks `bedrock:ListGuardrails`,
   preventing an independent live Guardrails proof in this session.
 
+## AgentCore retry after Anthropic form submission — 2026-08-14 UTC
+
+- A second temporary runtime `agentic_pm_agentcore_proof_20260814_182136-vKN7Z4CbKT`
+  and endpoint both reached `READY`.
+- The first invocation and a retry after the AWS-recommended propagation window
+  both returned HTTP 500. The delayed CloudWatch trace again states:
+  `Model use case details have not been submitted for this account` and advises
+  retrying after 15 minutes.
+- Runtime, endpoint, and S3 artifact were deleted and the runtime listing is
+  empty. The Anthropic form therefore still needs account/region verification:
+  the final model-access submission may not have completed, or the submission
+  has not yet propagated to `us-west-2`.
+
 ## AWS preflight — 2026-08-13
 
 - AWS CLI: `2.36.22`.
