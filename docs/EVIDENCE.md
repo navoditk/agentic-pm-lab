@@ -69,14 +69,14 @@ or browser session was exercised.
 
 - A second temporary runtime `agentic_pm_agentcore_proof_20260814_182136-vKN7Z4CbKT`
   and endpoint both reached `READY`.
-- The first invocation and a retry after the AWS-recommended propagation window
-  both returned HTTP 500. The delayed CloudWatch trace again states:
+- The first invocation and a retry roughly one minute later both returned HTTP
+  500. The delayed CloudWatch trace again states:
   `Model use case details have not been submitted for this account` and advises
   retrying after 15 minutes.
 - Runtime, endpoint, and S3 artifact were deleted and the runtime listing is
-  empty. The Anthropic form therefore still needs account/region verification:
-  the final model-access submission may not have completed, or the submission
-  has not yet propagated to `us-west-2`.
+  empty. The Anthropic form still needs account/region verification, and the
+  full AWS-recommended 15-minute propagation window must be allowed before a
+  conclusive retry.
 
 ## AWS preflight — 2026-08-13
 

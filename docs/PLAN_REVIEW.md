@@ -77,7 +77,7 @@ These are follow-on evidence tasks, not missing local implementation days:
 
 1. Verify that the Anthropic model-use-case form was finally submitted in
    `us-west-2` (including the final Model access submission), then wait for
-   propagation and rerun the minimal AgentCore fixture. Two fresh runtime
+   the full propagation window and rerun the minimal AgentCore fixture. Two fresh runtime
    deployments reached `READY`, but both invocations still received the
    account-level use-case error; the runtime contract is not the issue.
 2. If desired, deploy and tear down a governed Gateway path with a real
