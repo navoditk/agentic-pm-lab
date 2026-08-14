@@ -423,3 +423,13 @@ requires the learner to distinguish mock evidence from connector capability and
 live experiment evidence. This is useful because licensing, point-in-time
 semantics, entity resolution, and extraction quality are themselves part of the
 integration problem.
+
+## Phase 2 curriculum proposal
+
+The next track deliberately shifts emphasis from adding more agent personas to
+building the investment and operating controls around them. The proposed plan
+starts with mandate and risk policy, then adds data quality, point-in-time
+evidence, fixed-income implementation risk, decision records, typed workflow
+state, model risk, repeated evaluations, red-team testing, promotion gates,
+SLOs, resilience, and replay. It remains a public/mock-data learning track and
+does not claim that the Phase 2 implementation has begun.

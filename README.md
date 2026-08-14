@@ -250,6 +250,8 @@ The forward roadmap also studies and adapts these public examples:
 
 Additional background on agent harnesses, skills, context engineering, tools, and evals is curated in [docs/REFERENCES.md](docs/REFERENCES.md), including relevant OpenAI and Anthropic engineering articles, talks, and videos.
 
+The next learning track is the [Phase 2 institutional PM AI production-readiness plan](docs/PHASE_2_PLAN.md). It extends the completed 20-day foundation with investment mandates, data governance, evidence graphs, fixed-income risk, RAG evaluation, model risk, identity and policy exceptions, red-team testing, CI/CD promotion, SLOs, resilience, and a reproducible institutional PM capstone.
+
 ## Repository guide
 
 | Document | Use it for |
@@ -260,6 +262,7 @@ Additional background on agent harnesses, skills, context engineering, tools, an
 | [docs/README.md](docs/README.md) | Documentation index by intent |
 | [docs/PRD.md](docs/PRD.md) | Vision, business problems, architecture, principles, success criteria, and non-goals |
 | [docs/PLAN.md](docs/PLAN.md) | Day-by-day implementation plan, contracts, skills, security, context engineering, and Days 10–20 extension |
+| [docs/PHASE_2_PLAN.md](docs/PHASE_2_PLAN.md) | Follow-on 20-day institutional PM AI production-readiness track |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Canonical architecture and security boundaries |
 | [docs/REFERENCES.md](docs/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |
 | [docs/PLAN_REVIEW.md](docs/PLAN_REVIEW.md) | 20-day completion audit, documentation review, and remaining live-evidence actions |

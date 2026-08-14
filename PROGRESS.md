@@ -83,6 +83,13 @@ the narrative log explicitly says that evidence was captured.
   `src/education/investment_data_tutor.py`, and
   `docs/TUTOR_RUNBOOK.md`.
 
+- **Phase 2 institutional PM AI plan:** Added a proposed follow-on 20-day
+  production-readiness curriculum covering investment mandates, data quality,
+  evidence graphs, RAG, fixed-income risk, typed agent state, model risk,
+  repeated evaluations, red-team testing, CI/CD promotion, SLOs, resilience,
+  and an institutional capstone. This is a plan, not completed implementation.
+  Evidence: `docs/PHASE_2_PLAN.md`.
+
 ## Daily narrative log
 
 *(One short entry per day, written by hand alongside the auto-generated table above — what happened, any deviation from docs/PLAN.md, anything worth flagging for tomorrow, and evidence links: PR, test run, eval run, trace, screenshot, ADR — whichever apply to that day. Full retrospective detail belongs in `docs/LEARNINGS.md`, not here — this is a log line, not a journal entry.)*

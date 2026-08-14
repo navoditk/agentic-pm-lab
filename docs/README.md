@@ -14,6 +14,7 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Quick-reference AWS setup, architecture, workflow, evidence, and cost | [`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md) |
 | Run and compare local, hosted, and AWS experiments | [`../experiments/README.md`](../experiments/README.md) |
 | Audit the 20-day plan and separate local completion from live evidence | [`PLAN_REVIEW.md`](PLAN_REVIEW.md) |
+| Follow the institutional PM AI production-readiness track | [`PHASE_2_PLAN.md`](PHASE_2_PLAN.md) |
 | Understand why the project exists | [`PRD.md`](PRD.md) |
 | Follow the day-by-day build | [`PLAN.md`](PLAN.md) |
 | Understand the current system design | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
