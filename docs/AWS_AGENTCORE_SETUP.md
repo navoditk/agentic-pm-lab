@@ -161,6 +161,7 @@ do not grant wildcard S3 object permission:
   "Statement": [
     {"Effect":"Allow","Action":["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"],"Resource":"arn:aws:logs:us-west-2:ACCOUNT_ID:log-group:/aws/bedrock-agentcore/runtimes/*"},
     {"Effect":"Allow","Action":["bedrock:InvokeModel","bedrock:InvokeModelWithResponseStream"],"Resource":"*"},
+    {"Effect":"Allow","Action":["aws-marketplace:ViewSubscriptions","aws-marketplace:Subscribe","aws-marketplace:Unsubscribe"],"Resource":"*"},
     {"Effect":"Allow","Action":"s3:GetObject","Resource":"arn:aws:s3:::CODE_BUCKET/RUN_PREFIX/*"},
     {"Effect":"Allow","Action":"s3:ListBucket","Resource":"arn:aws:s3:::CODE_BUCKET","Condition":{"StringLike":{"s3:prefix":["RUN_PREFIX","RUN_PREFIX/*"]}}}
   ]
@@ -419,6 +420,7 @@ For a shared bucket, delete only the run prefix and retain the bucket.
 | `InvokeAgentRuntime` `AccessDenied` | Add the action to the SSO permission set, wait for provisioning, log out/in, and repeat the identity check. |
 | `pydantic_core` import error | Rebuild with `--python-platform aarch64-manylinux2014` and inspect the ARM64 `.so`. |
 | Runtime `READY`, invocation HTTP 500 | Inspect CloudWatch, save the traceback, and reproduce with the minimal fixture before adding dependencies. |
+| `aws-marketplace:ViewSubscriptions` or `aws-marketplace:Subscribe` denied | Add `ViewSubscriptions`, `Subscribe`, and `Unsubscribe` to the runtime execution role; wait a few minutes for first-account model subscription completion, then retry. |
 | No CloudWatch events immediately | Wait 30-60 seconds; verify the execution role can create streams and put events. |
 | AgentCore CLI reports no stack | Set a writable `UV_CACHE_DIR`, verify credentials, and use this direct CodeZip path. |
 

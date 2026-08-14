@@ -78,6 +78,17 @@ or browser session was exercised.
   full AWS-recommended 15-minute propagation window must be allowed before a
   conclusive retry.
 
+## AgentCore retry after Anthropic access — 2026-08-14 UTC
+
+- The final retry runtime and endpoint reached `READY`.
+- CloudWatch confirmed Anthropic access had progressed past the use-case-form
+  error. The remaining error was an AWS Marketplace authorization failure on
+  the runtime execution role: `aws-marketplace:ViewSubscriptions` and
+  `aws-marketplace:Subscribe` were required to complete model access.
+- The runtime, endpoint, and S3 artifact were deleted; the runtime listing is
+  empty. The next retry requires the runtime role policy update and a short
+  subscription-propagation wait.
+
 ## AWS preflight — 2026-08-13
 
 - AWS CLI: `2.36.22`.
