@@ -19,6 +19,20 @@ A completed Phase 1 day means the repository-local learning slice is implemented
 and tested. It does not mean that every hosted model, AWS service, licensed
 provider, or browser surface was exercised live.
 
+## Navigation
+
+- [Phase 1 outcome](#phase-1-outcome)
+- [Day-by-day recap](#day-by-day-recap)
+- [Completion checklist](#completion-checklist)
+- [Questions Phase 1 should enable you to answer](#questions-phase-1-should-enable-you-to-answer)
+- [Recommended learning path](#recommended-learning-path)
+- [Using references and experiments](#using-references-and-experiments)
+- [Transition to Phase 2](#transition-to-phase-2)
+
+> **How to use this guide:** read the outcome first, use the checklist as a
+> self-assessment, then follow the ten stages in order. Each stage names the
+> files to read, commands to run, and tutor questions to ask.
+
 ## Phase 1 outcome
 
 Phase 1 delivered:

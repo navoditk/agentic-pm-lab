@@ -8,6 +8,17 @@ For the GitHub Actions operating model, including each workflow's trigger,
 checks, permissions, local equivalent, and troubleshooting path, see
 [`GITHUB_WORKFLOWS.md`](GITHUB_WORKFLOWS.md).
 
+## Runbook map
+
+| Goal | Section |
+|---|---|
+| Set up and verify locally | [One-time setup](#one-time-setup) |
+| Start the services | [Start the local stack](#start-the-local-stack) |
+| Record a local, hosted, or AWS experiment | [Record an experiment](#record-an-experiment) |
+| Run tests and security checks | [Test commands](#test-commands), [Security validation](#security-validation) |
+| Run an agent or evaluation | [Run a workflow or custom agent standalone](#run-a-workflow-or-custom-agent-standalone), [Evaluation and traces](#evaluation-and-traces) |
+| Deploy or tear down AWS resources | [AgentCore deployment](#agentcore-deployment-preview-and-evidence-boundary), [Teardown](#teardown) |
+
 ## Safety boundary
 
 This repository uses public data and labelled mock holdings/security metadata.

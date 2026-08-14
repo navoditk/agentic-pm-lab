@@ -4,6 +4,22 @@ A self-directed, company-agnostic path to building fluency with the agentic AI s
 
 **This document defines *what* is being built and *why*.** For repo layout, install steps, and the day-by-day implementation plan, see `docs/PLAN.md`. For current status, see `PROGRESS.md`. `AGENTS.md` routes any dev tool (Claude Code, GitHub Copilot, OpenAI Codex CLI) to the right document for a given question.
 
+## How to read this document
+
+Read the vision and target architecture first, then use the business-problem
+sections to understand why each tool and agent exists. Use the success criteria
+as acceptance tests and the non-goals to avoid interpreting this learning repo
+as a production trading system.
+
+| Question | Section |
+|---|---|
+| Why does the repository exist? | [Vision](#1-vision) |
+| What is the target platform shape? | [Target Architecture](#2-target-architecture) |
+| What principles constrain the design? | [Design Principles](#3-design-principles) |
+| Which PM questions are covered? | [Business Problems](#4-business-problems--trading-decisions-addressed) |
+| How is success judged? | [Success Criteria](#5-success-criteria) |
+| What is intentionally deferred? | [Non-Goals](#6-non-goals--deferred-for-this-iteration) |
+
 ---
 
 ## 1. Vision

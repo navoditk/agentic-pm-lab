@@ -4,6 +4,24 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 
 ---
 
+## Reading guide
+
+This is the canonical current-state design. Start with the layer table, then
+trace one request through the logical components, orchestration, recovery,
+observability, evaluation, and security sections. Use the implementation paths
+as navigation aids; use [`EVIDENCE.md`](EVIDENCE.md) to distinguish local
+behavior from hosted or live evidence.
+
+| If you want to understand... | Read... |
+|---|---|
+| The platform shape | [The layers](#the-layers-and-what-exists-today-day-20) |
+| Request and data flow | [Logical components](#logical-components-through-day-20) |
+| Agent delegation and failure handling | [Multi-agent orchestration](#multi-agent-orchestration-day-5) and [Failure and recovery](#failure-and-recovery-day-5) |
+| Traces and quality | [Observability and evaluation](#observability-and-evaluation-day-6) |
+| Authorization and safety | [Security Model](#security-model) |
+
+---
+
 ## The layers, and what exists today (Day 20)
 
 | Layer | Target end-state (`docs/PRD.md` §2) | What exists today |

@@ -6,6 +6,28 @@ technical sections retain stable specifications and implementation references.
 
 One or two best starting points per topic, favoring official docs and hands-on tutorials over general blog posts — not exhaustive. This is the single, canonical copy: update it directly as you find something genuinely useful or a link goes stale, rather than maintaining a separate mirror elsewhere. External resources are clickable Markdown links; repository references use relative links.
 
+## How to use this file
+
+Use the references as a study map, not as a linear textbook. Start with the
+topic that matches the current learning stage, read one or two primary sources,
+then return to the repository implementation and record what was confirmed,
+simplified, or deferred.
+
+| Learning need | Start with |
+|---|---|
+| Agent architecture and harnesses | [Agent harnesses, skills, prompts, and custom agents](#agent-harnesses-skills-prompts-and-custom-agents) |
+| Tracing and evaluation | [LangSmith](#langsmith-tracing-datasets-experiments-evaluation) and [OpenTelemetry](#opentelemetry-python) |
+| Tools and context | [Model Context Protocol](#model-context-protocol-mcp) and [Context engineering](#context-engineering-day-4-planmd-13) |
+| Authorization and safety | [Security](#security-authnauthz-policy-as-code-prompt-injection-day-7-planmd-15) |
+| AWS runtime operations | [AWS Bedrock & AgentCore](#aws-bedrock-agentcore) and [AWS IAM](#aws-iam-account-basics-day-12-account-setup) |
+| Investment data and FICC | [Public data APIs](#public-data-apis), [Public-data primers](#public-data-terminology-and-decision-use-primers), and [FICC fundamentals](#ficc-fixed-income-fundamentals) |
+
+> **Evidence boundary:** a reference explains a concept or provider. It does
+> not prove that this repository implements the capability or that a live
+> provider/cloud experiment succeeded. Use [`EVIDENCE.md`](EVIDENCE.md) and
+> [`experiments/README.md`](../experiments/README.md) for implementation and
+> experiment evidence.
+
 **How this is used day to day:** you don't need to browse this whole file mid-session. Each day in [`PLAN.md`](PLAN.md)'s Appendix B has its own short "While it builds, read" list (1–5 items) pointing at the specific subsection below that's relevant to that day's work — this file is the full bibliography those pointers link into, for whenever you want the complete picture on a topic rather than just today's slice.
 
 **Repository navigation:** [README](../README.md) · [INSTALL](../INSTALL.md) ·

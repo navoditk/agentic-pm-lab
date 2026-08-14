@@ -4,6 +4,24 @@ This repository is a 20-day, hands-on roadmap for building an institutional-grad
 
 The project is deliberately company-agnostic and uses only public or clearly labelled mock data. It is a learning and prototyping environment—not an investment adviser, trading system, or production deployment.
 
+## Start here
+
+| If you want to... | Start with... |
+|---|---|
+| Install and verify the repository | [`INSTALL.md`](INSTALL.md) |
+| See what is complete and what evidence exists | [`PROGRESS.md`](PROGRESS.md) |
+| Follow the recommended learning sequence | [`docs/PHASE_1_RECAP.md`](docs/PHASE_1_RECAP.md) |
+| Understand the business goals | [`docs/PRD.md`](docs/PRD.md) |
+| Understand the current architecture | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) |
+| Find topic-specific reading | [`docs/REFERENCES.md`](docs/REFERENCES.md) |
+| Run the local system | [`docs/RUNBOOK.md`](docs/RUNBOOK.md) |
+| Understand CI and GitHub automation | [`docs/GITHUB_WORKFLOWS.md`](docs/GITHUB_WORKFLOWS.md) |
+
+> **Recommended approach:** complete the core installation once, then learn the
+> repository in stages. Activate optional hosted-model, Copilot, and AWS paths
+> only when you reach the corresponding learning stage and can capture evidence
+> and clean up resources.
+
 ## Purpose
 
 The goal is to develop practical proficiency in the full lifecycle of a trusted PM AI platform:

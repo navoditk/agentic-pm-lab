@@ -8,6 +8,17 @@ operational automation are correct.
 All workflows use public/mock learning data unless explicitly documented
 otherwise. None of them places trades or approves an investment decision.
 
+## Quick start
+
+1. Run the local equivalents in [Local equivalents](#local-equivalents).
+2. Open the failed job, if any, and identify whether it is a code, contract,
+   authorization, freshness, evaluation, or configuration failure.
+3. Read the matching workflow section below.
+4. Reproduce the narrowest check locally before changing the code.
+
+The broad `CI` workflow is the baseline. The other workflows are focused gates
+that activate only for relevant paths or events.
+
 ## Workflow map
 
 | Workflow | Main question | Trigger | Write access |
