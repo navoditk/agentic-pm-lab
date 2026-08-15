@@ -8,12 +8,14 @@ board at <https://github.com/users/navoditk/projects/2>.
 - [`github-project-views-overview.png`](github-project-views-overview.png)
   shows the four configured views: **21-day roadmap**, **Active Learning**,
   **Evidence backlog**, and **Canvas and Copilot**.
+- [`github-project-21-day-roadmap.png`](github-project-21-day-roadmap.png)
+  shows the corrected roadmap without the repository filter, with Days 1–5
+  visible in the captured viewport and the remaining days available below.
 
 ## Review note
 
-The captured roadmap view includes the filter
-`repo:navoditk/agentic-pm-lab`. The two linked morning-review issues are
-therefore visible, but the 21 draft roadmap items are hidden because draft
-items do not carry a repository location. Remove that filter from the roadmap
-view if the intended result is to display all Days 1–21. Capture a follow-up
-roadmap screenshot after making that correction.
+The original overview captured the filter
+`repo:navoditk/agentic-pm-lab`, which hid the draft roadmap items. The follow-up
+roadmap screenshot shows that filter removed. GitHub displayed a green
+**Save** button in the follow-up capture; click **Save** in the Project UI to
+persist the corrected view before relying on it for future work.
