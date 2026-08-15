@@ -36,7 +36,7 @@ mock fixture != production data or provider availability
 | 8 | Kanban and issue-triage Canvas foundations | Interactive browser/screenshot evidence remains unclaimed | Local complete; browser follow-up |
 | 9 | Agent Operations Canvas and run history | Live LangSmith path requires credentials | Local complete; live follow-up |
 | 10 | Governed MCP boundary and Portfolio/Risk Canvas | Visual/browser evidence remains unclaimed | Local complete; browser follow-up |
-| 11 | Runtime, automation, prompts, CI, runbooks | GitHub scheduled issue/native Copilot automation evidence remains unclaimed | Local complete; platform follow-up |
+| 11 | Runtime, automation, prompts, CI, runbooks | Scheduled morning-brief workflow, artifact upload, and review issue verified; native Copilot automation evidence remains unclaimed | Local and scheduled-workflow complete; Copilot follow-up |
 | 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful read-only invocation and teardown; no Gateway deployment | Local complete; Runtime live-complete; Gateway follow-up |
 | 13 | Memory boundaries and evaluation manifest | Live semantic Memory retrieval and scored on-demand Evaluation fixture captured; hosted-runtime span collection remains optional | Local complete; AWS control/data paths evidenced |
 | 14 | Guardrail logic, cases, evaluation dimensions | Live standalone Bedrock Guardrail pass/block proof captured; managed attachment remains optional | Local complete; standalone AWS proof complete |
@@ -97,9 +97,9 @@ must not claim those external validations until their prerequisites exist.
    terms and preserve point-in-time metadata. The high-feasibility
    connector/normalization slice now exists locally; live capture and
    canonical-table promotion remain separate evidence work.
-4. Complete scheduled automation and Copilot/Canvas browser evidence where the
-   platform account makes those steps available. GitHub Projects setup and
-   browser evidence are now complete.
+4. Complete native Copilot automation and Copilot/Canvas browser evidence where
+   the platform account makes those steps available. GitHub Projects and the
+   scheduled morning-brief workflow are now evidenced.
 5. Expand the successful minimal proof into the full capstone against the
    selected hosted runtime and compare it
    with the local fixture using the experiment manifest and cost record.
