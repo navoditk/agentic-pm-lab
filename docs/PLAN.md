@@ -244,7 +244,7 @@ This gives you a repeatable, scored way to answer "did switching models make thi
 
 Manually keeping a status table and a sense of "what's actually done" current is exactly the kind of bookkeeping that slips on a solo project. Three mechanisms, layered:
 
-**A GitHub Projects (v2) board — no code, set up on Day 1.** One item per day (or per skill/prompt/agent/canvas deliverable), with a built-in workflow rule: "when the linked PR merges → move to Done." This gives a free burndown/progress view without any custom tooling, and is worth doing regardless of the two mechanisms below.
+**A GitHub Projects (v2) board — no code, set up on Day 1.** One item per day (or per skill/prompt/agent/canvas deliverable), with the schema and learner/tutor workflow in [`docs/guides/GITHUB_WORKFLOWS.md`](guides/GITHUB_WORKFLOWS.md#github-projects-learning-board). Configure the built-in workflow rule "when the linked PR merges → move to Done," then require an explicit evidence field before calling the item complete. This gives a free burndown/progress view without custom tooling, while `PROGRESS.md` remains the repository-state authority.
 
 **The mock→real table in `PROGRESS.md` becomes *derived*, not hand-maintained.** Every unfinished endpoint already carries a `# MOCK — replace on Day X` docstring (Day 1's own convention, Appendix B). That marker is enough to regenerate the "what's still mocked" table automatically: `scripts/check_progress.py` greps `src/` for `# MOCK`, and the table reflects the code's actual state instead of your memory of it.
 

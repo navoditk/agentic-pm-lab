@@ -38,6 +38,32 @@ Sharpe using the repository's toy portfolio. Cite the implementation and tests,
 state which inputs are supplied or mock, and finish with one local exercise.
 ```
 
+## GitHub Projects learning-board exercises
+
+The GitHub Projects board is a learning and evidence index, not an authorization
+or completion authority. Use the [GitHub workflow guide](GITHUB_WORKFLOWS.md#github-projects-learning-board)
+for the canonical fields, views, labels, and issue format.
+
+Ask `agent-development-lifecycle-tutor`:
+
+> Take the current GitHub Project item for Day 21. Explain the learner outcome,
+> identify the local acceptance test, identify any browser or live-provider
+> evidence still missing, and write one challenge question. Do not mark the item
+> complete and do not infer evidence from its status.
+
+Ask `copilot-canvas-mcp-tutor`:
+
+> Use the Canvas and Copilot items in the GitHub Project to design a validation
+> walkthrough. For each step, name the Canvas action, expected result, trace or
+> screenshot evidence, trust boundary, and limitation. Distinguish fixture
+> output from hosted-model or AWS evidence.
+
+Ask `evaluation-agentops-tutor`:
+
+> Review the Project's evidence-backlog view. Group the unclaimed items into
+> local-test, screenshot, workflow-run, live-provider, and AWS evidence. Explain
+> which gaps block learning and which are optional evidence enhancements.
+
 For a deeper session:
 
 ```text

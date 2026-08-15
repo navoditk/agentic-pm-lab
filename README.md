@@ -17,6 +17,7 @@ The project is deliberately company-agnostic and uses only public or clearly lab
 | Find topic-specific reading | [`docs/reference/REFERENCES.md`](docs/reference/REFERENCES.md) |
 | Run the local system | [`docs/guides/RUNBOOK.md`](docs/guides/RUNBOOK.md) |
 | Understand CI and GitHub automation | [`docs/guides/GITHUB_WORKFLOWS.md`](docs/guides/GITHUB_WORKFLOWS.md) |
+| Use the GitHub Projects learning board | [`docs/guides/GITHUB_WORKFLOWS.md`](docs/guides/GITHUB_WORKFLOWS.md#github-projects-learning-board) |
 
 > **Recommended approach:** complete the core installation once, then learn the
 > repository in stages. Activate optional hosted-model, Copilot, and AWS paths

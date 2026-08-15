@@ -19,6 +19,75 @@ otherwise. None of them places trades or approves an investment decision.
 The broad `CI` workflow is the baseline. The other workflows are focused gates
 that activate only for relevant paths or events.
 
+## GitHub Projects learning board
+
+The repository uses a GitHub Projects v2 board as the human-facing control
+plane for the 21-day learning journey. It tracks learning work and evidence;
+it does not replace `PROGRESS.md`, which remains the machine-checked source of
+repository-local completion.
+
+Recommended project name: **Agentic PM Lab Learning**.
+
+Configure these fields:
+
+| Field | Type | Values or purpose |
+|---|---|---|
+| Status | Built-in board status | Backlog, Todo, In progress, In review, Done |
+| Day | Number | 1–21; use 0 for cross-cutting work |
+| Workstream | Single select | Foundation, Data, Agents, Governance, Evaluation, Canvas, AWS, Documentation |
+| Evidence | Single select | Local test, Screenshot, Workflow run, Live provider, AWS, Not claimed |
+| Priority | Single select | P0, P1, P2 |
+| Learner outcome | Text | The question or capability the learner should understand |
+
+Create these views:
+
+1. **21-day roadmap** — table grouped by `Day`, sorted ascending; expose
+   `Status`, `Workstream`, `Evidence`, and `Learner outcome`.
+2. **Active learning** — board grouped by `Status`, filtered to items not
+   `Done`.
+3. **Evidence backlog** — table filtered to `Evidence` = `Not claimed`,
+   grouped by `Workstream`.
+4. **Canvas and Copilot** — board filtered to `Workstream` = `Canvas` or
+   `Documentation`, grouped by `Status`.
+
+For each day or evidence task, create or link one issue with this structure:
+
+```text
+## Learner question
+What should a learner be able to explain after completing this item?
+
+## Acceptance evidence
+- [ ] Local test or workflow URL
+- [ ] Screenshot or trace, where applicable
+- [ ] Limitation and mock/live status recorded
+
+## Tutor follow-up
+Name the tutor and one challenge question that checks understanding.
+```
+
+Use labels such as `day-01`, `day-19`, `day-21`, `canvas`, `copilot`,
+`evidence-live`, `evidence-local`, `learner`, and `tutor`. Link merged pull
+requests to the issue and move the item to **Done** only when the acceptance
+evidence is attached. A Project item marked Done does not by itself change the
+generated `PROGRESS.md` status.
+
+### Learner workflow
+
+1. Open the **21-day roadmap** and select the current day from `PROGRESS.md`.
+2. Read the linked plan section and the relevant guide/reference.
+3. Run the local test or Canvas exercise.
+4. Ask the named tutor the issue's challenge question.
+5. Attach the test result, screenshot, trace, or workflow URL.
+6. Record limitations and move the issue through review to Done.
+
+### Tutor-agent workflow
+
+Tutors should use the Project as an evidence-aware learning queue, not as an
+authority source. They may explain an item, point to the plan and references,
+and propose a challenge question. They must not mark an item Done, approve a
+portfolio action, or infer live evidence from a Project status. Suggested
+prompts are documented in the [Tutor Runbook](TUTOR_RUNBOOK.md).
+
 ## Workflow map
 
 | Workflow | Main question | Trigger | Write access |
