@@ -3,7 +3,7 @@ name: ficc-glossary-maintainer
 description: Add consistent plain-language FICC glossary entries with a public source and the project day on which each term was introduced.
 license: MIT
 covers:
-  - docs/ficc-glossary.md
+  - docs/learning/ficc-glossary.md
 last_verified_commit: ab27302
 ---
 

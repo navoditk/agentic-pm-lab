@@ -103,7 +103,7 @@ It recognizes `input_tokens`/`prompt_tokens`/`inputTokens` and
 `output_tokens`/`completion_tokens`/`outputTokens`, plus common total-token
 fields. Explicit CLI values override the JSON file.
 
-For AWS, use the [AWS AgentCore runbook](../docs/AWS_AGENTCORE_SETUP.md), then
+For AWS, use the [AWS AgentCore runbook](../docs/guides/AWS_AGENTCORE_SETUP.md), then
 record both token usage and the separate AWS billing snapshot:
 
 ```bash
@@ -170,5 +170,5 @@ unresolved. These distinctions are the point of the experiment record.
   costs, and teardown. It is intentionally not marked as a successful hosted
   inference.
 
-The [evidence ledger](../docs/EVIDENCE.md) remains the cross-project summary;
+The [evidence ledger](../docs/evidence/EVIDENCE.md) remains the cross-project summary;
 this directory is the detailed experiment record.

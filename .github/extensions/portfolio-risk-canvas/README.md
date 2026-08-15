@@ -36,7 +36,7 @@ returns an answer, route, evidence status, and trace identifier. The exercise
 runner is deterministic and fixture-backed so it can be used without model
 credentials.
 
-See [`docs/CANVAS_EXERCISES.md`](../../../docs/CANVAS_EXERCISES.md) for the
+See [`docs/guides/CANVAS_EXERCISES.md`](../../../docs/guides/CANVAS_EXERCISES.md) for the
 step-by-step exercises and the real-versus-fixture evidence boundary.
 
 ## Validate

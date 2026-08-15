@@ -38,9 +38,9 @@ Use this agent when a code or policy change affects the current architecture or
 FICC vocabulary.
 
     Review changes to src/analytics/risk.py and src/control/authorization.py.
-    Update docs/ARCHITECTURE.md only if the current-state data flow or security
+    Update docs/architecture/ARCHITECTURE.md only if the current-state data flow or security
     boundary changed. If a new fixed-income term was introduced, update
-    docs/ficc-glossary.md using the glossary-maintainer format. Report files
+    docs/learning/ficc-glossary.md using the glossary-maintainer format. Report files
     changed and unresolved mismatches.
 
 Expected behavior: inspect implementation before editing, keep architecture

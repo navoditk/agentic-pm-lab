@@ -23,17 +23,17 @@ that activate only for relevant paths or events.
 
 | Workflow | Main question | Trigger | Write access |
 |---|---|---|---|
-| [`ci.yml`](../.github/workflows/ci.yml) | Does the code lint and test? | Push and pull request to `main` | None |
-| [`authorization-tests.yml`](../.github/workflows/authorization-tests.yml) | Are authorization boundaries and negative cases intact? | Relevant security/control changes | None |
-| [`contract-tests.yml`](../.github/workflows/contract-tests.yml) | Do skills, tools, schemas, and governance contracts agree? | Relevant contract/skill changes | None |
-| [`skills-freshness.yml`](../.github/workflows/skills-freshness.yml) | Are skills still aligned with changed code? | Pull requests to `main` | None |
-| [`eval-regression.yml`](../.github/workflows/eval-regression.yml) | Did agent behavior regress? | Relevant agent/eval changes | None |
-| [`progress-tracker.yml`](../.github/workflows/progress-tracker.yml) | Does generated progress match the repository? | Push to `main` | Commits `PROGRESS.md` |
-| [`morning-brief.yml`](../.github/workflows/morning-brief.yml) | Can a scheduled review produce a human-review artifact? | Weekday schedule or manual dispatch | Creates GitHub issues |
+| [`ci.yml`](../../.github/workflows/ci.yml) | Does the code lint and test? | Push and pull request to `main` | None |
+| [`authorization-tests.yml`](../../.github/workflows/authorization-tests.yml) | Are authorization boundaries and negative cases intact? | Relevant security/control changes | None |
+| [`contract-tests.yml`](../../.github/workflows/contract-tests.yml) | Do skills, tools, schemas, and governance contracts agree? | Relevant contract/skill changes | None |
+| [`skills-freshness.yml`](../../.github/workflows/skills-freshness.yml) | Are skills still aligned with changed code? | Pull requests to `main` | None |
+| [`eval-regression.yml`](../../.github/workflows/eval-regression.yml) | Did agent behavior regress? | Relevant agent/eval changes | None |
+| [`progress-tracker.yml`](../../.github/workflows/progress-tracker.yml) | Does generated progress match the repository? | Push to `main` | Commits `PROGRESS.md` |
+| [`morning-brief.yml`](../../.github/workflows/morning-brief.yml) | Can a scheduled review produce a human-review artifact? | Weekday schedule or manual dispatch | Creates GitHub issues |
 
 ## 1. CI
 
-File: [`ci.yml`](../.github/workflows/ci.yml)
+File: [`ci.yml`](../../.github/workflows/ci.yml)
 
 CI is the broad baseline gate. It runs on every push to `main` and every pull
 request targeting `main`.
@@ -47,7 +47,7 @@ contract, freshness, or behavioral-evaluation workflows.
 
 ## 2. Authorization Tests
 
-File: [`authorization-tests.yml`](../.github/workflows/authorization-tests.yml)
+File: [`authorization-tests.yml`](../../.github/workflows/authorization-tests.yml)
 
 This focused gate runs when changes touch `governance/`, role configuration,
 the control layer, agents, Cedar validation, or the workflow itself. It:
@@ -63,7 +63,7 @@ change. Prompts, skills, or contracts never grant authority.
 
 ## 3. Skill Contracts
 
-File: [`contract-tests.yml`](../.github/workflows/contract-tests.yml)
+File: [`contract-tests.yml`](../../.github/workflows/contract-tests.yml)
 
 This gate runs when skills, contracts, governance, scripts, or the workflow
 change. It performs:
@@ -81,7 +81,7 @@ contract must change together.
 
 ## 4. Skills Freshness
 
-File: [`skills-freshness.yml`](../.github/workflows/skills-freshness.yml)
+File: [`skills-freshness.yml`](../../.github/workflows/skills-freshness.yml)
 
 This pull-request gate compares the base and head commits and runs
 `scripts/check_skills_freshness.py`. It detects when implementation changes may
@@ -90,12 +90,12 @@ have made a skill's documented coverage or `last_verified_commit` stale.
 When it fails, inspect the changed code and either update the affected skill or
 record the repository's explicit `skills-unaffected` decision according to the
 project rules. Use the read-only
-[`skills-auditor-agent`](../.github/agents/skills-auditor-agent.agent.md) for
+[`skills-auditor-agent`](../../.github/agents/skills-auditor-agent.agent.md) for
 investigation and drafting.
 
 ## 5. Evaluation Regression
 
-File: [`eval-regression.yml`](../.github/workflows/eval-regression.yml)
+File: [`eval-regression.yml`](../../.github/workflows/eval-regression.yml)
 
 This gate checks behavioral quality rather than only code correctness. It runs
 when agents, observability, roles, evaluation configuration, governance,
@@ -111,12 +111,12 @@ secrets. Secrets must remain in GitHub's secret store and must never be placed
 in source files, logs, fixtures, or documentation.
 
 When this gate fails, start with the failed examples and use the read-only
-[`eval-triage-agent`](../.github/agents/eval-triage-agent.agent.md) to compare
+[`eval-triage-agent`](../../.github/agents/eval-triage-agent.agent.md) to compare
 the changed behavior with the baseline.
 
 ## 6. Progress Tracker
 
-File: [`progress-tracker.yml`](../.github/workflows/progress-tracker.yml)
+File: [`progress-tracker.yml`](../../.github/workflows/progress-tracker.yml)
 
 This workflow runs after pushes to `main`. It runs
 `scripts/check_progress.py`, which regenerates the machine-checked status table
@@ -131,7 +131,7 @@ implementation evidence that the checker evaluates.
 
 ## 7. Morning Portfolio Review
 
-File: [`morning-brief.yml`](../.github/workflows/morning-brief.yml)
+File: [`morning-brief.yml`](../../.github/workflows/morning-brief.yml)
 
 This workflow demonstrates scheduled automation. It can be started manually
 or runs on weekdays using the configured cron expression. It generates a
@@ -174,7 +174,7 @@ uv run python scripts/check_skills_freshness.py --base HEAD~1 --head HEAD
 ```
 
 For behavioral evaluation, use the commands in [`RUNBOOK.md`](RUNBOOK.md) and
-[`experiments/README.md`](../experiments/README.md). For AWS or hosted-model
+[`experiments/README.md`](../../experiments/README.md). For AWS or hosted-model
 work, confirm credentials, budget, scope, evidence capture, and teardown first.
 
 ## Troubleshooting order

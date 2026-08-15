@@ -93,6 +93,6 @@ See [`input.json`](input.json). It contains only public/mock data.
 The reusable minimal fixture and invocation probe are now in
 [`experiments/agentcore-runtime-proof/`](../agentcore-runtime-proof/). The
 copy/paste deployment, evidence, cost, and teardown procedure is maintained in
-[`docs/AWS_AGENTCORE_SETUP.md`](../../docs/AWS_AGENTCORE_SETUP.md). Before the
+[`docs/guides/AWS_AGENTCORE_SETUP.md`](../../docs/guides/AWS_AGENTCORE_SETUP.md). Before the
 next live run, reproduce with that fixture and capture its response before
 reintroducing dependencies from the full application.

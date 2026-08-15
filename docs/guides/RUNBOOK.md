@@ -29,7 +29,7 @@ grants authorization; Cedar and the final tool boundary do.
 
 ## One-time setup
 
-Read [INSTALL.md](../INSTALL.md) first. Then verify:
+Read [INSTALL.md](../../INSTALL.md) first. Then verify:
 
 ```bash
 uv sync
@@ -66,7 +66,7 @@ uv run python scripts/experiment.py init \
 
 Record the response, token usage, pricing basis, evidence, and result with
 `record`, then close the run with `finalize`. See
-[`experiments/README.md`](../experiments/README.md) for the common manifest,
+[`experiments/README.md`](../../experiments/README.md) for the common manifest,
 AWS cost fields, comparison rubric, and a complete example. Use
 [`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md) for deployment-specific
 credentials, packaging, logs, billing snapshots, and teardown.
@@ -101,7 +101,7 @@ adds evaluation, cost, provider-health, incident, replay, and promotion views.
 
 For the full question-to-capstone workflow, follow
 [`CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md) and
-[`DAY_21_CANVAS_WORKFLOW.md`](DAY_21_CANVAS_WORKFLOW.md). The default fixture
+the [Day 21 section of the canonical plan](../PLAN.md#day-21--canvas-end-to-end-pm-workflow). The default fixture
 mode requires no model or AWS credentials and exposes structured execution
 stages, audit events, evaluation/provenance output, token estimates, cost basis,
 latency, and failure state. Private model chain-of-thought is never captured.
@@ -215,7 +215,7 @@ intent. A temporary Runtime and endpoint reached `READY` during the
 5. Run smoke, authorization, guardrail, and evaluation checks; capture trace IDs.
 
 Do not deploy from a dirty worktree, with the account root principal, or with
-proprietary data. Record live results in [EVIDENCE.md](EVIDENCE.md), and use
+proprietary data. Record live results in [EVIDENCE](../evidence/EVIDENCE.md), and use
 the AWS teardown checklist immediately after the learning exercise:
 
 ```bash

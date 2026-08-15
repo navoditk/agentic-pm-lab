@@ -19,7 +19,7 @@ Read them in this order:
 
 > **Evidence boundary:** a box labeled `target`, `optional`, or `fixture` is a
 > design or learning path, not proof of a live integration. Refer to
-> [`EVIDENCE.md`](EVIDENCE.md) and [`PROGRESS.md`](../PROGRESS.md) for evidence.
+> [`EVIDENCE.md`](../evidence/EVIDENCE.md) and [`PROGRESS.md`](../../PROGRESS.md) for evidence.
 
 ## 1. Platform layers and trust boundaries
 
@@ -210,7 +210,7 @@ flowchart TB
 ```
 
 The AWS setup and teardown procedure is documented in
-[`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md). A Runtime reaching `READY`
+[`AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md). A Runtime reaching `READY`
 is deployment evidence, not proof that a complete application request succeeded.
 
 ## 7. Pull request, evaluation, and release flow
@@ -235,7 +235,7 @@ flowchart LR
     Main --> Release[Reproducible artifact or deployment evidence]
 ```
 
-See [`GITHUB_WORKFLOWS.md`](GITHUB_WORKFLOWS.md) for exact triggers,
+See [`GITHUB_WORKFLOWS.md`](../guides/GITHUB_WORKFLOWS.md) for exact triggers,
 permissions, local equivalents, and troubleshooting.
 
 ## Related implementation paths
@@ -243,8 +243,8 @@ permissions, local equivalents, and troubleshooting.
 | Diagram | Primary source of truth |
 |---|---|
 | Platform layers and security | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
-| Request and agent flow | [`src/agents/`](../src/agents/), [`src/control/`](../src/control/) |
-| Structured and unstructured data | [`data/README.md`](../data/README.md), [`src/ingestion/`](../src/ingestion/), [`src/research/`](../src/research/) |
-| Evaluation and operations | [`src/observability/`](../src/observability/), [`evals/`](../evals/), [`experiments/README.md`](../experiments/README.md) |
-| AWS deployment | [`AWS_AGENTCORE_SETUP.md`](AWS_AGENTCORE_SETUP.md), [`config/agentcore.yaml`](../config/agentcore.yaml) |
-| GitHub Actions | [`GITHUB_WORKFLOWS.md`](GITHUB_WORKFLOWS.md), [`../.github/workflows/`](../.github/workflows/) |
+| Request and agent flow | [`src/agents/`](../../src/agents/), [`src/control/`](../../src/control/) |
+| Structured and unstructured data | [`data/README.md`](../../data/README.md), [`src/ingestion/`](../../src/ingestion/), [`src/research/`](../../src/research/) |
+| Evaluation and operations | [`src/observability/`](../../src/observability/), [`evals/`](../../evals/), [`experiments/README.md`](../../experiments/README.md) |
+| AWS deployment | [`AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md), [`config/agentcore.yaml`](../../config/agentcore.yaml) |
+| GitHub Actions | [`GITHUB_WORKFLOWS.md`](../guides/GITHUB_WORKFLOWS.md), [`../../.github/workflows/`](../../.github/workflows/) |

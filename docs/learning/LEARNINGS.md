@@ -23,7 +23,7 @@ then promote only reviewed schemas into source-specific tables.
 
 ## 2026-08-14 — Final plan and documentation audit
 
-The 20-day implementation remit is complete and the repository is clean and
+The 21-day implementation remit is complete and the repository is clean and
 fully synchronized with `origin/main`. The audit corrected stale Day 12–20
 status language: the temporary AgentCore Runtime request succeeded, standalone
 Memory and Guardrails proofs completed, and the on-demand Evaluation fixture

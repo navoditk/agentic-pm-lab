@@ -10,7 +10,7 @@ day_1:
     - path_exists: src/control/identity.py
     - path_exists: src/api/main.py
     - path_exists: skills/python-best-practices/SKILL.md
-    - path_exists: docs/ARCHITECTURE.md
+    - path_exists: docs/architecture/ARCHITECTURE.md
     - tests_pass: tests/unit/control
     - tests_pass: tests/unit/ingestion
 
@@ -122,7 +122,7 @@ day_11:
     - path_exists: Dockerfile
     - path_exists: docker-compose.yml
     - path_exists: src/ui/app.py
-    - path_exists: docs/RUNBOOK.md
+    - path_exists: docs/guides/RUNBOOK.md
     - path_exists: .github/prompts/morning-portfolio-review.prompt.md
     - path_exists: .github/prompts/investment-committee-brief.prompt.md
     - path_exists: .github/agents/pr-reviewer-agent.agent.md
@@ -179,7 +179,7 @@ day_16:
   checks:
     - path_exists: src/ingestion/sec.py
     - path_exists: tests/unit/ingestion/test_sec.py
-    - path_exists: docs/REFERENCES.md
+    - path_exists: docs/reference/REFERENCES.md
     - tests_pass: tests/unit/ingestion/test_sec.py
 
 day_17:
@@ -220,8 +220,7 @@ day_21:
   checks:
     - path_exists: scripts/run_canvas_pm_workflow.py
     - path_exists: .github/extensions/portfolio-risk-canvas/canvas.mjs
-    - path_exists: docs/CANVAS_EXERCISES.md
-    - path_exists: docs/DAY_21_CANVAS_WORKFLOW.md
+    - path_exists: docs/guides/CANVAS_EXERCISES.md
     - path_exists: tests/unit/scripts/test_canvas_pm_workflow.py
     - tests_pass: tests/unit/capstone
     - tests_pass: tests/unit/scripts/test_canvas_pm_workflow.py

@@ -5,5 +5,5 @@ output_schema: null
 side_effects: none
 approval_required: false
 covers:
-  - docs/ficc-glossary.md
+  - docs/learning/ficc-glossary.md
 version: 1.0.0

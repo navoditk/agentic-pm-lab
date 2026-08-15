@@ -354,7 +354,7 @@ def teach_source(source_id: str, *, browse_sample: bool = False) -> dict[str, An
     result = {
         "source_id": source_id,
         **record,
-        "reference": "docs/REFERENCES.md#public-data-terminology-and-decision-use-primers",
+        "reference": "docs/reference/REFERENCES.md#public-data-terminology-and-decision-use-primers",
         "read_only": True,
         "investment_advice": False,
     }

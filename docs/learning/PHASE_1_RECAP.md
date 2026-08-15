@@ -1,7 +1,7 @@
 # Phase 1 Recap and Learning Path
 
 **Status:** Completed foundation track  
-**Scope:** Original 20-day agentic PM AI learning plan  
+**Scope:** 21-day agentic PM AI learning plan
 **Posture:** Public/mock data and reversible experiments; not a production adviser or execution system
 
 ## Purpose
@@ -185,18 +185,18 @@ Read:
 1. README.md
 2. AGENTS.md
 3. PROGRESS.md
-4. docs/PRD.md
-5. docs/ARCHITECTURE.md
-6. docs/DIAGRAMS.md
+4. docs/architecture/PRD.md
+5. docs/architecture/ARCHITECTURE.md
+6. docs/architecture/DIAGRAMS.md
 7. docs/PLAN.md
-7. docs/PLAN_REVIEW.md
+8. docs/learning/PLAN_REVIEW.md
 
 Ask agent-architecture-tutor:
 
     Explain the five architecture layers. For each, identify its trust boundary,
     current implementation, main failure mode, and the next file to read.
 
-Then use [`DIAGRAMS.md`](DIAGRAMS.md) to trace the same architecture visually
+Then use [`DIAGRAMS.md`](../architecture/DIAGRAMS.md) to trace the same architecture visually
 before moving to the detailed implementation files.
 
 ### Stage 2 — Learn the investment data and analytics
@@ -205,7 +205,7 @@ Read:
 
 1. data/README.md
 2. data/samples/public_investment/README.md
-3. docs/ficc-glossary.md
+3. docs/learning/ficc-glossary.md
 4. src/analytics/
 5. src/ingestion/provenance.py
 6. tests/unit/analytics/
@@ -264,7 +264,7 @@ Ask langgraph-deep-agents-tutor:
 
 ### Stage 5 — Learn skills, prompts, and agents
 
-Read skills/, docs/AGENT_RUNBOOK.md, docs/TUTOR_RUNBOOK.md,
+Read skills/, docs/guides/AGENT_RUNBOOK.md, docs/guides/TUTOR_RUNBOOK.md,
 .github/agents/, and .github/prompts/.
 
 Run:
@@ -286,7 +286,7 @@ Ask document-to-skill-tutor:
 
 Read src/control/, governance/policies/, governance/tests/,
 config/security/banned-terms.txt, and the Security Model in
-docs/ARCHITECTURE.md.
+docs/architecture/ARCHITECTURE.md.
 
 Run:
 
@@ -308,7 +308,7 @@ Ask investment-committee-tutor:
 ### Stage 7 — Learn evaluation and observability
 
 Read src/observability/telemetry.py, src/evals/, scripts/run_eval.py,
-evals/, config/eval-baseline.json, docs/observability-evaluation.md,
+evals/, config/eval-baseline.json, docs/learning/observability-evaluation.md,
 and experiments/README.md.
 
 Run:
@@ -328,16 +328,17 @@ Ask opentelemetry-tutor:
 
 ### Stage 8 — Learn Canvas and operations
 
-Read src/ui/app.py, .github/extensions/, docs/RUNBOOK.md,
-docs/GITHUB_WORKFLOWS.md,
-docs/CANVAS_EXERCISES.md, docs/EVIDENCE.md, and docs/comparison-notes.md.
+Read src/ui/app.py, .github/extensions/, docs/guides/RUNBOOK.md,
+docs/guides/GITHUB_WORKFLOWS.md,
+docs/guides/CANVAS_EXERCISES.md, docs/evidence/EVIDENCE.md, and
+docs/learning/comparison-notes.md.
 
 Ask copilot-canvas-mcp-tutor:
 
     Explain shared state, governed handlers, trust boundaries, approval, retry,
     trace, and evaluation behavior in the Canvas surfaces.
 
-Run [`CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md) and compare the question answer,
+Run [`CANVAS_EXERCISES.md`](../guides/CANVAS_EXERCISES.md) and compare the question answer,
 scenario result, entitlement outcome, provenance, and trace evidence.
 
 Ask production-readiness-agent:
@@ -376,13 +377,13 @@ Ask investment-committee-tutor:
     human review, what evidence supports it, what remains mock, which assumptions
     are material, and what Phase 2 work is required.
 
-Then read docs/PHASE_2_PLAN.md and select the next track based on the gaps found.
+Then read docs/learning/PHASE_2_PLAN.md and select the next track based on the gaps found.
 
 ## Using references and experiments
 
-docs/REFERENCES.md is a study map, not a bibliography to read linearly. Use it
+docs/reference/REFERENCES.md is a study map, not a bibliography to read linearly. Use it
 before a topic, during implementation, and after the exercise to record one
-finding in docs/LEARNINGS.md with a supporting test or experiment.
+finding in docs/learning/LEARNINGS.md with a supporting test or experiment.
 
 Use experiments/README.md for local, hosted, and AWS comparisons. Each run
 should record the question, inputs, setup, model/version, output, evidence,
@@ -414,7 +415,7 @@ The recommended first Phase 2 task is Day 1: select one institutional workflow
 and define its decision rights before adding new agents or providers.
 
 Before beginning Phase 2, run the Day 21 Canvas bridge exercise in
-[`docs/CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md). It is the recommended final
+[`docs/guides/CANVAS_EXERCISES.md`](../guides/CANVAS_EXERCISES.md). It is the recommended final
 Phase 1 checkpoint because it lets a new learner replay the governed PM
 workflow from the Canvas or terminal, inspect structured execution evidence,
 and distinguish fixture token accounting from provider-backed usage without

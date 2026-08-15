@@ -7,19 +7,20 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 ## The documents, and when to read which
 
 - **`INSTALL.md`** — one-time environment and repo setup, done before Day 1. Self-contained; read this first if the repo has no `pyproject.toml` yet or the verification checklist at its end hasn't been completed.
-- **`docs/PRD.md`** — the *why*. Vision, target architecture, design principles, the business problems this platform answers, tiered success criteria, acceptance tests, explicit non-goals. Read this when you need to understand intent, not steps.
+- **`docs/architecture/PRD.md`** — the *why*. Vision, target architecture, design principles, the business problems this platform answers, tiered success criteria, acceptance tests, explicit non-goals. Read this when you need to understand intent, not steps.
 - **`docs/PLAN.md`** — the *how*. Repo layout, the full day-by-day implementation steps (Appendix B), the skills/contracts/prompts/custom-agents/pre-commit-hooks catalogs, context engineering (§13), failure engineering (§14), the security model (§15), references. Read this to actually do the work for a given day.
 - **`PROGRESS.md`** — the *where we are*. Current day, the auto-generated mock→real status table, completed vs. pending checklist, evidence links. Read this first among the others, to know what's already done.
-- **`docs/ARCHITECTURE.md`** — canonical current-state architecture (created Day 1, updated whenever a design decision changes it), including a dedicated Security Model section (AuthN/AuthZ/Guardrails/Tool-enforcement) added Day 7 — merged in rather than a separate `SECURITY.md`, since one doc is easier to keep current than two that need to agree with each other. **`docs/RUNBOOK.md`** — how to start/test/eval/deploy/teardown (created Day 11).
-- **`docs/REFERENCES.md`** — curated reading by topic, pre-written from Day 1 and updated in place as you learn. `docs/PLAN.md`'s day-by-day steps each point at a specific subsection of this file rather than repeating it.
-- **`docs/PHASE_1_RECAP.md`** — completed Phase 1 recap, self-check questions, recommended learning path, tutor prompts, evidence checkpoints, and transition to Phase 2.
-- **`docs/GITHUB_WORKFLOWS.md`** — GitHub Actions workflow map, triggers, checks, permissions, local equivalents, and troubleshooting.
-- **`docs/DAY_21_CANVAS_WORKFLOW.md`** — Canvas-to-capstone execution contract, structured trace/audit evidence, provider modes, privacy boundary, and token/cost accounting.
-- **`docs/PHASE_2_PLAN.md`** — the follow-on 20-day institutional PM AI production-readiness track: mandate and risk policy, governed data, evidence/RAG, fixed-income risk, model risk, expanded evaluations, red-team testing, CI/CD, SLOs, resilience, and the Phase 2 capstone.
+- **`docs/architecture/ARCHITECTURE.md`** — canonical current-state architecture (created Day 1, updated whenever a design decision changes it), including the Security Model.
+- **`docs/guides/RUNBOOK.md`** — how to start/test/eval/deploy/teardown; the other operational guides are grouped beside it.
+- **`docs/reference/REFERENCES.md`** — curated reading by topic, pre-written from Day 1 and updated in place as you learn. `docs/PLAN.md`'s day-by-day steps each point at a specific subsection of this file rather than repeating it.
+- **`docs/learning/PHASE_1_RECAP.md`** — completed Phase 1 recap, self-check questions, recommended learning path, tutor prompts, evidence checkpoints, and transition to Phase 2.
+- **`docs/guides/GITHUB_WORKFLOWS.md`** — GitHub Actions workflow map, triggers, checks, permissions, local equivalents, and troubleshooting.
+- **Day 21 Canvas workflow** — now consolidated in `docs/PLAN.md` and exercised through `docs/guides/CANVAS_EXERCISES.md`; there is no separate Day 21 contract document.
+- **`docs/learning/PHASE_2_PLAN.md`** — the follow-on 20-day institutional PM AI production-readiness track: mandate and risk policy, governed data, evidence/RAG, fixed-income risk, model risk, expanded evaluations, red-team testing, CI/CD, SLOs, resilience, and the Phase 2 capstone.
 
 ## Repo rules (non-negotiable, apply regardless of which day or tool)
 
-- No company-sensitive information, internal system names, or proprietary data anywhere — in code, commits, docs, comments, or generated output. Public and mock data only (docs/PRD.md §1 and §3, principle 3).
+- No company-sensitive information, internal system names, or proprietary data anywhere — in code, commits, docs, comments, or generated output. Public and mock data only (docs/architecture/PRD.md §1 and §3, principle 3).
 - Every unfinished endpoint carries a `# MOCK — replace on Day X` docstring.
 - No test in `tests/unit/` may hit a real network call, API, or cloud resource — mock external dependencies (docs/PLAN.md §4).
 - Every skill's frontmatter (`covers`, `last_verified_commit`) must stay in sync with the code it documents, or the PR needs a `skills-unaffected` label (docs/PLAN.md §8.4).
@@ -34,7 +35,7 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 
 1. Read `PROGRESS.md` — confirms the current day and what's already done.
 2. Read `docs/PLAN.md`'s Appendix B section for that day in full — goal, install/account setup (if any), recommended tool, numbered steps, commit checkpoints, track-progress line.
-3. If a step references a design decision you don't have context for, check `docs/PRD.md` (architecture layers, principles, business problems) rather than guessing.
+3. If a step references a design decision you don't have context for, check `docs/architecture/PRD.md` (architecture layers, principles, business problems) rather than guessing.
 4. Do the work.
 5. Update `PROGRESS.md`'s narrative line — including evidence links (PR, test run, eval run, trace, screenshot, ADR — whichever apply) — and `docs/LEARNINGS.md`. The status table itself is regenerated automatically by `progress-tracker.yml`, so don't hand-edit that part.
 6. Commit and push at each checkpoint listed in that day's docs/PLAN.md section, not just once at the end.
@@ -66,7 +67,7 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 | 20 | Institutional PM capstone | docs/PLAN.md, Day 20 |
 | 21 | Canvas end-to-end PM workflow | docs/PLAN.md, Day 21 |
 
-After the original 20-day plan is complete, use `docs/PHASE_2_PLAN.md` for the
+After the 21-day foundation plan is complete, use `docs/learning/PHASE_2_PLAN.md` for the
 institutional production-readiness track. It is a separate curriculum layer,
 not a replacement for the original plan or its completion evidence.
 

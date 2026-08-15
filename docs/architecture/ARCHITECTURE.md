@@ -1,6 +1,6 @@
 # Architecture
 
-Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the walking skeleton exists — updated in place whenever a design decision changes it, not recreated. The current implementation includes the Day 21 Canvas-to-capstone workflow. See `docs/PRD.md` §2 for the target end-state each layer is heading toward, and `docs/PLAN.md` Appendix B for the day-by-day steps that get it there.
+Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the walking skeleton exists — updated in place whenever a design decision changes it, not recreated. The current implementation includes the Day 21 Canvas-to-capstone workflow. See `PRD.md` §2 for the target end-state each layer is heading toward, and `../PLAN.md` Appendix B for the day-by-day steps that get it there.
 
 ---
 
@@ -9,7 +9,7 @@ Canonical current-state architecture for agentic-pm-lab. Created Day 1, once the
 This is the canonical current-state design. Start with the layer table, then
 trace one request through the logical components, orchestration, recovery,
 observability, evaluation, and security sections. Use the implementation paths
-as navigation aids; use [`EVIDENCE.md`](EVIDENCE.md) to distinguish local
+as navigation aids; use [`EVIDENCE.md`](../evidence/EVIDENCE.md) to distinguish local
 behavior from hosted or live evidence.
 
 The visual companion is [`DIAGRAMS.md`](DIAGRAMS.md). It contains the platform
@@ -153,7 +153,7 @@ skills/eval-dataset-authoring/       evaluation-case schema and authoring workfl
 .github/agents/pr-reviewer-agent.agent.md    read-only domain PR reviewer
 .github/agents/skills-auditor-agent.agent.md  read-only stale-skill reviewer
 .github/prompts/                       six PM workflows + one developer workflow
-docs/RUNBOOK.md                        local start/test/eval/security/deploy guide
+docs/guides/RUNBOOK.md                 local start/test/eval/security/deploy guide
 config/agentcore.yaml                  reviewed managed-runtime intent
 config/bedrock-guardrail.yaml          minimal Day 12 guardrail intent
 ```
@@ -303,7 +303,7 @@ because hosted-runner latency and generated-token volume vary independently of
 behavior.
 
 Detailed trace correlation and experiment links are in
-`docs/observability-evaluation.md`.
+`../learning/observability-evaluation.md`.
 
 ---
 
@@ -322,7 +322,7 @@ data, retrieved research, memory, previous tool outputs, and skills.
 - No summarization or tool-history compression exists yet; those remain the
   next controls after source filtering.
 
-The Day 4 experiment is recorded in `docs/comparison-notes.md`. Filtering cut
+The Day 4 experiment is recorded in `../learning/comparison-notes.md`. Filtering cut
 the representative contexts by 49–96%, but Qwen3 4B still omitted the tool call
 for a large 500-return argument in both full and filtered modes. Small-context
 volatility and concentration questions did call the correct real tools.
@@ -428,4 +428,4 @@ Gateway and its tool-boundary entitlement re-check.
 
 ## Repository layout
 
-See `docs/PLAN.md` §1 for the full target repo tree and its sequencing rule (nothing is pre-stubbed before the day it's actually needed). Day 1 created the subset that today's steps use: `data/mock_structured/`, `src/{ingestion,control,api}/`, `config/roles.yaml`, `tests/unit/{control,ingestion}/`, `skills/{example-echo,python-best-practices}/`, `scripts/artifacts_host.py`, `artifacts/hello.html`, and the CI/progress-tracker/skills-freshness workflow skeletons.
+See `../PLAN.md` §1 for the full target repo tree and its sequencing rule (nothing is pre-stubbed before the day it's actually needed). Day 1 created the subset that today's steps use: `data/mock_structured/`, `src/{ingestion,control,api}/`, `config/roles.yaml`, `tests/unit/{control,ingestion}/`, `skills/{example-echo,python-best-practices}/`, `scripts/artifacts_host.py`, `artifacts/hello.html`, and the CI/progress-tracker/skills-freshness workflow skeletons.

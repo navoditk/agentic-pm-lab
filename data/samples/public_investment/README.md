@@ -36,4 +36,4 @@ uv run python scripts/investment_data_tutor.py kenneth-french
 The tutor returns the sample path, a compact sample record, field terminology,
 business use, limitations, and the source's current integration status. The
 primer mapping for each source is maintained in
-[`docs/REFERENCES.md`](../../../docs/REFERENCES.md).
+[`docs/reference/REFERENCES.md`](../../../docs/reference/REFERENCES.md).

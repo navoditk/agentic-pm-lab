@@ -443,10 +443,10 @@ and a bounded SDK invocation returned a successful model answer. Earlier
 iterations proved the macOS-wheel and model-access failure modes. All temporary
 runtime, endpoint, S3 artifact, and evaluation resources were deleted after
 evidence capture. The successful run and optional capability results are
-recorded in [`docs/EVIDENCE.md`](EVIDENCE.md):
+recorded in [`docs/evidence/EVIDENCE.md`](../evidence/EVIDENCE.md):
 
-- [`experiments/2026-08-13-agentcore-pm-review/`](../experiments/2026-08-13-agentcore-pm-review/)
-- [`experiments/agentcore-runtime-proof/`](../experiments/agentcore-runtime-proof/)
+- [`experiments/2026-08-13-agentcore-pm-review/`](../../experiments/2026-08-13-agentcore-pm-review/)
+- [`experiments/agentcore-runtime-proof/`](../../experiments/agentcore-runtime-proof/)
 
 AgentCore IAM note: the CLI client names `bedrock-agentcore-control` and
 `bedrock-agentcore`, but IAM uses the single `bedrock-agentcore` service prefix

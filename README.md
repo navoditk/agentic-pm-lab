@@ -1,6 +1,6 @@
 # Agentic AI Learning Journey: Portfolio Management & Optimization
 
-This repository is a 20-day hands-on roadmap plus a Day 21 learner bridge for building an institutional-grade, fixed-income-first Portfolio Manager (PM) AI platform for the buy side. It combines deterministic bond and portfolio analytics, multi-agent research and risk workflows, governance, evaluations, observability, and an interactive GitHub Copilot Canvas surface.
+This repository is a 21-day hands-on roadmap for building an institutional-grade, fixed-income-first Portfolio Manager (PM) AI platform for the buy side. It combines deterministic bond and portfolio analytics, multi-agent research and risk workflows, governance, evaluations, observability, and an interactive GitHub Copilot Canvas surface.
 
 The project is deliberately company-agnostic and uses only public or clearly labelled mock data. It is a learning and prototyping environment—not an investment adviser, trading system, or production deployment.
 
@@ -10,13 +10,13 @@ The project is deliberately company-agnostic and uses only public or clearly lab
 |---|---|
 | Install and verify the repository | [`INSTALL.md`](INSTALL.md) |
 | See what is complete and what evidence exists | [`PROGRESS.md`](PROGRESS.md) |
-| Follow the recommended learning sequence | [`docs/PHASE_1_RECAP.md`](docs/PHASE_1_RECAP.md) |
-| Understand the business goals | [`docs/PRD.md`](docs/PRD.md) |
-| Understand the current architecture | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) |
-| See the key architecture diagrams | [`docs/DIAGRAMS.md`](docs/DIAGRAMS.md) |
-| Find topic-specific reading | [`docs/REFERENCES.md`](docs/REFERENCES.md) |
-| Run the local system | [`docs/RUNBOOK.md`](docs/RUNBOOK.md) |
-| Understand CI and GitHub automation | [`docs/GITHUB_WORKFLOWS.md`](docs/GITHUB_WORKFLOWS.md) |
+| Follow the recommended learning sequence | [`docs/learning/PHASE_1_RECAP.md`](docs/learning/PHASE_1_RECAP.md) |
+| Understand the business goals | [`docs/architecture/PRD.md`](docs/architecture/PRD.md) |
+| Understand the current architecture | [`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md) |
+| See the key architecture diagrams | [`docs/architecture/DIAGRAMS.md`](docs/architecture/DIAGRAMS.md) |
+| Find topic-specific reading | [`docs/reference/REFERENCES.md`](docs/reference/REFERENCES.md) |
+| Run the local system | [`docs/guides/RUNBOOK.md`](docs/guides/RUNBOOK.md) |
+| Understand CI and GitHub automation | [`docs/guides/GITHUB_WORKFLOWS.md`](docs/guides/GITHUB_WORKFLOWS.md) |
 
 > **Recommended approach:** complete the core installation once, then learn the
 > repository in stages. Activate optional hosted-model, Copilot, and AWS paths
@@ -50,8 +50,8 @@ data supplies evidence and research context; it must not silently become a price
 risk input, portfolio weight, or trading instruction. BigData.com is an optional
 external financial-intelligence adapter, not a required core dependency or a
 replacement for official/public sources. See the [data-source cards](data/README.md),
-the [BigData references](docs/REFERENCES.md#bigdatacom-financial-intelligence), and
-the [provider architecture in the PRD](docs/PRD.md#27-external-financial-intelligence-adapter).
+the [BigData references](docs/reference/REFERENCES.md#bigdatacom-financial-intelligence), and
+the [provider architecture in the PRD](docs/architecture/PRD.md#27-external-financial-intelligence-adapter).
 
 ## Fixed-income data and analytics scope
 
@@ -93,7 +93,7 @@ Day 21 adds a Canvas-to-capstone fixture workflow with structured stage traces,
 audit/evaluation/provenance evidence, failure visibility, and token/cost
 accounting. It is the default learner path before enabling a real model provider.
 Live AWS/provider/browser capture remains separate and is tracked in
-[PROGRESS.md](PROGRESS.md) and the [evidence ledger](docs/EVIDENCE.md).
+[PROGRESS.md](PROGRESS.md) and the [evidence ledger](docs/evidence/EVIDENCE.md).
 Latest live evidence includes a successful temporary AgentCore Runtime request,
 standalone Guardrails and Memory proofs, and a scored on-demand AgentCore
 Evaluation fixture. A real Gateway target, provider-backed data captures, and
@@ -160,10 +160,10 @@ uv run python scripts/experiment.py init \
 ```
 
 Then use `record`, `finalize`, and `check` as described in
-[`experiments/README.md`](experiments/README.md). The [AWS AgentCore runbook](docs/AWS_AGENTCORE_SETUP.md)
+[`experiments/README.md`](experiments/README.md). The [AWS AgentCore runbook](docs/guides/AWS_AGENTCORE_SETUP.md)
 provides the deployment-specific setup and evidence commands.
 
-Days 10–20 extend the project into the comprehensive institutional PM track:
+Days 10–21 extend the project into the comprehensive institutional PM track:
 
 - governed portfolio/risk capstone and human approval flows;
 - runtime, automation, prompts, and standalone agent runbooks;
@@ -218,7 +218,7 @@ out-of-sample validation, robust/uncertainty-aware allocations, and multi-period
 rebalance planning. Cardinality/integer allocation, tax-aware optimization,
 derivatives margin, liability-driven investing, and live order generation remain
 outside this learning project. See the dedicated [portfolio optimization reading
-path](docs/REFERENCES.md#portfolio-optimization-and-portfolio-construction) for
+path](docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction) for
 the recommended progression.
 
 ## Target technology stack
@@ -268,11 +268,11 @@ The forward roadmap also studies and adapts these public examples:
 - AWS’s [context-rich research agents with Deep Agents and AgentCore](https://aws.amazon.com/blogs/machine-learning/build-context-rich-research-agents-with-deep-agents-and-bedrock-agentcore/) and [AgentOps at scale](https://aws.amazon.com/blogs/machine-learning/agentops-operationalize-agentic-ai-at-scale-with-amazon-bedrock-agentcore/).
 - LinqAlpha’s [Devil’s Advocate investment-thesis workflow on Amazon Bedrock](https://aws.amazon.com/blogs/machine-learning/how-linqalpha-assesses-investment-theses-using-devils-advocate-on-amazon-bedrock/). This is the intended reference for the committee challenge and dissenting-view track. “LinqDQA” is treated here as the LinqAlpha/Devil’s Advocate example.
 - BigData.com’s [financial research GitHub organization](https://github.com/Bigdata-com), especially its [cookbook](https://github.com/Bigdata-com/bigdata-cookbook), [research tools](https://github.com/Bigdata-com/bigdata-research-tools), [thematic screener](https://github.com/Bigdata-com/bigdata-thematic-screener), and [portfolio briefs](https://github.com/Bigdata-com/bigdata-briefs). These are optional provider-adapter references for thematic exposure, narratives, credit events, sentiment/attention, and batch research—not core numerical data sources.
-- Portfolio-construction references are organized in the [optimization reading path](docs/REFERENCES.md#portfolio-optimization-and-portfolio-construction), covering PyPortfolioOpt, CVXPY, Cvxportfolio, Riskfolio-Lib, skfolio, and vectorbt examples. These resources extend the learning scope without implying that the current repo implements every method they expose.
+- Portfolio-construction references are organized in the [optimization reading path](docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction), covering PyPortfolioOpt, CVXPY, Cvxportfolio, Riskfolio-Lib, skfolio, and vectorbt examples. These resources extend the learning scope without implying that the current repo implements every method they expose.
 
-Additional background on agent harnesses, skills, context engineering, tools, and evals is curated in [docs/REFERENCES.md](docs/REFERENCES.md), including relevant OpenAI and Anthropic engineering articles, talks, and videos.
+Additional background on agent harnesses, skills, context engineering, tools, and evals is curated in [docs/reference/REFERENCES.md](docs/reference/REFERENCES.md), including relevant OpenAI and Anthropic engineering articles, talks, and videos.
 
-The next learning track is the [Phase 2 institutional PM AI production-readiness plan](docs/PHASE_2_PLAN.md). It extends the completed 20-day foundation with investment mandates, data governance, evidence graphs, fixed-income risk, RAG evaluation, model risk, identity and policy exceptions, red-team testing, CI/CD promotion, SLOs, resilience, and a reproducible institutional PM capstone.
+The next learning track is the [Phase 2 institutional PM AI production-readiness plan](docs/learning/PHASE_2_PLAN.md). It extends the completed 21-day foundation with investment mandates, data governance, evidence graphs, fixed-income risk, RAG evaluation, model risk, identity and policy exceptions, red-team testing, CI/CD promotion, SLOs, resilience, and a reproducible institutional PM capstone.
 
 ## Repository guide
 
@@ -282,20 +282,19 @@ The next learning track is the [Phase 2 institutional PM AI production-readiness
 | [AGENTS.md](AGENTS.md) | Routing instructions for Codex, Claude Code, and GitHub Copilot |
 | [PROGRESS.md](PROGRESS.md) | Current day, completed work, pending work, and evidence |
 | [docs/README.md](docs/README.md) | Documentation index by intent |
-| [docs/PRD.md](docs/PRD.md) | Vision, business problems, architecture, principles, success criteria, and non-goals |
-| [docs/PLAN.md](docs/PLAN.md) | Day-by-day implementation plan, contracts, skills, security, context engineering, and Days 10–21 extension |
-| [docs/PHASE_1_RECAP.md](docs/PHASE_1_RECAP.md) | Completed Phase 1 recap, self-check checklist, learning path, tutor prompts, and evidence guide |
-| [docs/GITHUB_WORKFLOWS.md](docs/GITHUB_WORKFLOWS.md) | GitHub Actions workflow map, triggers, checks, permissions, local equivalents, and troubleshooting |
-| [docs/PHASE_2_PLAN.md](docs/PHASE_2_PLAN.md) | Follow-on 20-day institutional PM AI production-readiness track |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Canonical architecture and security boundaries |
-| [docs/DIAGRAMS.md](docs/DIAGRAMS.md) | Mermaid diagrams for layers, request flow, agents, data, governance, AWS, and CI |
-| [docs/CANVAS_EXERCISES.md](docs/CANVAS_EXERCISES.md) | End-to-end PM question, scenario, entitlement, approval, and AgentOps Canvas exercises |
-| [docs/DAY_21_CANVAS_WORKFLOW.md](docs/DAY_21_CANVAS_WORKFLOW.md) | Canvas-to-capstone execution, trace, audit, privacy, provider modes, and token/cost accounting |
-| [docs/REFERENCES.md](docs/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |
-| [docs/PLAN_REVIEW.md](docs/PLAN_REVIEW.md) | 20-day completion audit, documentation review, and remaining live-evidence actions |
-| [docs/AGENT_RUNBOOK.md](docs/AGENT_RUNBOOK.md) | Standalone custom-agent and skill examples, test cases, expected outputs, and troubleshooting |
-| [docs/TUTOR_RUNBOOK.md](docs/TUTOR_RUNBOOK.md) | Tutor catalog, five worked examples and three negative examples per tutor, independent invocation, and evidence loop |
-| [docs/RUNBOOK.md](docs/RUNBOOK.md) | One-command local stack, tests, traces, evaluations, security checks, automation, and AWS teardown guidance |
+| [docs/architecture/PRD.md](docs/architecture/PRD.md) | Vision, business problems, architecture, principles, success criteria, and non-goals |
+| [docs/PLAN.md](docs/PLAN.md) | Canonical 21-day implementation plan, including the Day 21 Canvas workflow |
+| [docs/learning/PHASE_1_RECAP.md](docs/learning/PHASE_1_RECAP.md) | Completed foundation recap, self-check checklist, learning path, tutor prompts, and evidence guide |
+| [docs/guides/GITHUB_WORKFLOWS.md](docs/guides/GITHUB_WORKFLOWS.md) | GitHub Actions workflow map, triggers, checks, permissions, local equivalents, and troubleshooting |
+| [docs/learning/PHASE_2_PLAN.md](docs/learning/PHASE_2_PLAN.md) | Follow-on institutional PM AI production-readiness track |
+| [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) | Canonical architecture and security boundaries |
+| [docs/architecture/DIAGRAMS.md](docs/architecture/DIAGRAMS.md) | Mermaid diagrams for layers, request flow, agents, data, governance, AWS, and CI |
+| [docs/guides/CANVAS_EXERCISES.md](docs/guides/CANVAS_EXERCISES.md) | End-to-end PM question, scenario, entitlement, approval, and AgentOps Canvas exercises |
+| [docs/reference/REFERENCES.md](docs/reference/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |
+| [docs/learning/PLAN_REVIEW.md](docs/learning/PLAN_REVIEW.md) | 21-day completion audit, documentation review, and remaining live-evidence actions |
+| [docs/guides/AGENT_RUNBOOK.md](docs/guides/AGENT_RUNBOOK.md) | Standalone custom-agent and skill examples, test cases, expected outputs, and troubleshooting |
+| [docs/guides/TUTOR_RUNBOOK.md](docs/guides/TUTOR_RUNBOOK.md) | Tutor catalog, worked examples, negative examples, independent invocation, and evidence loop |
+| [docs/guides/RUNBOOK.md](docs/guides/RUNBOOK.md) | One-command local stack, tests, traces, evaluations, security checks, automation, and AWS teardown guidance |
 | [experiments/README.md](experiments/README.md) | Provider-neutral experiment mandate, run schema, token/cost accounting, comparisons, and ad hoc commands |
 | [experiments/](experiments/) | Reusable fixtures and dated experiment records |
 | [data/README.md](data/README.md) | Data-source cards, freshness, licensing, provenance, and mock-data rules |
@@ -307,6 +306,6 @@ decision use without calling a live provider.
 
 ## Getting started
 
-Read [INSTALL.md](INSTALL.md) from start to finish, then read [PROGRESS.md](PROGRESS.md) to identify the current day and evidence. Use [docs/PLAN.md](docs/PLAN.md) for the implementation task, [docs/AGENT_RUNBOOK.md](docs/AGENT_RUNBOOK.md) to run a custom agent or skill standalone, and [docs/REFERENCES.md](docs/REFERENCES.md) when a topic needs deeper study.
+Read [INSTALL.md](INSTALL.md) from start to finish, then read [PROGRESS.md](PROGRESS.md) to identify the current day and evidence. Use [docs/PLAN.md](docs/PLAN.md) for the implementation task, [docs/guides/AGENT_RUNBOOK.md](docs/guides/AGENT_RUNBOOK.md) to run a custom agent or skill standalone, and [docs/reference/REFERENCES.md](docs/reference/REFERENCES.md) when a topic needs deeper study.
 
 All unit tests must mock external dependencies and must not call real APIs or cloud resources. Unfinished endpoints are explicitly marked as mocks, and no public or mock data in this repository should be interpreted as investment advice.

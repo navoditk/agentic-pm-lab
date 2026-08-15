@@ -5,7 +5,7 @@ the deployment fixture separate from the full local application so a new user
 can validate identity, packaging, AgentCore Runtime, Bedrock, logs, and cleanup
 without deploying the entire repository.
 
-The authoritative runbook is [`docs/AWS_AGENTCORE_SETUP.md`](../../docs/AWS_AGENTCORE_SETUP.md).
+The authoritative runbook is [`docs/guides/AWS_AGENTCORE_SETUP.md`](../../docs/guides/AWS_AGENTCORE_SETUP.md).
 Use this directory's `agentcore_app.py`, `requirements.txt`, and `input.json`
 when following the direct CodeZip path in that runbook.
 

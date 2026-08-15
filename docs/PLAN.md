@@ -1,6 +1,6 @@
 # PLAN: Agentic AI Learning Journey — Implementation Plan
 
-This document defines *how* and *when* the project in `docs/PRD.md` gets built: repo layout, the full day-by-day implementation steps, and the catalogs (skills, prompts, custom agents, pre-commit hooks, references) that support them. For the vision, architecture, and business rationale, see `docs/PRD.md`. For current status, see `PROGRESS.md`. For one-time environment and repo setup — do this first — see `INSTALL.md`. `AGENTS.md` routes any dev tool to the right document.
+This document defines *how* and *when* the project in `docs/architecture/PRD.md` gets built: repo layout, the full 21-day implementation steps, and the catalogs (skills, prompts, custom agents, pre-commit hooks, references) that support them. For the vision, architecture, and business rationale, see `docs/architecture/PRD.md`. For current status, see `PROGRESS.md`. For one-time environment and repo setup — do this first — see `INSTALL.md`. `AGENTS.md` routes any dev tool to the right document.
 
 ---
 
@@ -20,7 +20,11 @@ agentic-pm-lab/
 │   ├── README.md                   # documentation index organized by intent
 │   ├── PRD.md                      # vision, architecture, principles, business problems — rarely changes
 │   ├── PLAN.md                     # this document — occasionally changes
-│   ├── LEARNINGS.md                # reflective retro log, updated every day, finalized Day 12
+│   ├── learning/                   # retrospectives, phase plans, comparisons, terminology
+│   ├── guides/                     # runbooks, Canvas exercises, AWS and GitHub procedures
+│   ├── architecture/               # PRD, architecture, diagrams, security boundaries
+│   ├── reference/                  # curated external reading and primers
+│   └── evidence/                   # local-versus-live evidence ledger
 │   ├── ARCHITECTURE.md             # canonical architecture and security model — created Day 1, updated in place
 │   ├── RUNBOOK.md                  # start/test/eval/trace/canvas/deploy/teardown — created Day 11
 │   ├── REFERENCES.md               # curated reading by topic — pre-written, updated in place
@@ -121,9 +125,9 @@ agentic-pm-lab/
 └── docker/                        # per-service Dockerfiles, if any service needs a custom image beyond the base Python one
 ```
 
-**Sequencing rule: don't create every file above on Day 1 empty.** `README.md`/`docs/PRD.md`/`docs/PLAN.md`/`PROGRESS.md`/`AGENTS.md`/`INSTALL.md`/`docs/REFERENCES.md` are the pre-written control plane and exist from the start; everything else — `docs/ARCHITECTURE.md` (including its Day-7-added Security Model section), `docs/RUNBOOK.md`, `docs/adr/`, `contracts/`, `governance/`, `evals/` — is created on the specific day Appendix B says it's first needed, as an output of doing that day's work, not a placeholder waiting to be filled. The repo's own history should show the progression from walking skeleton to governed cloud deployment; a repo with every folder pre-stubbed on day one hides that story instead of telling it.
+**Sequencing rule: don't create every file above on Day 1 empty.** `README.md`/`docs/architecture/PRD.md`/`docs/PLAN.md`/`PROGRESS.md`/`AGENTS.md`/`INSTALL.md`/`docs/reference/REFERENCES.md` are the pre-written control plane and exist from the start; everything else — `docs/architecture/ARCHITECTURE.md`, `docs/guides/RUNBOOK.md`, `docs/adr/`, `contracts/`, `governance/`, `evals/` — is created on the specific day Appendix B says it's first needed, as an output of doing that day's work, not a placeholder waiting to be filled. The repo's own history should show the progression from walking skeleton to governed cloud deployment; a repo with every folder pre-stubbed on day one hides that story instead of telling it.
 
-Note the deliberate split between `docs/PRD.md`/`docs/PLAN.md` (rarely change; stable intent and method) and `PROGRESS.md` (changes every session). Keeping status out of the requirements document means the requirements stay reviewable — a diff against `docs/PRD.md` should mean "the plan changed," never "another day passed."
+Note the deliberate split between `docs/architecture/PRD.md`/`docs/PLAN.md` (rarely change; stable intent and method) and `PROGRESS.md` (changes every session). Keeping status out of the requirements document means the requirements stay reviewable — a diff against `docs/architecture/PRD.md` should mean "the plan changed," never "another day passed."
 
 ---
 
@@ -294,7 +298,7 @@ Each day assumes ~3–5 focused hours, with Day 1, Day 8, Day 9, Day 10, and Day
 | 11 | Runtime & Automation | Real Copilot-coding-agent PR through CI, scheduled/native automations, self-maintaining skills |
 | 12 | AWS Bedrock AgentCore | Real portfolio optimization (mean-variance, max-Sharpe, risk parity); deploy on a managed cloud agent runtime with real observability; wrap-up |
 
-**AWS Deep-Dive Extension** (now part of the mainstream 20-day track; it reuses the Day 12 AWS account when live cloud work is available):
+**AWS Deep-Dive Extension** (now part of the mainstream 21-day track; it reuses the Day 12 AWS account when live cloud work is available):
 
 | Day | Focus | Goal |
 |---|---|---|
@@ -522,7 +526,7 @@ A **custom agent** is a named, selectable persona with its own scope and (option
 Tutor agents are read-only learning personas, distinct from operational agents.
 Each has five worked examples, three adversarial/negative examples, repository
 source pointers, and a local exercise. Their independent invocation and
-evidence rules live in [`docs/TUTOR_RUNBOOK.md`](TUTOR_RUNBOOK.md).
+evidence rules live in [`docs/guides/TUTOR_RUNBOOK.md`](guides/TUTOR_RUNBOOK.md).
 
 | Tutor agent | Purpose | Roadmap coverage |
 |---|---|---|
@@ -780,7 +784,7 @@ Day 2's personal FICC tutor and every later custom agent should have:
 - a local test or validation command;
 - evidence fields for model, data provenance, tool calls, output, and trace.
 
-The current examples live in docs/AGENT_RUNBOOK.md. Expand that document when
+The current examples live in docs/guides/AGENT_RUNBOOK.md. Expand that document when
 risk-narrator-agent, pr-reviewer-agent, and skills-auditor-agent arrive on Days
 10–11.
 
@@ -824,7 +828,7 @@ CLI for the governed adapter and tests.
 
 Finish the existing runtime/automation work: docker-compose, prompts, PR
 workflow, skills freshness, contract CI, scheduled approval-only morning
-review, and docs/RUNBOOK.md. Expand docs/AGENT_RUNBOOK.md for
+review, and docs/guides/RUNBOOK.md. Expand docs/guides/AGENT_RUNBOOK.md for
 docs-agent, eval-triage-agent, risk-narrator-agent, pr-reviewer-agent,
 skills-auditor-agent, and the personal FICC tutor. Every custom agent gets
 three examples, one negative case, expected tool calls, test command, and
@@ -977,7 +981,7 @@ explains volatility, beta, tracking error, and drawdown; reproduces only the
 document's validated examples; compares its definitions with the repository's
 risk engine; and identifies differences without silently changing formulas.
 
-The `document-to-skill-tutor` and [TUTOR_RUNBOOK.md](TUTOR_RUNBOOK.md) provide
+The `document-to-skill-tutor` and [TUTOR_RUNBOOK.md](guides/TUTOR_RUNBOOK.md) provide
 the standalone learning interface and five worked examples plus three negative
 examples for this deliverable.
 
@@ -1110,11 +1114,12 @@ provider-specific setup, cost evidence, and experiment record.
 
 Add tests for successful fixture execution, provider-mode blocking without
 fallback, and a failed-stage or invalid-input path that remains visible. Add
-the walkthrough to `docs/CANVAS_EXERCISES.md` and the detailed design/evidence
-contract to `docs/DAY_21_CANVAS_WORKFLOW.md`. Update `README.md`, `PROGRESS.md`,
-`docs/ARCHITECTURE.md`, `docs/RUNBOOK.md`, `docs/PRD.md`, and
-`docs/REFERENCES.md` so the default learner path, observable evidence, token
-accounting, and model privacy boundary are explicit.
+the learner walkthrough to `docs/guides/CANVAS_EXERCISES.md`; keep the
+execution contract, observable evidence, token accounting, failure behavior,
+and privacy boundary in this Day 21 section of the canonical plan. Update
+`README.md`, `PROGRESS.md`, `docs/architecture/ARCHITECTURE.md`,
+`docs/guides/RUNBOOK.md`, `docs/architecture/PRD.md`, and
+`docs/reference/REFERENCES.md` so the default learner path is explicit.
 
 **Acceptance:** from a clean local setup, a learner can run the Canvas exercise
 without credentials, receive a completed fixture workflow, inspect at least
@@ -1667,7 +1672,7 @@ entrypoints for the AWS path. A temporary Runtime and endpoint were also
 created and torn down during the 2026-08-13 trial; infrastructure reached
 `READY`, but request execution returned HTTP 500, so no successful cloud answer
 or managed Memory/Evaluation/Guardrail evidence is claimed. See
-[`docs/PLAN_REVIEW.md`](PLAN_REVIEW.md) and [`docs/EVIDENCE.md`](EVIDENCE.md).
+[`docs/learning/PLAN_REVIEW.md`](learning/PLAN_REVIEW.md) and [`docs/evidence/EVIDENCE.md`](evidence/EVIDENCE.md).
 
 Given the goal of *proficiency* with the AWS Bedrock/AgentCore stack specifically (alongside LangGraph, telemetry, and the GitHub Copilot Canvas work already covered in full), these two days are now mainstream milestones. They reuse the same AWS account, budget alert, and torn-down-afterward discipline from Day 12. Memory and Evaluations get genuine hands-on treatment on Day 13; Day 14 deepens Day 12's Guardrail and keeps fine-tuning, multi-region, and cost-optimization-at-scale as clearly-marked stretch work.
 

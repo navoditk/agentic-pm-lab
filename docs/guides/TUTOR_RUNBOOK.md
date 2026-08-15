@@ -1,6 +1,6 @@
 # Tutor Agent Runbook
 
-The tutor agents are standalone, read-only learning personas for the 20-day
+The tutor agents are standalone, read-only learning personas for the 21-day
 PM AI roadmap. They are separate from operational agents such as
 `risk-narrator-agent`, `eval-triage-agent`, `pr-reviewer-agent`, and
 `skills-auditor-agent`. A tutor explains concepts, points to repository
@@ -68,7 +68,7 @@ The source catalog is also available without an agent through
 `uv run python scripts/investment_data_tutor.py` and accepts source IDs such as
 `sec-companyfacts`, `treasury-auctions`, `sofr`, `cftc-cot`, and
 `kenneth-french`. Add `--browse` to include the representative records from
-[`data/samples/public_investment/README.md`](../data/samples/public_investment/README.md).
+[`data/samples/public_investment/README.md`](../../data/samples/public_investment/README.md).
 The output is educational sample data, not a live provider response or
 investment recommendation.
 
@@ -79,8 +79,8 @@ the source could support in a credit review, and why it is not a live
 integration.” Other useful IDs are `ratings-events`, `gdelt-events`,
 `bigdata-research`, `openbb-provider`, `document-pdf`, `security-master`, and
 `portfolio-positions`. The sample index and source-specific primers are linked
-from [`data/README.md`](../data/README.md) and
-[`docs/REFERENCES.md`](REFERENCES.md).
+from [`data/README.md`](../../data/README.md) and
+[`docs/reference/REFERENCES.md`](../reference/REFERENCES.md).
 
 Each tutor file contains five worked examples and three negative/adversarial
 examples. Use those examples as acceptance tests for tutor behavior. Record the
@@ -120,7 +120,7 @@ Negative/adversarial examples:
    transformation, and fallback status.
 
 The tutor should point learners to `data/README.md`, the fixed-income reading
-path in `docs/REFERENCES.md`, deterministic analytics/tests, and the relevant
+path in `docs/reference/REFERENCES.md`, deterministic analytics/tests, and the relevant
 source data card. It should never imply that QuantLib, OpenBB, TRACE, or a
 licensed vendor is already integrated merely because it appears in the roadmap.
 
@@ -228,5 +228,5 @@ node --test .github/extensions/portfolio-risk-canvas/tests/*.test.mjs
 When a tutor describes a live service, distinguish repository code/tests,
 local mocks/deployment intent, and captured cloud/API/Canvas evidence. Tutors
 must not upgrade the first two levels into the third. See
-[`AGENT_RUNBOOK.md`](AGENT_RUNBOOK.md), [`REFERENCES.md`](REFERENCES.md), and
+[`AGENT_RUNBOOK.md`](AGENT_RUNBOOK.md), [`../reference/REFERENCES.md`](../reference/REFERENCES.md), and
 [`RUNBOOK.md`](RUNBOOK.md) for broader standalone, study, and operations flows.

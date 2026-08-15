@@ -7,9 +7,9 @@ place trades, or constitute investment advice.
 
 ## Prerequisites
 
-1. Complete [`INSTALL.md`](../INSTALL.md).
+1. Complete [`INSTALL.md`](../../INSTALL.md).
 2. Read the [Canvas section in the runbook](RUNBOOK.md#canvas-and-github-copilot-app).
-3. Read the [Portfolio Risk Canvas README](../.github/extensions/portfolio-risk-canvas/README.md).
+3. Read the [Portfolio Risk Canvas README](../../.github/extensions/portfolio-risk-canvas/README.md).
 4. Run the Canvas tests from the extension directory:
 
 ```bash
@@ -46,8 +46,9 @@ uv run python scripts/run_canvas_pm_workflow.py \
   --audit-log /tmp/day21-canvas.audit.jsonl
 ```
 
-See [`DAY_21_CANVAS_WORKFLOW.md`](DAY_21_CANVAS_WORKFLOW.md) for the full
-evidence envelope, token accounting, privacy boundary, and provider-mode rules.
+See [Day 21 in the canonical plan](../PLAN.md#day-21--canvas-end-to-end-pm-workflow)
+for the full evidence envelope, token accounting, privacy boundary, and
+provider-mode rules.
 
 The `local`, `openai`, `anthropic`, and `aws` selectors are explicit provider
 boundaries. Without their separate setup, they return `blocked` and zero cost;
@@ -143,6 +144,6 @@ Expected learning:
 | Trade execution | Intentionally unavailable |
 
 For a model-backed or AWS-backed comparison, use the provider-neutral experiment
-framework in [`experiments/README.md`](../experiments/README.md), record the
+framework in [`experiments/README.md`](../../experiments/README.md), record the
 model, tokens, cost, latency, evidence, and limitations, and keep the Canvas
 exercise as the deterministic baseline.

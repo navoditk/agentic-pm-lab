@@ -70,7 +70,7 @@ def run_workflow(
                 "local": "Configure Ollama and run the documented local Deep Agent comparison.",
                 "openai": "Set OPENAI_API_KEY and run the hosted-model experiment path.",
                 "anthropic": "Configure an approved Anthropic adapter and record its model/cost evidence.",
-                "aws": "Use docs/AWS_AGENTCORE_SETUP.md and a budgeted AgentCore invocation.",
+                "aws": "Use docs/guides/AWS_AGENTCORE_SETUP.md and a budgeted AgentCore invocation.",
             }[mode],
             "execution_trace": [
                 {

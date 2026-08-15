@@ -10,7 +10,7 @@ def test_catalog_links_each_source_to_a_browsable_sample():
             ("data/samples/public_investment/", "data/mock_structured/")
         )
         assert taught["investment_advice"] is False
-        assert taught["reference"].startswith("docs/REFERENCES.md#")
+        assert taught["reference"].startswith("docs/reference/REFERENCES.md#")
 
 
 def test_browse_returns_records_for_json_and_csv_samples():

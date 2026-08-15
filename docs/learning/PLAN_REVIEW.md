@@ -1,14 +1,14 @@
-# 20-day plan completion audit and Day 21 bridge review
+# 21-day plan completion audit
 
 Reviewed 2026-08-14 UTC against `docs/PLAN.md`, `PROGRESS.md`, the repository
 implementation, `docs/EVIDENCE.md`, the Day 21 Canvas workflow, and the dated
-experiment records. The original 20-day plan remains separately assessed;
-Day 21 is a learner-facing bridge extension rather than a retroactive change
-to the original completion claim.
+experiment records. The Day 21 Canvas workflow is part of the canonical plan;
+its provider-neutral fixture acceptance is complete while live provider
+evidence remains separately labelled.
 
 ## Bottom line
 
-The 20-day local learning plan is complete. The stronger interpretation,
+The 21-day local learning plan is complete. The stronger interpretation,
 “every planned provider, AWS service, browser surface, and end-to-end hosted
 workflow has live evidence,” is not complete. `PROGRESS.md` intentionally marks
 the local slices complete while its narrative and `docs/EVIDENCE.md` preserve
@@ -76,7 +76,7 @@ separate fields, with billing-lag status preserved.
 
 ## Remaining optional or account-dependent evidence
 
-These are not missing implementation days or blockers for the core 20-day plan:
+These are not missing implementation days or blockers for the core 21-day plan:
 
 The PRD interpretation is therefore: Tier 1 is implemented and locally
 validated; the core Tier 2 architecture is implemented, with temporary Runtime

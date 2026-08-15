@@ -24,17 +24,17 @@ simplified, or deferred.
 
 > **Evidence boundary:** a reference explains a concept or provider. It does
 > not prove that this repository implements the capability or that a live
-> provider/cloud experiment succeeded. Use [`EVIDENCE.md`](EVIDENCE.md) and
-> [`experiments/README.md`](../experiments/README.md) for implementation and
+> provider/cloud experiment succeeded. Use [`EVIDENCE.md`](../evidence/EVIDENCE.md) and
+> [`experiments/README.md`](../../experiments/README.md) for implementation and
 > experiment evidence.
 
-**How this is used day to day:** you don't need to browse this whole file mid-session. Each day in [`PLAN.md`](PLAN.md)'s Appendix B has its own short "While it builds, read" list (1–5 items) pointing at the specific subsection below that's relevant to that day's work — this file is the full bibliography those pointers link into, for whenever you want the complete picture on a topic rather than just today's slice.
+**How this is used day to day:** you don't need to browse this whole file mid-session. Each day in [`PLAN.md`](../PLAN.md)'s Appendix B has its own short "While it builds, read" list (1–5 items) pointing at the specific subsection below that's relevant to that day's work — this file is the full bibliography those pointers link into, for whenever you want the complete picture on a topic rather than just today's slice.
 
-**Repository navigation:** [README](../README.md) · [INSTALL](../INSTALL.md) ·
-[AGENTS](../AGENTS.md) · [PRD](PRD.md) · [PLAN](PLAN.md) ·
-[PROGRESS](../PROGRESS.md) · [ARCHITECTURE](ARCHITECTURE.md) ·
-[RUNBOOK](RUNBOOK.md) · [EVIDENCE](EVIDENCE.md) ·
-[experiments guide](../experiments/README.md)
+**Repository navigation:** [README](../../README.md) · [INSTALL](../../INSTALL.md) ·
+[AGENTS](../../AGENTS.md) · [PRD](../architecture/PRD.md) · [PLAN](../PLAN.md) ·
+[PROGRESS](../../PROGRESS.md) · [ARCHITECTURE](../architecture/ARCHITECTURE.md) ·
+[RUNBOOK](../guides/RUNBOOK.md) · [EVIDENCE](../evidence/EVIDENCE.md) ·
+[experiments guide](../../experiments/README.md)
 
 ---
 
@@ -42,7 +42,7 @@ simplified, or deferred.
 
 Not a "read before Day N" entry like the sections below — this is the source of the core idea, worth reading once for context rather than as day-specific prep.
 
-- **OpenAI Cookbook: "Multi-Agent Portfolio Collaboration with OpenAI Agents SDK"** (Raj Pathak, Chelsea Hu) — [cookbook example](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration). This is where the Portfolio-Manager-orchestrating-Macro/Fundamental/Quant-specialists pattern comes from. This project translates the same pattern onto LangGraph Deep Agents' native `subagents` mechanism instead ([PRD](PRD.md) §1, [PLAN](PLAN.md) Day 5).
+- **OpenAI Cookbook: "Multi-Agent Portfolio Collaboration with OpenAI Agents SDK"** (Raj Pathak, Chelsea Hu) — [cookbook example](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration). This is where the Portfolio-Manager-orchestrating-Macro/Fundamental/Quant-specialists pattern comes from. This project translates the same pattern onto LangGraph Deep Agents' native `subagents` mechanism instead ([PRD](../architecture/PRD.md) §1, [PLAN](../PLAN.md) Day 5).
 
 ---
 
@@ -69,7 +69,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - LangSmith [application](https://smith.langchain.com/) → Settings → API Keys, then the in-product quickstart
 - LangSmith + pytest / GitHub Actions integration, for wiring `eval-regression.yml`: LangSmith's ["Test before you ship" guidance](https://docs.langchain.com/langsmith/testing)
 
-### Context engineering (Day 4, [`PLAN.md`](PLAN.md) §13)
+### Context engineering (Day 4, [`PLAN.md`](../PLAN.md) §13)
 - Anthropic's "Effective context engineering for AI agents" — the conceptual grounding for treating context assembly as its own deliberate layer rather than incidental prompt accumulation
 - LangGraph/LangChain context management docs (memory, summarization, trimming) — the concrete APIs `src/context/` builds on
 - Anthropic, [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — context as a finite, managed resource with progressive disclosure and task-specific retrieval
@@ -132,7 +132,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - [IAM users, groups, and policies overview](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html)
 - [AWS Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html)
 
-### Security: AuthN/AuthZ, policy-as-code, prompt injection (Day 7, [`PLAN.md`](PLAN.md) §15)
+### Security: AuthN/AuthZ, policy-as-code, prompt injection (Day 7, [`PLAN.md`](../PLAN.md) §15)
 - Cedar [policy language](https://www.cedarpolicy.com/) and [documentation](https://docs.cedarpolicy.com/)
 - OWASP [Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
 - AWS [Verified Permissions](https://docs.aws.amazon.com/verifiedpermissions/) — the managed Cedar production analog
@@ -157,7 +157,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
 first-party engineering posts and product documentation. Agent harnesses are
 the execution layer around a model: context assembly, tool calls, state,
 permissions, sandboxes, approvals, retries, observability, and handoffs. Read
-these alongside the repo's [`AGENTS.md`](../AGENTS.md), `skills/`, contracts, traces, and
+these alongside the repo's [`AGENTS.md`](../../AGENTS.md), `skills/`, contracts, traces, and
 experiment records; a vendor's capability or case study is not proof that this
 repo has reproduced it.
 
@@ -272,7 +272,7 @@ the maintained audio starting points for this bibliography.
 - Anthropic, [Agents for financial services](https://www.anthropic.com/news/finance-agents) — reference patterns combining skills, governed connectors, subagents, long-running sessions, and auditability in finance
 - AWS, [AgentCore resources and technical walkthroughs](https://aws.amazon.com/bedrock/agentcore/resources/) — videos and hands-on material across Runtime, Memory, Gateway, Identity, Policy, Observability, and Evaluations
 
-### OpenAI Codex CLI (optional alternative dev tool — [`INSTALL.md`](../INSTALL.md) §8)
+### OpenAI Codex CLI (optional alternative dev tool — [`INSTALL.md`](../../INSTALL.md) §8)
 - Official [Codex CLI reference](https://developers.openai.com/codex/cli)
 - [Codex overview](https://developers.openai.com/codex), including the `AGENTS.md` concept
 - [Codex npm package](https://www.npmjs.com/package/@openai/codex)
@@ -303,8 +303,8 @@ the maintained audio starting points for this bibliography.
 ### Public-data terminology and decision-use primers
 
 The browsable source catalog and representative records are maintained in
-[`data/README.md`](../data/README.md) and the
-[`public investment sample pack`](../data/samples/public_investment/README.md).
+[`data/README.md`](../../data/README.md) and the
+[`public investment sample pack`](../../data/samples/public_investment/README.md).
 Each tutor response should map the source's field shape to one of the primers
 below and label mock, connector-capable, and live experiment evidence
 separately.
@@ -440,8 +440,8 @@ dedicated tutor only if a substantial live adapter is implemented.
 - Investopedia: bond pricing, duration, and convexity — plain-language first pass before implementing `src/analytics/pricers.py`
 - Investopedia: Black-Scholes model — plain-language first pass before implementing the option pricer
 - Investopedia: yield curve construction and interpolation — before implementing `src/analytics/curves.py`; covers what "bootstrapping" a curve from discrete tenor points actually means
-- Investopedia: credit spreads (and OAS — option-adjusted spread) — before the scenario engine's credit-shock path (Day 12) and [`PRD.md`](PRD.md) §4's spread-risk questions
-- Investopedia: mortgage-backed securities and negative convexity — a genuinely distinct concept from plain bond convexity (prepayment risk flips the sign), directly relevant to [`PRD.md`](PRD.md) §4's "how does mortgage convexity affect the portfolio" question
+- Investopedia: credit spreads (and OAS — option-adjusted spread) — before the scenario engine's credit-shock path (Day 12) and [`PRD.md`](../architecture/PRD.md) §4's spread-risk questions
+- Investopedia: mortgage-backed securities and negative convexity — a genuinely distinct concept from plain bond convexity (prepayment risk flips the sign), directly relevant to [`PRD.md`](../architecture/PRD.md) §4's "how does mortgage convexity affect the portfolio" question
 - Investopedia: volatility, maximum drawdown, and correlation as risk metrics — before implementing `src/analytics/risk.py`; these currently have no dedicated primer elsewhere in this file, easy to assume they're self-explanatory and skip
 - Investopedia: factor investing / factor models, conceptual overview — read before `statsmodels`' API docs above, since the API is easy to use correctly while still not knowing what a "factor" means economically
 - Investor.gov's [beta glossary entry](https://www.investor.gov/introduction-investing/investing-basics/glossary/beta)
@@ -519,7 +519,7 @@ then the optimizer, then the estimation and implementation risks around it.
   explicit human approval decision.
 
 ### FICC / fixed income fundamentals
-- Investopedia's fixed-income section, for plain-language first passes at any term before it goes in [`ficc-glossary.md`](ficc-glossary.md)
+- Investopedia's fixed-income section, for plain-language first passes at any term before it goes in [`ficc-glossary.md`](../learning/ficc-glossary.md)
 - U.S. Treasury [interest-rate statistics](https://home.treasury.gov/resource-center/data-chart-center/interest-rates)
 - FINRA's [duration primer](https://www.finra.org/investors/insights/duration-what-interest-rate-hike-could-do-your-bond-portfolio)
 - A standard CFA-curriculum-level fixed income text, if you want a more rigorous second pass once the practical vocabulary from building the tools is in place
