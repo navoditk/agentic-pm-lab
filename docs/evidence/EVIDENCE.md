@@ -12,6 +12,7 @@ or browser session was exercised.
 | AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md) |
 | AWS observability | Local OTel path and CloudWatch target documented | Successful runtime CloudWatch trace captured; AgentCore namespace metrics remain unclaimed | Runtime trace proof complete; metrics remain optional |
 | Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | No new live provider capture | Unclaimed; must preserve terms and point-in-time metadata |
+| GitHub Projects learning board | Project schema, linked repository, 21 roadmap items, two morning-review issues | Browser screenshots of configured views not yet captured | Board configured; visual evidence pending |
 | Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence | Local complete; visual capture unclaimed |
 
 ## AWS identity setup — 2026-08-13

@@ -28,11 +28,16 @@ repository-local completion.
 
 Recommended project name: **Agentic PM Lab Learning**.
 
+The configured board is [Agentic PM Lab Learning](https://github.com/users/navoditk/projects/2).
+It is linked to the [`navodit/agentic-pm-lab`](https://github.com/navoditk/agentic-pm-lab)
+repository and currently contains one roadmap item for each day plus the two
+existing morning-review issues.
+
 Configure these fields:
 
 | Field | Type | Values or purpose |
 |---|---|---|
-| Status | Built-in board status | Backlog, Todo, In progress, In review, Done |
+| Status | Built-in board status | Todo, In Progress, Done; use linked PRs and evidence for review state |
 | Day | Number | 1–21; use 0 for cross-cutting work |
 | Workstream | Single select | Foundation, Data, Agents, Governance, Evaluation, Canvas, AWS, Documentation |
 | Evidence | Single select | Local test, Screenshot, Workflow run, Live provider, AWS, Not claimed |
@@ -78,7 +83,10 @@ generated `PROGRESS.md` status.
 3. Run the local test or Canvas exercise.
 4. Ask the named tutor the issue's challenge question.
 5. Attach the test result, screenshot, trace, or workflow URL.
-6. Record limitations and move the issue through review to Done.
+6. Record limitations and move the issue from Todo through In Progress to Done
+   once the acceptance evidence is attached. Review is represented by the
+   linked pull request and evidence fields because the configured board uses
+   GitHub's default three Status options.
 
 ### Tutor-agent workflow
 

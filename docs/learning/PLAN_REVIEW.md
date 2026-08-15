@@ -26,7 +26,7 @@ mock fixture != production data or provider availability
 
 | Day | Local slice | Live/evidence status | Assessment |
 |---|---|---|---|
-| 1 | Walking skeleton, CI, progress tracking, docs | GitHub Projects board/browser setup remains unclaimed | Local complete; browser follow-up |
+| 1 | Walking skeleton, CI, progress tracking, docs | [Learning Project](https://github.com/users/navoditk/projects/2) configured with roadmap and metadata; browser views/screenshots remain unclaimed | Local and board setup complete; visual follow-up |
 | 2 | Public-data adapters and provenance-aware DuckDB path | No new live provider capture is claimed | Local complete; provider capture optional |
 | 3 | Deterministic pricing, risk, optimization, contracts, and tool boundary | No production data or hosted tool boundary claimed | Local complete |
 | 4 | Single Deep Agent, skills, context, local-model comparison | OpenAI smoke evidence exists; local Qwen limitation recorded | Complete for learning scope |
