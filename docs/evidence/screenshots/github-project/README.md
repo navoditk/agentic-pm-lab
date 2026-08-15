@@ -16,6 +16,5 @@ board at <https://github.com/users/navoditk/projects/2>.
 
 The original overview captured the filter
 `repo:navoditk/agentic-pm-lab`, which hid the draft roadmap items. The follow-up
-roadmap screenshot shows that filter removed. GitHub displayed a green
-**Save** button in the follow-up capture; click **Save** in the Project UI to
-persist the corrected view before relying on it for future work.
+roadmap screenshot shows that filter removed, and the corrected view has now
+been saved in GitHub Projects.
