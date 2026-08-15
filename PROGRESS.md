@@ -14,7 +14,7 @@ See `docs/PLAN.md` §6 (Automatic progress tracking) for how this mechanism work
 planned slice pass; it does not claim live AWS/provider/browser evidence unless
 the narrative log explicitly says that evidence was captured.
 
-*(Days 10–20 are the forward institutional PM track; Day 21 is the learner-facing Canvas bridge. Days 13–14 are now mainstream milestones; the older optional-extension wording in `docs/PLAN.md` is historical.)*
+*(Days 10–20 are the forward institutional PM track. Days 13–14 are now mainstream milestones; the older optional-extension wording in `docs/PLAN.md` is historical.)*
 
 **Day-by-day completion:**
 
