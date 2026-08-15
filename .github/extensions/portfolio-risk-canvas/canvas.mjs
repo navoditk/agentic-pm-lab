@@ -39,6 +39,27 @@ const SCENARIOS = {
   },
 };
 
+const PM_QUESTIONS = {
+  risk_snapshot: {
+    id: "risk_snapshot",
+    prompt: "What are the largest current portfolio risks?",
+    route: "Quant/Risk specialist -> exposure and risk tools",
+    evidence: "mock holdings + public price inputs",
+  },
+  rates_stress: {
+    id: "rates_stress",
+    prompt: "What happens if rates rise by 50 bps?",
+    route: "Macro specialist -> scenario tool -> risk summary",
+    evidence: "public curve inputs + mock scenario fixture",
+  },
+  portfolio_access: {
+    id: "portfolio_access",
+    prompt: "Can I inspect PORT_B from this session?",
+    route: "Identity -> portfolio entitlement -> deny or allow",
+    evidence: "local role and portfolio policy fixtures",
+  },
+};
+
 function fileFor(domainId) {
   const safe = String(domainId).replace(/[^A-Za-z0-9._-]/g, "_") || "default";
   return userStore(EXT_NAME, `${safe}.json`);
@@ -147,6 +168,7 @@ function seedState() {
       note: "Canvas capability tests use the same identity and portfolio boundary as the MCP adapter.",
     },
     lastAction: "Canvas seeded with portfolio/risk summary.",
+    questionRun: null,
     updatedAt: new Date().toISOString(),
   };
 }
@@ -192,6 +214,31 @@ function recordScenario(state, scenario) {
   };
 }
 
+function answerQuestion(state, question) {
+  if (question.id === "risk_snapshot") {
+    const largest = [...state.holdings].sort((a, b) => b.weight - a.weight)[0];
+    return {
+      answer: `Largest concentration is ${largest.name} at ${Math.round(largest.weight * 100)}%; baseline volatility is ${Math.round(state.currentMetrics.volatility * 1000) / 10}% and maximum drawdown is ${Math.round(state.currentMetrics.maxDrawdown * 1000) / 10}%.`,
+      finding: "Concentration and drawdown are the first review points.",
+    };
+  }
+  if (question.id === "rates_stress") {
+    const scenario = SCENARIOS.rates_50bps;
+    const stressedVolatility = state.currentMetrics.volatility + scenario.impact.volatility;
+    const stressedDrawdown = state.currentMetrics.maxDrawdown + scenario.impact.drawdown;
+    return {
+      answer: `Under the +50 bps fixture, volatility moves to ${Math.round(stressedVolatility * 1000) / 10}% and maximum drawdown moves to ${Math.round(stressedDrawdown * 1000) / 10}%.`,
+      finding: scenario.note,
+      scenario,
+    };
+  }
+  const allowed = canAccessPortfolio(state.identity, "PORT_B");
+  return {
+    answer: allowed ? `${state.identity} is entitled to inspect PORT_B.` : `${state.identity} is not entitled to inspect PORT_B; the request is denied before tool access.`,
+    finding: allowed ? "Entitlement check passed." : "Default-deny entitlement check blocked the request.",
+  };
+}
+
 export const canvasConfig = {
   id: "portfolio-risk-canvas",
   displayName: "Portfolio Risk",
@@ -214,6 +261,42 @@ export const canvasConfig = {
   statusLine: (_ctx, state) => `${state.identity} · ${state.portfolio} · ${state.view}`,
 
   actions: {
+    ask_pm_question: {
+      description: "Run one bounded PM learning question through the local governed workflow.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          questionId: { type: "string", enum: Object.keys(PM_QUESTIONS) },
+        },
+        required: ["questionId"],
+        additionalProperties: false,
+      },
+      handler: ({ state, set, input }) => {
+        const question = PM_QUESTIONS[input.questionId];
+        if (!question) throw new Error(`Unknown PM question ${input.questionId}`);
+        const result = answerQuestion(state, question);
+        const next = result.scenario ? recordScenario(state, result.scenario) : state;
+        const questionRun = {
+          id: question.id,
+          prompt: question.prompt,
+          answer: result.answer,
+          finding: result.finding,
+          route: question.route,
+          evidence: question.evidence,
+          status: "completed",
+          traceId: `canvas-${question.id}`,
+          completedAt: new Date().toISOString(),
+        };
+        set({
+          ...next,
+          questionRun,
+          lastAction: `Answered PM question: ${question.prompt}`,
+          updatedAt: new Date().toISOString(),
+        });
+        return questionRun;
+      },
+    },
+
     set_identity: {
       description: "Switch the active identity and role in the canvas.",
       inputSchema: {

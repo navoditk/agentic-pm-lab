@@ -21,6 +21,7 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Follow the day-by-day build | [`PLAN.md`](PLAN.md) |
 | Understand the current system design | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
 | See the key architecture diagrams | [`DIAGRAMS.md`](DIAGRAMS.md) |
+| Run end-to-end PM Canvas exercises | [`CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md) |
 
 ## Learn and operate
 

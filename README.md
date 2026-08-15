@@ -286,6 +286,7 @@ The next learning track is the [Phase 2 institutional PM AI production-readiness
 | [docs/PHASE_2_PLAN.md](docs/PHASE_2_PLAN.md) | Follow-on 20-day institutional PM AI production-readiness track |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Canonical architecture and security boundaries |
 | [docs/DIAGRAMS.md](docs/DIAGRAMS.md) | Mermaid diagrams for layers, request flow, agents, data, governance, AWS, and CI |
+| [docs/CANVAS_EXERCISES.md](docs/CANVAS_EXERCISES.md) | End-to-end PM question, scenario, entitlement, approval, and AgentOps Canvas exercises |
 | [docs/REFERENCES.md](docs/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |
 | [docs/PLAN_REVIEW.md](docs/PLAN_REVIEW.md) | 20-day completion audit, documentation review, and remaining live-evidence actions |
 | [docs/AGENT_RUNBOOK.md](docs/AGENT_RUNBOOK.md) | Standalone custom-agent and skill examples, test cases, expected outputs, and troubleshooting |

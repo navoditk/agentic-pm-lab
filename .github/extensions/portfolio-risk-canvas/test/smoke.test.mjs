@@ -63,6 +63,15 @@ try {
     assert.equal(state.scenarioResult.type, "credit");
   });
 
+  await test("PM question returns a traced learning response", async () => {
+    const result = await post(open.url, "ask_pm_question", { questionId: "rates_stress" });
+    assert.equal(result.body.ok, true);
+    assert.equal(result.body.result.status, "completed");
+    assert.match(result.body.result.route, /Macro specialist/);
+    const state = await getState(open.url);
+    assert.equal(state.questionRun.traceId, "canvas-rates_stress");
+  });
+
   await test("RISK_USER can inspect PORT_B", async () => {
     await post(open.url, "set_identity", { identity: "RISK_USER" });
     const result = await post(open.url, "select_portfolio", { portfolio: "PORT_B" });

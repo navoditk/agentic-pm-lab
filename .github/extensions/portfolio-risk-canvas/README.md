@@ -27,6 +27,18 @@ The current portfolio and security-master fixtures are explicitly marked mock.
 Public FRED/Treasury inputs are shown separately in the provenance panel. A
 scenario result therefore cannot be read as a live valuation or trading signal.
 
+## End-to-end PM exercises
+
+The Canvas includes a bounded **PM question exercise** panel with three
+questions: a risk snapshot, a +50 bps rates stress, and a PORT_B entitlement
+check. Each question uses the same action handler for agent and UI callers and
+returns an answer, route, evidence status, and trace identifier. The exercise
+runner is deterministic and fixture-backed so it can be used without model
+credentials.
+
+See [`docs/CANVAS_EXERCISES.md`](../../../docs/CANVAS_EXERCISES.md) for the
+step-by-step exercises and the real-versus-fixture evidence boundary.
+
 ## Validate
 
 ```

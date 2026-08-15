@@ -330,12 +330,15 @@ Ask opentelemetry-tutor:
 
 Read src/ui/app.py, .github/extensions/, docs/RUNBOOK.md,
 docs/GITHUB_WORKFLOWS.md,
-docs/EVIDENCE.md, and docs/comparison-notes.md.
+docs/CANVAS_EXERCISES.md, docs/EVIDENCE.md, and docs/comparison-notes.md.
 
 Ask copilot-canvas-mcp-tutor:
 
     Explain shared state, governed handlers, trust boundaries, approval, retry,
     trace, and evaluation behavior in the Canvas surfaces.
+
+Run [`CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md) and compare the question answer,
+scenario result, entitlement outcome, provenance, and trace evidence.
 
 Ask production-readiness-agent:
 

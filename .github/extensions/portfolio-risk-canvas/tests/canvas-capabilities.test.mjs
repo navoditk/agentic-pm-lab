@@ -22,6 +22,13 @@ function invoke(actionName, input = {}, state) {
 
 async function run() {
   const initial = canvasConfig.createInitialState();
+  const question = await invoke("ask_pm_question", { questionId: "risk_snapshot" }, initial);
+  assert.equal(question.result.status, "completed");
+  assert.match(question.state.questionRun.answer, /Largest concentration/);
+
+  const stress = await invoke("ask_pm_question", { questionId: "rates_stress" }, question.state);
+  assert.match(stress.state.questionRun.answer, /\+50 bps fixture/);
+
   const scenario = await invoke("run_scenario", { scenarioId: "rates_50bps" }, initial);
   assert.equal(scenario.result.scenarioId, "rates_50bps");
   assert.equal(scenario.state.scenarioResult.type, "macro");

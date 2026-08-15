@@ -35,6 +35,12 @@ const SCENARIOS = {
   },
 };
 
+const PM_QUESTIONS = [
+  { id: "risk_snapshot", label: "What are the largest current portfolio risks?" },
+  { id: "rates_stress", label: "What happens if rates rise by 50 bps?" },
+  { id: "portfolio_access", label: "Can I inspect PORT_B from this session?" },
+];
+
 function MetricCard({ title, value, caption }) {
   return html`
     <div class="ck-card metric-card">
@@ -87,6 +93,7 @@ function App({ state, invoke, connected }) {
   const [selectedNode, setSelectedNode] = useState(state?.selectedTraceNode ?? "root");
   const [approvalId, setApprovalId] = useState("run_backtest");
   const [selectedScenario, setSelectedScenario] = useState(state?.selectedScenario ?? "rates_50bps");
+  const [questionId, setQuestionId] = useState("risk_snapshot");
 
   const scenarioResult = state?.scenarioResult;
   const comparison = state?.comparison;
@@ -133,6 +140,38 @@ function App({ state, invoke, connected }) {
         <button class="ck-btn" disabled=${busy} onClick=${() => run("set_view", { view: "scenarios" })}>Scenarios</button>
         <button class="ck-btn" disabled=${busy} onClick=${() => run("set_view", { view: "traces" })}>Trace</button>
         <button class="ck-btn" disabled=${busy} onClick=${() => run("set_view", { view: "provenance" })}>Provenance</button>
+      </div>
+
+      <div class="ck-card" style="margin-bottom:16px">
+        <div class="ck-spread">
+          <div>
+            <strong>PM question exercise</strong>
+            <div class="ck-muted" style="margin-top:4px">Choose a bounded question to run through the local governed workflow.</div>
+          </div>
+          <span class="ck-badge ck-badge-accent">learning fixture</span>
+        </div>
+        <div class="ck-row" style="gap:8px; flex-wrap:wrap; margin-top:12px">
+          <select class="ck-input ck-grow" value=${questionId} onChange=${(e) => setQuestionId(e.target.value)}>
+            ${PM_QUESTIONS.map((question) => html`<option value=${question.id}>${question.label}</option>`)}
+          </select>
+          <button class="ck-btn ck-btn-primary" disabled=${busy} onClick=${() => run("ask_pm_question", { questionId })}>
+            <${Icon} name="message-circle-question" size=${16} />Run question
+          </button>
+        </div>
+        ${state.questionRun
+          ? html`
+            <div class="ck-card" style="margin-top:12px">
+              <div class="ck-spread">
+                <strong>${state.questionRun.prompt}</strong>
+                <span class="ck-badge ck-badge-success">${state.questionRun.status}</span>
+              </div>
+              <div style="margin-top:10px">${state.questionRun.answer}</div>
+              <div class="ck-muted" style="margin-top:8px">${state.questionRun.finding}</div>
+              <div class="ck-caption" style="margin-top:8px">Route: ${state.questionRun.route}</div>
+              <div class="ck-caption">Evidence: ${state.questionRun.evidence} · trace: ${state.questionRun.traceId}</div>
+            </div>
+          `
+          : html`<div class="ck-muted" style="margin-top:10px">Run an exercise to see the answer, route, evidence status, and trace identifier.</div>`}
       </div>
 
       <div class="ops-layout">

@@ -91,6 +91,18 @@ The report is a single-file HTML artifact and explicitly labels mock holdings
 and deterministic fixtures. It complements the Canvas surfaces; it is not a
 second trust boundary or a replacement for trace/provenance review.
 
+## Canvas and GitHub Copilot App
+
+The Canvas extensions are documented in their individual READMEs. For a
+question-driven walkthrough, follow [`CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md).
+The Portfolio Risk Canvas includes bounded PM questions, scenario actions,
+provenance, trace inspection, and approval controls. The Agent Operations Canvas
+adds evaluation, cost, provider-health, incident, replay, and promotion views.
+
+The standalone tests prove the action contracts and state transitions. A live
+Copilot App session is separate evidence and should be recorded with a screenshot
+or run link when available.
+
 ## Test commands
 
 Fast local checks:
