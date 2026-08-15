@@ -26,7 +26,7 @@ mock fixture != production data or provider availability
 
 | Day | Local slice | Live/evidence status | Assessment |
 |---|---|---|---|
-| 1 | Walking skeleton, CI, progress tracking, docs | [Learning Project](https://github.com/users/navoditk/projects/2) configured with roadmap and metadata; browser views/screenshots remain unclaimed | Local and board setup complete; visual follow-up |
+| 1 | Walking skeleton, CI, progress tracking, docs | [Learning Project](https://github.com/users/navoditk/projects/2) configured with roadmap, views, and saved browser evidence | Complete for learning scope |
 | 2 | Public-data adapters and provenance-aware DuckDB path | No new live provider capture is claimed | Local complete; provider capture optional |
 | 3 | Deterministic pricing, risk, optimization, contracts, and tool boundary | No production data or hosted tool boundary claimed | Local complete |
 | 4 | Single Deep Agent, skills, context, local-model comparison | OpenAI smoke evidence exists; local Qwen limitation recorded | Complete for learning scope |
@@ -97,8 +97,9 @@ must not claim those external validations until their prerequisites exist.
    terms and preserve point-in-time metadata. The high-feasibility
    connector/normalization slice now exists locally; live capture and
    canonical-table promotion remain separate evidence work.
-4. Complete GitHub Projects, scheduled automation, Copilot/Canvas browser, and
-   screenshot evidence where the platform account makes those steps available.
+4. Complete scheduled automation and Copilot/Canvas browser evidence where the
+   platform account makes those steps available. GitHub Projects setup and
+   browser evidence are now complete.
 5. Expand the successful minimal proof into the full capstone against the
    selected hosted runtime and compare it
    with the local fixture using the experiment manifest and cost record.
