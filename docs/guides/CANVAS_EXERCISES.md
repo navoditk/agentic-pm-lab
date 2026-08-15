@@ -21,6 +21,31 @@ node test/smoke.test.mjs
 When using the GitHub Copilot App, expose the extension according to the Canvas
 README, reload extensions, and open `portfolio-risk-canvas`.
 
+## Hosted Copilot evidence capture
+
+The local tests prove the extension contract and loopback behavior. A hosted
+Copilot run is a separate, account-dependent evidence exercise:
+
+1. Open the repository in the GitHub Copilot App or another supported Copilot
+   Canvas surface.
+2. Reload extensions and open `portfolio-risk-canvas`.
+3. Run the **Current risk snapshot** and **Rates stress** questions.
+4. Capture the Canvas state, completed stage list, trace identifier, provenance
+   panel, evaluation result, and token/cost panel where the host exposes them.
+5. Capture the **Agent Operations** Canvas for one successful run and one
+   governed denial or approval-required run.
+6. Save screenshots under
+   `docs/evidence/screenshots/copilot-canvas/` using names such as
+   `portfolio-risk-rates-stress.png` and `agent-ops-denied-action.png`.
+7. Record the host, account/session mode, fixture or provider mode, run ID,
+   limitation, and whether tokens/costs are measured or approximated. Never
+   record credentials, private holdings, or private prompt content.
+
+Hosted screenshots do not upgrade fixture output to live-data evidence. They
+prove that the Copilot surface can render and drive the governed learning
+workflow; the local action handlers and MCP boundary remain the source of
+authorization enforcement.
+
 ## Full end-to-end run
 
 The default path is the **fixture** mode. It invokes the repository's actual

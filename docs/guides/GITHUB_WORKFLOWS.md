@@ -108,6 +108,33 @@ prompts are documented in the [Tutor Runbook](TUTOR_RUNBOOK.md).
 | [`progress-tracker.yml`](../../.github/workflows/progress-tracker.yml) | Does generated progress match the repository? | Push to `main` | Commits `PROGRESS.md` |
 | [`morning-brief.yml`](../../.github/workflows/morning-brief.yml) | Can a scheduled review produce a human-review artifact? | Weekday schedule or manual dispatch | Creates GitHub issues |
 
+### Morning-brief evidence exercise
+
+The scheduled workflow is intentionally approval-only. It generates a
+deterministic public/mock HTML artifact, uploads it as a short-lived workflow
+artifact, and opens a GitHub issue containing the run URL. It does not approve
+an investment action or place a trade.
+
+Run it manually from the repository's **Actions** tab:
+
+1. Open **Morning Portfolio Review**.
+2. Choose **Run workflow**, select `main`, and confirm **Run workflow**.
+3. Open the completed run and verify the `Upload review artifact` step.
+4. Download the artifact and confirm the issue links back to the same run.
+5. Add the workflow URL and issue URL to the relevant Project item or evidence
+   record. Do not attach private data to the issue.
+
+Equivalent CLI command:
+
+```bash
+gh workflow run morning-brief.yml --ref main
+gh run list --workflow morning-brief.yml --limit 1
+```
+
+The first successful manual run is workflow evidence; scheduled execution is
+still account-dependent because GitHub may delay or disable scheduled jobs in
+inactive repositories.
+
 ## 1. CI
 
 File: [`ci.yml`](../../.github/workflows/ci.yml)

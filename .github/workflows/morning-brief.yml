@@ -25,6 +25,13 @@ jobs:
           from scripts.artifacts_host import generate_risk_summary
           print(generate_risk_summary())
           PY
+      - name: Upload review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: morning-portfolio-review-${{ github.run_id }}
+          path: artifacts/portfolio-risk-summary.html
+          if-no-files-found: error
+          retention-days: 7
       - name: Open review issue
         env:
           GH_TOKEN: ${{ github.token }}
