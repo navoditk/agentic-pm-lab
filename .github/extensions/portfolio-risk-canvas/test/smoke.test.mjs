@@ -72,6 +72,25 @@ try {
     assert.equal(state.questionRun.traceId, "canvas-rates_stress");
   });
 
+  await test("end-to-end fixture workflow returns stage and token evidence", async () => {
+    const result = await post(open.url, "run_pm_workflow", { questionId: "risk_snapshot", mode: "fixture" });
+    assert.equal(result.body.ok, true);
+    assert.equal(result.body.result.status, "completed");
+    assert.equal(result.body.result.mode, "fixture");
+    assert.ok(result.body.result.execution_trace.length >= 8);
+    assert.ok(result.body.result.token_usage.total_tokens > 0);
+    assert.equal(result.body.result.cost.estimated_usd, 0);
+    assert.equal(result.body.result.private_chain_of_thought_captured, false);
+  });
+
+  await test("provider modes fail closed without substituting fixture evidence", async () => {
+    const result = await post(open.url, "run_pm_workflow", { questionId: "risk_snapshot", mode: "openai" });
+    assert.equal(result.body.ok, true);
+    assert.equal(result.body.result.status, "blocked");
+    assert.match(result.body.result.reason, /not selected by the default/);
+    assert.equal(result.body.result.token_usage.total_tokens, 0);
+  });
+
   await test("RISK_USER can inspect PORT_B", async () => {
     await post(open.url, "set_identity", { identity: "RISK_USER" });
     const result = await post(open.url, "select_portfolio", { portfolio: "PORT_B" });

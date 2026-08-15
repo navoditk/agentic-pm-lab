@@ -412,3 +412,10 @@ Start Phase 2 when:
 
 The recommended first Phase 2 task is Day 1: select one institutional workflow
 and define its decision rights before adding new agents or providers.
+
+Before beginning Phase 2, run the Day 21 Canvas bridge exercise in
+[`docs/CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md). It is the recommended final
+Phase 1 checkpoint because it lets a new learner replay the governed PM
+workflow from the Canvas or terminal, inspect structured execution evidence,
+and distinguish fixture token accounting from provider-backed usage without
+exposing private chain-of-thought.

@@ -214,3 +214,14 @@ day_20:
     - path_exists: tests/unit/capstone/test_workflow.py
     - path_exists: docs/adr/0021-institutional-pm-capstone.md
     - tests_pass: tests/unit/capstone
+
+day_21:
+  label: "Canvas end-to-end PM workflow"
+  checks:
+    - path_exists: scripts/run_canvas_pm_workflow.py
+    - path_exists: .github/extensions/portfolio-risk-canvas/canvas.mjs
+    - path_exists: docs/CANVAS_EXERCISES.md
+    - path_exists: docs/DAY_21_CANVAS_WORKFLOW.md
+    - path_exists: tests/unit/scripts/test_canvas_pm_workflow.py
+    - tests_pass: tests/unit/capstone
+    - tests_pass: tests/unit/scripts/test_canvas_pm_workflow.py

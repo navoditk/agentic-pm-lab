@@ -94,6 +94,7 @@ function App({ state, invoke, connected }) {
   const [approvalId, setApprovalId] = useState("run_backtest");
   const [selectedScenario, setSelectedScenario] = useState(state?.selectedScenario ?? "rates_50bps");
   const [questionId, setQuestionId] = useState("risk_snapshot");
+  const [workflowMode, setWorkflowMode] = useState("fixture");
 
   const scenarioResult = state?.scenarioResult;
   const comparison = state?.comparison;
@@ -157,6 +158,16 @@ function App({ state, invoke, connected }) {
           <button class="ck-btn ck-btn-primary" disabled=${busy} onClick=${() => run("ask_pm_question", { questionId })}>
             <${Icon} name="message-circle-question" size=${16} />Run question
           </button>
+          <select class="ck-input" value=${workflowMode} onChange=${(e) => setWorkflowMode(e.target.value)}>
+            <option value="fixture">fixture (no model)</option>
+            <option value="local">local model (explicit setup)</option>
+            <option value="openai">OpenAI (explicit setup)</option>
+            <option value="anthropic">Anthropic (explicit setup)</option>
+            <option value="aws">AWS AgentCore (explicit setup)</option>
+          </select>
+          <button class="ck-btn" disabled=${busy} onClick=${() => run("run_pm_workflow", { questionId, mode: workflowMode })}>
+            <${Icon} name="workflow" size=${16} />Run end-to-end
+          </button>
         </div>
         ${state.questionRun
           ? html`
@@ -172,6 +183,36 @@ function App({ state, invoke, connected }) {
             </div>
           `
           : html`<div class="ck-muted" style="margin-top:10px">Run an exercise to see the answer, route, evidence status, and trace identifier.</div>`}
+        ${state.e2eRun
+          ? html`
+            <div class="ck-card" style="margin-top:12px">
+              <div class="ck-spread">
+                <strong>End-to-end workflow evidence</strong>
+                <span class=${`ck-badge ${state.e2eRun.status === "completed" ? "ck-badge-success" : state.e2eRun.status === "blocked" ? "ck-badge-attention" : "ck-badge-danger"}`}>${state.e2eRun.status}</span>
+              </div>
+              <div class="ck-muted" style="margin-top:8px">Mode: ${state.e2eRun.mode} · Provider: ${state.e2eRun.provider || "not invoked"} · Request: ${state.e2eRun.request_id || "n/a"}</div>
+              ${state.e2eRun.error || state.e2eRun.reason
+                ? html`<div class="ck-callout ck-error" style="margin-top:10px"><${Icon} name="circle-x" size=${16} /><span>${state.e2eRun.error || state.e2eRun.reason}</span></div>`
+                : null}
+              <div class="ck-row" style="gap:8px; flex-wrap:wrap; margin-top:10px">
+                <${MetricCard} title="Input tokens" value=${state.e2eRun.token_usage?.input_tokens ?? 0} caption=${state.e2eRun.token_usage?.basis || "provider usage"} />
+                <${MetricCard} title="Output tokens" value=${state.e2eRun.token_usage?.output_tokens ?? 0} caption="Visible accounting" />
+                <${MetricCard} title="Estimated cost" value=${`$${Number(state.e2eRun.cost?.estimated_usd ?? 0).toFixed(6)}`} caption=${state.e2eRun.cost?.basis || "provider pricing"} />
+                <${MetricCard} title="Stages" value=${state.e2eRun.execution_trace?.length ?? 0} caption="Inspectable workflow events" />
+              </div>
+              <div class="ck-col" style="gap:6px; margin-top:10px">
+                ${(state.e2eRun.execution_trace || []).map((event) => html`
+                  <div class="ck-row" key=${`${event.stage}-${event.component}`} style="gap:8px; align-items:flex-start">
+                    <span class=${`ck-badge ${event.status === "completed" ? "ck-badge-success" : event.status === "failed" || event.status === "blocked" ? "ck-badge-danger" : "ck-badge-attention"}`}>${event.status}</span>
+                    <div><strong>${event.stage}</strong><div class="ck-muted">${event.component} · ${event.duration_ms ?? "n/a"} ms</div></div>
+                  </div>
+                `)}
+              </div>
+              <div class="ck-caption" style="margin-top:10px">Trace: ${state.e2eRun.trace_id || "not available"} · audit events: ${(state.e2eRun.audit_events || []).length}</div>
+              <div class="ck-muted" style="margin-top:6px">Private model chain-of-thought is not captured. This panel exposes structured stages, tool/policy outcomes, evidence, failures, and token/cost metadata.</div>
+            </div>
+          `
+          : null}
       </div>
 
       <div class="ops-layout">

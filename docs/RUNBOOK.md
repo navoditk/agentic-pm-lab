@@ -99,6 +99,13 @@ The Portfolio Risk Canvas includes bounded PM questions, scenario actions,
 provenance, trace inspection, and approval controls. The Agent Operations Canvas
 adds evaluation, cost, provider-health, incident, replay, and promotion views.
 
+For the full question-to-capstone workflow, follow
+[`CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md) and
+[`DAY_21_CANVAS_WORKFLOW.md`](DAY_21_CANVAS_WORKFLOW.md). The default fixture
+mode requires no model or AWS credentials and exposes structured execution
+stages, audit events, evaluation/provenance output, token estimates, cost basis,
+latency, and failure state. Private model chain-of-thought is never captured.
+
 The standalone tests prove the action contracts and state transitions. A live
 Copilot App session is separate evidence and should be recorded with a screenshot
 or run link when available.

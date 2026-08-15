@@ -8,6 +8,7 @@ AgentCore run.
 
 from datetime import date
 from pathlib import Path
+from time import perf_counter
 from typing import Any
 
 from src.agents.devils_advocate import run_committee_challenge
@@ -29,6 +30,47 @@ CAPSTONE_VERSIONS = {
 }
 
 
+def _trace_id() -> str:
+    """Return the active OTel trace id when a provider is recording one."""
+    from opentelemetry import trace
+
+    context = trace.get_current_span().get_span_context()
+    return format(context.trace_id, "032x") if context.is_valid else "0" * 32
+
+
+def _run_stage(
+    events: list[dict[str, Any]],
+    name: str,
+    component: str,
+    operation: Any,
+) -> Any:
+    """Run one capstone stage and record safe, inspectable execution metadata."""
+    started = perf_counter()
+    event: dict[str, Any] = {
+        "stage": name,
+        "component": component,
+        "status": "running",
+        "trace_id": _trace_id(),
+    }
+    events.append(event)
+    try:
+        result = operation()
+    except Exception as error:
+        event.update(
+            {
+                "status": "failed",
+                "error_type": type(error).__name__,
+                "error": str(error),
+            }
+        )
+        raise
+    else:
+        event["status"] = "completed"
+        return result
+    finally:
+        event["duration_ms"] = round((perf_counter() - started) * 1000, 3)
+
+
 def run_institutional_pm_capstone(
     *,
     identity: str,
@@ -39,7 +81,7 @@ def run_institutional_pm_capstone(
     approval: str | None = None,
 ) -> dict[str, Any]:
     """Run the full local PM/research/committee workflow."""
-    _authenticate_and_authorize(identity, portfolio_id, audit_log_path)
+    execution_trace: list[dict[str, Any]] = []
     _validate_date(decision_date)
 
     with observe_operation(
@@ -47,58 +89,118 @@ def run_institutional_pm_capstone(
         "workflow",
         {"app.auth.identity": identity, "app.portfolio.id": portfolio_id},
     ):
-        observations = _structured_observations()
-        freshness = _check_freshness(observations, decision_date)
-        evidence = mocked_thematic_screen(
-            "funding pressure and credit outlook",
-            entity="Issuer A",
-            publication_time="2026-08-12T08:00:00Z",
-            retrieval_time="2026-08-13T08:00:00Z",
-            novelty=0.8,
+        _run_stage(
+            execution_trace,
+            "authenticate_and_authorize",
+            "control",
+            lambda: _authenticate_and_authorize(identity, portfolio_id, audit_log_path),
         )
-        bond = _fixed_income_review()
-        rates_scenario = scenario_analysis(
-            [
-                {"security_id": "BOND_A", "weight": 0.40, "duration": 5.2},
-                {"security_id": "CREDIT_A", "weight": 0.30, "duration": 3.1},
-            ],
-            "rates",
-            50,
-            horizon="overnight",
+        observations = _run_stage(
+            execution_trace,
+            "load_structured_observations",
+            "data",
+            _structured_observations,
         )
-        credit_scenario = scenario_analysis(
-            [
-                {"security_id": "CREDIT_A", "weight": 0.30, "spread_duration": 4.0},
-            ],
-            "credit",
-            75,
-            horizon="overnight",
+        freshness = _run_stage(
+            execution_trace,
+            "point_in_time_freshness",
+            "provenance",
+            lambda: _check_freshness(observations, decision_date),
         )
-        hedge = _duration_hedge_proposal(
-            target_duration=0.40 * 5.2 + 0.30 * 3.1, hedge_duration=7.0
+        evidence = _run_stage(
+            execution_trace,
+            "retrieve_cited_research",
+            "research",
+            lambda: mocked_thematic_screen(
+                "funding pressure and credit outlook",
+                entity="Issuer A",
+                publication_time="2026-08-12T08:00:00Z",
+                retrieval_time="2026-08-13T08:00:00Z",
+                novelty=0.8,
+            ),
         )
-        thesis = _draft_thesis(rates_scenario, credit_scenario, evidence, bond, hedge)
-        committee = run_committee_challenge(
-            thesis,
-            decision_date=decision_date,
-            human_reviewer=human_reviewer,
-            approval=approval,
+        bond = _run_stage(
+            execution_trace, "fixed_income_validation", "quant", _fixed_income_review
         )
-        evaluation = _evaluate_capstone(
-            freshness=freshness,
-            evidence=evidence,
-            bond=bond,
-            rates_scenario=rates_scenario,
-            committee=committee,
+        rates_scenario = _run_stage(
+            execution_trace,
+            "rates_scenario",
+            "quant",
+            lambda: scenario_analysis(
+                [
+                    {"security_id": "BOND_A", "weight": 0.40, "duration": 5.2},
+                    {"security_id": "CREDIT_A", "weight": 0.30, "duration": 3.1},
+                ],
+                "rates",
+                50,
+                horizon="overnight",
+            ),
         )
-        record_audit_event(
-            identity,
-            role_for_identity(identity) or "unknown",
-            "institutional_pm_capstone",
-            "allowed",
-            "Tool",
-            resource_id=portfolio_id,
-            log_path=audit_log_path,
+        credit_scenario = _run_stage(
+            execution_trace,
+            "credit_scenario",
+            "quant",
+            lambda: scenario_analysis(
+                [
+                    {"security_id": "CREDIT_A", "weight": 0.30, "spread_duration": 4.0},
+                ],
+                "credit",
+                75,
+                horizon="overnight",
+            ),
+        )
+        hedge = _run_stage(
+            execution_trace,
+            "human_review_only_hedge",
+            "portfolio",
+            lambda: _duration_hedge_proposal(
+                target_duration=0.40 * 5.2 + 0.30 * 3.1, hedge_duration=7.0
+            ),
+        )
+        thesis = _run_stage(
+            execution_trace,
+            "draft_evidence_linked_thesis",
+            "supervisor",
+            lambda: _draft_thesis(
+                rates_scenario, credit_scenario, evidence, bond, hedge
+            ),
+        )
+        committee = _run_stage(
+            execution_trace,
+            "devils_advocate_committee_challenge",
+            "governance",
+            lambda: run_committee_challenge(
+                thesis,
+                decision_date=decision_date,
+                human_reviewer=human_reviewer,
+                approval=approval,
+            ),
+        )
+        evaluation = _run_stage(
+            execution_trace,
+            "evaluate_and_prepare_review",
+            "evaluation",
+            lambda: _evaluate_capstone(
+                freshness=freshness,
+                evidence=evidence,
+                bond=bond,
+                rates_scenario=rates_scenario,
+                committee=committee,
+            ),
+        )
+        _run_stage(
+            execution_trace,
+            "write_audit_event",
+            "audit",
+            lambda: record_audit_event(
+                identity,
+                role_for_identity(identity) or "unknown",
+                "institutional_pm_capstone",
+                "allowed",
+                "Tool",
+                resource_id=portfolio_id,
+                log_path=audit_log_path,
+            ),
         )
         return {
             "workflow": [
@@ -131,6 +233,13 @@ def run_institutional_pm_capstone(
             "production_oriented_poc": True,
             "order_execution": False,
             "live_provider_evidence": False,
+            "execution_trace": execution_trace,
+            "trace_id": _trace_id(),
+            "reasoning_artifact": {
+                "type": "structured_execution_trace",
+                "private_chain_of_thought_captured": False,
+                "note": "The trace exposes stages, tools, policy outcomes, evidence, failures, and outputs without exposing private model chain-of-thought.",
+            },
         }
 
 

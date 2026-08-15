@@ -1,7 +1,14 @@
+import { execFile } from "node:child_process";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { userStore } from "./canvas-kit/storage.mjs";
 
 const EXT_NAME = "portfolio-risk-canvas";
+const execFileAsync = promisify(execFile);
+const REPO_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
 
 const ROLE_BY_IDENTITY = {
   PM_USER: "pm",
@@ -239,6 +246,68 @@ function answerQuestion(state, question) {
   };
 }
 
+async function runEndToEndWorkflow({ question, identity, portfolio, mode }) {
+  const workspace = await mkdtemp(join(tmpdir(), "agentic-pm-canvas-"));
+  const auditLog = join(workspace, "workflow.audit.jsonl");
+  try {
+    const { stdout } = await execFileAsync(
+      "uv",
+      [
+        "run",
+        "python",
+        "scripts/run_canvas_pm_workflow.py",
+        "--question",
+        question,
+        "--identity",
+        identity,
+        "--portfolio-id",
+        portfolio,
+        "--mode",
+        mode,
+        "--audit-log",
+        auditLog,
+      ],
+      {
+        cwd: REPO_ROOT,
+        env: { ...process.env, UV_CACHE_DIR: process.env.UV_CACHE_DIR || "/tmp/agentic-pm-lab-uv-cache" },
+        maxBuffer: 4 * 1024 * 1024,
+      },
+    );
+    const output = JSON.parse(stdout.trim());
+    let auditEvents = [];
+    try {
+      auditEvents = (await readFile(auditLog, "utf8"))
+        .split("\n")
+        .filter(Boolean)
+        .map((line) => JSON.parse(line));
+    } catch {
+      auditEvents = [];
+    }
+    return { ...output, audit_events: auditEvents };
+  } catch (error) {
+    return {
+      status: "failed",
+      mode,
+      provider: mode === "fixture" ? "deterministic-local-capstone" : mode,
+      error_type: error.code || error.name || "workflow_error",
+      error: error.message,
+      execution_trace: [
+        {
+          stage: "canvas_to_workflow",
+          component: "portfolio-risk-canvas",
+          status: "failed",
+          error_type: error.code || error.name || "workflow_error",
+        },
+      ],
+      token_usage: { input_tokens: 0, output_tokens: 0, total_tokens: 0 },
+      cost: { currency: "USD", estimated_usd: 0, basis: "workflow failed before provider invocation" },
+      private_chain_of_thought_captured: false,
+    };
+  } finally {
+    await rm(workspace, { recursive: true, force: true });
+  }
+}
+
 export const canvasConfig = {
   id: "portfolio-risk-canvas",
   displayName: "Portfolio Risk",
@@ -261,6 +330,44 @@ export const canvasConfig = {
   statusLine: (_ctx, state) => `${state.identity} · ${state.portfolio} · ${state.view}`,
 
   actions: {
+    run_pm_workflow: {
+      description: "Run the complete provider-neutral PM workflow and return trace, audit, evaluation, and token evidence.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          questionId: { type: "string", enum: Object.keys(PM_QUESTIONS) },
+          mode: { type: "string", enum: ["fixture", "local", "openai", "anthropic", "aws"] },
+        },
+        required: ["questionId", "mode"],
+        additionalProperties: false,
+      },
+      handler: async ({ state, set, input }) => {
+        const question = PM_QUESTIONS[input.questionId];
+        if (!question) throw new Error(`Unknown PM question ${input.questionId}`);
+        const result = await runEndToEndWorkflow({
+          question: question.prompt,
+          identity: state.identity,
+          portfolio: state.portfolio,
+          mode: input.mode,
+        });
+        const e2eRun = {
+          ...result,
+          questionId: question.id,
+          question: question.prompt,
+          identity: state.identity,
+          portfolio: state.portfolio,
+          completedAt: new Date().toISOString(),
+        };
+        set((current) => ({
+          ...current,
+          e2eRun,
+          lastAction: `End-to-end PM workflow: ${question.prompt}`,
+          updatedAt: new Date().toISOString(),
+        }));
+        return e2eRun;
+      },
+    },
+
     ask_pm_question: {
       description: "Run one bounded PM learning question through the local governed workflow.",
       inputSchema: {

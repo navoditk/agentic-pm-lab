@@ -82,6 +82,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - OpenTelemetry Python [FastAPI instrumentation](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/fastapi/fastapi.html)
 - OpenTelemetry [Collector documentation](https://opentelemetry.io/docs/collector/), if you add a local Jaeger/Collector service in Docker Compose
 - OpenTelemetry [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)
+- OpenTelemetry [traces, metrics, and logs](https://opentelemetry.io/docs/concepts/signals/) — useful background for separating the Canvas execution envelope from provider/model spans.
 
 ### Model Context Protocol (MCP)
 - Official [MCP specification and docs](https://modelcontextprotocol.io/)

@@ -148,7 +148,7 @@ vendors or substitutes for licensed institutional feeds.
 
 **Context is engineered, not assumed.** The agent's context window is assembled deliberately from named sources (user/role, portfolio state, market data, retrieved research, memory, tool outputs, skills) rather than accumulating implicitly — see §3, principle 11, and `docs/PLAN.md` §13.
 
-**End state:** the multi-agent Portfolio Manager system runs on AWS Bedrock AgentCore (Runtime, Gateway, Identity, Policy, Observability), reachable only through the Gateway-governed path, as an integration-depth proof of concept — real running code and real captured traces, deliberately not a persistent production service (resources are torn down after the final integration step; see `docs/PLAN.md` for why). The expanded 20-day roadmap makes AgentCore Memory, AWS-native Evaluations, richer Bedrock Guardrails, point-in-time data, SEC research, investment-research collaboration, Devil's Advocate challenge, AgentOps, and the final institutional capstone mainstream milestones in Days 13–20.
+**End state:** the multi-agent Portfolio Manager system runs on AWS Bedrock AgentCore (Runtime, Gateway, Identity, Policy, Observability), reachable only through the Gateway-governed path, as an integration-depth proof of concept — real running code and real captured traces, deliberately not a persistent production service (resources are torn down after the final integration step; see `docs/PLAN.md` for why). The expanded 20-day roadmap makes AgentCore Memory, AWS-native Evaluations, richer Bedrock Guardrails, point-in-time data, SEC research, investment-research collaboration, Devil's Advocate challenge, AgentOps, and the final institutional capstone mainstream milestones in Days 13–20. Day 21 adds a provider-neutral Canvas entry point over the local capstone so learners can reproduce the workflow before adding provider-specific credentials.
 
 ---
 
@@ -258,6 +258,7 @@ Success is tiered on purpose — **one working vertical slice matters more than 
 ### Tier 2 — strongly desirable
 - Identity and authorization (test identities with deliberately different entitlements) plus negative security tests (prompt injection, tool-bypass attempts) pass, per the security acceptance test below.
 - Four working GitHub Copilot Canvas extensions exist, including one capstone (Portfolio/Risk Operations) that stands on its own as a demonstrable artifact, calling only governed interfaces.
+- A new learner can run the default Canvas fixture exercise from a clean local setup and inspect the request, ordered workflow stages, policy/audit decisions, provenance, evaluation, token accounting, latency, cost basis, and failure state without exposing private model chain-of-thought.
 - The same agent runs successfully on AWS Bedrock AgentCore Runtime and Gateway at least once, with a captured trace and a passing evaluation run against the golden dataset, reachable only through the Gateway-governed path.
 - Every business question in §4 has a named prompt, skill, or agent-callable capability that answers it, traceable in `docs/PLAN.md` Appendix C, each with a contract and test.
 - The document-to-skill learning deliverable can take a public model document through a cited document map and candidate `SKILL.md`/contract package, with explicit ambiguity and human-review status; executable calculators are only accepted when source-derived tests pass.
@@ -268,7 +269,7 @@ Success is tiered on purpose — **one working vertical slice matters more than 
 - Additional custom agents, canvases, ADRs, and general operational polish beyond what Tier 1/2 required.
 
 ### Core end-state acceptance test
-A user request enters through the interactive surface, reaches a LangGraph/Deep Agent, selects a reusable skill/tool path, invokes governed MCP-backed deterministic portfolio/risk tools, returns an answer, emits an OpenTelemetry trace and eval result, records control/audit decisions, and can be deployed through the Bedrock/AgentCore target path — without changing the fundamental business/tool architecture.
+A user request enters through the interactive surface, reaches a LangGraph/Deep Agent or the reproducible Day 21 fixture capstone path, selects a reusable skill/tool path, invokes governed MCP-backed deterministic portfolio/risk tools, returns an answer, emits structured trace/evaluation evidence and token/cost metadata, records control/audit decisions, and can be deployed through the Bedrock/AgentCore target path — without changing the fundamental business/tool architecture.
 
 ### Security acceptance test
 An authenticated but unauthorized user cannot retrieve restricted portfolio data even if the model is successfully prompt-injected or attempts an alternate tool path. (`docs/PLAN.md` §15 has the concrete test-identity scenarios this is checked against.)

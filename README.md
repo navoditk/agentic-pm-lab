@@ -1,6 +1,6 @@
 # Agentic AI Learning Journey: Portfolio Management & Optimization
 
-This repository is a 20-day, hands-on roadmap for building an institutional-grade, fixed-income-first Portfolio Manager (PM) AI platform for the buy side. It combines deterministic bond and portfolio analytics, multi-agent research and risk workflows, governance, evaluations, observability, and an interactive GitHub Copilot Canvas surface.
+This repository is a 20-day hands-on roadmap plus a Day 21 learner bridge for building an institutional-grade, fixed-income-first Portfolio Manager (PM) AI platform for the buy side. It combines deterministic bond and portfolio analytics, multi-agent research and risk workflows, governance, evaluations, observability, and an interactive GitHub Copilot Canvas surface.
 
 The project is deliberately company-agnostic and uses only public or clearly labelled mock data. It is a learning and prototyping environment—not an investment adviser, trading system, or production deployment.
 
@@ -83,12 +83,15 @@ not assumed to be available in this public learning repository.
 
 ## Current status and roadmap
 
-Days 1–20 are complete locally. They cover the walking skeleton, public-data layer,
+Days 1–21 are complete locally. They cover the walking skeleton, public-data layer,
 deterministic tool layer, Deep Agents, multi-agent orchestration,
 OpenTelemetry/evals, control-layer foundations, Canvas fundamentals through
 Agent Operations, AgentCore Memory/Evaluations boundaries, extended
 Guardrails, point-in-time and SEC evidence, and the initial investment-research
 workflow, committee challenge, AgentOps Canvas, and institutional PM capstone.
+Day 21 adds a Canvas-to-capstone fixture workflow with structured stage traces,
+audit/evaluation/provenance evidence, failure visibility, and token/cost
+accounting. It is the default learner path before enabling a real model provider.
 Live AWS/provider/browser capture remains separate and is tracked in
 [PROGRESS.md](PROGRESS.md) and the [evidence ledger](docs/EVIDENCE.md).
 Latest live evidence includes a successful temporary AgentCore Runtime request,
@@ -280,13 +283,14 @@ The next learning track is the [Phase 2 institutional PM AI production-readiness
 | [PROGRESS.md](PROGRESS.md) | Current day, completed work, pending work, and evidence |
 | [docs/README.md](docs/README.md) | Documentation index by intent |
 | [docs/PRD.md](docs/PRD.md) | Vision, business problems, architecture, principles, success criteria, and non-goals |
-| [docs/PLAN.md](docs/PLAN.md) | Day-by-day implementation plan, contracts, skills, security, context engineering, and Days 10–20 extension |
+| [docs/PLAN.md](docs/PLAN.md) | Day-by-day implementation plan, contracts, skills, security, context engineering, and Days 10–21 extension |
 | [docs/PHASE_1_RECAP.md](docs/PHASE_1_RECAP.md) | Completed Phase 1 recap, self-check checklist, learning path, tutor prompts, and evidence guide |
 | [docs/GITHUB_WORKFLOWS.md](docs/GITHUB_WORKFLOWS.md) | GitHub Actions workflow map, triggers, checks, permissions, local equivalents, and troubleshooting |
 | [docs/PHASE_2_PLAN.md](docs/PHASE_2_PLAN.md) | Follow-on 20-day institutional PM AI production-readiness track |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Canonical architecture and security boundaries |
 | [docs/DIAGRAMS.md](docs/DIAGRAMS.md) | Mermaid diagrams for layers, request flow, agents, data, governance, AWS, and CI |
 | [docs/CANVAS_EXERCISES.md](docs/CANVAS_EXERCISES.md) | End-to-end PM question, scenario, entitlement, approval, and AgentOps Canvas exercises |
+| [docs/DAY_21_CANVAS_WORKFLOW.md](docs/DAY_21_CANVAS_WORKFLOW.md) | Canvas-to-capstone execution, trace, audit, privacy, provider modes, and token/cost accounting |
 | [docs/REFERENCES.md](docs/REFERENCES.md) | Curated documentation, cookbooks, projects, talks, videos, and podcasts by topic |
 | [docs/PLAN_REVIEW.md](docs/PLAN_REVIEW.md) | 20-day completion audit, documentation review, and remaining live-evidence actions |
 | [docs/AGENT_RUNBOOK.md](docs/AGENT_RUNBOOK.md) | Standalone custom-agent and skill examples, test cases, expected outputs, and troubleshooting |

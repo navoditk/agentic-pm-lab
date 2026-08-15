@@ -21,6 +21,38 @@ node test/smoke.test.mjs
 When using the GitHub Copilot App, expose the extension according to the Canvas
 README, reload extensions, and open `portfolio-risk-canvas`.
 
+## Full end-to-end run
+
+The default path is the **fixture** mode. It invokes the repository's actual
+Python capstone through the provider-neutral runner; it does not call a model or
+AWS. In the Canvas:
+
+1. Select a PM question.
+2. Leave execution mode as `fixture (no model)`.
+3. Choose **Run end-to-end**.
+4. Inspect the completed stage list, evaluation result, provenance, audit-event
+   count, token totals, latency, cost basis, and trace ID.
+5. Expand the Trace and Provenance views to compare the response with the
+   underlying workflow evidence.
+
+The same run is reproducible from a terminal:
+
+```bash
+uv run python scripts/run_canvas_pm_workflow.py \
+  --question "What happens if rates rise by 50 bps?" \
+  --identity PM_USER \
+  --portfolio-id PORT_A \
+  --mode fixture \
+  --audit-log /tmp/day21-canvas.audit.jsonl
+```
+
+See [`DAY_21_CANVAS_WORKFLOW.md`](DAY_21_CANVAS_WORKFLOW.md) for the full
+evidence envelope, token accounting, privacy boundary, and provider-mode rules.
+
+The `local`, `openai`, `anthropic`, and `aws` selectors are explicit provider
+boundaries. Without their separate setup, they return `blocked` and zero cost;
+they never silently substitute fixture output.
+
 ## Exercise 1 — Current risk snapshot
 
 **Question:** “What are the largest current portfolio risks?”

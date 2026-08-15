@@ -804,6 +804,7 @@ thesis-challenge patterns as new workflows.
 | 18 | Devil's Advocate and committee challenge | Independent thesis critic, evidence grading, rebuttal workflow, no self-approval |
 | 19 | Production AgentOps and Canvas | Research/committee Canvas, deployment promotion, cost/latency/SLO dashboards, incident and replay exercises |
 | 20 | Institutional PM capstone | End-to-end governed PM workflow, full evaluation, security acceptance, final architecture and public write-up |
+| 21 | Canvas end-to-end PM workflow | Download-to-run Canvas exercise with governed execution trace, audit/evaluation evidence, provider-mode boundaries, and token/cost accounting |
 
 ### Day 10 — Governed PM/Risk capstone
 
@@ -1077,6 +1078,50 @@ Capture the final Canvas, traces, evaluation comparison, data cards, ADRs,
 runbook, architecture diagram, and public learning write-up. Explicitly label
 the result as a production-oriented proof of concept, not an investment
 management or order-execution system.
+
+### Day 21 — Canvas end-to-end PM workflow
+
+Turn the Portfolio Risk Canvas into a reproducible learner entry point for the
+complete local PM workflow. A learner who has completed `INSTALL.md` must be
+able to open the Canvas, choose a representative PM question, run the default
+fixture mode, and inspect the same end-to-end stages that the Day 20 capstone
+already exercises.
+
+The Canvas action must call the provider-neutral runner at
+`scripts/run_canvas_pm_workflow.py`, which in fixture mode invokes the real
+local `src/capstone/workflow.py` path. It must not duplicate the capstone's
+business logic in JavaScript. The runner must return:
+
+1. request, identity, portfolio, question, mode, provider, and decision date;
+2. ordered stage events with component, status, duration, and trace ID;
+3. structured audit events and evaluation dimensions;
+4. structured inputs/outputs and provenance references;
+5. input, output, and total token counts with a clearly labelled accounting
+   basis;
+6. estimated cost, currency, pricing basis, and latency;
+7. approval state, order-execution state, and failure/degraded state; and
+8. a statement that private model chain-of-thought is not captured.
+
+The Canvas must expose a default `fixture` mode that requires no model key,
+cloud account, or AWS spend. It may expose `local`, `openai`, `anthropic`, and
+`aws` mode selectors, but an unconfigured mode must fail closed and must never
+silently substitute fixture output. Each non-fixture run requires its own
+provider-specific setup, cost evidence, and experiment record.
+
+Add tests for successful fixture execution, provider-mode blocking without
+fallback, and a failed-stage or invalid-input path that remains visible. Add
+the walkthrough to `docs/CANVAS_EXERCISES.md` and the detailed design/evidence
+contract to `docs/DAY_21_CANVAS_WORKFLOW.md`. Update `README.md`, `PROGRESS.md`,
+`docs/ARCHITECTURE.md`, `docs/RUNBOOK.md`, `docs/PRD.md`, and
+`docs/REFERENCES.md` so the default learner path, observable evidence, token
+accounting, and model privacy boundary are explicit.
+
+**Acceptance:** from a clean local setup, a learner can run the Canvas exercise
+without credentials, receive a completed fixture workflow, inspect at least
+eight ordered stages, see audit/evaluation/provenance evidence, see nonzero
+transparent token accounting at zero model cost, and distinguish fixture output
+from blocked provider modes. A live model or AWS run is additional evidence,
+not a prerequisite for the local acceptance test.
 
 ## Appendix A — Installation & Environment Setup
 

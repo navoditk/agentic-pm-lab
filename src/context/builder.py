@@ -86,6 +86,14 @@ def build_filtered_context(
 
 
 def count_context_tokens(rendered_context: str, model: str = "gpt-4.1-mini") -> int:
-    """Count context tokens with the model's tiktoken encoding."""
-    encoding = tiktoken.encoding_for_model(model)
+    """Count context tokens, with an offline-safe estimate when needed.
+
+    ``tiktoken`` may lazily download an encoding file for a model that is not
+    cached. Unit tests and the default Canvas fixture must remain offline, so a
+    transparent four-characters-per-token approximation is used as a fallback.
+    """
+    try:
+        encoding = tiktoken.encoding_for_model(model)
+    except (KeyError, OSError, ValueError):  # pragma: no cover - cache-dependent
+        return max(1, (len(rendered_context) + 3) // 4)
     return len(encoding.encode(rendered_context))

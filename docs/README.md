@@ -22,6 +22,7 @@ from root-level visibility remain at the root: `README.md`, `AGENTS.md`,
 | Understand the current system design | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
 | See the key architecture diagrams | [`DIAGRAMS.md`](DIAGRAMS.md) |
 | Run end-to-end PM Canvas exercises | [`CANVAS_EXERCISES.md`](CANVAS_EXERCISES.md) |
+| Review the Day 21 Canvas workflow contract | [`DAY_21_CANVAS_WORKFLOW.md`](DAY_21_CANVAS_WORKFLOW.md) |
 
 ## Learn and operate
 

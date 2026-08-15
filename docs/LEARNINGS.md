@@ -64,6 +64,25 @@ structured observations. Live AgentCore, CloudWatch, provider uptime, Canvas
 capture, and live external-data evidence remain deployment/evidence work rather
 than being inferred from this replay.
 
+## 2026-08-14 — Day 21
+
+**What worked:** A Canvas can be a genuine learner entry point when it calls
+the same governed workflow boundary as the terminal path. The new fixture
+runner carries one request through authentication, data freshness, research,
+fixed-income and scenario analysis, challenge, review, evaluation, and audit.
+Each stage returns status, duration, component, operation, and trace ID, while
+the final envelope preserves provenance, approval state, failures, and audit
+events. Token usage is visible using serialized input/output counts and a
+documented four-characters-per-token approximation when no model tokenizer is
+available; fixture cost is explicitly zero.
+
+**What remains limited:** The fixture path is a deterministic capstone, not a
+model invocation and not a private chain-of-thought recorder. It exposes the
+structured execution trace and decision artifacts a system operator needs, but
+never claims access to hidden model reasoning. Provider modes are explicit
+configuration boundaries and fail closed until credentials, model selection,
+pricing, and provider evidence are supplied.
+
 ## 2026-08-13 — Day 19
 
 **What worked:** Extending the existing Agent Operations Canvas preserved the

@@ -1,7 +1,10 @@
-# 20-day plan completion audit
+# 20-day plan completion audit and Day 21 bridge review
 
 Reviewed 2026-08-14 UTC against `docs/PLAN.md`, `PROGRESS.md`, the repository
-implementation, `docs/EVIDENCE.md`, and the dated experiment records.
+implementation, `docs/EVIDENCE.md`, the Day 21 Canvas workflow, and the dated
+experiment records. The original 20-day plan remains separately assessed;
+Day 21 is a learner-facing bridge extension rather than a retroactive change
+to the original completion claim.
 
 ## Bottom line
 

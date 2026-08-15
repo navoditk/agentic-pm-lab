@@ -61,7 +61,7 @@ def _run_checks(checks: list[dict]) -> list[bool]:
                 results.append(False)
                 continue
             proc = subprocess.run(
-                ["uv", "run", "pytest", str(test_path), "-q"],
+                [sys.executable, "-m", "pytest", str(test_path), "-q"],
                 cwd=REPO_ROOT,
                 capture_output=True,
                 check=False,
@@ -136,11 +136,11 @@ def build_mock_real_table() -> str:
 def render_status_block(progress: dict) -> str:
     day_table = build_day_table(progress)
     mock_table = build_mock_real_table()
-    total_days = 20
+    total_days = 21
     completed = sum(
         1
         for key, entry in progress.items()
-        if int(key.split("_")[1]) <= 20
+        if int(key.split("_")[1]) <= 21
         and entry.get("checks")
         and all(_run_checks(entry["checks"]))
     )
