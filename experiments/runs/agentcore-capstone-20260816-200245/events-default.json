@@ -1,0 +1,75 @@
+{
+    "events": [
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910618501,
+            "message": "INFO:agentic_pm_lab.agentcore_proof:workflow_stage=request_received details={\"request_id\": \"exp-agentcore-proof-001\"}",
+            "ingestionTime": 1786910619754,
+            "eventId": "39849438395739561836390776387125580550835760588520620032"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910618501,
+            "message": "INFO:agentic_pm_lab.agentcore_proof:workflow_stage=input_validated details={\"source_count\": 5}",
+            "ingestionTime": 1786910619754,
+            "eventId": "39849438395739561836390776387125580550835760588520620033"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910618501,
+            "message": "INFO:agentic_pm_lab.agentcore_proof:workflow_stage=authorization_checked details={\"action\": \"read_only_research\", \"decision\": \"allow\"}",
+            "ingestionTime": 1786910619754,
+            "eventId": "39849438395739561836390776387125580550835760588520620034"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910618501,
+            "message": "INFO:agentic_pm_lab.agentcore_proof:workflow_stage=orchestration_started details={\"order_execution\": false, \"tools\": []}",
+            "ingestionTime": 1786910619754,
+            "eventId": "39849438395739561836390776387125580550835760588520620035"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910618525,
+            "message": "INFO:botocore.credentials:Found credentials from IAM Role: execution_role",
+            "ingestionTime": 1786910619754,
+            "eventId": "39849438396274779721155511342522437789379321264664150020"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910621845,
+            "message": "INFO:agentic_pm_lab.agentcore_proof:workflow_stage=bedrock_completed details={\"usage\": {\"cacheReadInputTokens\": 0, \"cacheWriteInputTokens\": 0, \"inputTokens\": 199, \"outputTokens\": 300, \"totalTokens\": 499}}",
+            "ingestionTime": 1786910622349,
+            "eventId": "39849438470313253780277180175558433397393442192147021824"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910621845,
+            "message": "INFO:agentic_pm_lab.agentcore_proof:workflow_stage=guardrail_checked details={\"decision\": \"allow\", \"guardrail_id\": null, \"violations\": []}",
+            "ingestionTime": 1786910622349,
+            "eventId": "39849438470313253780277180175558433397393442192147021825"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910621845,
+            "message": "INFO:agentic_pm_lab.agentcore_proof:workflow_stage=response_emitted details={\"approval_required\": true, \"order_execution\": false}",
+            "ingestionTime": 1786910622349,
+            "eventId": "39849438470313253780277180175558433397393442192147021826"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910621846,
+            "message": "{\"timestamp\": \"2026-08-16T20:03:41.846Z\", \"level\": \"INFO\", \"message\": \"Invocation completed successfully (3.375s)\", \"logger\": \"bedrock_agentcore.app\", \"requestId\": \"21ab2d8e-c012-4ddc-8abf-cb9712e5cd6e\", \"sessionId\": \"session-180d1afa96ba43e2b6961afb22f4f7c3\"}",
+            "ingestionTime": 1786910622349,
+            "eventId": "39849438470335554525475710798699969115666090553653002243"
+        },
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-180d1afa96ba43e2b6961afb22f4f7c3]9a07e655-aa45-41d7-89f7-6e3a277a1eb5",
+            "timestamp": 1786910621846,
+            "message": "INFO:bedrock_agentcore.app:Invocation completed successfully (3.375s)",
+            "ingestionTime": 1786910622349,
+            "eventId": "39849438470335554525475710798699969115666090553653002244"
+        }
+    ],
+    "searchedLogStreams": []
+}

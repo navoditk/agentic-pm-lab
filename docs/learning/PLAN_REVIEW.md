@@ -31,21 +31,21 @@ mock fixture != production data or provider availability
 | 3 | Deterministic pricing, risk, optimization, contracts, and tool boundary | No production data or hosted tool boundary claimed | Local complete |
 | 4 | Single Deep Agent, skills, context, local-model comparison | OpenAI smoke evidence exists; local Qwen limitation recorded | Complete for learning scope |
 | 5 | Multi-agent orchestration, retries, dead letters, checkpoint/resume | Provider-dependent hosted replay is not a release gate | Complete for learning scope |
-| 6 | OTel, LangSmith runner, golden dataset, evaluators | Baseline experiment captured; future paid reruns require credentials/approval | Local/eval complete |
+| 6 | OTel, LangSmith runner, golden dataset, evaluators | AgentCore runtime logs and namespace metrics captured; hosted ADOT/OTel span export and paid LangSmith reruns remain optional | Local/eval complete; runtime metrics evidenced |
 | 7 | AuthN/AuthZ, Cedar, guardrails, human approval, adversarial tests | No managed authorization service claimed | Local complete |
 | 8 | Kanban and issue-triage Canvas foundations | Interactive Copilot browser/screenshot evidence remains unclaimed; browser connector unavailable on 2026-08-16 | Local complete; hosted follow-up |
 | 9 | Agent Operations Canvas and run history | Live LangSmith path requires credentials | Local complete; live follow-up |
 | 10 | Governed MCP boundary and Portfolio/Risk Canvas | Visual Copilot/browser evidence remains unclaimed; local capability and smoke tests pass | Local complete; hosted follow-up |
 | 11 | Runtime, automation, prompts, CI, runbooks | Scheduled morning-brief workflow, artifact upload, and review issue verified; native Copilot automation evidence remains unclaimed | Local and scheduled-workflow complete; Copilot follow-up |
-| 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful read-only invocation and teardown; no Gateway deployment | Local complete; Runtime live-complete; Gateway follow-up |
+| 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful hosted counterpart invocation, CloudWatch stages, usage, cost, and teardown; no Gateway | Local complete; hosted counterpart live-complete; full hosted capstone/Gateway follow-up |
 | 13 | Memory boundaries and evaluation manifest | Live semantic Memory retrieval and scored on-demand Evaluation fixture captured; hosted-runtime span collection remains optional | Local complete; AWS control/data paths evidenced |
 | 14 | Guardrail logic, cases, evaluation dimensions | Live standalone Bedrock Guardrail pass/block proof captured; managed attachment remains optional | Local complete; standalone AWS proof complete |
 | 15 | Point-in-time provenance and bond metadata | Live ALFRED vintage and Treasury daily yield-curve capture evidenced; TRACE/OpenBB remain unclaimed | Local complete; high-feasibility provider evidence complete |
 | 16 | SEC metadata, citations, document-to-skill foundation | Live SEC submissions and Company Facts metadata capture evidenced; full filing-text path remains separate | Local complete; metadata evidence complete |
 | 17 | Research specialists, fixed-income branch, mocked provider adapter | No live provider or successful AgentCore research run | Local complete; live AWS/provider incomplete |
 | 18 | Independent Devil's Advocate and committee challenge | Semantic truth and production liquidity analysis remain limited | Local complete with explicit limitations |
-| 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Canvas loopback/capability tests pass; Copilot-hosted visual capture and native Copilot run remain unclaimed | Local complete; account-dependent visual/provider evidence |
-| 20 | Institutional PM capstone replay and release evidence structure | Live AgentCore request completed with workflow stages, usage, safety flags, and teardown | Local and live capstone proof complete |
+| 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Canvas loopback/capability tests pass; hosted AgentCore runtime metrics and logs evidenced; Copilot-hosted visual capture remains unclaimed | Local complete; hosted observability evidence complete |
+| 20 | Institutional PM capstone replay and release evidence structure | Local full replay complete; hosted AgentCore counterpart completed, but the deployed proof slice does not yet execute every local capstone stage | Local complete; hosted integration evidenced; full hosted reproduction remains |
 
 ## Documentation audit
 
@@ -92,7 +92,8 @@ must not claim those external validations until their prerequisites exist.
    those spans, but it is an instrumentation enhancement rather than an
    unresolved evaluation API blocker. Live Memory and standalone Guardrails
    evidence are complete; managed Guardrail attachment remains a separate
-   optional extension.
+   optional extension. Hosted runtime logs and `AWS/Bedrock-AgentCore` metrics
+   are now evidenced; hosted ADOT/OTel span export remains optional.
 3. The reviewed ALFRED/Treasury/SEC capture is now promoted into governed
    source-specific cached tables with scheduled freshness checks. Other sources
    such as Treasury auctions, TRACE, N-PORT, ratings, GDELT, and provider
@@ -100,9 +101,10 @@ must not claim those external validations until their prerequisites exist.
 4. Complete native Copilot automation and Copilot/Canvas browser evidence where
    the platform account makes those steps available. GitHub Projects and the
    scheduled morning-brief workflow are now evidenced.
-5. Expand the successful minimal proof into the full capstone against the
-   selected hosted runtime and compare it
-   with the local fixture using the experiment manifest and cost record.
+5. Package the full deterministic capstone behind the hosted AgentCore
+   entrypoint and compare it with the local fixture using the experiment
+   manifest and cost record. The current hosted counterpart is recorded, but
+   does not yet execute every local capstone stage.
 
 Do not change the local status table to “incomplete” solely because these live
 tasks are unclaimed. Instead, keep the two evidence classes visible and update

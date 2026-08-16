@@ -1,0 +1,10 @@
+{
+    "liveVersion": "1",
+    "agentRuntimeEndpointArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/agentic_pm_agentcore_capstone_20260816_200245-qI1TS02y45/runtime-endpoint/default",
+    "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/agentic_pm_agentcore_capstone_20260816_200245-qI1TS02y45",
+    "status": "READY",
+    "createdAt": "2026-08-16T20:03:03.840764+00:00",
+    "lastUpdatedAt": "2026-08-16T20:03:04.588395+00:00",
+    "name": "default",
+    "id": "default"
+}

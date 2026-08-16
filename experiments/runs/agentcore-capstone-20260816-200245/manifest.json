@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "run_id": "agentcore-capstone-20260816-200245",
+  "created_at": "2026-08-16T20:02:45Z",
+  "updated_at": "2026-08-16T20:08:00Z",
+  "experiment": {
+    "name": "hosted AgentCore counterpart comparison",
+    "status": "success",
+    "decision": "partial_hosted_comparison"
+  },
+  "execution": {
+    "provider": "aws",
+    "mode": "temporary_agentcore_runtime",
+    "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "region": "us-west-2",
+    "runtime_id": "agentic_pm_agentcore_capstone_20260816_200245-qI1TS02y45",
+    "endpoint": "default",
+    "request_id": "exp-agentcore-proof-001"
+  },
+  "input": {
+    "path": "experiments/agentcore-runtime-proof/input.json",
+    "scope": "public/mock Portfolio A read-only request"
+  },
+  "output": {
+    "hosted_response": "hosted-response.json",
+    "local_reference": "local-response.json",
+    "comparison_scope": "same bounded request; hosted proof slice versus full local capstone replay"
+  },
+  "usage": {
+    "input_tokens": 199,
+    "output_tokens": 300,
+    "total_tokens": 499,
+    "latency_ms": null
+  },
+  "pricing": {
+    "currency": "USD",
+    "token_rate": "not separately asserted; Cost Explorer is the authoritative run-level estimate",
+    "source": "AWS Cost Explorer UnblendedCost",
+    "as_of": "2026-08-16"
+  },
+  "costs": {
+    "aws_observed_usd": null,
+    "aws_estimated_usd": 0.008064516,
+    "token_estimate_usd": null,
+    "total_estimated_usd": 0.008064516,
+    "budget_actual_usd": 0.417,
+    "budget_forecast_usd": 0.839,
+    "accounting_note": "Cost Explorer value is estimated and account/day scoped; it is not attributed exclusively to this request. No model-token price was inferred."
+  },
+  "evidence": [
+    "hosted-response.json",
+    "runtime.json",
+    "endpoint.json",
+    "log-streams-default.json",
+    "events-default.json",
+    "metrics.json",
+    "budget.json",
+    "cost.json",
+    "local-response.json",
+    "local-audit.jsonl"
+  ],
+  "cleanup": {
+    "runtime": "deleted",
+    "endpoint": "deleted",
+    "s3_prefix": "deleted",
+    "log_groups": "deleted after local evidence capture"
+  }
+}

@@ -347,13 +347,21 @@ aws bedrock-agentcore-control get-agent-runtime --agent-runtime-id "$RUNTIME_ID"
 aws bedrock-agentcore-control get-agent-runtime-endpoint \
   --agent-runtime-id "$RUNTIME_ID" --endpoint-name default --region "$AWS_REGION" \
   > experiments/runs/"$RUN_ID"/endpoint.json
-LOG_GROUP="/aws/bedrock-agentcore/runtimes/$RUNTIME_ID"
+LOG_GROUP="/aws/bedrock-agentcore/runtimes/$RUNTIME_ID-default"
 aws logs describe-log-streams --log-group-name "$LOG_GROUP" \
   --order-by LastEventTime --descending --region "$AWS_REGION" \
   > experiments/runs/"$RUN_ID"/log-streams.json
 aws logs filter-log-events --log-group-name "$LOG_GROUP" \
   --start-time "$(( $(date +%s) - 3600 ))000" --region "$AWS_REGION" \
-  > experiments/runs/"$RUN_ID"/events.json
+> experiments/runs/"$RUN_ID"/events.json
+
+# AgentCore may also create an uppercase endpoint-suffix group. Query both when
+# troubleshooting delivery, but the lowercase `-default` group contains the
+# normal endpoint event stream for this lab.
+UPPER_LOG_GROUP="/aws/bedrock-agentcore/runtimes/$RUNTIME_ID-DEFAULT"
+aws logs describe-log-streams --log-group-name "$UPPER_LOG_GROUP" \
+  --order-by LastEventTime --descending --region "$AWS_REGION" \
+  > experiments/runs/"$RUN_ID"/log-streams-DEFAULT.json 2>/dev/null || true
 aws budgets describe-budget --account-id "$ACCOUNT_ID" \
   --budget-name agentic-pm-lab-monthly > experiments/runs/"$RUN_ID"/budget.json
 ```
@@ -396,8 +404,11 @@ aws s3api delete-objects --bucket "$CODE_BUCKET" \
     --prefix "$RUN_PREFIX/" --query '{Objects: Contents[].{Key:Key}}' --output json)" \
   2>/dev/null || true
 aws s3api delete-bucket --bucket "$CODE_BUCKET" --region "$AWS_REGION" 2>/dev/null || true
-aws logs delete-log-group --log-group-name "/aws/bedrock-agentcore/runtimes/$RUNTIME_ID" \
-  --region "$AWS_REGION" 2>/dev/null || true
+for suffix in DEFAULT default; do
+  aws logs delete-log-group \
+    --log-group-name "/aws/bedrock-agentcore/runtimes/$RUNTIME_ID-$suffix" \
+    --region "$AWS_REGION" 2>/dev/null || true
+done
 ```
 
 Verify cleanup:

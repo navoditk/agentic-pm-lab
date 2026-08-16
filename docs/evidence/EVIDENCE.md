@@ -10,12 +10,33 @@ or browser session was exercised.
 | OpenTelemetry and evaluation | Local exporters, golden dataset, deterministic evaluators, Day 6/7 records | Scored AgentCore on-demand fixture; hosted-runtime span collection not claimed | Local and on-demand evaluation proof complete; hosted rerun requires instrumentation and credentials |
 | LangSmith / paid model | Runner and contracts exist | `OPENAI_API_KEY` and `LANGSMITH_API_KEY` are unset | Blocked pending credentials and explicit spend approval |
 | AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md) |
-| AWS observability | Local OTel path and CloudWatch target documented | Successful runtime CloudWatch trace captured; AgentCore namespace metrics remain unclaimed | Runtime trace proof complete; metrics remain optional |
+| AWS observability | Local OTel path and CloudWatch target documented | Successful runtime CloudWatch events plus AgentCore namespace metrics captured; ADOT/hosted OTel span collection remains unclaimed | Runtime logs and metrics live-complete; hosted OTel span export remains optional |
 | Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | [Live ALFRED/Treasury/SEC capture](../../experiments/runs/2026-08-16-live-public-data-004/) | ALFRED, Treasury daily yield curve, and SEC EDGAR live-complete for bounded capture; auctions/TRACE/N-PORT/research remain unclaimed |
 | GitHub Projects learning board | Project schema, linked repository, 21 roadmap items, two morning-review issues | [Project views overview](screenshots/github-project/github-project-views-overview.png); [corrected roadmap screenshot](screenshots/github-project/github-project-21-day-roadmap.png) | Views created, roadmap filter corrected and saved, and browser evidence captured |
 | Scheduled morning brief | `.github/workflows/morning-brief.yml` and deterministic artifact generator | [Workflow run 31865364150](https://github.com/navoditk/agentic-pm-lab/actions/runs/31865364150); [review issue #3](https://github.com/navoditk/agentic-pm-lab/issues/3); uploaded `morning-portfolio-review-31865364150` artifact | Manual dispatch, artifact upload, and approval-only issue creation verified |
 | Native Copilot lifecycle | Prompts, custom agents, PR-review and skills-auditor configuration; local contract/freshness checks | No Copilot CLI/coding-agent run in the current authenticated session | Repository path complete; live Copilot evidence blocked by expired GitHub CLI auth |
 | Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence; browser connector unavailable on 2026-08-16 | Local complete; hosted visual capture unclaimed |
+
+## Hosted AgentCore counterpart comparison — 2026-08-16 UTC
+
+The bounded run [`agentcore-capstone-20260816-200245`](../../experiments/runs/agentcore-capstone-20260816-200245/)
+successfully exercised the temporary AgentCore Runtime and hosted Claude Haiku
+model. It captured 499 model tokens, all seven runtime workflow stages,
+approval-required/order-execution safety fields, an estimated `$0.008064516`
+same-day Cost Explorer amount, and a `$0.417` actual / `$0.839` forecast budget
+snapshot. The runtime, endpoint, and S3 package prefix were deleted.
+
+This is hosted counterpart evidence, not yet a full hosted reproduction of the
+Day 20 deterministic capstone: the local replay runs the full research,
+fixed-income, Devil's Advocate, committee, evaluation, and audit workflow,
+while the deployed proof application is the smaller read-only AgentCore slice.
+The remaining work is to package the full capstone behind the AgentCore
+entrypoint and repeat the comparison.
+
+The same run validated the `AWS/Bedrock-AgentCore` namespace: one
+invocation/session, 6,109 ms duration/latency, and zero errors, user errors,
+system errors, or throttles. The runtime emitted application log events, but
+an ADOT/OTel span export to a hosted tracing backend was not configured.
 
 ## Live public-data capture — 2026-08-16 UTC
 

@@ -1,0 +1,23 @@
+{
+  "namespace": "AWS/Bedrock-AgentCore",
+  "dimensions": {
+    "Resource": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/agentic_pm_agentcore_capstone_20260816_200245-qI1TS02y45",
+    "Operation": "InvokeAgentRuntime",
+    "Name": "agentic_pm_agentcore_capstone_20260816_200245::default"
+  },
+  "period_seconds": 900,
+  "window": {
+    "start": "2026-08-16T20:00:00Z",
+    "end": "2026-08-16T20:15:00Z"
+  },
+  "metrics": {
+    "Invocations": {"sum": 1.0, "unit": "Count"},
+    "Sessions": {"sum": 1.0, "unit": "Count"},
+    "Duration": {"average": 6109.0, "unit": "Milliseconds"},
+    "Latency": {"average": 6109.0, "unit": "Milliseconds"},
+    "Errors": {"sum": 0.0, "unit": "Count"},
+    "UserErrors": {"sum": 0.0, "unit": "Count"},
+    "SystemErrors": {"sum": 0.0, "unit": "Count"},
+    "Throttles": {"sum": 0.0, "unit": "Count"}
+  }
+}

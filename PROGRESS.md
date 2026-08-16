@@ -52,7 +52,7 @@ the narrative log explicitly says that evidence was captured.
 
 | Layer | Status | Detail |
 |---|---|---|
-| Data Layer | 🟡 Partial | 7/8 file(s) real |
+| Data Layer | 🟡 Partial | 8/9 file(s) real |
 | Control Layer (AuthN/AuthZ) | 🟢 Real | 6 file(s), no `# MOCK` markers |
 | Guardrails | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Tool Layer | 🟡 Partial | 8/10 file(s) real |
@@ -87,6 +87,15 @@ the narrative log explicitly says that evidence was captured.
   [`docs/guides/RUNBOOK.md`](docs/guides/RUNBOOK.md#governed-public-data-ingestion),
   [`public-data-ingestion.yml`](.github/workflows/public-data-ingestion.yml),
   and `tests/unit/ingestion/test_governed_public.py`.
+
+- **Hosted AgentCore counterpart comparison:** A temporary ARM64 runtime and
+  endpoint reached `READY`, completed the bounded read-only PM request with 499
+  model tokens and all seven observable runtime stages, and produced CloudWatch
+  event, AgentCore namespace metric, budget, and Cost Explorer evidence before teardown. The endpoint-
+  suffixed CloudWatch group was documented after the initial unsuffixed query
+  missed it. This proves hosted integration, but the deployed proof app is
+  smaller than the full local Day 20 capstone; packaging that full workflow for
+  AgentCore remains outstanding. Evidence: [`experiments/runs/agentcore-capstone-20260816-200245/`](experiments/runs/agentcore-capstone-20260816-200245/).
 
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
