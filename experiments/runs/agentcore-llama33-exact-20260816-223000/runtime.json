@@ -1,0 +1,44 @@
+{
+    "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/llama33exact_20260816_223000-vzs6yOCE3s",
+    "agentRuntimeName": "llama33exact_20260816_223000",
+    "agentRuntimeId": "llama33exact_20260816_223000-vzs6yOCE3s",
+    "agentRuntimeVersion": "1",
+    "createdAt": "2026-08-16T22:58:45.454251+00:00",
+    "lastUpdatedAt": "2026-08-16T22:58:57.702122+00:00",
+    "roleArn": "arn:aws:iam::463802498849:role/AgenticPMLabRuntimeExecutionRole",
+    "networkConfiguration": {
+        "networkMode": "PUBLIC"
+    },
+    "status": "READY",
+    "lifecycleConfiguration": {
+        "idleRuntimeSessionTimeout": 900,
+        "maxLifetime": 28800
+    },
+    "description": "Temporary exact-input Llama PM capstone comparison",
+    "workloadIdentityDetails": {
+        "workloadIdentityArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:workload-identity-directory/default/workload-identity/llama33exact_20260816_223000-vzs6yOCE3s"
+    },
+    "agentRuntimeArtifact": {
+        "codeConfiguration": {
+            "code": {
+                "s3": {
+                    "bucket": "agentic-pm-lab-artifacts",
+                    "prefix": "agentcore-llama33-exact-20260816-223000/runtime.zip"
+                }
+            },
+            "runtime": "PYTHON_3_13",
+            "entryPoint": [
+                "agentcore_app.py"
+            ]
+        }
+    },
+    "protocolConfiguration": {
+        "serverProtocol": "HTTP"
+    },
+    "environmentVariables": {
+        "MODEL_ID": "us.meta.llama3-3-70b-instruct-v1:0"
+    },
+    "metadataConfiguration": {
+        "requireMMDSV2": true
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "Budget": {
+        "BudgetName": "agentic-pm-lab-monthly",
+        "BudgetLimit": {
+            "Amount": "50.0",
+            "Unit": "USD"
+        },
+        "TimeUnit": "MONTHLY",
+        "TimePeriod": {
+            "Start": "2026-07-31T17:00:00-07:00",
+            "End": "2087-06-14T17:00:00-07:00"
+        },
+        "CalculatedSpend": {
+            "ActualSpend": {
+                "Amount": "0.444",
+                "Unit": "USD"
+            },
+            "ForecastedSpend": {
+                "Amount": "0.839",
+                "Unit": "USD"
+            }
+        },
+        "BudgetType": "COST",
+        "LastUpdatedTime": "2026-08-16T13:16:17.638000-07:00",
+        "FilterExpression": {
+            "Not": {
+                "Dimensions": {
+                    "Key": "RECORD_TYPE",
+                    "Values": [
+                        "Credit",
+                        "Refund"
+                    ]
+                }
+            }
+        },
+        "Metrics": [
+            "UnblendedCost"
+        ],
+        "BillingViewArn": "arn:aws:billing::463802498849:billingview/primary",
+        "HealthStatus": {
+            "Status": "HEALTHY",
+            "LastUpdatedTime": "2026-08-16T13:16:17.273000-07:00"
+        }
+    }
+}

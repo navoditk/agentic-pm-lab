@@ -7,6 +7,7 @@ or browser session was exercised.
 | Area | Local proof | Live evidence | Current state |
 |---|---|---|---|
 | Institutional PM capstone | `src/capstone/workflow.py`, focused tests, replay artifact script | Full deterministic capstone executed inside temporary AgentCore Runtime; CloudWatch stages/metrics, token usage, cost snapshot, and teardown | Local and full hosted proof captured |
+| Hosted model comparison | Same-input Claude Haiku and Meta Llama 3.3 70B AgentCore runs | [Exact-input Llama comparison](../../experiments/runs/agentcore-llama33-exact-20260816-223000/) and Claude baseline | Llama comparison complete; single-run quality/cost conclusions intentionally not generalized |
 | OpenTelemetry and evaluation | Local exporters, golden dataset, deterministic evaluators, Day 6/7 records | Scored AgentCore on-demand fixture; hosted-runtime span collection not claimed | Local and on-demand evaluation proof complete; hosted rerun requires instrumentation and credentials |
 | LangSmith / paid model | Runner and contracts exist | `OPENAI_API_KEY` and `LANGSMITH_API_KEY` are unset | Blocked pending credentials and explicit spend approval |
 | AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md) |
@@ -45,6 +46,18 @@ and [experiment findings](../../experiments/runs/agentcore-full-capstone-2026081
 
 The earlier bounded counterpart remains useful as a smaller hosted proof:
 [`agentcore-capstone-20260816-200245`](../../experiments/runs/agentcore-capstone-20260816-200245/).
+
+## Hosted model comparison — 2026-08-16 UTC
+
+The exact-input comparison [`agentcore-llama33-exact-20260816-223000`](../../experiments/runs/agentcore-llama33-exact-20260816-223000/)
+ran the same capstone request with Claude Haiku 4.5 and Meta Llama 3.3 70B.
+Claude used 1,619 total tokens and 7,513 ms; Llama used 875 total tokens and
+5,915 ms. Both runs completed with zero runtime errors/throttles,
+`approval_required=true`, and `order_execution=false`. Llama required the
+cross-region inference profile `us.meta.llama3-3-70b-instruct-v1:0` because
+direct on-demand invocation is unsupported for this model in the lab region.
+The Cost Explorer amount remains account/day scoped, so no model-specific cost
+claim is made.
 
 ## Managed Guardrail attachment probe — 2026-08-16 UTC
 

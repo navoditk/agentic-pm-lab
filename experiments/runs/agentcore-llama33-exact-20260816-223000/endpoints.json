@@ -1,0 +1,14 @@
+{
+    "runtimeEndpoints": [
+        {
+            "name": "DEFAULT",
+            "liveVersion": "1",
+            "agentRuntimeEndpointArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/llama33exact_20260816_223000-vzs6yOCE3s/runtime-endpoint/DEFAULT",
+            "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/llama33exact_20260816_223000-vzs6yOCE3s",
+            "status": "READY",
+            "id": "DEFAULT",
+            "createdAt": "2026-08-16T22:58:45.770390+00:00",
+            "lastUpdatedAt": "2026-08-16T22:58:57.702174+00:00"
+        }
+    ]
+}

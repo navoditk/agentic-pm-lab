@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "run_id": "agentcore-llama33-exact-20260816-223000",
+  "created_at": "2026-08-16T22:58:45Z",
+  "updated_at": "2026-08-16T23:05:00Z",
+  "experiment": {
+    "name": "exact-input Claude Haiku versus Meta Llama capstone comparison",
+    "status": "success",
+    "decision": "llama_hosted_comparison_captured"
+  },
+  "execution": {
+    "provider": "aws",
+    "region": "us-west-2",
+    "model": "us.meta.llama3-3-70b-instruct-v1:0",
+    "runtime_id": "llama33exact_20260816_223000-vzs6yOCE3s",
+    "endpoint": "DEFAULT",
+    "input": "experiments/agentcore-runtime-proof/input.json"
+  },
+  "comparison_baseline": {
+    "run_id": "agentcore-full-capstone-20260816-204917",
+    "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "input": "experiments/agentcore-runtime-proof/input.json"
+  },
+  "usage": {
+    "llama_input_tokens": 575,
+    "llama_output_tokens": 300,
+    "llama_total_tokens": 875,
+    "llama_latency_ms": 5915,
+    "claude_input_tokens": 1319,
+    "claude_output_tokens": 300,
+    "claude_total_tokens": 1619,
+    "claude_latency_ms": 7513
+  },
+  "observability": {
+    "llama_invocations": 1,
+    "llama_sessions": 1,
+    "llama_errors": 0,
+    "llama_throttles": 0,
+    "workflow_log_events": 11
+  },
+  "costs": {
+    "aws_estimated_usd": 0.034946236,
+    "accounting_note": "Same-day Cost Explorer amount is account/day scoped and not attributed exclusively to either request; no token price was inferred."
+  },
+  "evidence": [
+    "hosted-response.json",
+    "local-response.json",
+    "local-audit.jsonl",
+    "runtime.json",
+    "endpoints.json",
+    "events.json",
+    "metrics.json",
+    "budget.json",
+    "cost.json",
+    "direct-on-demand-error-events.json"
+  ],
+  "cleanup": {
+    "runtime": "deleted",
+    "endpoint": "deleted",
+    "s3_prefix": "deleted",
+    "log_groups": "deleted"
+  }
+}

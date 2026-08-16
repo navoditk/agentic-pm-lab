@@ -105,6 +105,13 @@ the narrative log explicitly says that evidence was captured.
   allowed neutral case passes. All temporary resources were deleted. Evidence:
   [`experiments/runs/agentcore-managed-guardrail-20260816-215000/`](experiments/runs/agentcore-managed-guardrail-20260816-215000/).
 
+- **Hosted model comparison:** Replayed the exact original capstone input with
+  Meta Llama 3.3 70B through the required cross-region inference profile and
+  compared it with the Claude Haiku baseline. Llama completed with 875 total
+  tokens and 5,915 ms latency versus Claude's 1,619 tokens and 7,513 ms, while
+  preserving approval-required/no-order controls. Evidence:
+  [`experiments/runs/agentcore-llama33-exact-20260816-223000/`](experiments/runs/agentcore-llama33-exact-20260816-223000/).
+
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
   auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. Added the

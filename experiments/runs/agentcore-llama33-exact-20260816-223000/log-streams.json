@@ -1,0 +1,26 @@
+{
+    "logStreams": [
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-4a65aa0eb4024ef9b2509aeb1aa7e0e8]d8c16350-587b-4495-916a-a2279cea1389",
+            "creationTime": 1786921149258,
+            "firstEventTimestamp": 1786921152397,
+            "lastEventTimestamp": 1786921154536,
+            "lastIngestionTime": 1786921154542,
+            "uploadSequenceToken": "49039859682934068344997705830875422389911959968234819303",
+            "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/llama33exact_20260816_223000-vzs6yOCE3s-DEFAULT:log-stream:2026/08/16/[runtime-logs-session-4a65aa0eb4024ef9b2509aeb1aa7e0e8]d8c16350-587b-4495-916a-a2279cea1389",
+            "storedBytes": 0
+        },
+        {
+            "logStreamName": "otel-rt-logs",
+            "creationTime": 1786921126040,
+            "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/llama33exact_20260816_223000-vzs6yOCE3s-DEFAULT:log-stream:otel-rt-logs",
+            "storedBytes": 0
+        },
+        {
+            "logStreamName": "spans",
+            "creationTime": 1786921126102,
+            "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/llama33exact_20260816_223000-vzs6yOCE3s-DEFAULT:log-stream:spans",
+            "storedBytes": 0
+        }
+    ]
+}

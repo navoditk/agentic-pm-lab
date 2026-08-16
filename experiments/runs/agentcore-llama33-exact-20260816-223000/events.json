@@ -1,0 +1,61 @@
+{
+    "events": [
+        {
+            "timestamp": 1786921152397,
+            "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=request_received details={\"request_id\": \"exp-agentcore-proof-001\"}",
+            "ingestionTime": 1786921154542
+        },
+        {
+            "timestamp": 1786921152397,
+            "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=input_validated details={\"identity\": \"PM_USER\", \"portfolio_id\": \"PORT_A\"}",
+            "ingestionTime": 1786921154542
+        },
+        {
+            "timestamp": 1786921152397,
+            "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=authorization_checked details={\"decision\": \"delegated_to_local_cedar_boundary\"}",
+            "ingestionTime": 1786921154542
+        },
+        {
+            "timestamp": 1786921152401,
+            "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=capstone_completed details={\"workflow\": [\"authenticated_pm_request\", \"freshness_check\", \"macro_quant_fundamental_research_evidence\", \"deterministic_fixed_income_scenarios\", \"devils_advocate_challenge\", \"cited_committee_artifact\", \"human_review\", \"otel_audit_evaluation_metadata\"]}",
+            "ingestionTime": 1786921154542
+        },
+        {
+            "timestamp": 1786921152401,
+            "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=orchestration_started details={\"order_execution\": false, \"tools\": []}",
+            "ingestionTime": 1786921154542
+        },
+        {
+            "timestamp": 1786921152418,
+            "message": "INFO:botocore.credentials:Found credentials from IAM Role: execution_role",
+            "ingestionTime": 1786921154542
+        },
+        {
+            "timestamp": 1786921154536,
+            "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=bedrock_completed details={\"usage\": {\"inputTokens\": 575, \"outputTokens\": 300, \"totalTokens\": 875}}",
+            "ingestionTime": 1786921154542
+        },
+        {
+            "timestamp": 1786921154536,
+            "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=guardrail_checked details={\"decision\": \"allow\", \"guardrail_id\": null, \"violations\": []}",
+            "ingestionTime": 1786921156571
+        },
+        {
+            "timestamp": 1786921154536,
+            "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=response_emitted details={\"approval_required\": true, \"order_execution\": false}",
+            "ingestionTime": 1786921156571
+        },
+        {
+            "timestamp": 1786921154537,
+            "message": "{\"timestamp\": \"2026-08-16T22:59:14.537Z\", \"level\": \"INFO\", \"message\": \"Invocation completed successfully (2.140s)\", \"logger\": \"bedrock_agentcore.app\", \"requestId\": \"928f284b-b433-421e-8bbe-d0820c24409e\", \"sessionId\": \"session-4a65aa0eb4024ef9b2509aeb1aa7e0e8\"}",
+            "ingestionTime": 1786921156571
+        },
+        {
+            "timestamp": 1786921154537,
+            "message": "INFO:bedrock_agentcore.app:Invocation completed successfully (2.140s)",
+            "ingestionTime": 1786921156571
+        }
+    ],
+    "nextForwardToken": "f/39849673357193800382183310778778947677608040009017131011/s",
+    "nextBackwardToken": "b/39849673309470205657327777253439763277027148491458215936/s"
+}
