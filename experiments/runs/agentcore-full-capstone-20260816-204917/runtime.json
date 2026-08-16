@@ -1,0 +1,44 @@
+{
+    "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/pmcap_20260816_204917-ipWCsx7fRA",
+    "agentRuntimeName": "pmcap_20260816_204917",
+    "agentRuntimeId": "pmcap_20260816_204917-ipWCsx7fRA",
+    "agentRuntimeVersion": "1",
+    "createdAt": "2026-08-16T20:50:01.510332+00:00",
+    "lastUpdatedAt": "2026-08-16T20:50:15.364893+00:00",
+    "roleArn": "arn:aws:iam::463802498849:role/AgenticPMLabRuntimeExecutionRole",
+    "networkConfiguration": {
+        "networkMode": "PUBLIC"
+    },
+    "status": "READY",
+    "lifecycleConfiguration": {
+        "idleRuntimeSessionTimeout": 900,
+        "maxLifetime": 3600
+    },
+    "description": "Full deterministic institutional PM capstone comparison",
+    "workloadIdentityDetails": {
+        "workloadIdentityArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:workload-identity-directory/default/workload-identity/pmcap_20260816_204917-ipWCsx7fRA"
+    },
+    "agentRuntimeArtifact": {
+        "codeConfiguration": {
+            "code": {
+                "s3": {
+                    "bucket": "bedrock-agentcore-code-463802498849-us-west-2",
+                    "prefix": "agentcore-full-capstone-20260816-204917/runtime.zip"
+                }
+            },
+            "runtime": "PYTHON_3_13",
+            "entryPoint": [
+                "agentcore_app.py"
+            ]
+        }
+    },
+    "protocolConfiguration": {
+        "serverProtocol": "HTTP"
+    },
+    "environmentVariables": {
+        "MODEL_ID": "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+    },
+    "metadataConfiguration": {
+        "requireMMDSV2": true
+    }
+}

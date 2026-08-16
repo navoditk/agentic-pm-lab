@@ -1,0 +1,93 @@
+{
+    "MetricDataResults": [
+        {
+            "Id": "invocations",
+            "Label": "Invocations",
+            "Timestamps": [
+                "2026-08-16T13:51:00-07:00"
+            ],
+            "Values": [
+                1.0
+            ],
+            "StatusCode": "Complete"
+        },
+        {
+            "Id": "sessions",
+            "Label": "Sessions",
+            "Timestamps": [
+                "2026-08-16T13:51:00-07:00"
+            ],
+            "Values": [
+                1.0
+            ],
+            "StatusCode": "Complete"
+        },
+        {
+            "Id": "duration",
+            "Label": "Duration",
+            "Timestamps": [
+                "2026-08-16T13:51:00-07:00"
+            ],
+            "Values": [
+                7513.0
+            ],
+            "StatusCode": "Complete"
+        },
+        {
+            "Id": "latency",
+            "Label": "Latency",
+            "Timestamps": [
+                "2026-08-16T13:51:00-07:00"
+            ],
+            "Values": [
+                7513.0
+            ],
+            "StatusCode": "Complete"
+        },
+        {
+            "Id": "errors",
+            "Label": "Errors",
+            "Timestamps": [
+                "2026-08-16T13:51:00-07:00"
+            ],
+            "Values": [
+                0.0
+            ],
+            "StatusCode": "Complete"
+        },
+        {
+            "Id": "usererrors",
+            "Label": "UserErrors",
+            "Timestamps": [
+                "2026-08-16T13:51:00-07:00"
+            ],
+            "Values": [
+                0.0
+            ],
+            "StatusCode": "Complete"
+        },
+        {
+            "Id": "systemerrors",
+            "Label": "SystemErrors",
+            "Timestamps": [
+                "2026-08-16T13:51:00-07:00"
+            ],
+            "Values": [
+                0.0
+            ],
+            "StatusCode": "Complete"
+        },
+        {
+            "Id": "throttles",
+            "Label": "Throttles",
+            "Timestamps": [
+                "2026-08-16T13:51:00-07:00"
+            ],
+            "Values": [
+                0.0
+            ],
+            "StatusCode": "Complete"
+        }
+    ],
+    "Messages": []
+}

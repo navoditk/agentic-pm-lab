@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "run_id": "agentcore-full-capstone-20260816-204917",
+  "created_at": "2026-08-16T20:49:17Z",
+  "updated_at": "2026-08-16T21:00:00Z",
+  "experiment": {
+    "name": "full hosted AgentCore institutional PM capstone comparison",
+    "status": "success",
+    "decision": "full_hosted_capstone_validated"
+  },
+  "execution": {
+    "provider": "aws",
+    "mode": "temporary_agentcore_runtime",
+    "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "region": "us-west-2",
+    "runtime_id": "pmcap_20260816_204917-ipWCsx7fRA",
+    "endpoint": "default",
+    "request_id": "exp-agentcore-proof-001"
+  },
+  "input": {
+    "path": "experiments/agentcore-runtime-proof/input.json",
+    "scope": "public/mock Portfolio A read-only institutional PM capstone"
+  },
+  "output": {
+    "hosted_response": "hosted-full-response.json",
+    "local_reference": "local-response.json",
+    "comparison_scope": "same bounded request; full deterministic capstone executed inside AgentCore before hosted summarization"
+  },
+  "usage": {
+    "input_tokens": 1319,
+    "output_tokens": 300,
+    "total_tokens": 1619,
+    "latency_ms": 7513
+  },
+  "pricing": {
+    "currency": "USD",
+    "source": "AWS Cost Explorer UnblendedCost",
+    "as_of": "2026-08-16",
+    "estimate_status": "account_day_estimate_not_request_attributed"
+  },
+  "costs": {
+    "aws_estimated_usd": 0.034946236,
+    "token_estimate_usd": null,
+    "total_estimated_usd": 0.034946236,
+    "budget_actual_usd": 0.417,
+    "budget_forecast_usd": 0.839,
+    "accounting_note": "Cost Explorer is an estimated account/day amount and is not attributed exclusively to this request. No model-token price was inferred."
+  },
+  "observability": {
+    "log_events": 11,
+    "workflow_stages": 8,
+    "invocations": 1,
+    "sessions": 1,
+    "duration_ms": 7513,
+    "latency_ms": 7513,
+    "errors": 0,
+    "user_errors": 0,
+    "system_errors": 0,
+    "throttles": 0,
+    "hosted_otel_spans": false
+  },
+  "evidence": [
+    "hosted-full-response.json",
+    "local-response.json",
+    "local-audit.jsonl",
+    "runtime.json",
+    "events-default.json",
+    "log-streams-default.json",
+    "metrics.json",
+    "budget.json",
+    "cost.json"
+  ],
+  "cleanup": {
+    "runtime": "deleted",
+    "endpoint": "deleted",
+    "s3_prefix": "deleted_or_not_present",
+    "log_groups": "deleted after local evidence capture"
+  }
+}

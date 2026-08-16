@@ -88,14 +88,14 @@ the narrative log explicitly says that evidence was captured.
   [`public-data-ingestion.yml`](.github/workflows/public-data-ingestion.yml),
   and `tests/unit/ingestion/test_governed_public.py`.
 
-- **Hosted AgentCore counterpart comparison:** A temporary ARM64 runtime and
-  endpoint reached `READY`, completed the bounded read-only PM request with 499
-  model tokens and all seven observable runtime stages, and produced CloudWatch
-  event, AgentCore namespace metric, budget, and Cost Explorer evidence before teardown. The endpoint-
-  suffixed CloudWatch group was documented after the initial unsuffixed query
-  missed it. This proves hosted integration, but the deployed proof app is
-  smaller than the full local Day 20 capstone; packaging that full workflow for
-  AgentCore remains outstanding. Evidence: [`experiments/runs/agentcore-capstone-20260816-200245/`](experiments/runs/agentcore-capstone-20260816-200245/).
+- **Hosted AgentCore capstone comparison:** A temporary ARM64 runtime executed
+  the complete deterministic Day 20 workflow before bounded Claude Haiku
+  summarization. The run captured authentication/authorization delegation,
+  freshness, research, fixed-income scenarios, Devil's Advocate challenge,
+  committee review, human-review gating, evaluation/audit metadata, 1,619
+  model tokens, eight application stages, CloudWatch logs/metrics, budget and
+  Cost Explorer evidence, then deleted the runtime and endpoint. Evidence:
+  [`experiments/runs/agentcore-full-capstone-20260816-204917/`](experiments/runs/agentcore-full-capstone-20260816-204917/).
 
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury

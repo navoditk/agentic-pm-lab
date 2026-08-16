@@ -6,7 +6,7 @@ or browser session was exercised.
 
 | Area | Local proof | Live evidence | Current state |
 |---|---|---|---|
-| Institutional PM capstone | `src/capstone/workflow.py`, focused tests, replay artifact script | Successful AgentCore runtime invocation, CloudWatch stages, token usage, and teardown | Local and live proof captured |
+| Institutional PM capstone | `src/capstone/workflow.py`, focused tests, replay artifact script | Full deterministic capstone executed inside temporary AgentCore Runtime; CloudWatch stages/metrics, token usage, cost snapshot, and teardown | Local and full hosted proof captured |
 | OpenTelemetry and evaluation | Local exporters, golden dataset, deterministic evaluators, Day 6/7 records | Scored AgentCore on-demand fixture; hosted-runtime span collection not claimed | Local and on-demand evaluation proof complete; hosted rerun requires instrumentation and credentials |
 | LangSmith / paid model | Runner and contracts exist | `OPENAI_API_KEY` and `LANGSMITH_API_KEY` are unset | Blocked pending credentials and explicit spend approval |
 | AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md) |
@@ -17,7 +17,35 @@ or browser session was exercised.
 | Native Copilot lifecycle | Prompts, custom agents, PR-review and skills-auditor configuration; local contract/freshness checks | No Copilot CLI/coding-agent run in the current authenticated session | Repository path complete; live Copilot evidence blocked by expired GitHub CLI auth |
 | Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence; browser connector unavailable on 2026-08-16 | Local complete; hosted visual capture unclaimed |
 
-## Hosted AgentCore counterpart comparison — 2026-08-16 UTC
+## Hosted AgentCore full-capstone comparison — 2026-08-16 UTC
+
+The full comparison [`agentcore-full-capstone-20260816-204917`](../../experiments/runs/agentcore-full-capstone-20260816-204917/)
+executed the complete deterministic institutional PM workflow inside a
+temporary ARM64 AgentCore Runtime. The hosted model was limited to a bounded
+committee-review summary after the deterministic workflow completed.
+
+The run produced 1,319 input tokens, 300 output tokens, and 1,619 total
+tokens. It recorded eight application stages, 11 runtime log events, one
+invocation/session, 7,513 ms duration/latency, and zero errors or throttles.
+The committee remained challenged and pending human review; no order was
+generated or executed. Private model chain-of-thought was not captured. The
+trace exposes stages, policy outcomes, evidence, assumptions, findings,
+evaluation dimensions, and outputs.
+
+Cost Explorer returned an estimated `$0.034946236` for the UTC account day;
+this is not request-attributed. The budget snapshot was `$0.417` actual and
+`$0.839` forecast against a `$50` monthly budget. Runtime, endpoint, package
+prefix, and log groups were deleted after evidence capture.
+
+See the [full hosted response](../../experiments/runs/agentcore-full-capstone-20260816-204917/hosted-full-response.json),
+[CloudWatch events](../../experiments/runs/agentcore-full-capstone-20260816-204917/events-default.json),
+[AgentCore metrics](../../experiments/runs/agentcore-full-capstone-20260816-204917/metrics.json),
+and [experiment findings](../../experiments/runs/agentcore-full-capstone-20260816-204917/findings.md).
+
+The earlier bounded counterpart remains useful as a smaller hosted proof:
+[`agentcore-capstone-20260816-200245`](../../experiments/runs/agentcore-capstone-20260816-200245/).
+
+## Hosted AgentCore counterpart comparison — 2026-08-16 UTC (superseded scope)
 
 The bounded run [`agentcore-capstone-20260816-200245`](../../experiments/runs/agentcore-capstone-20260816-200245/)
 successfully exercised the temporary AgentCore Runtime and hosted Claude Haiku
@@ -30,8 +58,9 @@ This is hosted counterpart evidence, not yet a full hosted reproduction of the
 Day 20 deterministic capstone: the local replay runs the full research,
 fixed-income, Devil's Advocate, committee, evaluation, and audit workflow,
 while the deployed proof application is the smaller read-only AgentCore slice.
-The remaining work is to package the full capstone behind the AgentCore
-entrypoint and repeat the comparison.
+The full-capstone follow-up above supersedes this as the authoritative hosted
+comparison. This smaller run remains retained to show the incremental path
+from a minimal AgentCore proof to the complete hosted workflow.
 
 The same run validated the `AWS/Bedrock-AgentCore` namespace: one
 invocation/session, 6,109 ms duration/latency, and zero errors, user errors,

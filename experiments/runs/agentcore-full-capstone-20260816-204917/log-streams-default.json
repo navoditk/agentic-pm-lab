@@ -1,0 +1,26 @@
+{
+    "logStreams": [
+        {
+            "logStreamName": "2026/08/16/[runtime-logs-session-2270c6002f6e4f37b7326e4a82849201]22163a3f-11c6-42ce-a5a9-c919af3e9f70",
+            "creationTime": 1786913485941,
+            "firstEventTimestamp": 1786913489055,
+            "lastEventTimestamp": 1786913489076,
+            "lastIngestionTime": 1786913491229,
+            "uploadSequenceToken": "49039859682923882054817642553916776893216950685262273540",
+            "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/pmcap_20260816_204917-ipWCsx7fRA-default:log-stream:2026/08/16/[runtime-logs-session-2270c6002f6e4f37b7326e4a82849201]22163a3f-11c6-42ce-a5a9-c919af3e9f70",
+            "storedBytes": 0
+        },
+        {
+            "logStreamName": "otel-rt-logs",
+            "creationTime": 1786913424410,
+            "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/pmcap_20260816_204917-ipWCsx7fRA-default:log-stream:otel-rt-logs",
+            "storedBytes": 0
+        },
+        {
+            "logStreamName": "spans",
+            "creationTime": 1786913424459,
+            "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/pmcap_20260816_204917-ipWCsx7fRA-default:log-stream:spans",
+            "storedBytes": 0
+        }
+    ]
+}

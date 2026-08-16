@@ -101,10 +101,12 @@ must not claim those external validations until their prerequisites exist.
 4. Complete native Copilot automation and Copilot/Canvas browser evidence where
    the platform account makes those steps available. GitHub Projects and the
    scheduled morning-brief workflow are now evidenced.
-5. Package the full deterministic capstone behind the hosted AgentCore
-   entrypoint and compare it with the local fixture using the experiment
-   manifest and cost record. The current hosted counterpart is recorded, but
-   does not yet execute every local capstone stage.
+5. The full deterministic capstone has now been packaged behind the hosted
+   AgentCore entrypoint and compared with the local fixture using a manifest,
+   token record, CloudWatch logs/metrics, budget snapshot, and Cost Explorer
+   estimate. Hosted ADOT/OTel span export remains optional; the structured
+   execution trace is the supported audit artifact and does not expose private
+   model chain-of-thought.
 
 Do not change the local status table to “incomplete” solely because these live
 tasks are unclaimed. Instead, keep the two evidence classes visible and update

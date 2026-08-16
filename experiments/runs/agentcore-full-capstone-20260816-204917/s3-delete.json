@@ -1,0 +1,7 @@
+
+{
+  "status": "not_present",
+  "bucket": "agentic-pm-lab-artifacts",
+  "prefix": "agentcore-full-capstone-20260816-204917/",
+  "note": "The configured bucket did not exist; no uploaded package remained to remove."
+}

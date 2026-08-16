@@ -1,11 +1,13 @@
 """Independent thesis challenge and investment-committee workflow."""
 
-from datetime import date
-from typing import Any
+from __future__ import annotations
 
-from deepagents import create_deep_agent
-from langchain_core.language_models import BaseChatModel
-from langgraph.graph.state import CompiledStateGraph
+from datetime import date
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from langchain_core.language_models import BaseChatModel
+    from langgraph.graph.state import CompiledStateGraph
 
 from src.control.identity import role_for_identity
 
@@ -211,6 +213,8 @@ def create_devils_advocate_agent(
     model: str | BaseChatModel,
 ) -> CompiledStateGraph:
     """Create a read-only critic with no bound tools or approval capability."""
+    from deepagents import create_deep_agent
+
     return create_deep_agent(
         model=model,
         tools=(),
