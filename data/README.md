@@ -128,8 +128,25 @@ them into the canonical DuckDB portfolio tables. The reviewed live capture is
 recorded as a dated experiment with source URLs, point-in-time fields,
 normalized samples, counts, and findings under
 [`experiments/runs/2026-08-16-live-public-data-004/`](../experiments/runs/2026-08-16-live-public-data-004/).
-The next implementation step is to add source-specific DuckDB tables and
-scheduled/cache policies after that review.
+The governed source-specific DuckDB tables and scheduled/cache policy are
+described below; promotion remains separate from the canonical portfolio
+tables until downstream quality review authorizes a use case.
+
+### Governed promotion and scheduled refresh
+
+The reviewed high-feasibility captures are now promoted into the separate,
+gitignored `data/cache/public_investment.duckdb` cache by
+[`scripts/ingest_governed_public_data.py`](../scripts/ingest_governed_public_data.py).
+It contains `alfred_observations`, `treasury_yield_curve`, `sec_submissions`,
+`sec_companyfacts`, and an `ingestion_runs` table with capture time, source URL,
+record count, latest date, vintage, validation result, and batch hash.
+
+Promotion is governed by approved source domains, required provenance fields,
+bounded record counts, and atomic database replacement. It does not modify the
+canonical portfolio database or promote data into holdings/analytics tables.
+The weekday/manual refresh is defined in
+[`public-data-ingestion.yml`](../.github/workflows/public-data-ingestion.yml);
+set the repository variable `SEC_USER_AGENT` before enabling scheduled runs.
 
 ## Ingestion
 

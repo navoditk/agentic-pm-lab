@@ -107,6 +107,7 @@ prompts are documented in the [Tutor Runbook](TUTOR_RUNBOOK.md).
 | [`eval-regression.yml`](../../.github/workflows/eval-regression.yml) | Did agent behavior regress? | Relevant agent/eval changes | None |
 | [`progress-tracker.yml`](../../.github/workflows/progress-tracker.yml) | Does generated progress match the repository? | Push to `main` | Commits `PROGRESS.md` |
 | [`morning-brief.yml`](../../.github/workflows/morning-brief.yml) | Can a scheduled review produce a human-review artifact? | Weekday schedule or manual dispatch | Creates GitHub issues |
+| [`public-data-ingestion.yml`](../../.github/workflows/public-data-ingestion.yml) | Can approved public sources be refreshed into a governed cache? | Weekday schedule or manual dispatch | Uploads a 14-day cache artifact; no repository writes |
 
 ### Morning-brief evidence exercise
 

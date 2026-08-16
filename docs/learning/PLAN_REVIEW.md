@@ -93,10 +93,10 @@ must not claim those external validations until their prerequisites exist.
    unresolved evaluation API blocker. Live Memory and standalone Guardrails
    evidence are complete; managed Guardrail attachment remains a separate
    optional extension.
-3. Promote the reviewed ALFRED/Treasury/SEC normalized capture into
-   source-specific cached tables and scheduled freshness checks. Other sources
-   such as TRACE, N-PORT, ratings, GDELT, and provider research still require
-   separate terms, access, and live evidence.
+3. The reviewed ALFRED/Treasury/SEC capture is now promoted into governed
+   source-specific cached tables with scheduled freshness checks. Other sources
+   such as Treasury auctions, TRACE, N-PORT, ratings, GDELT, and provider
+   research still require separate terms, access, and live evidence.
 4. Complete native Copilot automation and Copilot/Canvas browser evidence where
    the platform account makes those steps available. GitHub Projects and the
    scheduled morning-brief workflow are now evidenced.

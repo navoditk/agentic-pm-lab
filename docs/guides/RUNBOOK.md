@@ -17,6 +17,7 @@ checks, permissions, local equivalent, and troubleshooting path, see
 | Record a local, hosted, or AWS experiment | [Record an experiment](#record-an-experiment) |
 | Run tests and security checks | [Test commands](#test-commands), [Security validation](#security-validation) |
 | Run an agent or evaluation | [Run a workflow or custom agent standalone](#run-a-workflow-or-custom-agent-standalone), [Evaluation and traces](#evaluation-and-traces) |
+| Capture and cache public investment data | [Governed public-data ingestion](#governed-public-data-ingestion) |
 | Deploy or tear down AWS resources | [AgentCore deployment](#agentcore-deployment-preview-and-evidence-boundary), [Teardown](#teardown) |
 
 ## Safety boundary
@@ -39,6 +40,37 @@ uv run pre-commit run --all-files
 
 Set public-data/model credentials only in `.env` or the shell. Never commit
 them. Network and cloud access are not permitted in `tests/unit/`; use mocks.
+
+## Governed public-data ingestion
+
+The reviewed ALFRED, U.S. Treasury daily yield-curve, and SEC EDGAR paths are
+materialized into a separate `data/cache/public_investment.duckdb` database.
+This is intentionally not `portfolio.duckdb`: live provider data must pass
+source-domain, required-field, record-bound, and batch-hash checks before it is
+available to downstream experiments, and it cannot silently replace mock
+holdings or canonical portfolio tables.
+
+Run it locally with a descriptive SEC contact address:
+
+```bash
+uv run python scripts/ingest_governed_public_data.py \
+  --sec-user-agent "agentic-pm-lab/1.0 contact you@example.com"
+```
+
+The command writes the governed DuckDB cache and
+`data/cache/public_investment_summary.json`. Both are regenerated artifacts and
+are gitignored. Inspect `ingestion_runs` before using a batch:
+
+```bash
+uv run python -c 'import duckdb; c=duckdb.connect("data/cache/public_investment.duckdb", read_only=True); print(c.execute("select source,status,record_count,latest_date from ingestion_runs").fetchall())'
+```
+
+The scheduled [`public-data-ingestion.yml`](../../.github/workflows/public-data-ingestion.yml)
+workflow runs on weekdays and manual dispatch, validates all four source tables,
+and uploads the cache plus provenance summary for 14 days. Configure the
+repository variable `SEC_USER_AGENT` with an application name and contact email
+before enabling the schedule. It has read-only repository permissions and uses
+no AWS resources or model calls.
 
 ## Start the local stack
 

@@ -72,6 +72,16 @@ the narrative log explicitly says that evidence was captured.
   [`docs/evidence/EVIDENCE.md`](docs/evidence/EVIDENCE.md), and the public data
   catalog in [`data/README.md`](data/README.md).
 
+- **Governed public-data promotion:** Added a separate DuckDB cache with
+  source-specific ALFRED, Treasury yield-curve, and SEC tables plus an
+  `ingestion_runs` provenance/validation ledger. Added atomic replacement,
+  approved-domain checks, required-field checks, batch hashes, a repeatable CLI,
+  and weekday/manual GitHub Actions refresh with a 14-day artifact. The cache
+  deliberately does not alter canonical portfolio tables. Evidence:
+  [`docs/guides/RUNBOOK.md`](docs/guides/RUNBOOK.md#governed-public-data-ingestion),
+  [`public-data-ingestion.yml`](.github/workflows/public-data-ingestion.yml),
+  and `tests/unit/ingestion/test_governed_public.py`.
+
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
   auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. Added the

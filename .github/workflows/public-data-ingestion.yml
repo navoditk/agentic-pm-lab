@@ -1,0 +1,52 @@
+name: Governed public-data ingestion
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 14 * * 1-5" # 14:15 UTC on business days
+
+permissions:
+  contents: read
+
+concurrency:
+  group: governed-public-data-ingestion
+  cancel-in-progress: false
+
+jobs:
+  capture-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv sync
+      - name: Capture and materialize governed cache
+        env:
+          SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT }}
+        run: |
+          test -n "$SEC_USER_AGENT"
+          uv run python scripts/ingest_governed_public_data.py \
+            --sec-user-agent "$SEC_USER_AGENT"
+      - name: Validate governed cache contents
+        run: |
+          uv run python - <<'PY'
+          import duckdb
+          db = "data/cache/public_investment.duckdb"
+          with duckdb.connect(db, read_only=True) as connection:
+              sources = connection.execute("SELECT source, status, record_count FROM ingestion_runs").fetchall()
+              assert len(sources) == 4
+              assert all(status == "success" and count > 0 for _, status, count in sources)
+              for table in ("alfred_observations", "treasury_yield_curve", "sec_submissions", "sec_companyfacts"):
+                  assert connection.execute(f"SELECT count(*) FROM {table}").fetchone()[0] > 0
+          print(sources)
+          PY
+      - name: Upload governed cache and provenance summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: governed-public-data-${{ github.run_id }}
+          path: |
+            data/cache/public_investment.duckdb
+            data/cache/public_investment_summary.json
+          if-no-files-found: error
+          retention-days: 14
