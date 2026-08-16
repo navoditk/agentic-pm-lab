@@ -202,6 +202,22 @@ provider service.
   monthly limit. The response and final runtime metadata were retained in the
   local temporary evidence directory for this session.
 
+## Direct Anthropic institutional PM capstone — 2026-08-16 UTC
+
+- The governed institutional PM capstone completed through Anthropic's direct
+  Messages API with model `claude-haiku-4-5-20251001`.
+- Native usage was 613 input tokens, 300 output tokens, and 913 total tokens;
+  measured latency was 3,706 ms. The token estimate was `$0.002113` using the
+  run's recorded $1.00/M input and $5.00/M output rates. No AWS resources were
+  provisioned.
+- Observable stages and audit evidence were retained. The response explicitly
+  kept `approval_required: true` and `order_execution: false`; private model
+  chain-of-thought was not captured.
+- Artifacts: [`run manifest`](../../experiments/runs/anthropic-direct-capstone-20260816-230000/manifest.json),
+  [`response`](../../experiments/runs/anthropic-direct-capstone-20260816-230000/response.json),
+  [`audit log`](../../experiments/runs/anthropic-direct-capstone-20260816-230000/audit.jsonl),
+  and [`findings`](../../experiments/runs/anthropic-direct-capstone-20260816-230000/findings.md).
+
 ## Bedrock Guardrails proof — 2026-08-14 UTC
 
 - Created a temporary topic-policy Guardrail in `us-west-2` with a denied

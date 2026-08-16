@@ -1112,6 +1112,12 @@ cloud account, or AWS spend. It may expose `local`, `openai`, `anthropic`, and
 silently substitute fixture output. Each non-fixture run requires its own
 provider-specific setup, cost evidence, and experiment record.
 
+The direct Anthropic Messages API adapter is the first configured non-fixture
+provider implementation. Its reproducible command path, transient-key
+handling, usage/cost accounting, and reference evidence are documented in
+[`docs/guides/DIRECT_MODEL_RUNS.md`](guides/DIRECT_MODEL_RUNS.md); this does not
+change the Canvas trust boundary or authorize order execution.
+
 Add tests for successful fixture execution, provider-mode blocking without
 fallback, and a failed-stage or invalid-input path that remains visible. Add
 the learner walkthrough to `docs/guides/CANVAS_EXERCISES.md`; keep the

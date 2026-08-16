@@ -35,7 +35,8 @@ flat list.
 ## Quick links
 
 - [Runbook](guides/RUNBOOK.md) · [AWS setup](guides/AWS_AGENTCORE_SETUP.md) ·
-  [Canvas exercises](guides/CANVAS_EXERCISES.md)
+  [Canvas exercises](guides/CANVAS_EXERCISES.md) ·
+  [Direct model runs](guides/DIRECT_MODEL_RUNS.md)
 - [GitHub Projects learning board](guides/GITHUB_WORKFLOWS.md#github-projects-learning-board)
   · [Tutor exercises](guides/TUTOR_RUNBOOK.md#github-projects-learning-board-exercises)
 - [Tutor runbook](guides/TUTOR_RUNBOOK.md) · [Agent runbook](guides/AGENT_RUNBOOK.md)

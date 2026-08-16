@@ -27,6 +27,8 @@ SERVICE_NAME = "agentic-pm-lab"
 MODEL_PRICES_PER_MILLION_USD = {
     # https://platform.openai.com/docs/guides/pricing
     "gpt-4.1-mini": {"input": 0.40, "output": 1.60},
+    # https://platform.claude.com/docs/en/about-claude/pricing
+    "claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
 }
 
 _provider: TracerProvider | None = None

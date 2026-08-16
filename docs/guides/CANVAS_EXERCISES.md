@@ -76,8 +76,12 @@ for the full evidence envelope, token accounting, privacy boundary, and
 provider-mode rules.
 
 The `local`, `openai`, `anthropic`, and `aws` selectors are explicit provider
-boundaries. Without their separate setup, they return `blocked` and zero cost;
-they never silently substitute fixture output.
+boundaries. Without their separate setup, they return `blocked` and zero cost.
+The standalone direct Anthropic capstone path is configured and documented in
+[`DIRECT_MODEL_RUNS.md`](DIRECT_MODEL_RUNS.md); it records a real provider
+response without making the Canvas or model responsible for authorization.
+The remaining provider selectors return `blocked` until their adapters are
+explicitly configured; they never silently substitute fixture output.
 
 ## Exercise 1 — Current risk snapshot
 

@@ -1,0 +1,69 @@
+{
+  "cleanup": {
+    "notes": "Direct API run has no provisioned cloud resources.",
+    "required": false,
+    "status": "not_required"
+  },
+  "costs": {
+    "accounting_note": "Token cost and infrastructure cost are recorded separately to avoid hiding double counting.",
+    "aws_estimated_usd": null,
+    "aws_observed_usd": null,
+    "other_estimated_usd": null,
+    "token_estimate_usd": 0.002113,
+    "total_estimated_usd": 0.002113
+  },
+  "created_at": "2026-08-16T23:31:15.220860Z",
+  "evidence": [
+    {
+      "captured_at": "2026-08-16T23:39:52.550488Z",
+      "note": "Direct Messages API capstone using public/mock fixture data; private model chain-of-thought not logged; deterministic governance stages and audit evidence retained.",
+      "path": "response.json,audit.jsonl"
+    }
+  ],
+  "execution": {
+    "mode": "direct_messages_api",
+    "model": "claude-haiku-4-5-20251001",
+    "provider": "anthropic",
+    "region": "",
+    "request_id": "anthropic-direct-capstone-20260816-230000",
+    "runtime_session_id": ""
+  },
+  "experiment": {
+    "description": "",
+    "name": "Direct Anthropic institutional PM capstone",
+    "status": "success"
+  },
+  "findings": {
+    "cons": [],
+    "decision": "Claude summary completed; human approval remains required and no order was executed.",
+    "limitations": [
+      "Direct Messages API capstone using public/mock fixture data; private model chain-of-thought not logged; deterministic governance stages and audit evidence retained."
+    ],
+    "next_experiment": "Compare direct Anthropic with direct OpenAI on identical capstone input.",
+    "pros": []
+  },
+  "input": {
+    "path": "input.json",
+    "sha256": ""
+  },
+  "output": {
+    "path": "response.json",
+    "summary": ""
+  },
+  "pricing": {
+    "as_of": "2026-08-16",
+    "currency": "USD",
+    "input_per_1m_tokens": 1.0,
+    "output_per_1m_tokens": 5.0,
+    "source": "Anthropic direct API pricing"
+  },
+  "run_id": "anthropic-direct-capstone-20260816-230000",
+  "schema_version": 1,
+  "updated_at": "2026-08-16T23:39:52.582065Z",
+  "usage": {
+    "input_tokens": 613,
+    "latency_ms": 3706,
+    "output_tokens": 300,
+    "total_tokens": 913
+  }
+}

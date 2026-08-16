@@ -45,6 +45,26 @@ were later added and `gpt-4.1-mini` succeeded. The exact Day 4 overloaded
 context runs have not been repeated in the cloud, so no invented comparison is
 reported here.
 
+### 2026-08-16 — Direct Anthropic institutional PM capstone
+
+The same governed capstone fixture was run through Anthropic's direct Messages
+API using `claude-haiku-4-5-20251001`. The deterministic portfolio, provenance,
+research, Devil's Advocate, committee, and approval stages completed locally;
+Anthropic supplied only the evidence-linked committee narration.
+
+| Provider/model | Input tokens | Output tokens | Total | Latency | Estimated token cost | Governance result |
+|---|---:|---:|---:|---:|---:|---|
+| Anthropic `claude-haiku-4-5-20251001` | 613 | 300 | 913 | 3.706 s | $0.002113 | Approval required; no order executed |
+
+The response stopped at the configured 300-token ceiling, which is a useful
+prompt/output-budget finding rather than evidence of a complete summary. The
+run captured native usage, a request identifier, audit JSONL, and observable
+workflow stages while deliberately excluding private chain-of-thought. The
+fixture is public/mock learning data, and the token estimate uses the rates
+recorded in the run manifest; provider billing remains authoritative. Full
+artifacts: [`direct run`](../../experiments/runs/anthropic-direct-capstone-20260816-230000/)
+and [`direct model run guide`](../guides/DIRECT_MODEL_RUNS.md).
+
 ## Local vs. cloud model
 
 ### 2026-08-10 — Day 4 single-agent variant
