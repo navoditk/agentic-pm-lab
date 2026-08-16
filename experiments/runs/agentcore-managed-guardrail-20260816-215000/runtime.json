@@ -1,0 +1,10 @@
+{
+    "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/mgcap_20260816_215000-7w1w4g9o5d",
+    "workloadIdentityDetails": {
+        "workloadIdentityArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:workload-identity-directory/default/workload-identity/mgcap_20260816_215000-7w1w4g9o5d"
+    },
+    "agentRuntimeId": "mgcap_20260816_215000-7w1w4g9o5d",
+    "agentRuntimeVersion": "1",
+    "createdAt": "2026-08-16T21:45:22.279800+00:00",
+    "status": "CREATING"
+}

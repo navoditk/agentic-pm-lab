@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "run_id": "agentcore-managed-guardrail-20260816-215000",
+  "created_at": "2026-08-16T21:50:00Z",
+  "updated_at": "2026-08-16T22:20:00Z",
+  "experiment": {
+    "name": "temporary managed Bedrock Guardrail attachment probe",
+    "status": "partial",
+    "decision": "attachment_verified_prompt_false_positive_requires_redesign"
+  },
+  "execution": {
+    "provider": "aws",
+    "region": "us-west-2",
+    "guardrail_id": "oagb57r319h0",
+    "runtime_id": "mgcap_20260816_215000-7w1w4g9o5d",
+    "runtime_endpoint": "DEFAULT"
+  },
+  "results": {
+    "managed_guardrail_attached": true,
+    "blocked_input_message_returned": true,
+    "neutral_request_allowed": false,
+    "false_positive_observed": true,
+    "model_tokens_on_blocked_requests": 0
+  },
+  "evidence": [
+    "guardrail.json",
+    "normal-response.json",
+    "allowed-response.json",
+    "blocked-response.json",
+    "runtime.json",
+    "guardrails-before-cleanup.json",
+    "guardrails-after-cleanup.json",
+    "manifest.json",
+    "findings.md"
+  ],
+  "cleanup": {
+    "guardrail": "deleted",
+    "runtimes": "deleted",
+    "s3_prefixes": "deleted",
+    "log_groups": "deleted"
+  }
+}

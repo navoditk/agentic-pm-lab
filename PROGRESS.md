@@ -97,6 +97,14 @@ the narrative log explicitly says that evidence was captured.
   Cost Explorer evidence, then deleted the runtime and endpoint. Evidence:
   [`experiments/runs/agentcore-full-capstone-20260816-204917/`](experiments/runs/agentcore-full-capstone-20260816-204917/).
 
+- **Managed Guardrail attachment probe:** Passed a temporary managed Bedrock
+  Guardrail into the hosted model call and observed the configured blocked
+  message with zero model tokens. The probe also found a false positive on a
+  neutral review prompt because serialized governance vocabulary was included
+  in the model input; managed attachment remains a refinement item until an
+  allowed neutral case passes. All temporary resources were deleted. Evidence:
+  [`experiments/runs/agentcore-managed-guardrail-20260816-215000/`](experiments/runs/agentcore-managed-guardrail-20260816-215000/).
+
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
   auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. Added the

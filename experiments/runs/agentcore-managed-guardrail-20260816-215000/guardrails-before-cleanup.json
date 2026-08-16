@@ -1,0 +1,14 @@
+{
+    "guardrails": [
+        {
+            "id": "oagb57r319h0",
+            "arn": "arn:aws:bedrock:us-west-2:463802498849:guardrail/oagb57r319h0",
+            "status": "READY",
+            "name": "agentic-pm-lab-capstone-managed",
+            "description": "Temporary public mock investment research guardrail",
+            "version": "DRAFT",
+            "createdAt": "2026-08-16T21:39:28.256626+00:00",
+            "updatedAt": "2026-08-16T21:39:28.364716+00:00"
+        }
+    ]
+}

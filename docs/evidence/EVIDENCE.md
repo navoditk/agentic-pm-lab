@@ -11,6 +11,7 @@ or browser session was exercised.
 | LangSmith / paid model | Runner and contracts exist | `OPENAI_API_KEY` and `LANGSMITH_API_KEY` are unset | Blocked pending credentials and explicit spend approval |
 | AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md) |
 | AWS observability | Local OTel path and CloudWatch target documented | Successful runtime CloudWatch events plus AgentCore namespace metrics captured; ADOT/hosted OTel span collection remains unclaimed | Runtime logs and metrics live-complete; hosted OTel span export remains optional |
+| Managed Bedrock Guardrail attachment | Local/standalone Guardrail cases and runtime configuration path | Temporary Guardrail was passed into hosted `Converse`; blocked message and zero-token intervention were observed, while neutral review prompts exposed a false positive | Attachment path proven; policy/prompt refinement required before claiming an allowed managed attachment |
 | Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | [Live ALFRED/Treasury/SEC capture](../../experiments/runs/2026-08-16-live-public-data-004/) | ALFRED, Treasury daily yield curve, and SEC EDGAR live-complete for bounded capture; auctions/TRACE/N-PORT/research remain unclaimed |
 | GitHub Projects learning board | Project schema, linked repository, 21 roadmap items, two morning-review issues | [Project views overview](screenshots/github-project/github-project-views-overview.png); [corrected roadmap screenshot](screenshots/github-project/github-project-21-day-roadmap.png) | Views created, roadmap filter corrected and saved, and browser evidence captured |
 | Scheduled morning brief | `.github/workflows/morning-brief.yml` and deterministic artifact generator | [Workflow run 31865364150](https://github.com/navoditk/agentic-pm-lab/actions/runs/31865364150); [review issue #3](https://github.com/navoditk/agentic-pm-lab/issues/3); uploaded `morning-portfolio-review-31865364150` artifact | Manual dispatch, artifact upload, and approval-only issue creation verified |
@@ -44,6 +45,18 @@ and [experiment findings](../../experiments/runs/agentcore-full-capstone-2026081
 
 The earlier bounded counterpart remains useful as a smaller hosted proof:
 [`agentcore-capstone-20260816-200245`](../../experiments/runs/agentcore-capstone-20260816-200245/).
+
+## Managed Guardrail attachment probe — 2026-08-16 UTC
+
+The temporary run [`agentcore-managed-guardrail-20260816-215000`](../../experiments/runs/agentcore-managed-guardrail-20260816-215000/)
+passed a managed Bedrock Guardrail through `guardrailConfig` in the hosted
+model call. The configured blocked message was returned with zero model
+tokens, confirming the attachment and intervention path. The same Guardrail
+also blocked a neutral portfolio-review prompt because serialized governance
+and review vocabulary produced a false positive. This run therefore proves
+the attachment path, but not a production-ready allowed case. The standalone
+`ApplyGuardrail` proof remains the allowed-versus-blocked reference. The
+temporary Guardrail, runtimes, package prefixes, and log groups were deleted.
 
 ## Hosted AgentCore counterpart comparison — 2026-08-16 UTC (superseded scope)
 

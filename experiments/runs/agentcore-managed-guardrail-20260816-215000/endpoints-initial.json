@@ -1,0 +1,14 @@
+{
+    "runtimeEndpoints": [
+        {
+            "name": "DEFAULT",
+            "liveVersion": "1",
+            "agentRuntimeEndpointArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/mgcap_20260816_214000-MAPk1PCPda/runtime-endpoint/DEFAULT",
+            "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/mgcap_20260816_214000-MAPk1PCPda",
+            "status": "READY",
+            "id": "DEFAULT",
+            "createdAt": "2026-08-16T21:42:10.231289+00:00",
+            "lastUpdatedAt": "2026-08-16T21:42:22.813506+00:00"
+        }
+    ]
+}

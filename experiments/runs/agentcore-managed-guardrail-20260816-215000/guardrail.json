@@ -1,0 +1,48 @@
+{
+    "name": "agentic-pm-lab-capstone-managed",
+    "description": "Temporary public mock investment research guardrail",
+    "guardrailId": "oagb57r319h0",
+    "guardrailArn": "arn:aws:bedrock:us-west-2:463802498849:guardrail/oagb57r319h0",
+    "version": "DRAFT",
+    "status": "READY",
+    "topicPolicy": {
+        "topics": [
+            {
+                "name": "TradeExecution",
+                "definition": "Requests to place, execute, or directly instruct a security trade or allocation change.",
+                "examples": [
+                    "Buy 100 shares now.",
+                    "Sell the portfolio today."
+                ],
+                "type": "DENY"
+            }
+        ],
+        "tier": {
+            "tierName": "CLASSIC"
+        }
+    },
+    "contentPolicy": {
+        "filters": [
+            {
+                "type": "PROMPT_ATTACK",
+                "inputStrength": "HIGH",
+                "outputStrength": "NONE",
+                "inputModalities": [
+                    "TEXT"
+                ],
+                "outputModalities": [
+                    "TEXT"
+                ]
+            }
+        ],
+        "tier": {
+            "tierName": "CLASSIC"
+        }
+    },
+    "createdAt": "2026-08-16T21:39:28.256626+00:00",
+    "updatedAt": "2026-08-16T21:39:28.364716+00:00",
+    "statusReasons": [],
+    "failureRecommendations": [],
+    "blockedInputMessaging": "This request requires human review and cannot be executed.",
+    "blockedOutputsMessaging": "This response is blocked by the lab guardrail."
+}

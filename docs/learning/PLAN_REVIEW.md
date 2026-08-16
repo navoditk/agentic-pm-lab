@@ -108,6 +108,13 @@ must not claim those external validations until their prerequisites exist.
    execution trace is the supported audit artifact and does not expose private
    model chain-of-thought.
 
+6. A temporary managed Bedrock Guardrail attachment was exercised. The
+   attachment and blocked-input path worked, but a neutral review prompt was
+   also blocked because the serialized prompt contains governance/review
+   vocabulary. The standalone Guardrail proof remains complete; managed
+   attachment is a refinement item rather than a claimed production-ready
+   allowed path. See the [managed Guardrail findings](../../experiments/runs/agentcore-managed-guardrail-20260816-215000/findings.md).
+
 Do not change the local status table to “incomplete” solely because these live
 tasks are unclaimed. Instead, keep the two evidence classes visible and update
 the ledger when a live run genuinely succeeds.
