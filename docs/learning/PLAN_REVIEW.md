@@ -1,6 +1,6 @@
 # 21-day plan completion audit
 
-Reviewed 2026-08-14 UTC against `docs/PLAN.md`, `PROGRESS.md`, the repository
+Reviewed 2026-08-16 UTC against `docs/PLAN.md`, `PROGRESS.md`, the repository
 implementation, `docs/EVIDENCE.md`, the Day 21 Canvas workflow, and the dated
 experiment records. The Day 21 Canvas workflow is part of the canonical plan;
 its provider-neutral fixture acceptance is complete while live provider
@@ -33,9 +33,9 @@ mock fixture != production data or provider availability
 | 5 | Multi-agent orchestration, retries, dead letters, checkpoint/resume | Provider-dependent hosted replay is not a release gate | Complete for learning scope |
 | 6 | OTel, LangSmith runner, golden dataset, evaluators | Baseline experiment captured; future paid reruns require credentials/approval | Local/eval complete |
 | 7 | AuthN/AuthZ, Cedar, guardrails, human approval, adversarial tests | No managed authorization service claimed | Local complete |
-| 8 | Kanban and issue-triage Canvas foundations | Interactive browser/screenshot evidence remains unclaimed | Local complete; browser follow-up |
+| 8 | Kanban and issue-triage Canvas foundations | Interactive Copilot browser/screenshot evidence remains unclaimed; browser connector unavailable on 2026-08-16 | Local complete; hosted follow-up |
 | 9 | Agent Operations Canvas and run history | Live LangSmith path requires credentials | Local complete; live follow-up |
-| 10 | Governed MCP boundary and Portfolio/Risk Canvas | Visual/browser evidence remains unclaimed | Local complete; browser follow-up |
+| 10 | Governed MCP boundary and Portfolio/Risk Canvas | Visual Copilot/browser evidence remains unclaimed; local capability and smoke tests pass | Local complete; hosted follow-up |
 | 11 | Runtime, automation, prompts, CI, runbooks | Scheduled morning-brief workflow, artifact upload, and review issue verified; native Copilot automation evidence remains unclaimed | Local and scheduled-workflow complete; Copilot follow-up |
 | 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful read-only invocation and teardown; no Gateway deployment | Local complete; Runtime live-complete; Gateway follow-up |
 | 13 | Memory boundaries and evaluation manifest | Live semantic Memory retrieval and scored on-demand Evaluation fixture captured; hosted-runtime span collection remains optional | Local complete; AWS control/data paths evidenced |
@@ -44,7 +44,7 @@ mock fixture != production data or provider availability
 | 16 | SEC metadata, citations, document-to-skill foundation | EDGAR path is mocked/network-free by design | Local complete; provider follow-up |
 | 17 | Research specialists, fixed-income branch, mocked provider adapter | No live provider or successful AgentCore research run | Local complete; live AWS/provider incomplete |
 | 18 | Independent Devil's Advocate and committee challenge | Semantic truth and production liquidity analysis remain limited | Local complete with explicit limitations |
-| 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Canvas loopback/capability tests pass; Copilot-hosted visual capture and provider uptime remain unclaimed | Local complete; account-dependent visual/provider evidence |
+| 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Canvas loopback/capability tests pass; Copilot-hosted visual capture and native Copilot run remain unclaimed | Local complete; account-dependent visual/provider evidence |
 | 20 | Institutional PM capstone replay and release evidence structure | Live AgentCore request completed with workflow stages, usage, safety flags, and teardown | Local and live capstone proof complete |
 
 ## Documentation audit

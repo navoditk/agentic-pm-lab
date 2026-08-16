@@ -14,7 +14,8 @@ or browser session was exercised.
 | Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | No new live provider capture | Unclaimed; must preserve terms and point-in-time metadata |
 | GitHub Projects learning board | Project schema, linked repository, 21 roadmap items, two morning-review issues | [Project views overview](screenshots/github-project/github-project-views-overview.png); [corrected roadmap screenshot](screenshots/github-project/github-project-21-day-roadmap.png) | Views created, roadmap filter corrected and saved, and browser evidence captured |
 | Scheduled morning brief | `.github/workflows/morning-brief.yml` and deterministic artifact generator | [Workflow run 31865364150](https://github.com/navoditk/agentic-pm-lab/actions/runs/31865364150); [review issue #3](https://github.com/navoditk/agentic-pm-lab/issues/3); uploaded `morning-portfolio-review-31865364150` artifact | Manual dispatch, artifact upload, and approval-only issue creation verified |
-| Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence | Local complete; visual capture unclaimed |
+| Native Copilot lifecycle | Prompts, custom agents, PR-review and skills-auditor configuration; local contract/freshness checks | No Copilot CLI/coding-agent run in the current authenticated session | Repository path complete; live Copilot evidence blocked by expired GitHub CLI auth |
+| Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence; browser connector unavailable on 2026-08-16 | Local complete; hosted visual capture unclaimed |
 
 ## AWS identity setup — 2026-08-13
 
@@ -154,6 +155,17 @@ or browser session was exercised.
 - The Agent Operations Canvas loopback smoke test passed all six checks, and the
   capability test passed. This validates the local runtime and action handlers;
   no Copilot-hosted browser session or screenshot is claimed.
+
+## Copilot and Canvas evidence attempt — 2026-08-16 UTC
+
+- The local Portfolio Risk and Agent Operations Canvas capability and smoke
+  tests remain passing.
+- The browser connector returned no available browser session, so no hosted
+  Copilot Canvas interaction or screenshot was claimed.
+- `gh auth status` reported that the `navoditk` GitHub CLI token is invalid.
+  The installed CLI does not accept the historical `--use-device-code` flag;
+  interactive re-authentication requires a browser session outside this
+  terminal. No native Copilot CLI or coding-agent run is claimed.
 
 ## Gateway status — 2026-08-14 UTC
 
