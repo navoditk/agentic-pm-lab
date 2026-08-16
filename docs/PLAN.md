@@ -1766,6 +1766,9 @@ and live provider evidence.
    vintage and retain observation date, release/vintage date, value, and unit.
 3. **Treasury Fiscal Data auctions:** retrieve a bounded page of auction rows
    and retain record, auction, issue, maturity, security type/term, and CUSIP.
+   The current endpoint returned HTTP 404 during the first live capture; the
+   official Treasury daily yield-curve XML feed is now the evidenced Treasury
+   path while the auctions connector remains explicitly unclaimed.
 4. **NY Fed SOFR:** retrieve a bounded date range and retain rate timing and raw
    provider fields.
 5. **CFTC COT:** retrieve a bounded public-reporting page and preserve trader
@@ -1804,9 +1807,10 @@ and live provider evidence.
 - `uv run python scripts/investment_data_tutor.py` lists all six sources, while
   passing a source ID returns sample data, terms, decision use, and limitations;
   `--browse` returns the corresponding repository sample records.
-- After a live response is intentionally captured, add source-specific DuckDB
-  tables and a dated experiment under `experiments/`; do not mark the source
-  “real” based solely on a passing fixture test.
+- The bounded ALFRED/Treasury daily yield-curve/SEC live capture is recorded in
+  [`experiments/runs/2026-08-16-live-public-data-004/`](../experiments/runs/2026-08-16-live-public-data-004/).
+  The next step is source-specific DuckDB tables and scheduled/cache policies;
+  do not mark deferred sources “real” based solely on a passing fixture test.
 
 ## Appendix C — Traceability, Evaluation & Model-Switching Regression Tests
 

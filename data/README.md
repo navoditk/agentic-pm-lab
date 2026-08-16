@@ -62,9 +62,10 @@ not the same as a live response being captured in an experiment.
 
 | Category | Source | Module/function | Status | Main decision use | Browse sample |
 |---|---|---|---|---|---|
-| Structured fundamentals/filings | SEC Company Facts/submissions | `src/ingestion/public_investment.py` | Real-capable public connector; `SEC_USER_AGENT` required | As-filed issuer fundamentals and filing evidence | [`sec_companyfacts.json`](samples/public_investment/sec_companyfacts.json) |
-| Structured macro vintages | ALFRED | `src/ingestion/public_investment.py` | Real-capable; `FRED_API_KEY` required | Revision-safe macro and curve backtests | [`alfred_vintages.json`](samples/public_investment/alfred_vintages.json) |
-| Structured issuance | Treasury auctions | `src/ingestion/public_investment.py` | Real-capable bounded Fiscal Data API path | Issuance and auction-demand context | [`treasury_auctions.json`](samples/public_investment/treasury_auctions.json) |
+| Structured fundamentals/filings | SEC Company Facts/submissions | `src/ingestion/public_investment.py` | Live bounded capture evidenced; `SEC_USER_AGENT` required | As-filed issuer fundamentals and filing evidence | [`sec_companyfacts.json`](samples/public_investment/sec_companyfacts.json) |
+| Structured macro vintages | ALFRED | `src/ingestion/public_investment.py` | Live public graph CSV capture evidenced; keyed API remains optional | Revision-safe macro and curve backtests | [`alfred_vintages.json`](samples/public_investment/alfred_vintages.json) |
+| Structured rates | U.S. Treasury daily yield curve | `src/ingestion/public_investment.py` | Live XML capture evidenced; auctions endpoint returned 404 | Curve and duration context | [`Live experiment`](../experiments/runs/2026-08-16-live-public-data-004/response.json) |
+| Structured issuance | Treasury auctions | `src/ingestion/public_investment.py` | Connector exists; current Fiscal Data path returned 404, so not live-complete | Issuance and auction-demand context | [`treasury_auctions.json`](samples/public_investment/treasury_auctions.json) |
 | Structured funding rates | NY Fed SOFR | `src/ingestion/public_investment.py` | Real-capable daily public path | Funding and repo conditions | [`sofr.json`](samples/public_investment/sofr.json) |
 | Structured positioning | CFTC COT | `src/ingestion/public_investment.py` | Real-capable public-reporting path | Weekly futures positioning context | [`cftc_cot.json`](samples/public_investment/cftc_cot.json) |
 | Structured factor returns | Kenneth French factors | `src/ingestion/public_investment.py` | Real-capable public archive path | Factor exposure and attribution inputs | [`kenneth_french_factors.csv`](samples/public_investment/kenneth_french_factors.csv) |
@@ -123,11 +124,12 @@ an investment decision. The tutor is read-only and does not provide investment
 advice.
 
 The current slice normalizes provider responses but does not silently promote
-them into the canonical DuckDB portfolio tables. Live captures should be run as
-dated experiments with source terms, raw-response hashes, point-in-time fields,
-and findings recorded under `experiments/`. The next implementation step is to
-add source-specific DuckDB tables and scheduled/cache policies after a live
-response has been reviewed.
+them into the canonical DuckDB portfolio tables. The reviewed live capture is
+recorded as a dated experiment with source URLs, point-in-time fields,
+normalized samples, counts, and findings under
+[`experiments/runs/2026-08-16-live-public-data-004/`](../experiments/runs/2026-08-16-live-public-data-004/).
+The next implementation step is to add source-specific DuckDB tables and
+scheduled/cache policies after that review.
 
 ## Ingestion
 
@@ -143,6 +145,18 @@ uv run python -m src.ingestion.macro
 Both public ingestors normalize source responses before writing DuckDB. Their
 JSON caches have a 24-hour TTL by default; a fresh cache avoids another API
 request, while an expired cache is replaced atomically.
+
+To repeat the bounded live evidence capture (requires network access and a
+descriptive SEC contact address, but no API key or AWS resources), run:
+
+```bash
+uv run python scripts/capture_live_public_data.py \
+  --output-dir experiments/runs/<yyyy-mm-dd>-live-public-data \
+  --sec-user-agent "agentic-pm-lab/1.0 contact you@example.com"
+```
+
+Review `manifest.json`, `response.json`, and `findings.md` before promoting
+any source into canonical tables. Do not commit raw provider payloads.
 
 ## Data-card template for future connectors
 

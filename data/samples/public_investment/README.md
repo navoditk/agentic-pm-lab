@@ -5,6 +5,11 @@ and deferred-source evidence envelopes. They are not copied provider
 responses, do not represent current market values, and must not be used as
 investment advice or as evidence of a live provider connection.
 
+The corresponding live capture is [`2026-08-16-live-public-data-004`](../../../experiments/runs/2026-08-16-live-public-data-004/),
+which contains normalized ALFRED, Treasury daily yield-curve, and SEC EDGAR
+samples and counts. These files remain intentionally stable teaching fixtures
+and are not overwritten by live responses.
+
 | Source | Sample file | What to inspect | Example decision use |
 |---|---|---|---|
 | SEC Company Facts/submissions | [`sec_companyfacts.json`](sec_companyfacts.json) | CIK, XBRL concept, unit, value, filing date, accession number | Compare fundamentals using only facts filed by the decision date |

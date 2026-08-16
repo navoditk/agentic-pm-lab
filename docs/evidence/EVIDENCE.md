@@ -11,11 +11,29 @@ or browser session was exercised.
 | LangSmith / paid model | Runner and contracts exist | `OPENAI_API_KEY` and `LANGSMITH_API_KEY` are unset | Blocked pending credentials and explicit spend approval |
 | AgentCore Runtime/Gateway | Deployment intent, entrypoint, ADRs, local boundary | Runtime and endpoint reached `READY`; successful read-only invocation and teardown; no Gateway | Runtime live-complete; Gateway remains unclaimed; see [`AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md) |
 | AWS observability | Local OTel path and CloudWatch target documented | Successful runtime CloudWatch trace captured; AgentCore namespace metrics remain unclaimed | Runtime trace proof complete; metrics remain optional |
-| Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | No new live provider capture | Unclaimed; must preserve terms and point-in-time metadata |
+| Public providers | Fixture adapters and provenance contracts for Treasury, SOFR, SEC, research | [Live ALFRED/Treasury/SEC capture](../../experiments/runs/2026-08-16-live-public-data-004/) | ALFRED, Treasury daily yield curve, and SEC EDGAR live-complete for bounded capture; auctions/TRACE/N-PORT/research remain unclaimed |
 | GitHub Projects learning board | Project schema, linked repository, 21 roadmap items, two morning-review issues | [Project views overview](screenshots/github-project/github-project-views-overview.png); [corrected roadmap screenshot](screenshots/github-project/github-project-21-day-roadmap.png) | Views created, roadmap filter corrected and saved, and browser evidence captured |
 | Scheduled morning brief | `.github/workflows/morning-brief.yml` and deterministic artifact generator | [Workflow run 31865364150](https://github.com/navoditk/agentic-pm-lab/actions/runs/31865364150); [review issue #3](https://github.com/navoditk/agentic-pm-lab/issues/3); uploaded `morning-portfolio-review-31865364150` artifact | Manual dispatch, artifact upload, and approval-only issue creation verified |
 | Native Copilot lifecycle | Prompts, custom agents, PR-review and skills-auditor configuration; local contract/freshness checks | No Copilot CLI/coding-agent run in the current authenticated session | Repository path complete; live Copilot evidence blocked by expired GitHub CLI auth |
 | Copilot Canvas | Capability tests and loopback smoke tests | No screenshot or interactive browser evidence; browser connector unavailable on 2026-08-16 | Local complete; hosted visual capture unclaimed |
+
+## Live public-data capture — 2026-08-16 UTC
+
+The bounded experiment [`2026-08-16-live-public-data-004`](../../experiments/runs/2026-08-16-live-public-data-004/)
+verified these public endpoints with normalized, provenance-preserving output:
+
+| Provider | Live result | Scope | Cost |
+|---|---|---|---:|
+| ALFRED public graph CSV | Success | DGS10, 250 observations, explicit vintage `2024-01-02` | $0.00 |
+| U.S. Treasury daily yield-curve XML | Success | 2,340 tenor records through `2026-08-14` | $0.00 |
+| SEC EDGAR submissions | Success | 1,000 filing metadata records for CIK `0000320193` | $0.00 |
+| SEC Company Facts | Success | 25,135 normalized XBRL records, including 699 revenue-related USD records | $0.00 |
+
+The existing Treasury auctions URL returned HTTP 404 during the same work and
+is not claimed as live evidence. The official daily yield-curve feed was used
+for the Treasury capture instead. Raw provider payloads and credentials were
+not committed. The run used zero model tokens, no AWS resources, and no paid
+provider service.
 
 ## AWS identity setup — 2026-08-13
 

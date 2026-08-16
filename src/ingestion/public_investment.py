@@ -9,6 +9,7 @@ records can be placed behind the repository's provenance checks.
 from __future__ import annotations
 
 import csv
+import gzip
 import io
 import json
 import os
@@ -22,9 +23,14 @@ from typing import Any
 SEC_SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
 SEC_COMPANY_FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
 ALFRED_OBSERVATIONS_URL = "https://api.stlouisfed.org/fred/series/observations"
+ALFRED_GRAPH_URL = "https://alfred.stlouisfed.org/graph/alfredgraph.csv"
 TREASURY_AUCTIONS_URL = (
     "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/"
     "v2/accounting/od/auctions_query"
+)
+TREASURY_YIELD_CURVE_XML_URL = (
+    "https://home.treasury.gov/resource-center/data-chart-center/"
+    "interest-rates/pages/xml"
 )
 NYFED_SOFR_URL = "https://markets.newyorkfed.org/api/rates/secured/sofr/search.json"
 CFTC_LEGACY_ALL_URL = "https://publicreporting.cftc.gov/resource/srt6-5q2f.json"
@@ -48,7 +54,11 @@ def fetch_json(
     request = urllib.request.Request(url, headers=dict(headers or {}))
     try:
         with opener(request, timeout=30) as response:
-            payload = json.loads(response.read().decode("utf-8"))
+            body = response.read()
+            encoding = response.headers.get("Content-Encoding", "").lower()
+            if encoding == "gzip" or body[:2] == b"\x1f\x8b":
+                body = gzip.decompress(body)
+            payload = json.loads(body.decode("utf-8"))
     except (OSError, ValueError) as exc:
         raise PublicDataError(f"public provider request failed: {url}") from exc
     if not isinstance(payload, (dict, list)):
@@ -246,6 +256,65 @@ def fetch_alfred_series(
     return normalize_alfred_observations(payload, series_id=series_id)
 
 
+def normalize_alfred_csv(
+    text: str, *, series_id: str, vintage_date: str, source_url: str
+) -> list[dict[str, Any]]:
+    """Normalize the public ALFRED graph CSV for an explicit vintage date."""
+    reader = csv.DictReader(io.StringIO(text))
+    if not reader.fieldnames or "observation_date" not in reader.fieldnames:
+        raise PublicDataError("ALFRED CSV has no observation_date column")
+    value_columns = [
+        field for field in reader.fieldnames if field != "observation_date"
+    ]
+    if not value_columns:
+        raise PublicDataError("ALFRED CSV has no value column")
+    value_column = value_columns[0]
+    records = []
+    for row in reader:
+        value = row.get(value_column)
+        if not value or value == ".":
+            continue
+        records.append(
+            {
+                "source": "alfred",
+                "series_id": series_id,
+                "observation_date": row.get("observation_date"),
+                "release_date": vintage_date,
+                "vintage": vintage_date,
+                "value": float(value),
+                "unit": "provider-defined",
+                "source_url": source_url,
+            }
+        )
+    return records
+
+
+def fetch_alfred_graph(
+    series_id: str,
+    *,
+    vintage_date: str,
+    observation_start: str | None = None,
+    observation_end: str | None = None,
+    opener: Callable[..., Any] = urllib.request.urlopen,
+) -> list[dict[str, Any]]:
+    """Fetch a public ALFRED graph CSV without requiring an API key."""
+    params = {"id": series_id, "vintage_date": vintage_date}
+    if observation_start:
+        params["cosd"] = observation_start
+    if observation_end:
+        params["coed"] = observation_end
+    url = f"{ALFRED_GRAPH_URL}?{urllib.parse.urlencode(params)}"
+    request = urllib.request.Request(url)
+    try:
+        with opener(request, timeout=30) as response:
+            text = response.read().decode("utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        raise PublicDataError(f"ALFRED graph request failed: {url}") from exc
+    return normalize_alfred_csv(
+        text, series_id=series_id, vintage_date=vintage_date, source_url=url
+    )
+
+
 def _first(record: Mapping[str, Any], *names: str) -> Any:
     lowered = {str(key).lower(): value for key, value in record.items()}
     for name in names:
@@ -299,6 +368,74 @@ def fetch_treasury_auctions(
     if not isinstance(payload, Mapping):
         raise PublicDataError("Treasury response must be an object")
     return normalize_treasury_auctions(payload)
+
+
+def normalize_treasury_yield_curve_xml(
+    text: str, *, source_url: str
+) -> list[dict[str, Any]]:
+    """Normalize Treasury's Atom/XML daily par-yield curve feed."""
+    import xml.etree.ElementTree as ET
+
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError as exc:
+        raise PublicDataError("Treasury yield-curve response is not valid XML") from exc
+    namespaces = {
+        "atom": "http://www.w3.org/2005/Atom",
+        "d": "http://schemas.microsoft.com/ado/2007/08/dataservices",
+    }
+    records = []
+    for properties in root.findall(
+        ".//atom:entry/atom:content/m:properties",
+        {
+            **namespaces,
+            "m": "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata",
+        },
+    ):
+        date_node = properties.find("d:NEW_DATE", namespaces)
+        if date_node is None or not date_node.text:
+            continue
+        observation_date = date_node.text[:10]
+        for node in properties:
+            if node.tag.rsplit("}", 1)[-1] in {"Id", "NEW_DATE"} or not node.text:
+                continue
+            try:
+                value = float(node.text)
+            except ValueError:
+                continue
+            tenor = node.tag.rsplit("}", 1)[-1]
+            records.append(
+                {
+                    "source": "us-treasury-daily-yield-curve",
+                    "series_id": tenor,
+                    "observation_date": observation_date,
+                    "release_date": observation_date,
+                    "value": value,
+                    "unit": "percent",
+                    "source_url": source_url,
+                }
+            )
+    return records
+
+
+def fetch_treasury_yield_curve(
+    *,
+    year: int,
+    opener: Callable[..., Any] = urllib.request.urlopen,
+) -> list[dict[str, Any]]:
+    """Fetch the official Treasury daily yield curve for one calendar year."""
+    params = {
+        "data": "daily_treasury_yield_curve",
+        "field_tdr_date_value": str(year),
+    }
+    url = f"{TREASURY_YIELD_CURVE_XML_URL}?{urllib.parse.urlencode(params)}"
+    request = urllib.request.Request(url)
+    try:
+        with opener(request, timeout=30) as response:
+            text = response.read().decode("utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        raise PublicDataError(f"Treasury yield-curve request failed: {url}") from exc
+    return normalize_treasury_yield_curve_xml(text, source_url=url)
 
 
 def normalize_sofr(payload: Mapping[str, Any]) -> list[dict[str, Any]]:

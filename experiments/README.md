@@ -169,6 +169,10 @@ unresolved. These distinctions are the point of the experiment record.
   the live deployment trial, including its ARM64 packaging failure, HTTP 500,
   costs, and teardown. It is intentionally not marked as a successful hosted
   inference.
+- [`runs/2026-08-16-live-public-data-004/`](runs/2026-08-16-live-public-data-004/)
+  records a successful, bounded ALFRED, U.S. Treasury daily yield-curve, and
+  SEC EDGAR capture. It contains normalized samples and counts only; the
+  Treasury auctions endpoint returned 404 and is explicitly not claimed.
 
 The [evidence ledger](../docs/evidence/EVIDENCE.md) remains the cross-project summary;
 this directory is the detailed experiment record.

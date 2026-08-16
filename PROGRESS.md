@@ -62,6 +62,16 @@ the narrative log explicitly says that evidence was captured.
 
 ## Post-Day-20 extension log
 
+- **Live public-data capture:** Captured bounded live ALFRED DGS10 vintage
+  observations, the official U.S. Treasury daily yield-curve XML feed, and SEC
+  EDGAR submissions/Company Facts metadata. The normalized experiment records
+  250 ALFRED observations, 2,340 Treasury tenor records, 1,000 SEC filing
+  records, and 25,135 SEC fact records at zero model tokens and `$0.00` AWS or
+  provider cost. The legacy Treasury auctions URL returned 404 and remains
+  explicitly unclaimed. Evidence: [`experiments/runs/2026-08-16-live-public-data-004/`](experiments/runs/2026-08-16-live-public-data-004/),
+  [`docs/evidence/EVIDENCE.md`](docs/evidence/EVIDENCE.md), and the public data
+  catalog in [`data/README.md`](data/README.md).
+
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
   auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. Added the

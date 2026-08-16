@@ -1,0 +1,152 @@
+{
+  "captured_at": "2026-08-16T19:42:21.783023Z",
+  "sources": {
+    "alfred": {
+      "record_count": 250,
+      "sample": [
+        {
+          "observation_date": "2023-01-03",
+          "release_date": "2024-01-02",
+          "series_id": "DGS10",
+          "source": "alfred",
+          "source_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=DGS10&vintage_date=2024-01-02&cosd=2023-01-01&coed=2024-01-02",
+          "unit": "provider-defined",
+          "value": 3.79,
+          "vintage": "2024-01-02"
+        },
+        {
+          "observation_date": "2023-12-29",
+          "release_date": "2024-01-02",
+          "series_id": "DGS10",
+          "source": "alfred",
+          "source_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=DGS10&vintage_date=2024-01-02&cosd=2023-01-01&coed=2024-01-02",
+          "unit": "provider-defined",
+          "value": 3.88,
+          "vintage": "2024-01-02"
+        }
+      ],
+      "status": "success"
+    },
+    "sec_companyfacts": {
+      "cik": "0000320193",
+      "record_count": 25135,
+      "revenue_record_count": 699,
+      "sample": [
+        {
+          "accession_number": "0000320193-26-000020",
+          "cik": "0000320193",
+          "concept": "ContractWithCustomerLiabilityRevenueRecognized",
+          "filing_date": "2026-07-31",
+          "form": "10-Q",
+          "frame": null,
+          "observation_date": "2025-06-28",
+          "source": "sec-edgar-companyfacts",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "taxonomy": "us-gaap",
+          "unit": "USD",
+          "value": 6958000000
+        },
+        {
+          "accession_number": "0000320193-26-000020",
+          "cik": "0000320193",
+          "concept": "ContractWithCustomerLiabilityRevenueRecognized",
+          "filing_date": "2026-07-31",
+          "form": "10-Q",
+          "frame": "CY2025Q2",
+          "observation_date": "2025-06-28",
+          "source": "sec-edgar-companyfacts",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "taxonomy": "us-gaap",
+          "unit": "USD",
+          "value": 4015000000
+        },
+        {
+          "accession_number": "0000320193-26-000020",
+          "cik": "0000320193",
+          "concept": "ContractWithCustomerLiabilityRevenueRecognized",
+          "filing_date": "2026-07-31",
+          "form": "10-Q",
+          "frame": null,
+          "observation_date": "2026-06-27",
+          "source": "sec-edgar-companyfacts",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "taxonomy": "us-gaap",
+          "unit": "USD",
+          "value": 7260000000
+        }
+      ],
+      "status": "success"
+    },
+    "sec_submissions": {
+      "cik": "0000320193",
+      "record_count": 1000,
+      "sample": [
+        {
+          "accession_number": "0001140361-26-032884",
+          "cik": "0000320193",
+          "filing_date": "2026-08-13",
+          "form": "4",
+          "period_of_report": "2026-08-11",
+          "primary_document": "xslF345X06/form4.xml",
+          "source": "sec-edgar-submissions",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126032884/xslF345X06/form4.xml"
+        },
+        {
+          "accession_number": "0001950047-26-007959",
+          "cik": "0000320193",
+          "filing_date": "2026-08-11",
+          "form": "144",
+          "period_of_report": "",
+          "primary_document": "xsl144X01/primary_doc.xml",
+          "source": "sec-edgar-submissions",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000195004726007959/xsl144X01/primary_doc.xml"
+        },
+        {
+          "accession_number": "0000320193-26-000020",
+          "cik": "0000320193",
+          "filing_date": "2026-07-31",
+          "form": "10-Q",
+          "period_of_report": "2026-06-27",
+          "primary_document": "aapl-20260627.htm",
+          "source": "sec-edgar-submissions",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000020/aapl-20260627.htm"
+        }
+      ],
+      "status": "success"
+    },
+    "treasury_yield_curve": {
+      "latest_observation_date": "2026-08-14",
+      "record_count": 2340,
+      "sample": [
+        {
+          "observation_date": "2026-08-14",
+          "release_date": "2026-08-14",
+          "series_id": "BC_2YEAR",
+          "source": "us-treasury-daily-yield-curve",
+          "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2026",
+          "unit": "percent",
+          "value": 4.17
+        },
+        {
+          "observation_date": "2026-08-14",
+          "release_date": "2026-08-14",
+          "series_id": "BC_10YEAR",
+          "source": "us-treasury-daily-yield-curve",
+          "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2026",
+          "unit": "percent",
+          "value": 4.68
+        },
+        {
+          "observation_date": "2026-08-14",
+          "release_date": "2026-08-14",
+          "series_id": "BC_30YEAR",
+          "source": "us-treasury-daily-yield-curve",
+          "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2026",
+          "unit": "percent",
+          "value": 5.25
+        }
+      ],
+      "status": "success"
+    }
+  }
+}

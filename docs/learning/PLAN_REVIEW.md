@@ -27,7 +27,7 @@ mock fixture != production data or provider availability
 | Day | Local slice | Live/evidence status | Assessment |
 |---|---|---|---|
 | 1 | Walking skeleton, CI, progress tracking, docs | [Learning Project](https://github.com/users/navoditk/projects/2) configured with roadmap, views, and saved browser evidence | Complete for learning scope |
-| 2 | Public-data adapters and provenance-aware DuckDB path | No new live provider capture is claimed | Local complete; provider capture optional |
+| 2 | Public-data adapters and provenance-aware DuckDB path | [Bounded ALFRED/Treasury/SEC capture](../../experiments/runs/2026-08-16-live-public-data-004/) completed | Local complete; live high-feasibility capture evidenced |
 | 3 | Deterministic pricing, risk, optimization, contracts, and tool boundary | No production data or hosted tool boundary claimed | Local complete |
 | 4 | Single Deep Agent, skills, context, local-model comparison | OpenAI smoke evidence exists; local Qwen limitation recorded | Complete for learning scope |
 | 5 | Multi-agent orchestration, retries, dead letters, checkpoint/resume | Provider-dependent hosted replay is not a release gate | Complete for learning scope |
@@ -40,8 +40,8 @@ mock fixture != production data or provider availability
 | 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful read-only invocation and teardown; no Gateway deployment | Local complete; Runtime live-complete; Gateway follow-up |
 | 13 | Memory boundaries and evaluation manifest | Live semantic Memory retrieval and scored on-demand Evaluation fixture captured; hosted-runtime span collection remains optional | Local complete; AWS control/data paths evidenced |
 | 14 | Guardrail logic, cases, evaluation dimensions | Live standalone Bedrock Guardrail pass/block proof captured; managed attachment remains optional | Local complete; standalone AWS proof complete |
-| 15 | Point-in-time provenance and bond metadata | ALFRED/Treasury connector and sample fixtures exist; no live capture or TRACE/OpenBB integration | Local complete; provider follow-up |
-| 16 | SEC metadata, citations, document-to-skill foundation | EDGAR path is mocked/network-free by design | Local complete; provider follow-up |
+| 15 | Point-in-time provenance and bond metadata | Live ALFRED vintage and Treasury daily yield-curve capture evidenced; TRACE/OpenBB remain unclaimed | Local complete; high-feasibility provider evidence complete |
+| 16 | SEC metadata, citations, document-to-skill foundation | Live SEC submissions and Company Facts metadata capture evidenced; full filing-text path remains separate | Local complete; metadata evidence complete |
 | 17 | Research specialists, fixed-income branch, mocked provider adapter | No live provider or successful AgentCore research run | Local complete; live AWS/provider incomplete |
 | 18 | Independent Devil's Advocate and committee challenge | Semantic truth and production liquidity analysis remain limited | Local complete with explicit limitations |
 | 19 | AgentOps Canvas, SLO/promotion/degraded-provider/replay controls | Canvas loopback/capability tests pass; Copilot-hosted visual capture and native Copilot run remain unclaimed | Local complete; account-dependent visual/provider evidence |
@@ -93,10 +93,10 @@ must not claim those external validations until their prerequisites exist.
    unresolved evaluation API blocker. Live Memory and standalone Guardrails
    evidence are complete; managed Guardrail attachment remains a separate
    optional extension.
-3. Capture provider-backed EDGAR/ALFRED/Treasury/research responses under their
-   terms and preserve point-in-time metadata. The high-feasibility
-   connector/normalization slice now exists locally; live capture and
-   canonical-table promotion remain separate evidence work.
+3. Promote the reviewed ALFRED/Treasury/SEC normalized capture into
+   source-specific cached tables and scheduled freshness checks. Other sources
+   such as TRACE, N-PORT, ratings, GDELT, and provider research still require
+   separate terms, access, and live evidence.
 4. Complete native Copilot automation and Copilot/Canvas browser evidence where
    the platform account makes those steps available. GitHub Projects and the
    scheduled morning-brief workflow are now evidenced.

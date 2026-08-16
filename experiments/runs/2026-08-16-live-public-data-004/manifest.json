@@ -1,0 +1,59 @@
+{
+  "cleanup": {
+    "notes": "No cloud resources created.",
+    "required": false,
+    "status": "not_required"
+  },
+  "costs": {
+    "accounting_note": "No AWS or model service was used.",
+    "aws_estimated_usd": 0,
+    "aws_observed_usd": 0,
+    "other_estimated_usd": 0,
+    "token_estimate_usd": 0,
+    "total_estimated_usd": 0
+  },
+  "created_at": "2026-08-16T19:42:21.783023Z",
+  "evidence": [
+    "response.json",
+    "findings.md"
+  ],
+  "execution": {
+    "mode": "bounded_public_data_capture",
+    "model": "none",
+    "provider": "other",
+    "region": "none"
+  },
+  "experiment": {
+    "name": "live public investment data capture",
+    "status": "success"
+  },
+  "findings": {
+    "decision": "keep",
+    "next_experiment": "Review provider snapshots before canonical promotion."
+  },
+  "input": {
+    "path": "fixed public queries",
+    "descriptor": "ALFRED DGS10 vintage 2024-01-02; Treasury 2026; SEC CIK 0000320193",
+    "sha256": ""
+  },
+  "output": {
+    "path": "response.json",
+    "summary": "Normalized samples and counts; raw payloads excluded."
+  },
+  "pricing": {
+    "as_of": "2026-08-16",
+    "currency": "USD",
+    "input_per_1m_tokens": 0,
+    "output_per_1m_tokens": 0,
+    "source": "No model invocation; public endpoints"
+  },
+  "run_id": "2026-08-16-live-public-data-004",
+  "schema_version": 1,
+  "updated_at": "2026-08-16T19:42:31.042889Z",
+  "usage": {
+    "input_tokens": 0,
+    "latency_ms": null,
+    "output_tokens": 0,
+    "total_tokens": 0
+  }
+}
