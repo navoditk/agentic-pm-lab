@@ -1,11 +1,11 @@
-name: Progress Tracker
+name: Progress Tracker Validation
 
 on:
   push:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   update-progress:
@@ -26,14 +26,6 @@ jobs:
       - name: Regenerate PROGRESS.md
         run: uv run python scripts/check_progress.py
 
-      - name: Commit PROGRESS.md if it changed
+      - name: Fail if PROGRESS.md is stale
         run: |
-          if ! git diff --quiet -- PROGRESS.md; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add PROGRESS.md
-            git commit -m "chore: update PROGRESS.md [skip ci]"
-            git push
-          else
-            echo "PROGRESS.md unchanged."
-          fi
+          git diff --exit-code -- PROGRESS.md

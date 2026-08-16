@@ -1,6 +1,12 @@
 # Progress: Agentic AI Learning Journey
 
-This file is largely **auto-generated**. `scripts/check_progress.py`, run by `.github/workflows/progress-tracker.yml` on every push to `main`, regenerates everything between the `<!-- PROGRESS:START -->` / `<!-- PROGRESS:END -->` markers below from `config/progress.yaml` and from `# MOCK` markers found in `src/`. Don't hand-edit inside the markers — edit `config/progress.yaml` instead, and let the next push regenerate the table. The one-line narrative entries and the "Notes" column are the only parts a person writes directly.
+This file is largely **generated**. Run `uv run python scripts/check_progress.py`
+after changing `config/progress.yaml` or `# MOCK` markers in `src/`, then commit
+the resulting table with the change. `.github/workflows/progress-tracker.yml`
+validates the committed table on every push to `main`; it does not write a bot
+commit back to `main`, which keeps progress updates in the same reviewable
+commit and avoids push races. Don't hand-edit inside the markers. The one-line
+narrative entries and the "Notes" column are the only parts written directly.
 
 See `docs/PLAN.md` §6 (Automatic progress tracking) for how this mechanism works, and `AGENTS.md` for how to onboard a tool onto the current day's work.
 

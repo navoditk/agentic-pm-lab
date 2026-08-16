@@ -37,7 +37,12 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 2. Read `docs/PLAN.md`'s Appendix B section for that day in full — goal, install/account setup (if any), recommended tool, numbered steps, commit checkpoints, track-progress line.
 3. If a step references a design decision you don't have context for, check `docs/architecture/PRD.md` (architecture layers, principles, business problems) rather than guessing.
 4. Do the work.
-5. Update `PROGRESS.md`'s narrative line — including evidence links (PR, test run, eval run, trace, screenshot, ADR — whichever apply) — and `docs/LEARNINGS.md`. The status table itself is regenerated automatically by `progress-tracker.yml`, so don't hand-edit that part.
+5. Run `uv run python scripts/check_progress.py` and commit the generated
+   `PROGRESS.md` status table together with the change. Update its narrative
+   line — including evidence links (PR, test run, eval run, trace, screenshot,
+   ADR — whichever apply) — and `docs/LEARNINGS.md`. The progress workflow
+   validates that the committed table is current; it does not write back to
+   `main`, avoiding automated-commit races.
 6. Commit and push at each checkpoint listed in that day's docs/PLAN.md section, not just once at the end.
 
 ## Day → docs/PLAN.md quick reference

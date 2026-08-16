@@ -105,7 +105,7 @@ prompts are documented in the [Tutor Runbook](TUTOR_RUNBOOK.md).
 | [`contract-tests.yml`](../../.github/workflows/contract-tests.yml) | Do skills, tools, schemas, and governance contracts agree? | Relevant contract/skill changes | None |
 | [`skills-freshness.yml`](../../.github/workflows/skills-freshness.yml) | Are skills still aligned with changed code? | Pull requests to `main` | None |
 | [`eval-regression.yml`](../../.github/workflows/eval-regression.yml) | Did agent behavior regress? | Relevant agent/eval changes | None |
-| [`progress-tracker.yml`](../../.github/workflows/progress-tracker.yml) | Does generated progress match the repository? | Push to `main` | Commits `PROGRESS.md` |
+| [`progress-tracker.yml`](../../.github/workflows/progress-tracker.yml) | Does committed progress match the repository? | Push to `main` | None; fails on drift |
 | [`morning-brief.yml`](../../.github/workflows/morning-brief.yml) | Can a scheduled review produce a human-review artifact? | Weekday schedule or manual dispatch | Creates GitHub issues |
 | [`public-data-ingestion.yml`](../../.github/workflows/public-data-ingestion.yml) | Can approved public sources be refreshed into a governed cache? | Weekday schedule or manual dispatch | Uploads a 14-day cache artifact; no repository writes |
 
@@ -227,9 +227,11 @@ This workflow runs after pushes to `main`. It runs
 `scripts/check_progress.py`, which regenerates the machine-checked status table
 in `PROGRESS.md` from repository state and `config/progress.yaml`.
 
-If the generated table changes, the workflow commits the update as
-`github-actions[bot]` using `[skip ci]`. The daily narrative remains manually
-maintained because it contains context, deviations, and evidence links.
+If the generated table changes, the workflow fails and the developer must run
+`uv run python scripts/check_progress.py` locally and commit the result. The
+daily narrative remains manually maintained because it contains context,
+deviations, and evidence links. The workflow does not push a second commit to
+`main`, avoiding races with normal development pushes.
 
 Do not hand-edit the generated table. Update the progress configuration or the
 implementation evidence that the checker evaluates.
@@ -260,7 +262,8 @@ The workflows are intentionally overlapping but independently scoped:
 3. `authorization-tests.yml` checks policy and security boundaries when relevant.
 4. `skills-freshness.yml` checks skill-to-code synchronization on pull requests.
 5. `eval-regression.yml` checks agent behavior when relevant.
-6. `progress-tracker.yml` refreshes the status table after a merge to `main`.
+6. `progress-tracker.yml` validates the committed status table after a merge to
+   `main`; it never pushes an automated progress commit.
 
 The relevant path filters prevent every specialized check from running for an
 unrelated documentation or analytics change, while the broad CI workflow still

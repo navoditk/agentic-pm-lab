@@ -90,7 +90,7 @@ agentic-pm-lab/
 │       ├── contract-tests.yml     # CI check for skill/tool/MCP contract schema and mocked-execution tests (Day 11) — §8.3
 │       ├── authorization-tests.yml # CI check for governance/tests/ — authZ, prompt injection, sensitive-output (Day 7/11) — §15
 │       ├── eval-regression.yml    # CI check that agent behavior doesn't regress across model changes (Day 6, Appendix C)
-│       ├── progress-tracker.yml   # regenerates PROGRESS.md's status table/badge from config/progress.yaml — §6
+│       ├── progress-tracker.yml   # validates the committed PROGRESS.md table against config/progress.yaml — §6
 │       └── morning-brief.yml      # scheduled automation agent run (Day 11)
 ├── scripts/
 │   ├── check_progress.py          # evaluates config/progress.yaml against repo state — §6
@@ -265,7 +265,7 @@ day_2:
 # ... one block per day, extended as each day's Appendix B steps are followed
 ```
 
-`scripts/check_progress.py` evaluates each day's checks against the current repo state (does the file exist, does that test path pass, does a given git tag exist) and emits a markdown table plus a completion count. `progress-tracker.yml` runs this on every push to `main` and writes the result into `PROGRESS.md` between `<!-- PROGRESS:START -->` / `<!-- PROGRESS:END -->` marker comments — the same "CI audits repo state instead of trusting memory" idea already used for skills freshness and eval regression, just pointed at day-by-day completion instead.
+`scripts/check_progress.py` evaluates each day's checks against the current repo state (does the file exist, does that test path pass, does a given git tag exist) and emits a markdown table plus a completion count. Developers run it locally and commit the result between the `<!-- PROGRESS:START -->` / `<!-- PROGRESS:END -->` markers; `progress-tracker.yml` runs the same generation on every push to `main` and fails if the committed table is stale. This keeps progress reviewable in the same commit and avoids a bot push racing normal development pushes.
 
 This doesn't replace `docs/LEARNINGS.md` or the narrative parts of `docs/ARCHITECTURE.md` — those need judgment, not just a file-exists check — but it removes the purely mechanical bookkeeping from the daily checklist (Appendix B intro).
 
@@ -1164,7 +1164,7 @@ git push origin main
 
 **Every day below also ends with the same four-part close-of-day checklist**, stated once here rather than repeated 12 times:
 
-1. **Final commit & push for the day** (on top of the day's own checkpoints) — confirm `ci.yml` is green before stopping. `progress-tracker.yml` also runs automatically and refreshes `PROGRESS.md`'s status table from `config/progress.yaml` and the `# MOCK` markers in code (§6), so that part of "update progress" is no longer manual.
+1. **Final commit & push for the day** (on top of the day's own checkpoints) — run `uv run python scripts/check_progress.py`, include the generated `PROGRESS.md` table, and confirm `ci.yml` plus progress validation are green before stopping.
 2. **Update documentation**: `PROGRESS.md`'s one-line narrative entry for the day (the auto-generated table covers the status, but a sentence of context is still worth writing); `docs/ARCHITECTURE.md` if a design decision was made that day; `docs/ficc-glossary.md` if a new term was encountered, using the `ficc-glossary-maintainer` skill's format; `docs/comparison-notes.md` (dev-tool section) if you want today's tool-usage numbers on record — worth doing on any day you switch tools mid-day or aren't sure the §7 default still holds, not required every single day.
 3. **Update `docs/LEARNINGS.md`**: a short, dated entry — what worked, what didn't, one thing you'd do differently — written the same day, not reconstructed later.
 4. **Update `docs/REFERENCES.md`**: add any resource you actually used today, plus anything new you found that isn't in there yet.
