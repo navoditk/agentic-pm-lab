@@ -1,0 +1,67 @@
+{
+  "cleanup": {
+    "notes": "No cloud resources created; credential remained process-local.",
+    "required": false,
+    "status": "complete"
+  },
+  "costs": {
+    "accounting_note": "Token cost and infrastructure cost are recorded separately to avoid hiding double counting.",
+    "aws_estimated_usd": null,
+    "aws_observed_usd": null,
+    "other_estimated_usd": null,
+    "token_estimate_usd": 0.0006,
+    "total_estimated_usd": 0.0006
+  },
+  "created_at": "2026-08-17T04:01:42.858875Z",
+  "evidence": [
+    {
+      "captured_at": "2026-08-17T04:01:46.962169Z",
+      "note": "",
+      "path": "response.json,audit.jsonl"
+    }
+  ],
+  "execution": {
+    "mode": "direct_responses_api",
+    "model": "gpt-4.1-mini",
+    "provider": "openai",
+    "region": "local",
+    "request_id": "openai-direct-matrix-20260817-040142-4-7378a4",
+    "runtime_session_id": "resp_036c5d156b2ee655016a8287a7e04c819aaf0ab607ecad1af4"
+  },
+  "experiment": {
+    "description": "",
+    "name": "Institutional PM matrix openai repetition 4",
+    "status": "success"
+  },
+  "findings": {
+    "cons": [],
+    "decision": "Observed canonical baseline repetition; no order was executed.",
+    "limitations": [],
+    "next_experiment": "Run the adversarial scenario matrix.",
+    "pros": []
+  },
+  "input": {
+    "path": "experiments/agentcore-runtime-proof/input.json",
+    "sha256": ""
+  },
+  "output": {
+    "path": "response.json",
+    "summary": ""
+  },
+  "pricing": {
+    "as_of": "2026-08-17",
+    "currency": "USD",
+    "input_per_1m_tokens": 0.4,
+    "output_per_1m_tokens": 1.6,
+    "source": "openai direct API standard token estimate"
+  },
+  "run_id": "openai-direct-matrix-20260817-040142-4-7378a4",
+  "schema_version": 1,
+  "updated_at": "2026-08-17T04:01:47.000232Z",
+  "usage": {
+    "input_tokens": 576,
+    "latency_ms": 3316,
+    "output_tokens": 231,
+    "total_tokens": 807
+  }
+}

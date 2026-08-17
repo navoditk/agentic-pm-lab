@@ -49,6 +49,15 @@ def main() -> None:
         analyses.append(
             {"model": model, "summary": summary, "gates": apply_gates(summary, gates)}
         )
+    observed_repetitions = max(
+        (item["summary"]["run_count"] for item in analyses), default=0
+    )
+    minimum_repetitions = gates["minimum_repetitions_for_promotion"]
+    repetition_message = (
+        f"The matrix contains {observed_repetitions} observed repetition(s) per "
+        f"model at most; the configured promotion threshold is "
+        f"{minimum_repetitions}."
+    )
     analysis = {
         "matrix_id": matrix["matrix_id"],
         "scenario_coverage": matrix["scenarios"],
@@ -59,17 +68,17 @@ def main() -> None:
         "# Institutional PM Scorecard v2",
         "",
         "> This report extends the [baseline four-model comparison](CANONICAL_PM_BENCHMARK_REPORT.md) without replacing it.",
-        "> Current observed repetitions are one per model; promotion requires the configured minimum repetition count.",
+        f"> {repetition_message}",
         "",
         "## Repeated-run analysis",
         "",
-        "| Model | Runs | Success rate | Mean score | Score stdev | p95 latency | Cost/run | Gate |",
-        "|---|---:|---:|---:|---:|---:|---:|---|",
+        "| Model | Runs | Success rate | Mean score | Score stdev | Mean tokens | p95 latency | Cost/run | Gate |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---|",
     ]
     for item in analyses:
         summary = item["summary"]
         lines.append(
-            f"| `{item['model']}` | {summary['run_count']} | {summary['success_rate']:.1%} | {summary['automated_score']['mean']:.2f} | {summary['automated_score']['stdev']:.2f} | {summary['latency_ms']['p95']:.0f} ms | ${summary['cost_per_successful_run_usd'] or 0:.6f} | {item['gates']['status']} |"
+            f"| `{item['model']}` | {summary['run_count']} | {summary['success_rate']:.1%} | {summary['automated_score']['mean']:.2f} | {summary['automated_score']['stdev']:.2f} | {summary['total_tokens']['mean']:.0f} | {summary['latency_ms']['p95']:.0f} ms | ${summary['cost_per_successful_run_usd'] or 0:.6f} | {item['gates']['status']} |"
         )
     lines += [
         "",
@@ -86,7 +95,9 @@ def main() -> None:
         "",
         "## Promotion interpretation",
         "",
-        "The current baseline passes the quality and latency gates but does not satisfy the five-repetition promotion requirement. Adversarial scenarios remain planned until provider adapters execute them and append immutable run records.",
+        f"{repetition_message} Adversarial scenarios remain planned until provider adapters execute them and append immutable run records.",
+        "",
+        "AWS cost/run is a token estimate using standard on-demand Bedrock rates; the temporary AgentCore runtime, logging, and storage components are recorded separately and are not included when their asynchronous cost lookup returns zero or unavailable.",
         "",
     ]
     args.output_md.parent.mkdir(parents=True, exist_ok=True)

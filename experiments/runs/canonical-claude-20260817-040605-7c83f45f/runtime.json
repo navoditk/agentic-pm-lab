@@ -1,0 +1,52 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "connection": "keep-alive",
+      "content-length": "1229",
+      "content-type": "application/json",
+      "date": "Mon, 17 Aug 2026 04:06:32 GMT",
+      "x-amz-apigw-id": "COpPdFjRvHcEjDg=",
+      "x-amzn-requestid": "1eb5e818-df2b-4279-b736-920f0a7bfdbd",
+      "x-amzn-trace-id": "Root=1-6a8288c8-01870b40614505c72daaa68d"
+    },
+    "HTTPStatusCode": 200,
+    "RequestId": "1eb5e818-df2b-4279-b736-920f0a7bfdbd",
+    "RetryAttempts": 0
+  },
+  "agentRuntimeArtifact": {
+    "codeConfiguration": {
+      "code": {
+        "s3": {
+          "bucket": "bedrock-agentcore-code-463802498849-us-west-2",
+          "prefix": "canonical-claude-20260817-040605-7c83f45f/runtime.zip"
+        }
+      },
+      "entryPoint": [
+        "agentcore_app.py"
+      ],
+      "runtime": "PYTHON_3_13"
+    }
+  },
+  "agentRuntimeVersion": "1",
+  "createdAt": "2026-08-17 04:06:11.925005+00:00",
+  "description": "Canonical PM benchmark claude",
+  "environmentVariables": {
+    "MODEL_ID": "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+  },
+  "lastUpdatedAt": "2026-08-17 04:06:24.553284+00:00",
+  "lifecycleConfiguration": {
+    "idleRuntimeSessionTimeout": 900,
+    "maxLifetime": 3600
+  },
+  "metadataConfiguration": {
+    "requireMMDSV2": true
+  },
+  "networkConfiguration": {
+    "networkMode": "PUBLIC"
+  },
+  "protocolConfiguration": {
+    "serverProtocol": "HTTP"
+  },
+  "roleArn": "arn:aws:iam::463802498849:role/AgenticPMLabRuntimeExecutionRole",
+  "status": "READY"
+}

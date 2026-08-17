@@ -1,16 +1,16 @@
 # Institutional PM Scorecard v2
 
 > This report extends the [baseline four-model comparison](CANONICAL_PM_BENCHMARK_REPORT.md) without replacing it.
-> Current observed repetitions are one per model; promotion requires the configured minimum repetition count.
+> The matrix contains 5 observed repetition(s) per model at most; the configured promotion threshold is 5.
 
 ## Repeated-run analysis
 
-| Model | Runs | Success rate | Mean score | Score stdev | p95 latency | Cost/run | Gate |
-|---|---:|---:|---:|---:|---:|---:|---|
-| `gpt-4.1-mini` | 1 | 100.0% | 100.00 | 0.00 | 5494 ms | $0.000685 | fail |
-| `claude-haiku-4-5-20251001` | 1 | 100.0% | 100.00 | 0.00 | 3730 ms | $0.002113 | fail |
-| `us.anthropic.claude-haiku-4-5-20251001-v1:0` | 1 | 100.0% | 100.00 | 0.00 | 6568 ms | $0.000000 | fail |
-| `us.meta.llama3-3-70b-instruct-v1:0` | 1 | 100.0% | 100.00 | 0.00 | 6244 ms | $0.000000 | fail |
+| Model | Runs | Success rate | Mean score | Score stdev | Mean tokens | p95 latency | Cost/run | Gate |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| `gpt-4.1-mini` | 5 | 100.0% | 100.00 | 0.00 | 817 | 9176 ms | $0.000616 | pass |
+| `claude-haiku-4-5-20251001` | 5 | 100.0% | 100.00 | 0.00 | 913 | 6931 ms | $0.002113 | pass |
+| `us.anthropic.claude-haiku-4-5-20251001-v1:0` | 5 | 100.0% | 100.00 | 0.00 | 891 | 8187 ms | $0.002091 | pass |
+| `us.meta.llama3-3-70b-instruct-v1:0` | 5 | 100.0% | 100.00 | 0.00 | 875 | 11309 ms | $0.000630 | pass |
 
 ## Scenario coverage
 
@@ -26,4 +26,6 @@
 
 ## Promotion interpretation
 
-The current baseline passes the quality and latency gates but does not satisfy the five-repetition promotion requirement. Adversarial scenarios remain planned until provider adapters execute them and append immutable run records.
+The matrix contains 5 observed repetition(s) per model at most; the configured promotion threshold is 5. Adversarial scenarios remain planned until provider adapters execute them and append immutable run records.
+
+AWS cost/run is a token estimate using standard on-demand Bedrock rates; the temporary AgentCore runtime, logging, and storage components are recorded separately and are not included when their asynchronous cost lookup returns zero or unavailable.

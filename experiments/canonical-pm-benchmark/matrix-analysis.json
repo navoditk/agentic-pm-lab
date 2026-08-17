@@ -7,10 +7,10 @@
           "critical_governance_failures": true,
           "maximum_p95_latency_ms": true,
           "minimum_automated_score": true,
-          "minimum_repetitions_for_promotion": false,
+          "minimum_repetitions_for_promotion": true,
           "minimum_success_rate": true
         },
-        "status": "fail"
+        "status": "pass"
       },
       "model": "gpt-4.1-mini",
       "summary": {
@@ -20,22 +20,22 @@
           "p95": 100.0,
           "stdev": 0.0
         },
-        "cost_per_successful_run_usd": 0.0006848,
+        "cost_per_successful_run_usd": 0.00061632,
         "critical_failure_count": 0,
         "estimated_cost_usd": {
-          "mean": 0.0006848,
-          "total": 0.0006848
+          "mean": 0.0006163200000000001,
+          "total": 0.0030816000000000003
         },
         "latency_ms": {
-          "mean": 5494.0,
-          "median": 5494.0,
-          "p95": 5494.0
+          "mean": 5309.8,
+          "median": 4468.0,
+          "p95": 9176.0
         },
-        "run_count": 1,
+        "run_count": 5,
         "success_rate": 1.0,
         "total_tokens": {
-          "mean": 860.0,
-          "median": 860.0
+          "mean": 817.2,
+          "median": 812.0
         }
       }
     },
@@ -45,10 +45,10 @@
           "critical_governance_failures": true,
           "maximum_p95_latency_ms": true,
           "minimum_automated_score": true,
-          "minimum_repetitions_for_promotion": false,
+          "minimum_repetitions_for_promotion": true,
           "minimum_success_rate": true
         },
-        "status": "fail"
+        "status": "pass"
       },
       "model": "claude-haiku-4-5-20251001",
       "summary": {
@@ -62,14 +62,14 @@
         "critical_failure_count": 0,
         "estimated_cost_usd": {
           "mean": 0.002113,
-          "total": 0.002113
+          "total": 0.010565
         },
         "latency_ms": {
-          "mean": 3730.0,
-          "median": 3730.0,
-          "p95": 3730.0
+          "mean": 4620.0,
+          "median": 3836.0,
+          "p95": 6931.0
         },
-        "run_count": 1,
+        "run_count": 5,
         "success_rate": 1.0,
         "total_tokens": {
           "mean": 913.0,
@@ -83,10 +83,10 @@
           "critical_governance_failures": true,
           "maximum_p95_latency_ms": true,
           "minimum_automated_score": true,
-          "minimum_repetitions_for_promotion": false,
+          "minimum_repetitions_for_promotion": true,
           "minimum_success_rate": true
         },
-        "status": "fail"
+        "status": "pass"
       },
       "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
       "summary": {
@@ -96,18 +96,18 @@
           "p95": 100.0,
           "stdev": 0.0
         },
-        "cost_per_successful_run_usd": 0.0,
+        "cost_per_successful_run_usd": 0.002091,
         "critical_failure_count": 0,
         "estimated_cost_usd": {
-          "mean": 0.0,
-          "total": 0.0
+          "mean": 0.002091,
+          "total": 0.010454999999999999
         },
         "latency_ms": {
-          "mean": 6568.0,
-          "median": 6568.0,
-          "p95": 6568.0
+          "mean": 7619.8,
+          "median": 7786.0,
+          "p95": 8187.0
         },
-        "run_count": 1,
+        "run_count": 5,
         "success_rate": 1.0,
         "total_tokens": {
           "mean": 891.0,
@@ -121,10 +121,10 @@
           "critical_governance_failures": true,
           "maximum_p95_latency_ms": true,
           "minimum_automated_score": true,
-          "minimum_repetitions_for_promotion": false,
+          "minimum_repetitions_for_promotion": true,
           "minimum_success_rate": true
         },
-        "status": "fail"
+        "status": "pass"
       },
       "model": "us.meta.llama3-3-70b-instruct-v1:0",
       "summary": {
@@ -134,18 +134,18 @@
           "p95": 100.0,
           "stdev": 0.0
         },
-        "cost_per_successful_run_usd": 0.0,
+        "cost_per_successful_run_usd": 0.00063,
         "critical_failure_count": 0,
         "estimated_cost_usd": {
-          "mean": 0.0,
-          "total": 0.0
+          "mean": 0.00063,
+          "total": 0.00315
         },
         "latency_ms": {
-          "mean": 6244.0,
-          "median": 6244.0,
-          "p95": 6244.0
+          "mean": 7677.2,
+          "median": 6999.0,
+          "p95": 11309.0
         },
-        "run_count": 1,
+        "run_count": 5,
         "success_rate": 1.0,
         "total_tokens": {
           "mean": 875.0,

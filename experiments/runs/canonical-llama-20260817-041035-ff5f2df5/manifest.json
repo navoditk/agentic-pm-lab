@@ -1,0 +1,69 @@
+{
+  "cleanup": {
+    "notes": "Runtime, endpoint, unique S3 prefix, and log groups deleted.",
+    "required": true,
+    "status": "complete"
+  },
+  "costs": {
+    "accounting_note": "Token cost and infrastructure cost are recorded separately to avoid hiding double counting.",
+    "aws_estimated_usd": 0.0,
+    "aws_observed_usd": null,
+    "other_estimated_usd": null,
+    "token_estimate_usd": null,
+    "total_estimated_usd": 0.0
+  },
+  "created_at": "2026-08-17T04:10:35.485831Z",
+  "evidence": [
+    {
+      "captured_at": "2026-08-17T04:11:21.037722Z",
+      "note": "Canonical exact-input full PM capstone; temporary AgentCore resources captured before cleanup.",
+      "path": "hosted-response.json,runtime.json,endpoint.json,events.json,log-streams.json,budget.json,cost.json"
+    }
+  ],
+  "execution": {
+    "mode": "temporary_agentcore_runtime",
+    "model": "us.meta.llama3-3-70b-instruct-v1:0",
+    "provider": "aws",
+    "region": "us-west-2",
+    "request_id": "exp-agentcore-proof-001",
+    "runtime_session_id": "canonical-e3cc0312398b45e59698e6e5958baf0b"
+  },
+  "experiment": {
+    "description": "",
+    "name": "Canonical PM benchmark us.meta.llama3-3-70b-instruct-v1:0",
+    "status": "success"
+  },
+  "findings": {
+    "cons": [],
+    "decision": "Observed exact-input llama run; human approval remains required and no order was executed.",
+    "limitations": [
+      "Canonical exact-input full PM capstone; temporary AgentCore resources captured before cleanup."
+    ],
+    "next_experiment": "Run the common evaluator suite against the canonical benchmark output.",
+    "pros": []
+  },
+  "input": {
+    "path": "input.json",
+    "sha256": ""
+  },
+  "output": {
+    "path": "hosted-response.json",
+    "summary": ""
+  },
+  "pricing": {
+    "as_of": "",
+    "currency": "USD",
+    "input_per_1m_tokens": null,
+    "output_per_1m_tokens": null,
+    "source": ""
+  },
+  "run_id": "canonical-llama-20260817-041035-ff5f2df5",
+  "schema_version": 1,
+  "updated_at": "2026-08-17T04:11:28.122900Z",
+  "usage": {
+    "input_tokens": 575,
+    "latency_ms": 6999,
+    "output_tokens": 300,
+    "total_tokens": 875
+  }
+}

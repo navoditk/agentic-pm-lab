@@ -462,3 +462,18 @@ through investment data, deterministic tools, orchestration, governance,
 evaluation, Canvas, and AWS. Tutor prompts and reference checkpoints make the
 learning loop repeatable without implying that reading a reference proves a
 capability exists in the repository.
+
+## Repeated institutional PM scorecard
+
+The five-repetition matrix established a useful separation between a stable
+automated contract and an unfinished adversarial evaluation program. All four
+providers produced the same governed structured capstone shape and passed the
+automated checks, but that result does not establish production superiority:
+the run used deterministic evidence, one fixed question, and no adversarial
+scenario variation. OpenAI direct had the lowest mean token cost in this
+sample; direct Anthropic was the most expensive; AWS Claude and Llama add
+managed-runtime evidence but their temporary infrastructure charges need a
+settled billing snapshot rather than a zero placeholder. The next meaningful
+quality step is executing missing-liquidity, stale-evidence, conflicting-source,
+unauthorized-access, prompt-injection, and malformed-tool scenarios, followed
+by calibrated human narrative review.

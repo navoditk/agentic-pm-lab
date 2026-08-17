@@ -1,0 +1,19 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "connection": "keep-alive",
+      "content-length": "463",
+      "content-type": "application/json",
+      "date": "Mon, 17 Aug 2026 04:08:00 GMT",
+      "x-amz-apigw-id": "COpc7EzpvHcEVug=",
+      "x-amzn-requestid": "85b80d76-fdf4-47ff-88a8-80e3e0ca99e2",
+      "x-amzn-trace-id": "Root=1-6a82891f-25257852191b2fe9298c8861"
+    },
+    "HTTPStatusCode": 202,
+    "RequestId": "85b80d76-fdf4-47ff-88a8-80e3e0ca99e2",
+    "RetryAttempts": 0
+  },
+  "agentRuntimeVersion": "1",
+  "createdAt": "2026-08-17 04:07:59.870405+00:00",
+  "status": "CREATING"
+}

@@ -122,7 +122,7 @@ Required span attributes include provider, model, prompt version, tool contract 
 | Estimated Cost | Same benchmark dataset, deterministic expected values where applicable, and explicit pass/fail evidence. |
 | Failure Recovery | Same benchmark dataset, deterministic expected values where applicable, and explicit pass/fail evidence. |
 
-The Day 6 OpenAI baseline provides the current deepest evaluation implementation: routing/retrieval context, tool selection/arguments, final-answer criteria, token/cost/latency, OTel, LangSmith, and regression gates. The exact-capstone runs currently provide workflow and governance evidence but need to be replayed through this full scorecard for a complete cross-provider quality matrix.
+The Day 6 OpenAI baseline provides the current deepest evaluation implementation: routing/retrieval context, tool selection/arguments, final-answer criteria, token/cost/latency, OTel, LangSmith, and regression gates. The repeated exact-capstone runs are now replayed through the common scorecard in [Scorecard v2](INSTITUTIONAL_PM_SCORECARD_V2.md); adversarial scenario rows remain explicitly planned until their provider adapters are executed.
 
 ## 7. Learner walkthrough
 

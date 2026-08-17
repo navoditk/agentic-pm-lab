@@ -5,6 +5,27 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+TOKEN_PRICING_PER_MILLION = {
+    "us.anthropic.claude-haiku-4-5-20251001-v1:0": (1.00, 5.00),
+    "us.meta.llama3-3-70b-instruct-v1:0": (0.72, 0.72),
+}
+
+
+def _estimated_cost(manifest: dict[str, Any]) -> tuple[float | None, str | None]:
+    """Return token cost, keeping AWS runtime and token costs distinguishable."""
+    recorded = manifest.get("costs", {}).get("total_estimated_usd")
+    provider = manifest.get("execution", {}).get("provider")
+    model = manifest.get("execution", {}).get("model")
+    usage = manifest.get("usage", {})
+    if provider != "aws" or model not in TOKEN_PRICING_PER_MILLION:
+        return recorded, None
+    input_rate, output_rate = TOKEN_PRICING_PER_MILLION[model]
+    token_cost = (
+        usage.get("input_tokens", 0) * input_rate
+        + usage.get("output_tokens", 0) * output_rate
+    ) / 1_000_000
+    return token_cost, "AWS Bedrock standard on-demand token estimate"
+
 
 def _check(name: str, passed: bool, evidence: list[str], note: str) -> dict[str, Any]:
     return {
@@ -129,6 +150,7 @@ def evaluate_response(
         )
         * 100
     )
+    estimated_cost, cost_basis = _estimated_cost(manifest)
     return {
         "evaluation_id": expected["evaluation_id"],
         "run_id": manifest.get("run_id"),
@@ -150,7 +172,8 @@ def evaluate_response(
             "output_tokens": manifest.get("usage", {}).get("output_tokens"),
             "total_tokens": manifest.get("usage", {}).get("total_tokens"),
             "latency_ms": manifest.get("usage", {}).get("latency_ms"),
-            "estimated_cost_usd": manifest.get("costs", {}).get("total_estimated_usd"),
+            "estimated_cost_usd": estimated_cost,
+            "cost_basis": cost_basis,
         },
     }
 

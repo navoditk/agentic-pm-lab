@@ -211,9 +211,54 @@ uv run python scripts/analyze_institutional_pm_matrix.py
 The resulting [`matrix.json`](canonical-pm-benchmark/matrix.json),
 [`matrix-analysis.json`](canonical-pm-benchmark/matrix-analysis.json), and
 [`INSTITUTIONAL_PM_SCORECARD_V2.md`](../docs/learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
-show which scenarios are observed versus planned. One repetition per model is
-enough to demonstrate the harness, but never satisfies the configured
-five-repetition promotion gate.
+show which scenarios are observed versus planned. The current committed matrix
+contains five actual repetitions for each of OpenAI direct, Anthropic direct,
+AWS Claude Haiku, and AWS Llama. The configured five-repetition gate is a
+minimum for promotion, not a claim that the adversarial scenarios are complete.
+
+To reproduce the repeated baseline with direct providers, keep credentials in
+the process environment and run:
+
+```bash
+uv run python scripts/run_institutional_pm_repetitions.py \
+  --provider openai --provider anthropic --repetitions 5
+```
+
+For AWS, refresh the `agentic-pm-lab` IAM Identity Center session, build the
+Linux ARM64 package as described below, and run:
+
+```bash
+uv run python scripts/run_institutional_pm_repetitions.py \
+  --provider aws-claude --provider aws-llama --repetitions 5 \
+  --package /tmp/agentic-pm-canonical-package.zip \
+  --aws-profile agentic-pm-lab --aws-region us-west-2
+```
+
+If a managed-provider wrapper finishes its invocation and cleanup but does not
+return its final JSON (a known legacy adapter behavior), recover completed
+evidence without rerunning model calls:
+
+```bash
+uv run python scripts/run_institutional_pm_repetitions.py --discover-existing
+uv run python scripts/run_institutional_pm_matrix.py \
+  --repeated experiments/canonical-pm-benchmark/repeated-matrix.json
+uv run python scripts/analyze_institutional_pm_matrix.py
+```
+
+Every repetition remains an immutable directory under `experiments/runs/`.
+Direct-provider runs include response and audit artifacts; AWS runs include
+hosted response, runtime/endpoint, events/log streams, usage, and cleanup
+artifacts. AWS token cost is estimated from the captured input/output tokens;
+AgentCore infrastructure spend is recorded separately when billing evidence is
+available and is never silently combined with token cost.
+
+AWS trace files committed to this repository are sanitized to remove AWS
+pagination tokens and ephemeral resource identifiers that security scanners
+correctly treat as high-entropy credentials. The unredacted capture, when
+needed for account-side audit, remains outside the repository; the committed
+hosted response, event messages, run manifest, and cleanup evidence preserve
+the learner-relevant workflow and correlation fields without bypassing secret
+detection.
 
 ### Fresh AWS canonical reruns
 

@@ -1,0 +1,541 @@
+{
+  "answer": "The deterministic capstone assessment of Portfolio A\u2019s overnight rates and credit-risk implications presents several key points:\n\nEvidence: The evaluation includes concentration risk data showing that BOND_A and CREDIT_A holdings exceed 25% weights (40% and 30%, respectively). However, there is a lack of explicit causal evidence linking credit factors to overnight rate impacts. Liquidity status for CREDIT_A is not documented.\n\nAssumptions: The analysis assumes stable liquidity conditions and causal relationships between credit exposures and overnight rates without direct supporting evidence.\n\nRisks and Uncertainties:  \n- High concentration risk due to large position sizes in BOND_A and CREDIT_A, increasing vulnerability to idiosyncratic shocks.  \n- Medium liquidity risk from unknown liquidity status of CREDIT_A, potentially affecting portfolio flexibility.  \n- Unsupported causality claims regarding credit risk impact on overnight rates introduce uncertainty in risk attribution.  \n- Missing evidence, contradictory data, stale sources, and undefined invalidation conditions further limit confidence.\n\nNext Review Step: A human committee review is required to address the identified evidence gaps, validate causal assumptions, reassess concentration and liquidity risks with updated data, and confirm the robustness of overnight rate impact conclusions before approval.",
+  "approval_required": true,
+  "capstone": {
+    "committee_artifact": {
+      "approved": false,
+      "challenge": {
+        "approved": false,
+        "coverage": {
+          "categories": [
+            "missing_evidence",
+            "contradictory_data",
+            "stale_sources",
+            "concentration_risk",
+            "liquidity_risk",
+            "unsupported_causality",
+            "invalidation_conditions"
+          ],
+          "coverage_ratio": 0.42857142857142855,
+          "covered": [
+            "concentration_risk",
+            "liquidity_risk",
+            "unsupported_causality"
+          ],
+          "uncovered": [
+            "missing_evidence",
+            "contradictory_data",
+            "stale_sources",
+            "invalidation_conditions"
+          ]
+        },
+        "critic_may_approve": false,
+        "decision_date": "2026-08-13",
+        "findings": [
+          {
+            "category": "unsupported_causality",
+            "evidence_ids": [
+              "credit"
+            ],
+            "message": "Causal claim lacks explicit causal evidence.",
+            "severity": "high",
+            "subject": "credit"
+          },
+          {
+            "category": "concentration_risk",
+            "evidence_ids": [],
+            "message": "Weight 40.00% exceeds 25.00%.",
+            "severity": "high",
+            "subject": "BOND_A"
+          },
+          {
+            "category": "concentration_risk",
+            "evidence_ids": [],
+            "message": "Weight 30.00% exceeds 25.00%.",
+            "severity": "high",
+            "subject": "CREDIT_A"
+          },
+          {
+            "category": "liquidity_risk",
+            "evidence_ids": [],
+            "message": "Liquidity status is unknown.",
+            "severity": "medium",
+            "subject": "CREDIT_A"
+          }
+        ],
+        "recommendation": "revise_or_decline",
+        "status": "challenged",
+        "thesis_id": "CAPSTONE-THESIS-001"
+      },
+      "status": "pending_human_review",
+      "thesis": {
+        "allocation": [
+          {
+            "liquidity_status": "needs_review",
+            "security_id": "BOND_A",
+            "weight": 0.4
+          },
+          {
+            "liquidity_status": "unknown",
+            "security_id": "CREDIT_A",
+            "weight": 0.3
+          }
+        ],
+        "calculations": {
+          "credit": {
+            "assumptions": [
+              "First-order duration/spread-duration approximation; convexity is excluded.",
+              "Position weights and sensitivities are supplied by the caller.",
+              "Portfolio positions are mock unless an external provenance record says otherwise."
+            ],
+            "horizon": "overnight",
+            "mock": true,
+            "portfolio_return_impact": -0.009,
+            "position_impacts": [
+              {
+                "impact": -0.009,
+                "security_id": "CREDIT_A",
+                "weight": 0.3
+              }
+            ],
+            "scenario_type": "credit",
+            "shock_bps": 75.0
+          },
+          "hedge": {
+            "action": "human_review_only",
+            "assumptions": [
+              "Linear duration matching; basis, convexity, roll, margin, and liquidity require review."
+            ],
+            "hedge_duration": 7.0,
+            "instrument": "Treasury hedge fixture",
+            "order_generated": false,
+            "proposed_weight": 0.43,
+            "target_duration": 3.01
+          },
+          "rates": {
+            "assumptions": [
+              "First-order duration/spread-duration approximation; convexity is excluded.",
+              "Position weights and sensitivities are supplied by the caller.",
+              "Portfolio positions are mock unless an external provenance record says otherwise."
+            ],
+            "horizon": "overnight",
+            "mock": true,
+            "portfolio_return_impact": -0.01505,
+            "position_impacts": [
+              {
+                "impact": -0.0104,
+                "security_id": "BOND_A",
+                "weight": 0.4
+              },
+              {
+                "impact": -0.00465,
+                "security_id": "CREDIT_A",
+                "weight": 0.3
+              }
+            ],
+            "scenario_type": "rates",
+            "shock_bps": 50.0
+          }
+        },
+        "claims": [
+          {
+            "causal": false,
+            "claim_id": "rates",
+            "evidence_ids": [
+              "SOFR-EVIDENCE"
+            ],
+            "text": "A 50 bps rates shock is material but duration matching may reduce exposure."
+          },
+          {
+            "causal": true,
+            "claim_id": "credit",
+            "evidence_ids": [
+              "THEMATIC-EVIDENCE"
+            ],
+            "text": "Credit funding pressure supports reducing the credit sleeve."
+          }
+        ],
+        "evidence": [
+          {
+            "contradicts_claim": false,
+            "evidence_id": "SOFR-EVIDENCE",
+            "publication_date": "2026-08-12",
+            "supports_causality": false
+          },
+          {
+            "contradicts_claim": false,
+            "evidence_id": "THEMATIC-EVIDENCE",
+            "provider": "mock-bigdata-thematic-screen",
+            "publication_date": "2026-08-12",
+            "supports_causality": false
+          }
+        ],
+        "invalidation_conditions": [
+          "Funding conditions normalize and credit spreads tighten."
+        ],
+        "thesis_id": "CAPSTONE-THESIS-001"
+      },
+      "workflow": [
+        "draft",
+        "evidence_attached",
+        "devils_advocate_challenge"
+      ]
+    },
+    "decision_date": "2026-08-13",
+    "evaluation": {
+      "dimensions": {
+        "authorization": true,
+        "bond_validation": true,
+        "committee_challenge": true,
+        "freshness": true,
+        "human_review_required": true,
+        "structured_calculation": true,
+        "unstructured_citation": true
+      },
+      "status": "pass",
+      "unresolved": []
+    },
+    "execution_trace": [
+      {
+        "component": "control",
+        "duration_ms": 0.903,
+        "stage": "authenticate_and_authorize",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "data",
+        "duration_ms": 0.013,
+        "stage": "load_structured_observations",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "provenance",
+        "duration_ms": 0.011,
+        "stage": "point_in_time_freshness",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "research",
+        "duration_ms": 0.006,
+        "stage": "retrieve_cited_research",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "quant",
+        "duration_ms": 0.962,
+        "stage": "fixed_income_validation",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "quant",
+        "duration_ms": 0.075,
+        "stage": "rates_scenario",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "quant",
+        "duration_ms": 0.047,
+        "stage": "credit_scenario",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "portfolio",
+        "duration_ms": 0.004,
+        "stage": "human_review_only_hedge",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "supervisor",
+        "duration_ms": 0.005,
+        "stage": "draft_evidence_linked_thesis",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "governance",
+        "duration_ms": 0.027,
+        "stage": "devils_advocate_committee_challenge",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "evaluation",
+        "duration_ms": 0.006,
+        "stage": "evaluate_and_prepare_review",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      },
+      {
+        "component": "audit",
+        "duration_ms": 0.559,
+        "stage": "write_audit_event",
+        "status": "completed",
+        "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18"
+      }
+    ],
+    "freshness": {
+      "observations": [
+        {
+          "eligible": true,
+          "release_date": "2026-08-12",
+          "series_id": "TREASURY_CURVE",
+          "vintage": "2026-08-12"
+        },
+        {
+          "eligible": true,
+          "release_date": "2026-08-12",
+          "series_id": "SOFR",
+          "vintage": "2026-08-12"
+        }
+      ],
+      "status": "pass"
+    },
+    "identity": "PM_USER",
+    "live_provider_evidence": false,
+    "order_execution": false,
+    "portfolio_id": "PORT_A",
+    "production_oriented_poc": true,
+    "provenance_paths": {
+      "structured_calculations": {
+        "credit_scenario": {
+          "assumptions": [
+            "First-order duration/spread-duration approximation; convexity is excluded.",
+            "Position weights and sensitivities are supplied by the caller.",
+            "Portfolio positions are mock unless an external provenance record says otherwise."
+          ],
+          "horizon": "overnight",
+          "mock": true,
+          "portfolio_return_impact": -0.009,
+          "position_impacts": [
+            {
+              "impact": -0.009,
+              "security_id": "CREDIT_A",
+              "weight": 0.3
+            }
+          ],
+          "scenario_type": "credit",
+          "shock_bps": 75.0
+        },
+        "fixed_income": {
+          "accrued_interest": 0.4166666666666667,
+          "clean_price": 100.77788810204167,
+          "dirty_price": 101.19455476870834,
+          "instrument": {
+            "coupon_frequency": 2,
+            "coupon_rate": 0.05,
+            "currency": "USD",
+            "day_count": "30/360",
+            "issue_date": "2024-01-01",
+            "issuer": "Issuer A",
+            "maturity_date": "2034-01-01",
+            "security_id": "BOND_A",
+            "settlement_lag_days": 2
+          },
+          "liquidity_review": "needs_review",
+          "price_assumptions": [
+            "Par 100; semiannual 5% coupon; 30/360 accrual; 30 days since coupon."
+          ],
+          "rating_exposure": "mock security master",
+          "validation": {
+            "security_id": "BOND_A",
+            "status": "valid"
+          }
+        },
+        "hedge": {
+          "action": "human_review_only",
+          "assumptions": [
+            "Linear duration matching; basis, convexity, roll, margin, and liquidity require review."
+          ],
+          "hedge_duration": 7.0,
+          "instrument": "Treasury hedge fixture",
+          "order_generated": false,
+          "proposed_weight": 0.43,
+          "target_duration": 3.01
+        },
+        "observations": [
+          {
+            "observation_date": "2026-08-12",
+            "release_date": "2026-08-12",
+            "series_id": "TREASURY_CURVE",
+            "source": "public-fixture-treasury",
+            "source_url": "https://home.treasury.gov/",
+            "unit": "percent",
+            "value": 4.2,
+            "vintage": "2026-08-12"
+          },
+          {
+            "observation_date": "2026-08-12",
+            "release_date": "2026-08-12",
+            "series_id": "SOFR",
+            "source": "public-fixture-sofr",
+            "source_url": "https://www.newyorkfed.org/markets/reference-rates/sofr",
+            "unit": "percent",
+            "value": 5.3,
+            "vintage": "2026-08-12"
+          }
+        ],
+        "rates_scenario": {
+          "assumptions": [
+            "First-order duration/spread-duration approximation; convexity is excluded.",
+            "Position weights and sensitivities are supplied by the caller.",
+            "Portfolio positions are mock unless an external provenance record says otherwise."
+          ],
+          "horizon": "overnight",
+          "mock": true,
+          "portfolio_return_impact": -0.01505,
+          "position_impacts": [
+            {
+              "impact": -0.0104,
+              "security_id": "BOND_A",
+              "weight": 0.4
+            },
+            {
+              "impact": -0.00465,
+              "security_id": "CREDIT_A",
+              "weight": 0.3
+            }
+          ],
+          "scenario_type": "rates",
+          "shock_bps": 50.0
+        }
+      },
+      "unstructured_evidence": [
+        {
+          "entity": "Issuer A",
+          "evidence": {
+            "excerpt": "Fixture evidence matching 'funding pressure and credit outlook' for Issuer A.",
+            "source_url": "https://example.com/public-fixture/thematic-screen",
+            "title": "Mock thematic screen for Issuer A"
+          },
+          "licensing": {
+            "redistribution": "not_permitted",
+            "state": "fixture-only"
+          },
+          "mock": true,
+          "novelty": 0.8,
+          "provider": "mock-bigdata-thematic-screen",
+          "publication_time": "2026-08-12T08:00:00Z",
+          "query": "funding pressure and credit outlook",
+          "retrieval_time": "2026-08-13T08:00:00Z"
+        }
+      ]
+    },
+    "reasoning_artifact": {
+      "note": "The trace exposes stages, tools, policy outcomes, evidence, failures, and outputs without exposing private model chain-of-thought.",
+      "private_chain_of_thought_captured": false,
+      "type": "structured_execution_trace"
+    },
+    "trace_id": "78bdf09b80ded4b5f7e2b15cdc622b18",
+    "versions": {
+      "data_version": "public-fixtures-2026-08-12-v1",
+      "model_version": "deterministic-local-replay-v1",
+      "policy_version": "cedar-local-v1",
+      "prompt_version": "institutional-pm-capstone-v1"
+    },
+    "workflow": [
+      "authenticated_pm_request",
+      "freshness_check",
+      "macro_quant_fundamental_research_evidence",
+      "deterministic_fixed_income_scenarios",
+      "devils_advocate_challenge",
+      "cited_committee_artifact",
+      "human_review",
+      "otel_audit_evaluation_metadata"
+    ]
+  },
+  "latency_ms": 4367.94,
+  "model_id": "gpt-4.1-mini",
+  "order_execution": false,
+  "pricing": {
+    "basis": "OpenAI direct API standard token estimate; verify against provider billing.",
+    "currency": "USD",
+    "estimated_token_cost_usd": 0.0006128,
+    "input_per_million_tokens": 0.4,
+    "output_per_million_tokens": 1.6
+  },
+  "provider": "openai",
+  "reasoning_note": "Observable deterministic stages and governance outcomes are returned; private model chain-of-thought is not logged.",
+  "request_id": "openai-direct-matrix-20260817-040137-3-b39f0c",
+  "response_id": "resp_0026c1f5ccad0f0e016a8287a2a7b4819b85ea49ebb99834c1",
+  "status": "completed",
+  "usage": {
+    "input_tokens": 576,
+    "output_tokens": 239,
+    "total_tokens": 815
+  },
+  "workflow_stages": [
+    {
+      "details": {
+        "request_id": "openai-direct-matrix-20260817-040137-3-b39f0c"
+      },
+      "stage": "request_received"
+    },
+    {
+      "details": {
+        "identity": "PM_USER",
+        "portfolio_id": "PORT_A"
+      },
+      "stage": "input_validated"
+    },
+    {
+      "details": {
+        "decision": "delegated_to_local_cedar_boundary"
+      },
+      "stage": "authorization_checked"
+    },
+    {
+      "details": {
+        "workflow": [
+          "authenticated_pm_request",
+          "freshness_check",
+          "macro_quant_fundamental_research_evidence",
+          "deterministic_fixed_income_scenarios",
+          "devils_advocate_challenge",
+          "cited_committee_artifact",
+          "human_review",
+          "otel_audit_evaluation_metadata"
+        ]
+      },
+      "stage": "capstone_completed"
+    },
+    {
+      "details": {
+        "order_execution": false,
+        "tools": []
+      },
+      "stage": "orchestration_started"
+    },
+    {
+      "details": {
+        "usage": {
+          "input_tokens": 576,
+          "output_tokens": 239,
+          "total_tokens": 815
+        }
+      },
+      "stage": "openai_completed"
+    },
+    {
+      "details": {
+        "decision": "local_capstone_boundary",
+        "violations": []
+      },
+      "stage": "guardrail_checked"
+    },
+    {
+      "details": {
+        "approval_required": true,
+        "order_execution": false
+      },
+      "stage": "response_emitted"
+    }
+  ]
+}

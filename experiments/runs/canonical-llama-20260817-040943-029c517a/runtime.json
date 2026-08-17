@@ -1,0 +1,52 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "connection": "keep-alive",
+      "content-length": "1214",
+      "content-type": "application/json",
+      "date": "Mon, 17 Aug 2026 04:10:08 GMT",
+      "x-amz-apigw-id": "COpxNH_-vHcEQxQ=",
+      "x-amzn-requestid": "37d23835-b799-44c6-8f83-bd7588acf41f",
+      "x-amzn-trace-id": "Root=1-6a8289a0-52311c6f0fd16eaf3619bcf0"
+    },
+    "HTTPStatusCode": 200,
+    "RequestId": "37d23835-b799-44c6-8f83-bd7588acf41f",
+    "RetryAttempts": 0
+  },
+  "agentRuntimeArtifact": {
+    "codeConfiguration": {
+      "code": {
+        "s3": {
+          "bucket": "bedrock-agentcore-code-463802498849-us-west-2",
+          "prefix": "canonical-llama-20260817-040943-029c517a/runtime.zip"
+        }
+      },
+      "entryPoint": [
+        "agentcore_app.py"
+      ],
+      "runtime": "PYTHON_3_13"
+    }
+  },
+  "agentRuntimeVersion": "1",
+  "createdAt": "2026-08-17 04:09:47.932527+00:00",
+  "description": "Canonical PM benchmark llama",
+  "environmentVariables": {
+    "MODEL_ID": "us.meta.llama3-3-70b-instruct-v1:0"
+  },
+  "lastUpdatedAt": "2026-08-17 04:10:00.129560+00:00",
+  "lifecycleConfiguration": {
+    "idleRuntimeSessionTimeout": 900,
+    "maxLifetime": 3600
+  },
+  "metadataConfiguration": {
+    "requireMMDSV2": true
+  },
+  "networkConfiguration": {
+    "networkMode": "PUBLIC"
+  },
+  "protocolConfiguration": {
+    "serverProtocol": "HTTP"
+  },
+  "roleArn": "arn:aws:iam::463802498849:role/AgenticPMLabRuntimeExecutionRole",
+  "status": "READY"
+}

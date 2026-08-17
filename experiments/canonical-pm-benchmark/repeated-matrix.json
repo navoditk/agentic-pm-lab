@@ -1,0 +1,125 @@
+{
+  "matrix_id": "institutional-pm-repeated-baseline-v1",
+  "runs": [
+    {
+      "provider": "openai",
+      "repetition": 1,
+      "run_id": "openai-direct-matrix-20260817-040126-1-7ea96c",
+      "status": "success"
+    },
+    {
+      "provider": "openai",
+      "repetition": 2,
+      "run_id": "openai-direct-matrix-20260817-040132-2-5abe3c",
+      "status": "success"
+    },
+    {
+      "provider": "openai",
+      "repetition": 3,
+      "run_id": "openai-direct-matrix-20260817-040137-3-b39f0c",
+      "status": "success"
+    },
+    {
+      "provider": "openai",
+      "repetition": 4,
+      "run_id": "openai-direct-matrix-20260817-040142-4-7378a4",
+      "status": "success"
+    },
+    {
+      "provider": "openai",
+      "repetition": 5,
+      "run_id": "openai-direct-matrix-20260817-040147-5-b9d3b7",
+      "status": "success"
+    },
+    {
+      "provider": "anthropic",
+      "repetition": 1,
+      "run_id": "anthropic-direct-matrix-20260817-040157-1-42c41f",
+      "status": "success"
+    },
+    {
+      "provider": "anthropic",
+      "repetition": 2,
+      "run_id": "anthropic-direct-matrix-20260817-040201-2-e00eaf",
+      "status": "success"
+    },
+    {
+      "provider": "anthropic",
+      "repetition": 3,
+      "run_id": "anthropic-direct-matrix-20260817-040205-3-c0debb",
+      "status": "success"
+    },
+    {
+      "provider": "anthropic",
+      "repetition": 4,
+      "run_id": "anthropic-direct-matrix-20260817-040212-4-2885c2",
+      "status": "success"
+    },
+    {
+      "provider": "anthropic",
+      "repetition": 5,
+      "run_id": "anthropic-direct-matrix-20260817-040216-5-529d2d",
+      "status": "success"
+    },
+    {
+      "provider": "aws-claude",
+      "repetition": 1,
+      "run_id": "canonical-claude-20260817-040510-f3dbbc3c",
+      "status": "success"
+    },
+    {
+      "provider": "aws-claude",
+      "repetition": 2,
+      "run_id": "canonical-claude-20260817-040605-7c83f45f",
+      "status": "success"
+    },
+    {
+      "provider": "aws-claude",
+      "repetition": 3,
+      "run_id": "canonical-claude-20260817-040700-ee52eb97",
+      "status": "success"
+    },
+    {
+      "provider": "aws-claude",
+      "repetition": 4,
+      "run_id": "canonical-claude-20260817-040754-a53626ec",
+      "status": "success"
+    },
+    {
+      "provider": "aws-claude",
+      "repetition": 5,
+      "run_id": "canonical-claude-20260817-040849-30df70d3",
+      "status": "success"
+    },
+    {
+      "provider": "aws-llama",
+      "repetition": 1,
+      "run_id": "canonical-llama-20260817-040943-029c517a",
+      "status": "success"
+    },
+    {
+      "provider": "aws-llama",
+      "repetition": 2,
+      "run_id": "canonical-llama-20260817-041035-ff5f2df5",
+      "status": "success"
+    },
+    {
+      "provider": "aws-llama",
+      "repetition": 3,
+      "run_id": "canonical-llama-20260817-041355-7038dfa9",
+      "status": "success"
+    },
+    {
+      "provider": "aws-llama",
+      "repetition": 4,
+      "run_id": "canonical-llama-20260817-041453-4add620a",
+      "status": "success"
+    },
+    {
+      "provider": "aws-llama",
+      "repetition": 5,
+      "run_id": "canonical-llama-20260817-041545-80883d22",
+      "status": "success"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "Budget": {
+    "BillingViewArn": "arn:aws:billing::463802498849:billingview/primary",
+    "BudgetLimit": {
+      "Amount": "50.0",
+      "Unit": "USD"
+    },
+    "BudgetName": "agentic-pm-lab-monthly",
+    "BudgetType": "COST",
+    "CalculatedSpend": {
+      "ActualSpend": {
+        "Amount": "0.444",
+        "Unit": "USD"
+      },
+      "ForecastedSpend": {
+        "Amount": "0.839",
+        "Unit": "USD"
+      }
+    },
+    "FilterExpression": {
+      "Not": {
+        "Dimensions": {
+          "Key": "RECORD_TYPE",
+          "Values": [
+            "Credit",
+            "Refund"
+          ]
+        }
+      }
+    },
+    "HealthStatus": {
+      "LastUpdatedTime": "2026-08-16 13:16:17.273000-07:00",
+      "Status": "HEALTHY"
+    },
+    "LastUpdatedTime": "2026-08-16 13:16:17.638000-07:00",
+    "Metrics": [
+      "UnblendedCost"
+    ],
+    "TimePeriod": {
+      "End": "2087-06-14 17:00:00-07:00",
+      "Start": "2026-07-31 17:00:00-07:00"
+    },
+    "TimeUnit": "MONTHLY"
+  },
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "cache-control": "no-store, no-cache",
+      "connection": "keep-alive",
+      "content-length": "630",
+      "content-type": "application/x-amz-json-1.1",
+      "date": "Mon, 17 Aug 2026 04:15:37 GMT",
+      "x-amzn-requestid": "835dfcf4-1b5e-4d53-b4ed-9120e7b97285"
+    },
+    "HTTPStatusCode": 200,
+    "RequestId": "835dfcf4-1b5e-4d53-b4ed-9120e7b97285",
+    "RetryAttempts": 0
+  }
+}
