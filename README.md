@@ -280,6 +280,12 @@ bases, governance outcomes, and remaining benchmark gaps. Regenerate it with
 `uv run python scripts/generate_benchmark_report.py` after adding a new
 provider-neutral experiment record.
 
+Automation model roles are separated from benchmark targets in
+[`config/model-roles.yaml`](config/model-roles.yaml): Claude Opus 4.8 conducts
+multi-step benchmark orchestration, Haiku 4.5 generates routine reports, and
+Sonnet 4.6 reviews discrepancies. Deterministic gates and recorded evidence,
+not the conductor model, determine completion or pass/fail status.
+
 The next learning track is the [Phase 2 institutional PM AI production-readiness plan](docs/learning/PHASE_2_PLAN.md). It extends the completed 21-day foundation with investment mandates, data governance, evidence graphs, fixed-income risk, RAG evaluation, model risk, identity and policy exceptions, red-team testing, CI/CD promotion, SLOs, resilience, and a reproducible institutional PM capstone.
 
 ## Repository guide

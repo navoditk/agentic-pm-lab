@@ -1,0 +1,25 @@
+schema_version: 1
+
+# These roles control the automation harness, not the provider models under
+# test. Credentials are read from the named environment variable at runtime.
+conductor:
+  provider: anthropic
+  model: claude-opus-4-8
+  env_var: ANTHROPIC_API_KEY
+  purpose: "Default high-accuracy conductor for benchmark orchestration, tool use, failure triage, and evidence completeness."
+
+report_generation:
+  default:
+    provider: anthropic
+    model: claude-haiku-4-5-20251001
+    env_var: ANTHROPIC_API_KEY
+    purpose: "Low-cost report rendering and deterministic evidence summarization."
+  review:
+    provider: anthropic
+    model: claude-sonnet-4-6
+    env_var: ANTHROPIC_API_KEY
+    purpose: "Higher-quality report review, discrepancy analysis, and learner-facing explanation."
+
+security:
+  credential_policy: "Read credentials from environment or an external secret manager; never store them in this repository."
+  chain_of_thought_policy: "Capture structured traces, tool calls, evaluator findings, and concise summaries; never capture private chain-of-thought."

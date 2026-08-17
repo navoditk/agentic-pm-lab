@@ -186,6 +186,20 @@ Quality comparisons require the same evaluator suite and human review of
 evidence grounding; AWS Cost Explorer values must remain separate from direct
 model token estimates.
 
+### Automation model roles
+
+The automation roles are declared in [`config/model-roles.yaml`](../config/model-roles.yaml):
+
+- Claude Opus 4.8 is the default conductor for multi-step orchestration,
+  evidence validation, bounded failure recovery, and discrepancy triage.
+- Claude Haiku 4.5 is the default low-cost report-generation profile.
+- Claude Sonnet 4.6 is the higher-quality report-review profile.
+
+These are conductor roles, not benchmark targets. They never replace a missing
+provider result, waive a failed evaluator, or decide a governance outcome.
+Credentials remain runtime-only. `scripts/generate_benchmark_report.py` records
+the selected profiles in the generated report without making a model call.
+
 ## Existing runs
 
 - [`agentcore-runtime-proof/`](agentcore-runtime-proof/) is the reusable small

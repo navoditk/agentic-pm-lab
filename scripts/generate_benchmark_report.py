@@ -4,8 +4,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.model_roles import DEFAULT_ROLES_PATH, load_roles, model_string
 
 
 def load(path: Path) -> dict[str, Any]:
@@ -28,9 +35,13 @@ def bullet_lines(items: list[str]) -> str:
     return "\n".join(f"- {item}" for item in items)
 
 
-def render(benchmark: dict[str, Any]) -> str:
+def render(benchmark: dict[str, Any], roles: dict[str, Any] | None = None) -> str:
     providers = benchmark["providers"]
     exact = [p for p in providers if p["alignment"] == "canonical_exact"]
+    roles = roles or load_roles()
+    conductor = roles["conductor"]
+    report_default = roles["report_generation"]["default"]
+    report_review = roles["report_generation"]["review"]
     lines = [
         f"# {benchmark['title']}",
         "",
@@ -46,6 +57,14 @@ def render(benchmark: dict[str, Any]) -> str:
         f"Observed exact-capstone providers: **{len(exact)}**. The OpenAI and Ollama results are valuable historical learning runs, but are explicitly not treated as apples-to-apples results because they used different question sets.",
         "",
         "The strongest current observability evidence is the OpenAI Day 6 run, which combines OpenTelemetry, LangSmith, a golden dataset, and regression evaluators. The strongest exact business-workflow evidence is the AgentCore Claude run. Direct Anthropic now provides a non-AWS exact-capstone reference with native token accounting and audit evidence.",
+        "",
+        "## Execution model roles",
+        "",
+        f"- **Default conductor:** `{model_string(conductor)}` — {conductor['purpose']}",
+        f"- **Default report generation:** `{model_string(report_default)}` — {report_default['purpose']}",
+        f"- **Higher-quality report review:** `{model_string(report_review)}` — {report_review['purpose']}",
+        "",
+        "These roles are automation defaults, not benchmark targets. The conductor coordinates the run, validates evidence, and handles bounded recovery; deterministic gates—not the conductor—decide whether a run is complete. Report generation may use the cheaper default profile, while discrepancy review may use Sonnet. Credentials are runtime-only and the report never records them.",
         "",
         "## 1. Business workflow under test",
         "",
@@ -209,9 +228,12 @@ def main() -> None:
         type=Path,
         default=Path("docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md"),
     )
+    parser.add_argument("--roles-config", type=Path, default=DEFAULT_ROLES_PATH)
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(render(load(args.input)), encoding="utf-8")
+    args.output.write_text(
+        render(load(args.input), load_roles(args.roles_config)), encoding="utf-8"
+    )
     print(f"wrote {args.output}")
 
 

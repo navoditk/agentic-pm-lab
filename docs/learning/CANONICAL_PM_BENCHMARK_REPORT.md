@@ -13,6 +13,14 @@ Observed exact-capstone providers: **3**. The OpenAI and Ollama results are valu
 
 The strongest current observability evidence is the OpenAI Day 6 run, which combines OpenTelemetry, LangSmith, a golden dataset, and regression evaluators. The strongest exact business-workflow evidence is the AgentCore Claude run. Direct Anthropic now provides a non-AWS exact-capstone reference with native token accounting and audit evidence.
 
+## Execution model roles
+
+- **Default conductor:** `anthropic:claude-opus-4-8` — Default high-accuracy conductor for benchmark orchestration, tool use, failure triage, and evidence completeness.
+- **Default report generation:** `anthropic:claude-haiku-4-5-20251001` — Low-cost report rendering and deterministic evidence summarization.
+- **Higher-quality report review:** `anthropic:claude-sonnet-4-6` — Higher-quality report review, discrepancy analysis, and learner-facing explanation.
+
+These roles are automation defaults, not benchmark targets. The conductor coordinates the run, validates evidence, and handles bounded recovery; deterministic gates—not the conductor—decide whether a run is complete. Report generation may use the cheaper default profile, while discrepancy review may use Sonnet. Credentials are runtime-only and the report never records them.
+
 ## 1. Business workflow under test
 
 The workflow is a read-only morning investment-committee review. It combines deterministic investment analytics with model-assisted research synthesis and a Devil's Advocate challenge. The model may explain and prioritize evidence, but it cannot authorize itself or place an order.

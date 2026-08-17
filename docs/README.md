@@ -47,6 +47,7 @@ flat list.
 - [Architecture diagrams](architecture/DIAGRAMS.md) · [ADRs](adr/)
 - [Experiments](../experiments/README.md) · [Data catalog](../data/README.md)
 - [Canonical PM benchmark report](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
+- [Automation model roles](../config/model-roles.yaml)
 
 `AGENTS.md` remains the canonical router for AI coding tools. Skills under
 `../skills/` contain task-specific reusable instructions and contracts.
