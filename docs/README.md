@@ -42,7 +42,7 @@ flat list.
 
 ## Quick links
 
-- [Runbook](guides/RUNBOOK.md) · [AWS setup](guides/AWS_AGENTCORE_SETUP.md) ·
+- [Runbook](guides/RUNBOOK.md) · [AWS setup](guides/AWS_AGENTCORE_SETUP.md) · [Gateway exercise](guides/AGENTCORE_GATEWAY_SETUP.md) ·
   [Canvas exercises](guides/CANVAS_EXERCISES.md) ·
   [Direct model runs](guides/DIRECT_MODEL_RUNS.md)
 - [GitHub Projects learning board](guides/GITHUB_WORKFLOWS.md#github-projects-learning-board)

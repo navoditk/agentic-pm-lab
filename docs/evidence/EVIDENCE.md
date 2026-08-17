@@ -284,6 +284,18 @@ provider service.
   authentication/credential-provider configuration. Creating a placeholder
   target would not be a meaningful or safe end-to-end test.
 
+## Gateway target implementation — 2026-08-17 UTC
+
+- Added a disposable CloudFormation-backed regional API Gateway target with
+  three read-only public/mock-data operations and a complete AgentCore Gateway
+  setup runbook: [`AGENTCORE_GATEWAY_SETUP.md`](../guides/AGENTCORE_GATEWAY_SETUP.md).
+- The first live preflight reported AWS CLI `2.36.22`, but the
+  `agentic-pm-lab` IAM Identity Center session had expired and refresh failed.
+  No Gateway, target, API, Lambda, or IAM resource was created by this attempt.
+- The exercise remains `implementation_ready_live_preflight_blocked` until the
+  session is renewed and the target reaches `READY` with successful and denied
+  request evidence. See [`experiment README`](../../experiments/2026-08-17-agentcore-gateway/README.md).
+
 ## AWS preflight — 2026-08-13
 
 - AWS CLI: `2.36.22`.

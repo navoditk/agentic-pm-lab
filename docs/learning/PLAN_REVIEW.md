@@ -37,7 +37,7 @@ mock fixture != production data or provider availability
 | 9 | Agent Operations Canvas and run history | Live LangSmith path requires credentials | Local complete; live follow-up |
 | 10 | Governed MCP boundary and Portfolio/Risk Canvas | Visual Copilot/browser evidence remains unclaimed; local capability and smoke tests pass | Local complete; hosted follow-up |
 | 11 | Runtime, automation, prompts, CI, runbooks | Scheduled morning-brief workflow, artifact upload, and review issue verified; native Copilot automation evidence remains unclaimed | Local and scheduled-workflow complete; Copilot follow-up |
-| 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful hosted counterpart invocation, CloudWatch stages, usage, cost, and teardown; no Gateway | Local complete; hosted counterpart live-complete; full hosted capstone/Gateway follow-up |
+| 12 | Scenario engine, optimization, AgentCore intent and entrypoint | Runtime/endpoint reached `READY`; successful hosted counterpart invocation, CloudWatch stages, usage, cost, and teardown; Gateway target implementation is ready, but live preflight is blocked by an expired SSO session | Local and Runtime hosted evidence complete; Gateway live evidence pending session renewal |
 | 13 | Memory boundaries and evaluation manifest | Live semantic Memory retrieval and scored on-demand Evaluation fixture captured; hosted-runtime span collection remains optional | Local complete; AWS control/data paths evidenced |
 | 14 | Guardrail logic, cases, evaluation dimensions | Live standalone Bedrock Guardrail pass/block proof captured; managed attachment remains optional | Local complete; standalone AWS proof complete |
 | 15 | Point-in-time provenance and bond metadata | Live ALFRED vintage and Treasury daily yield-curve capture evidenced; TRACE/OpenBB remain unclaimed | Local complete; high-feasibility provider evidence complete |
@@ -84,8 +84,9 @@ evidence captured; Tier 2 Gateway/provider/browser evidence and Tier 3
 comparisons remain intentionally optional or account-dependent. The project
 must not claim those external validations until their prerequisites exist.
 
-1. If desired, deploy and tear down a governed Gateway path with a real
-   HTTPS-hosted MCP target.
+1. Deploy and tear down the governed Gateway path using the new disposable
+   API Gateway target. The implementation and runbook are complete; only the
+   live AWS evidence remains pending while the SSO session is renewed.
 2. The AgentCore Evaluation item is now complete for the on-demand API: a
    documented Strands-compatible span/event fixture scored one session. A
    future hosted-runtime rerun can still validate CloudWatch collection of

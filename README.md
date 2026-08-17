@@ -295,6 +295,12 @@ It is useful for screening and learning, but independent human calibration is
 still required before promotion. The AWS day-level reconciliation is recorded in
 [`aws-billing-reconciliation.json`](experiments/canonical-pm-benchmark/aws-billing-reconciliation.json).
 
+The AgentCore Gateway exercise is now implementation-ready: follow the
+[Gateway setup guide](docs/guides/AGENTCORE_GATEWAY_SETUP.md) to deploy the
+disposable HTTPS API target, verify the generated MCP tools, capture evidence,
+and tear it down. Its current live status is recorded in the
+[experiment README](experiments/2026-08-17-agentcore-gateway/README.md).
+
 Automation model roles are separated from benchmark targets in
 [`config/model-roles.yaml`](config/model-roles.yaml): Claude Opus 4.8 conducts
 multi-step benchmark orchestration, Haiku 4.5 generates routine reports, and

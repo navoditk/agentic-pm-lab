@@ -1,0 +1,178 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Read-only HTTPS API target for the Agentic PM Lab AgentCore Gateway exercise.
+
+Parameters:
+  StageName:
+    Type: String
+    Default: lab
+    AllowedPattern: '[a-zA-Z0-9_-]+'
+
+Resources:
+  GatewayTargetFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: python3.12
+      Handler: index.handler
+      Timeout: 10
+      MemorySize: 128
+      Role:
+        Fn::GetAtt: [GatewayTargetLambdaRole, Arn]
+      Code:
+        ZipFile: |
+          import json
+
+          def handler(event, context):
+              path = event.get("path", "")
+              query = event.get("queryStringParameters") or {}
+              portfolio_id = query.get("portfolio_id", "PORT_A")
+              payloads = {
+                  "/portfolio/risk": {
+                      "portfolio_id": portfolio_id,
+                      "as_of": "2026-08-13",
+                      "status": "mock_public_learning_data",
+                      "exposures": {"rates": 0.42, "credit": 0.33, "cash": 0.25},
+                      "risk_flags": ["credit concentration requires review"],
+                  },
+                  "/market/curve": {
+                      "as_of": "2026-08-13",
+                      "source": "mock_public_learning_data",
+                      "currency": "USD",
+                      "points": [
+                          {"tenor_years": 2, "rate_pct": 4.10},
+                          {"tenor_years": 5, "rate_pct": 4.02},
+                          {"tenor_years": 10, "rate_pct": 4.15},
+                      ],
+                  },
+                  "/research/evidence": {
+                      "as_of": "2026-08-13",
+                      "source_type": "mock_public_research",
+                      "evidence": [{"id": "E-GW-001", "topic": "credit outlook", "stance": "mixed"}],
+                  },
+              }
+              body = payloads.get(path)
+              if body is None:
+                  return {"statusCode": 404, "body": json.dumps({"error": "not_found"})}
+              return {
+                  "statusCode": 200,
+                  "headers": {"content-type": "application/json"},
+                  "body": json.dumps(body),
+              }
+
+  GatewayTargetLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Fn::Sub: '${AWS::StackName}-lambda-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: WriteTargetLogs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  Fn::Sub: 'arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:*'
+
+  ApiGatewayInvokeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Fn::Sub: '${AWS::StackName}-apigw-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: apigateway.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: InvokeTargetLambda
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource:
+                  Fn::GetAtt: [GatewayTargetFunction, Arn]
+
+  GatewayTargetRestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name:
+        Fn::Sub: '${AWS::StackName}-rest-api'
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      Body:
+        Fn::Sub: |
+          {
+            "openapi": "3.0.1",
+            "info": {"title": "Agentic PM Lab read-only target", "version": "1.0.0", "description": "Public/mock-data read-only endpoints exposed as governed AgentCore Gateway tools."},
+            "schemes": ["https"],
+            "paths": {
+              "/portfolio/risk": {"get": {"operationId": "getPortfolioRisk", "description": "Read mock portfolio exposures and risk flags for a portfolio identifier.", "parameters": [{"name": "portfolio_id", "in": "query", "required": false, "schema": {"type": "string", "default": "PORT_A"}}], "security": [{"sigv4": []}], "responses": {"200": {"description": "Portfolio risk snapshot"}}, "x-amazon-apigateway-integration": {"type": "aws_proxy", "httpMethod": "POST", "credentials": "${ApiGatewayInvokeRole.Arn}", "uri": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GatewayTargetFunction.Arn}/invocations"}},
+              "/market/curve": {"get": {"operationId": "getMarketCurve", "description": "Read a point-in-time mock USD curve used for deterministic analysis.", "security": [{"sigv4": []}], "responses": {"200": {"description": "Curve points"}}, "x-amazon-apigateway-integration": {"type": "aws_proxy", "httpMethod": "POST", "credentials": "${ApiGatewayInvokeRole.Arn}", "uri": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GatewayTargetFunction.Arn}/invocations"}},
+              "/research/evidence": {"get": {"operationId": "getResearchEvidence", "description": "Read a small point-in-time mock research evidence record.", "security": [{"sigv4": []}], "responses": {"200": {"description": "Research evidence"}}, "x-amazon-apigateway-integration": {"type": "aws_proxy", "httpMethod": "POST", "credentials": "${ApiGatewayInvokeRole.Arn}", "uri": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GatewayTargetFunction.Arn}/invocations"}}
+            },
+            "components": {"securitySchemes": {"sigv4": {"type": "apiKey", "name": "Authorization", "in": "header", "x-amazon-apigateway-authtype": "awsSigv4"}}},
+            "x-amazon-apigateway-endpoint-configuration": {"disableExecuteApiEndpoint": false}
+          }
+
+  GatewayTargetDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: GatewayTargetRestApi
+    Properties:
+      RestApiId:
+        Ref: GatewayTargetRestApi
+      Description:
+        Fn::Sub: 'Read-only AgentCore Gateway target ${AWS::StackName}'
+
+  GatewayTargetStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      RestApiId:
+        Ref: GatewayTargetRestApi
+      DeploymentId:
+        Ref: GatewayTargetDeployment
+      StageName:
+        Ref: StageName
+      MethodSettings:
+        - ResourcePath: '/*'
+          HttpMethod: '*'
+          MetricsEnabled: true
+          ThrottlingBurstLimit: 10
+          ThrottlingRateLimit: 5
+
+  GatewayTargetLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: GatewayTargetFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Sub: 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${GatewayTargetRestApi}/*/GET/*'
+
+Outputs:
+  RestApiId:
+    Value:
+      Ref: GatewayTargetRestApi
+  StageName:
+    Value:
+      Ref: GatewayTargetStage
+  HttpsBaseUrl:
+    Value:
+      Fn::Sub: 'https://${GatewayTargetRestApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}'
+  LambdaArn:
+    Value:
+      Fn::GetAtt: [GatewayTargetFunction, Arn]
