@@ -1,6 +1,6 @@
 # AgentCore Gateway experiment — 2026-08-17
 
-Status: `implementation_ready_live_preflight_blocked`
+Status: `live_preflight_blocked_by_iam_permissions`
 
 ## Objective
 
@@ -11,7 +11,7 @@ tool filtering, observable evidence, and teardown.
 ## Scope
 
 - Regional API Gateway REST API.
-- Lambda with deterministic public/mock learning payloads.
+- API Gateway mock integrations with deterministic public/mock learning payloads.
 - Three read-only GET operations: portfolio risk, market curve, research evidence.
 - AgentCore Gateway with `AWS_IAM` authorization and stage-scoped
   `execute-api:Invoke` permission.
@@ -20,9 +20,13 @@ tool filtering, observable evidence, and teardown.
 ## Evidence status
 
 The reusable CloudFormation template, OpenAPI source, runbook, and expected
-observations are committed. The live run was not started because the AWS SSO
-session had expired and could not refresh non-interactively. No AWS resource
-was created by this attempt.
+observations are committed. The live run reached AWS after SSO renewal. The
+first design created temporary IAM/Lambda resources but rollback was blocked by
+missing `iam:DeleteRolePolicy`; the corrected mock-integration design then
+failed before API creation because `apigateway:POST` was missing. The v2 failed
+stack was deleted. One role from the first failed stack remains in a
+`ROLLBACK_FAILED` stack until cleanup permissions are added. Exact attempts are
+recorded in [`deployment attempts`](deployment-attempts.json).
 
 ## Lessons captured before live execution
 
@@ -40,3 +44,7 @@ was created by this attempt.
 
 After renewing the IAM Identity Center session, follow
 [`AGENTCORE_GATEWAY_SETUP.md`](../../docs/guides/AGENTCORE_GATEWAY_SETUP.md).
+
+Add the least-privilege API Gateway create/configure/delete permissions and the
+temporary-role cleanup permissions documented in the setup guide, remove the
+retained first-attempt role/stack, and then rerun the v2 deployment.

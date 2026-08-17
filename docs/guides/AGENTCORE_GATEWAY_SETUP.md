@@ -15,7 +15,7 @@ AgentCore Gateway (MCP, AWS_IAM authorizer)
 API Gateway REST API (regional, HTTPS, IAM-authenticated)
   |  AWS_PROXY
   v
-Lambda (deterministic public/mock payloads)
+API Gateway mock integrations (deterministic public/mock payloads)
   |
   +-- /portfolio/risk
   +-- /market/curve
@@ -30,7 +30,9 @@ The deployable CloudFormation template and OpenAPI source are in
 - AWS CLI v2.13.22 or later.
 - A valid `agentic-pm-lab` IAM Identity Center session.
 - AgentCore Gateway create/get/delete and target create/get/delete permissions.
-- CloudFormation permissions to create the lab stack and named IAM roles.
+- CloudFormation permissions to create the lab stack.
+- API Gateway REST API permissions to create, configure, deploy, and delete the
+  disposable API.
 - The existing `AgenticPMLabGatewayExecutionRole`, or an equivalent role
   trusted by `bedrock-agentcore.amazonaws.com`.
 - The Gateway role must be allowed to call only this API stage:
@@ -60,7 +62,6 @@ aws cloudformation validate-template \
 aws cloudformation deploy \
   --stack-name "$STACK_NAME" \
   --template-file infrastructure/agentcore-gateway-target/template.yaml \
-  --capabilities CAPABILITY_NAMED_IAM \
   --region "$AWS_REGION"
 
 aws cloudformation describe-stacks \
@@ -133,8 +134,28 @@ Never record private chain-of-thought; the supported audit artifact is the
 ordered workflow/event trace and visible tool response.
 
 The first live preflight on 2026-08-17 reported AWS CLI `2.36.22`, but the SSO
-token for `agentic-pm-lab` had expired and refresh failed. No Gateway or target
-was created. This is an authentication-session blocker, not a template failure.
+token for `agentic-pm-lab` had expired and refresh failed. After the session was
+renewed, the first deployment attempt reached CloudFormation but rollback could
+not delete its temporary Lambda role because `iam:DeleteRolePolicy` was not
+allowed. A corrected mock-integration deployment then failed before creating an
+API because `apigateway:POST` was not allowed. No API Gateway or AgentCore
+Gateway resource was created. See the [deployment attempts](../../experiments/2026-08-17-agentcore-gateway/deployment-attempts.json).
+
+## Permission additions required for the next attempt
+
+The lab permission set needs these narrowly scoped capabilities:
+
+- `apigateway:POST`, `GET`, `PUT`, `PATCH`, and `DELETE` on
+  `arn:aws:apigateway:us-west-2::/restapis*`.
+- `iam:PutRolePolicy` on `AgenticPMLabGatewayExecutionRole` for the exact
+  stage-scoped `execute-api:Invoke` permission.
+- `iam:ListRolePolicies`, `iam:DeleteRolePolicy`, and `iam:DeleteRole` on the
+  temporary role pattern `agentic-pm-gateway-target-*` to clean up the first
+  failed attempt.
+- `cloudformation:DescribeEvents` for the documented failure-diagnosis path.
+
+The corrected template creates no Lambda or new IAM resources, so the next
+deployment avoids the first attempt's role-cleanup failure.
 
 Expected lessons from the live run:
 

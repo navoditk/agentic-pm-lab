@@ -292,9 +292,10 @@ provider service.
 - The first live preflight reported AWS CLI `2.36.22`, but the
   `agentic-pm-lab` IAM Identity Center session had expired and refresh failed.
   No Gateway, target, API, Lambda, or IAM resource was created by this attempt.
-- The exercise remains `implementation_ready_live_preflight_blocked` until the
-  session is renewed and the target reaches `READY` with successful and denied
-  request evidence. See [`experiment README`](../../experiments/2026-08-17-agentcore-gateway/README.md).
+- The exercise remains `live_preflight_blocked_by_iam_permissions`: after SSO
+  renewal, CloudFormation reported missing `apigateway:POST`; the first design
+  also exposed missing IAM cleanup permissions. No API Gateway or AgentCore
+  Gateway resource was created. See the [`deployment attempts`](../../experiments/2026-08-17-agentcore-gateway/deployment-attempts.json).
 
 ## AWS preflight — 2026-08-13
 

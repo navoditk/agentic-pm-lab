@@ -1,0 +1,34 @@
+{
+  "experiment_id": "agentcore-gateway-2026-08-17",
+  "account_alias": "agentic-pm-lab",
+  "region": "us-west-2",
+  "aws_cli_version": "2.36.22",
+  "attempts": [
+    {
+      "stack_name": "agentic-pm-gateway-target",
+      "status": "ROLLBACK_FAILED",
+      "failure": "iam:DeleteRolePolicy denied during rollback",
+      "retained_resource": "agentic-pm-gateway-target-lambda-role",
+      "cleanup": "blocked_by_missing_iam_delete_permissions"
+    },
+    {
+      "stack_name": "agentic-pm-gateway-target-v2",
+      "status": "ROLLBACK_COMPLETE",
+      "failure": "apigateway:POST denied while creating the REST API",
+      "resources_created": [],
+      "cleanup": "stack_deleted"
+    }
+  ],
+  "gateway_resources_created": false,
+  "next_required_permissions": [
+    "apigateway:POST",
+    "apigateway:GET",
+    "apigateway:PUT",
+    "apigateway:PATCH",
+    "apigateway:DELETE",
+    "iam:ListRolePolicies",
+    "iam:DeleteRolePolicy",
+    "iam:DeleteRole"
+  ],
+  "notes": "No API Gateway or AgentCore Gateway resource was created. The first failed stack retains one temporary role until cleanup permissions are granted."
+}
