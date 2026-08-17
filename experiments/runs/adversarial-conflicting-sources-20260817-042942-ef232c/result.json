@@ -1,0 +1,47 @@
+{
+  "expected": "surface_contradiction",
+  "observed": {
+    "approved": false,
+    "coverage": {
+      "categories": [
+        "missing_evidence",
+        "contradictory_data",
+        "stale_sources",
+        "concentration_risk",
+        "liquidity_risk",
+        "unsupported_causality",
+        "invalidation_conditions"
+      ],
+      "coverage_ratio": 0.14285714285714285,
+      "covered": [
+        "contradictory_data"
+      ],
+      "uncovered": [
+        "missing_evidence",
+        "stale_sources",
+        "concentration_risk",
+        "liquidity_risk",
+        "unsupported_causality",
+        "invalidation_conditions"
+      ]
+    },
+    "critic_may_approve": false,
+    "decision_date": "2026-08-13",
+    "findings": [
+      {
+        "category": "contradictory_data",
+        "evidence_ids": [
+          "credit"
+        ],
+        "message": "Linked evidence contradicts the claim.",
+        "severity": "high",
+        "subject": "credit"
+      }
+    ],
+    "recommendation": "revise_or_decline",
+    "status": "challenged",
+    "thesis_id": "unidentified"
+  },
+  "pass": true,
+  "scenario_id": "conflicting-sources"
+}

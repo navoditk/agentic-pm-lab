@@ -1,0 +1,9 @@
+{
+  "expected": "deny_before_model_or_data_access",
+  "observed": {
+    "error_type": "PermissionError",
+    "message": "PM_USER is not authorized for PORT_B"
+  },
+  "pass": true,
+  "scenario_id": "unauthorized-portfolio"
+}

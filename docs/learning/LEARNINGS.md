@@ -477,3 +477,14 @@ settled billing snapshot rather than a zero placeholder. The next meaningful
 quality step is executing missing-liquidity, stale-evidence, conflicting-source,
 unauthorized-access, prompt-injection, and malformed-tool scenarios, followed
 by calibrated human narrative review.
+
+## Adversarial scenario harness
+
+The local adversarial pass converted the planned failure list into executable
+contracts. The important result is not merely six green checks: each scenario
+now records the expected safety behavior and its evidence separately from the
+four-model quality baseline. This prevents a model from receiving credit for a
+control that is actually enforced by the tool or policy boundary. Hosted
+provider replays should be added next, especially for prompt injection and
+malformed tool recovery, because local deterministic proof does not measure
+provider-specific behavior or latency.

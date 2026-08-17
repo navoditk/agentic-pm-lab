@@ -1,0 +1,52 @@
+{
+  "expected": "liquidity_risk_and_revise_or_decline",
+  "observed": {
+    "approved": false,
+    "coverage": {
+      "categories": [
+        "missing_evidence",
+        "contradictory_data",
+        "stale_sources",
+        "concentration_risk",
+        "liquidity_risk",
+        "unsupported_causality",
+        "invalidation_conditions"
+      ],
+      "coverage_ratio": 0.2857142857142857,
+      "covered": [
+        "concentration_risk",
+        "liquidity_risk"
+      ],
+      "uncovered": [
+        "missing_evidence",
+        "contradictory_data",
+        "stale_sources",
+        "unsupported_causality",
+        "invalidation_conditions"
+      ]
+    },
+    "critic_may_approve": false,
+    "decision_date": "2026-08-13",
+    "findings": [
+      {
+        "category": "concentration_risk",
+        "evidence_ids": [],
+        "message": "Weight 30.00% exceeds 25.00%.",
+        "severity": "high",
+        "subject": "CREDIT_A"
+      },
+      {
+        "category": "liquidity_risk",
+        "evidence_ids": [],
+        "message": "Liquidity status is unknown.",
+        "severity": "medium",
+        "subject": "CREDIT_A"
+      }
+    ],
+    "recommendation": "revise_or_decline",
+    "status": "challenged",
+    "thesis_id": "unidentified"
+  },
+  "pass": true,
+  "scenario_id": "missing-liquidity"
+}

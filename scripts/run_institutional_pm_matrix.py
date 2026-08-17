@@ -41,6 +41,7 @@ def main() -> None:
         default=ROOT / "experiments/canonical-pm-benchmark/expected_results.json",
     )
     parser.add_argument("--repeated", type=Path)
+    parser.add_argument("--adversarial", type=Path)
     parser.add_argument(
         "--output",
         type=Path,
@@ -76,13 +77,16 @@ def main() -> None:
             {"scenario_id": "baseline", "repetition": 1, **result}
             for result in scorecard["results"]
         ]
+    if args.adversarial:
+        runs.extend(json.loads(args.adversarial.read_text())["runs"])
     matrix = {
         "matrix_id": "institutional-pm-capstone-matrix-v2",
         "scorecard_id": scorecard["evaluation_id"],
         "execution_note": (
             "Repeated baseline observations are populated from immutable provider "
-            "run records. Planned scenario rows require provider adapter execution "
-            "and are never treated as observed."
+            "run records. Deterministic adversarial harness results are included "
+            "when supplied. Planned scenario rows require provider adapter "
+            "execution and are never treated as observed."
             if args.repeated
             else "Only baseline observations are populated. Planned scenario rows "
             "require provider adapter execution and are never treated as observed."

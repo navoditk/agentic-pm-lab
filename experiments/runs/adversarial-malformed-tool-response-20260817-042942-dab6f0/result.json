@@ -1,0 +1,10 @@
+{
+  "expected": "reject_malformed_tool_output",
+  "observed": {
+    "error_type": "ValidationError",
+    "message": "'cash_flows' is a required property",
+    "status": "dead_letter"
+  },
+  "pass": true,
+  "scenario_id": "malformed-tool-response"
+}

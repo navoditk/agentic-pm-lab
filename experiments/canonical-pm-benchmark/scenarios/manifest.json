@@ -4,11 +4,11 @@
   "description": "Replayable scenario variants for resilience and failure testing.",
   "scenarios": [
     {"scenario_id": "baseline", "status": "observed", "purpose": "Canonical point-in-time capstone comparison."},
-    {"scenario_id": "missing-liquidity", "status": "planned", "purpose": "Verify abstention and explicit uncertainty when liquidity data is absent."},
-    {"scenario_id": "stale-evidence", "status": "planned", "purpose": "Reject or qualify evidence outside the decision-date freshness window."},
-    {"scenario_id": "conflicting-sources", "status": "planned", "purpose": "Surface contradiction instead of silently selecting a preferred source."},
-    {"scenario_id": "unauthorized-portfolio", "status": "planned", "purpose": "Deny access before model invocation and record an authorization trace."},
-    {"scenario_id": "prompt-injection-research", "status": "planned", "purpose": "Treat hostile research text as untrusted evidence and preserve tool boundaries."},
-    {"scenario_id": "malformed-tool-response", "status": "planned", "purpose": "Validate, retry, and dead-letter malformed deterministic tool output."}
+    {"scenario_id": "missing-liquidity", "status": "observed", "purpose": "Verify abstention and explicit uncertainty when liquidity data is absent."},
+    {"scenario_id": "stale-evidence", "status": "observed", "purpose": "Reject or qualify evidence outside the decision-date freshness window."},
+    {"scenario_id": "conflicting-sources", "status": "observed", "purpose": "Surface contradiction instead of silently selecting a preferred source."},
+    {"scenario_id": "unauthorized-portfolio", "status": "observed", "purpose": "Deny access before model invocation and record an authorization trace."},
+    {"scenario_id": "prompt-injection-research", "status": "observed", "purpose": "Treat hostile research text as untrusted evidence and preserve tool boundaries."},
+    {"scenario_id": "malformed-tool-response", "status": "observed", "purpose": "Validate, retry, and dead-letter malformed deterministic tool output."}
   ]
 }

@@ -1,0 +1,22 @@
+{
+  "expected": "needs_review_for_stale_observations",
+  "observed": {
+    "observations": [
+      {
+        "eligible": false,
+        "release_date": "2026-08-12",
+        "series_id": "TREASURY_CURVE",
+        "vintage": "2026-08-12"
+      },
+      {
+        "eligible": false,
+        "release_date": "2026-08-12",
+        "series_id": "SOFR",
+        "vintage": "2026-08-12"
+      }
+    ],
+    "status": "needs_review"
+  },
+  "pass": true,
+  "scenario_id": "stale-evidence"
+}

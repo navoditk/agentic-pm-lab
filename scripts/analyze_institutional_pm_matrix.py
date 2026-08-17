@@ -41,7 +41,12 @@ def main() -> None:
     matrix: dict[str, Any] = json.loads(args.matrix.read_text())
     gates = yaml.safe_load(args.gates.read_text())
     groups: dict[str, list[dict[str, Any]]] = {}
+    scenario_results = [
+        run for run in matrix["runs"] if run["scenario_id"] != "baseline"
+    ]
     for run in matrix["runs"]:
+        if run["scenario_id"] != "baseline":
+            continue
         groups.setdefault(run["model"], []).append(run)
     analyses = []
     for model, runs in groups.items():
@@ -58,10 +63,21 @@ def main() -> None:
         f"model at most; the configured promotion threshold is "
         f"{minimum_repetitions}."
     )
+    observed_scenarios = {run["scenario_id"] for run in scenario_results}
+    scenario_coverage = [
+        {
+            **scenario,
+            "status": "observed"
+            if scenario["scenario_id"] in observed_scenarios
+            else scenario["status"],
+        }
+        for scenario in matrix["scenarios"]
+    ]
     analysis = {
         "matrix_id": matrix["matrix_id"],
-        "scenario_coverage": matrix["scenarios"],
+        "scenario_coverage": scenario_coverage,
         "models": analyses,
+        "scenario_results": scenario_results,
     }
     args.output_json.write_text(json.dumps(analysis, indent=2, sort_keys=True) + "\n")
     lines = [
@@ -89,13 +105,25 @@ def main() -> None:
     ]
     lines += [
         f"| `{item['scenario_id']}` | {item['status']} | {item['purpose']} |"
-        for item in matrix["scenarios"]
+        for item in scenario_coverage
     ]
+    if scenario_results:
+        lines += [
+            "",
+            "## Adversarial harness results",
+            "",
+            "| Scenario | Status | Score | Evidence |",
+            "|---|---|---:|---|",
+        ]
+        lines += [
+            f"| `{run['scenario_id']}` | {run['status']} | {run['automated_score']:.0f} | [`result.json`](../../{run['result_path']}) |"
+            for run in scenario_results
+        ]
     lines += [
         "",
         "## Promotion interpretation",
         "",
-        f"{repetition_message} Adversarial scenarios remain planned until provider adapters execute them and append immutable run records.",
+        f"{repetition_message} The deterministic adversarial harness has executed {len(scenario_results)} scenario(s); hosted-provider replays remain a separate follow-up.",
         "",
         "AWS cost/run is a token estimate using standard on-demand Bedrock rates; the temporary AgentCore runtime, logging, and storage components are recorded separately and are not included when their asynchronous cost lookup returns zero or unavailable.",
         "",

@@ -245,6 +245,20 @@ uv run python scripts/run_institutional_pm_matrix.py \
 uv run python scripts/analyze_institutional_pm_matrix.py
 ```
 
+Execute the local deterministic adversarial harness and include its evidence:
+
+```bash
+uv run python scripts/run_institutional_pm_adversarial.py
+uv run python scripts/run_institutional_pm_matrix.py \
+  --repeated experiments/canonical-pm-benchmark/repeated-matrix.json \
+  --adversarial experiments/canonical-pm-benchmark/adversarial-matrix.json
+uv run python scripts/analyze_institutional_pm_matrix.py
+```
+
+The adversarial harness proves the local control and failure contracts. It does
+not claim that every hosted model independently resisted every scenario; those
+provider-specific replays are the next expansion of the matrix.
+
 Every repetition remains an immutable directory under `experiments/runs/`.
 Direct-provider runs include response and audit artifacts; AWS runs include
 hosted response, runtime/endpoint, events/log streams, usage, and cleanup
