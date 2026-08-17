@@ -238,6 +238,38 @@ flowchart LR
 See [`GITHUB_WORKFLOWS.md`](../guides/GITHUB_WORKFLOWS.md) for exact triggers,
 permissions, local equivalents, and troubleshooting.
 
+## 8. Advanced benchmark evaluation and evidence flow
+
+The original four-model comparison remains the operational baseline. The
+advanced scorecard adds deterministic expected-result checks, repeated-run
+statistics, qualitative review, and evidence links without overwriting any
+baseline response or trace artifact.
+
+```mermaid
+flowchart LR
+    Input[Canonical PM question<br/>same snapshot + prompt] --> Runs[Four provider runs<br/>OpenAI, Anthropic, AWS Claude, AWS Llama]
+    Runs --> Artifacts[Immutable run artifacts<br/>response + manifest + audit]
+    Artifacts --> Signals[Observed signals<br/>tokens, cost, latency, retries]
+    Artifacts --> Deterministic[Deterministic evaluators<br/>risks, calculations, evidence, governance]
+    Artifacts --> Trace[Traceability evidence<br/>OTel, LangSmith, CloudWatch]
+    Human[Calibrated PM reviewer] --> Qualitative[Qualitative rubric<br/>usefulness, assumptions, uncertainty, readability]
+    Artifacts --> Qualitative
+    Signals --> Scorecard[Advanced scorecard<br/>score + confidence + failure taxonomy]
+    Deterministic --> Scorecard
+    Trace --> Scorecard
+    Qualitative --> Scorecard
+    Scorecard --> Decision{Promotion gate}
+    Decision -->|Pass| Candidate[Candidate for next evaluation stage]
+    Decision -->|Fail or critical violation| Remediate[Prompt, policy, data, or model remediation]
+```
+
+The scorecard distinguishes automated facts from reviewer judgment. A model
+cannot pass promotion with a critical governance failure even if it is cheaper
+or faster. Run-level evidence is browsable from
+[`INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](../learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md),
+while the original baseline remains in
+[`CANONICAL_PM_BENCHMARK_REPORT.md`](../learning/CANONICAL_PM_BENCHMARK_REPORT.md).
+
 ## Related implementation paths
 
 | Diagram | Primary source of truth |

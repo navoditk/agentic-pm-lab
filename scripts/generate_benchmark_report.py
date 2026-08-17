@@ -58,6 +58,8 @@ def render(benchmark: dict[str, Any], roles: dict[str, Any] | None = None) -> st
         "",
         "The strongest current observability evidence is the OpenAI Day 6 run, which combines OpenTelemetry, LangSmith, a golden dataset, and regression evaluators. The strongest exact business-workflow evidence is the AgentCore Claude run. Direct Anthropic now provides a non-AWS exact-capstone reference with native token accounting and audit evidence.",
         "",
+        "For the next level of analysis, see the [advanced Institutional PM evaluation scorecard](INSTITUTIONAL_PM_EVALUATION_SCORECARD.md). It preserves this baseline and adds deterministic quality checks plus pending qualitative review.",
+        "",
         "## Execution model roles",
         "",
         f"- **Default conductor:** `{model_string(conductor)}` — {conductor['purpose']}",

@@ -1,0 +1,382 @@
+{
+  "benchmark_id": "institutional-pm-capstone-v1",
+  "evaluation_id": "institutional-pm-capstone-scorecard-v1",
+  "notes": [
+    "Baseline four-model results remain in CANONICAL_PM_BENCHMARK_REPORT.md.",
+    "Qualitative review is pending and must be calibrated against human committee reviewers."
+  ],
+  "results": [
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "dimensions": [
+        {
+          "critical": false,
+          "evidence": [
+            "response.json"
+          ],
+          "name": "business_completeness",
+          "note": "Required risk findings and the committee recommendation are present.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json"
+          ],
+          "name": "numerical_fidelity",
+          "note": "Rates and credit scenario outputs match the deterministic fixture.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json",
+            "audit.jsonl"
+          ],
+          "name": "evidence_grounding",
+          "note": "Every structured thesis claim carries at least one evidence identifier.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json"
+          ],
+          "name": "risk_coverage",
+          "note": "All expected high- and medium-severity capstone findings are covered.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json",
+            "audit.jsonl"
+          ],
+          "name": "governance_compliance",
+          "note": "Approval remains human-gated and no order execution is enabled.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json",
+            "audit.jsonl",
+            "manifest.json"
+          ],
+          "name": "observability_completeness",
+          "note": "Response, usage, latency, trace/session, and audit artifacts are linked.",
+          "score": 5,
+          "status": "pass"
+        }
+      ],
+      "evaluation_id": "institutional-pm-capstone-scorecard-v1",
+      "metrics": {
+        "estimated_cost_usd": 0.0006848,
+        "input_tokens": 576,
+        "latency_ms": 5494,
+        "output_tokens": 284,
+        "total_tokens": 860
+      },
+      "model": "gpt-4.1-mini",
+      "provider": "openai",
+      "qualitative_review": {
+        "dimensions": [
+          "business_usefulness",
+          "assumption_disclosure",
+          "uncertainty_communication",
+          "committee_readability",
+          "narrative_hallucination_rate"
+        ],
+        "note": "Automated checks do not replace calibrated human review of narrative quality.",
+        "status": "pending"
+      },
+      "run_id": "openai-direct-canonical-20260817-031116",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "dimensions": [
+        {
+          "critical": false,
+          "evidence": [
+            "response.json"
+          ],
+          "name": "business_completeness",
+          "note": "Required risk findings and the committee recommendation are present.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json"
+          ],
+          "name": "numerical_fidelity",
+          "note": "Rates and credit scenario outputs match the deterministic fixture.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json",
+            "audit.jsonl"
+          ],
+          "name": "evidence_grounding",
+          "note": "Every structured thesis claim carries at least one evidence identifier.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json"
+          ],
+          "name": "risk_coverage",
+          "note": "All expected high- and medium-severity capstone findings are covered.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json",
+            "audit.jsonl"
+          ],
+          "name": "governance_compliance",
+          "note": "Approval remains human-gated and no order execution is enabled.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "response.json",
+            "audit.jsonl",
+            "manifest.json"
+          ],
+          "name": "observability_completeness",
+          "note": "Response, usage, latency, trace/session, and audit artifacts are linked.",
+          "score": 5,
+          "status": "pass"
+        }
+      ],
+      "evaluation_id": "institutional-pm-capstone-scorecard-v1",
+      "metrics": {
+        "estimated_cost_usd": 0.002113,
+        "input_tokens": 613,
+        "latency_ms": 3730,
+        "output_tokens": 300,
+        "total_tokens": 913
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "provider": "anthropic",
+      "qualitative_review": {
+        "dimensions": [
+          "business_usefulness",
+          "assumption_disclosure",
+          "uncertainty_communication",
+          "committee_readability",
+          "narrative_hallucination_rate"
+        ],
+        "note": "Automated checks do not replace calibrated human review of narrative quality.",
+        "status": "pending"
+      },
+      "run_id": "anthropic-direct-canonical-20260817-030257",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "dimensions": [
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json"
+          ],
+          "name": "business_completeness",
+          "note": "Required risk findings and the committee recommendation are present.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json"
+          ],
+          "name": "numerical_fidelity",
+          "note": "Rates and credit scenario outputs match the deterministic fixture.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json",
+            "events.json"
+          ],
+          "name": "evidence_grounding",
+          "note": "Every structured thesis claim carries at least one evidence identifier.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json"
+          ],
+          "name": "risk_coverage",
+          "note": "All expected high- and medium-severity capstone findings are covered.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json",
+            "events.json"
+          ],
+          "name": "governance_compliance",
+          "note": "Approval remains human-gated and no order execution is enabled.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json",
+            "events.json",
+            "manifest.json"
+          ],
+          "name": "observability_completeness",
+          "note": "Response, usage, latency, trace/session, and audit artifacts are linked.",
+          "score": 5,
+          "status": "pass"
+        }
+      ],
+      "evaluation_id": "institutional-pm-capstone-scorecard-v1",
+      "metrics": {
+        "estimated_cost_usd": 0.0,
+        "input_tokens": 591,
+        "latency_ms": 6568,
+        "output_tokens": 300,
+        "total_tokens": 891
+      },
+      "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "provider": "aws",
+      "qualitative_review": {
+        "dimensions": [
+          "business_usefulness",
+          "assumption_disclosure",
+          "uncertainty_communication",
+          "committee_readability",
+          "narrative_hallucination_rate"
+        ],
+        "note": "Automated checks do not replace calibrated human review of narrative quality.",
+        "status": "pending"
+      },
+      "run_id": "canonical-claude-20260817-022944-34585c43",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "dimensions": [
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json"
+          ],
+          "name": "business_completeness",
+          "note": "Required risk findings and the committee recommendation are present.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json"
+          ],
+          "name": "numerical_fidelity",
+          "note": "Rates and credit scenario outputs match the deterministic fixture.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json",
+            "events.json"
+          ],
+          "name": "evidence_grounding",
+          "note": "Every structured thesis claim carries at least one evidence identifier.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json"
+          ],
+          "name": "risk_coverage",
+          "note": "All expected high- and medium-severity capstone findings are covered.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json",
+            "events.json"
+          ],
+          "name": "governance_compliance",
+          "note": "Approval remains human-gated and no order execution is enabled.",
+          "score": 5,
+          "status": "pass"
+        },
+        {
+          "critical": false,
+          "evidence": [
+            "hosted-response.json",
+            "events.json",
+            "manifest.json"
+          ],
+          "name": "observability_completeness",
+          "note": "Response, usage, latency, trace/session, and audit artifacts are linked.",
+          "score": 5,
+          "status": "pass"
+        }
+      ],
+      "evaluation_id": "institutional-pm-capstone-scorecard-v1",
+      "metrics": {
+        "estimated_cost_usd": 0.0,
+        "input_tokens": 575,
+        "latency_ms": 6244,
+        "output_tokens": 300,
+        "total_tokens": 875
+      },
+      "model": "us.meta.llama3-3-70b-instruct-v1:0",
+      "provider": "aws",
+      "qualitative_review": {
+        "dimensions": [
+          "business_usefulness",
+          "assumption_disclosure",
+          "uncertainty_communication",
+          "committee_readability",
+          "narrative_hallucination_rate"
+        ],
+        "note": "Automated checks do not replace calibrated human review of narrative quality.",
+        "status": "pending"
+      },
+      "run_id": "canonical-llama-20260817-024235-eb81a0d4",
+      "status": "pass"
+    }
+  ]
+}

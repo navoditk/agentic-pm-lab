@@ -76,6 +76,7 @@
       "estimated_cost_usd": 0.0006848,
       "observability": ["OpenTelemetry", "LangSmith", "golden dataset", "regression evaluators"],
       "governance": "approval required; no order execution",
+      "run_id": "openai-direct-canonical-20260817-031116",
       "source": "experiments/runs/openai-direct-canonical-20260817-031116/"
     },
     {
@@ -92,6 +93,7 @@
       "estimated_cost_usd": 0.002113,
       "observability": ["OpenTelemetry span metrics", "audit JSONL", "experiment manifest"],
       "governance": "approval required; no order execution",
+      "run_id": "anthropic-direct-canonical-20260817-030257",
       "source": "experiments/runs/anthropic-direct-canonical-20260817-030257/"
     },
     {
@@ -125,6 +127,7 @@
       "cost_basis": "AWS Cost Explorer account/day estimate; not request-attributed",
       "observability": ["OpenTelemetry", "CloudWatch logs", "CloudWatch metrics", "audit JSONL", "experiment manifest"],
       "governance": "approval required; no order execution; temporary runtime torn down",
+      "run_id": "canonical-claude-20260817-022944-34585c43",
       "source": "experiments/runs/ (see the generated report evidence links)"
     },
     {
@@ -142,6 +145,7 @@
       "cost_basis": "AWS Cost Explorer same-day account estimate shared with comparison; not model-attributed",
       "observability": ["OpenTelemetry", "CloudWatch logs", "CloudWatch metrics", "audit JSONL", "experiment manifest"],
       "governance": "approval required; no order execution; temporary runtime torn down",
+      "run_id": "canonical-llama-20260817-024235-eb81a0d4",
       "source": "experiments/runs/ (see the generated report evidence links)"
     }
   ],

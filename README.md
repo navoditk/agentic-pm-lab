@@ -280,6 +280,13 @@ bases, governance outcomes, and remaining benchmark gaps. Regenerate it with
 `uv run python scripts/generate_benchmark_report.py` after adding a new
 provider-neutral experiment record.
 
+The original four-model comparison is preserved as the operational baseline.
+The [advanced Institutional PM evaluation scorecard](docs/learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
+adds deterministic quality checks, evidence-linked scoring, and a separate
+qualitative-review queue without overwriting baseline results. The
+[advanced evaluation architecture](docs/architecture/DIAGRAMS.md#8-advanced-benchmark-evaluation-and-evidence-flow)
+shows how responses, traces, logs, and scorecard decisions connect.
+
 Automation model roles are separated from benchmark targets in
 [`config/model-roles.yaml`](config/model-roles.yaml): Claude Opus 4.8 conducts
 multi-step benchmark orchestration, Haiku 4.5 generates routine reports, and

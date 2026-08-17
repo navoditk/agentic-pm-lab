@@ -22,6 +22,8 @@ flat list.
 8. [`learning/CANONICAL_PM_BENCHMARK_REPORT.md`](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
    — review the consolidated cross-provider business workflow, run results,
    observability, costs, and benchmark gaps.
+9. [`learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
+   — inspect deterministic quality checks and links to every model run artifact.
 
 ## Documentation by purpose
 
@@ -47,6 +49,7 @@ flat list.
 - [Architecture diagrams](architecture/DIAGRAMS.md) · [ADRs](adr/)
 - [Experiments](../experiments/README.md) · [Data catalog](../data/README.md)
 - [Canonical PM benchmark report](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
+- [Advanced PM evaluation scorecard](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
 - [Automation model roles](../config/model-roles.yaml)
 
 `AGENTS.md` remains the canonical router for AI coding tools. Skills under

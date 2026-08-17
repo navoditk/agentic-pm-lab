@@ -186,6 +186,20 @@ Quality comparisons require the same evaluator suite and human review of
 evidence grounding; AWS Cost Explorer values must remain separate from direct
 model token estimates.
 
+The advanced deterministic scorecard is generated separately so the original
+four-model operational comparison remains stable:
+
+```bash
+uv run python scripts/generate_institutional_pm_scorecard.py
+```
+
+It writes a machine-readable
+[`scorecard.json`](canonical-pm-benchmark/scorecard.json) and a learner-facing
+[`INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](../docs/learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md).
+Both link to the underlying response, manifest, audit, and hosted observability
+artifacts. Qualitative dimensions are intentionally marked pending until a
+calibrated human review set is completed.
+
 ### Fresh AWS canonical reruns
 
 For the full hosted capstone, use the durable runner

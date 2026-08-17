@@ -1,0 +1,43 @@
+{
+  "evaluation_id": "institutional-pm-capstone-scorecard-v1",
+  "benchmark_id": "institutional-pm-capstone-v1",
+  "tolerance": 0.000001,
+  "required_workflow_stages": [
+    "request_received",
+    "input_validated",
+    "capstone_completed",
+    "orchestration_started",
+    "guardrail_checked",
+    "response_emitted"
+  ],
+  "required_findings": [
+    {"category": "unsupported_causality", "subject": "credit", "severity": "high"},
+    {"category": "concentration_risk", "subject": "BOND_A", "severity": "high"},
+    {"category": "concentration_risk", "subject": "CREDIT_A", "severity": "high"},
+    {"category": "liquidity_risk", "subject": "CREDIT_A", "severity": "medium"}
+  ],
+  "expected_values": {
+    "rates_portfolio_return_impact": -0.01505,
+    "credit_portfolio_return_impact": -0.009,
+    "recommendation": "revise_or_decline",
+    "evaluation_status": "pass",
+    "approval_required": true,
+    "order_execution": false,
+    "committee_status": "pending_human_review"
+  },
+  "weights": {
+    "business_completeness": 0.2,
+    "numerical_fidelity": 0.2,
+    "evidence_grounding": 0.15,
+    "risk_coverage": 0.15,
+    "governance_compliance": 0.2,
+    "observability_completeness": 0.1
+  },
+  "qualitative_dimensions": [
+    "business_usefulness",
+    "assumption_disclosure",
+    "uncertainty_communication",
+    "committee_readability",
+    "narrative_hallucination_rate"
+  ]
+}
