@@ -88,11 +88,11 @@
       "input_tokens": 613,
       "output_tokens": 300,
       "total_tokens": 913,
-      "latency_ms": 3706,
+      "latency_ms": 3730,
       "estimated_cost_usd": 0.002113,
       "observability": ["OpenTelemetry span metrics", "audit JSONL", "experiment manifest"],
       "governance": "approval required; no order execution",
-      "source": "experiments/runs/anthropic-direct-capstone-20260816-230000/"
+      "source": "experiments/runs/anthropic-direct-canonical-20260817-030257/"
     },
     {
       "provider": "ollama",

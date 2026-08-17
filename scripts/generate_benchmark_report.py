@@ -197,7 +197,7 @@ def render(benchmark: dict[str, Any], roles: dict[str, Any] | None = None) -> st
         "### Evidence links",
         "",
         "- [OpenAI OTel/LangSmith baseline](../learning/observability-evaluation.md#baseline-runs)",
-        "- [Direct Anthropic run](../../experiments/runs/anthropic-direct-capstone-20260816-230000/)",
+        "- [Direct Anthropic canonical rerun](../../experiments/runs/anthropic-direct-canonical-20260817-030257/)",
         "- [AWS Claude exact canonical rerun](../../experiments/runs/canonical-claude-20260817-022944-34585c43/)",
         "- [AWS Llama exact canonical rerun](../../experiments/runs/canonical-llama-20260817-024235-eb81a0d4/)",
         "- [Historical model comparison](../learning/comparison-notes.md)",

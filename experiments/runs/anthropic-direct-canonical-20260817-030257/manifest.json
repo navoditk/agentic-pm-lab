@@ -1,0 +1,67 @@
+{
+  "cleanup": {
+    "notes": "No cloud resources created; credential remained process-local.",
+    "required": false,
+    "status": "complete"
+  },
+  "costs": {
+    "accounting_note": "Token cost and infrastructure cost are recorded separately to avoid hiding double counting.",
+    "aws_estimated_usd": null,
+    "aws_observed_usd": null,
+    "other_estimated_usd": null,
+    "token_estimate_usd": 0.002113,
+    "total_estimated_usd": 0.002113
+  },
+  "created_at": "2026-08-17T03:02:57.951347Z",
+  "evidence": [
+    {
+      "captured_at": "2026-08-17T03:03:02.779562Z",
+      "note": "",
+      "path": "response.json,audit.jsonl"
+    }
+  ],
+  "execution": {
+    "mode": "direct_messages_api",
+    "model": "claude-haiku-4-5-20251001",
+    "provider": "anthropic",
+    "region": "local",
+    "request_id": "anthropic-direct-canonical-20260817-030257",
+    "runtime_session_id": "msg_011Ce7aSFpSoD6fkAUWEJy4r"
+  },
+  "experiment": {
+    "description": "",
+    "name": "Canonical PM benchmark direct Anthropic",
+    "status": "success"
+  },
+  "findings": {
+    "cons": [],
+    "decision": "Observed exact-input direct Anthropic run; human approval remains required and no order was executed.",
+    "limitations": [],
+    "next_experiment": "Run the common evaluator suite against all canonical outputs.",
+    "pros": []
+  },
+  "input": {
+    "path": "experiments/agentcore-runtime-proof/input.json",
+    "sha256": ""
+  },
+  "output": {
+    "path": "response.json",
+    "summary": ""
+  },
+  "pricing": {
+    "as_of": "2026-08-17",
+    "currency": "USD",
+    "input_per_1m_tokens": 1.0,
+    "output_per_1m_tokens": 5.0,
+    "source": "Anthropic direct API standard token estimate"
+  },
+  "run_id": "anthropic-direct-canonical-20260817-030257",
+  "schema_version": 1,
+  "updated_at": "2026-08-17T03:03:02.842426Z",
+  "usage": {
+    "input_tokens": 613,
+    "latency_ms": 3730,
+    "output_tokens": 300,
+    "total_tokens": 913
+  }
+}

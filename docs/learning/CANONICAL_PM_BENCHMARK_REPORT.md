@@ -62,7 +62,7 @@ Two modes are required:
 | Provider | Model | Surface | Alignment | Tokens (in/out/total) | Latency | Est. cost | Observability | Governance |
 |---|---|---|---|---:|---:|---:|---|---|
 | openai | `gpt-4.1-mini` | direct API | related_historical_run | 159416/8530/167946 | 363.440 s | $0.077414 | OpenTelemetry, LangSmith, golden dataset, regression evaluators | policy and guardrail dimensions were not scored in the Day 6 baseline |
-| anthropic | `claude-haiku-4-5-20251001` | direct Messages API | canonical_exact | 613/300/913 | 3.706 s | $0.002113 | OpenTelemetry span metrics, audit JSONL, experiment manifest | approval required; no order execution |
+| anthropic | `claude-haiku-4-5-20251001` | direct Messages API | canonical_exact | 613/300/913 | 3.730 s | $0.002113 | OpenTelemetry span metrics, audit JSONL, experiment manifest | approval required; no order execution |
 | ollama | `qwen3:4b` | local Ollama | related_historical_run | —/—/— | 18.825 s | $0.000000 | local transcript, experiment notes | not scored as part of the canonical capstone |
 | aws-bedrock | `us.anthropic.claude-haiku-4-5-20251001-v1:0` | Bedrock AgentCore Runtime | canonical_exact | 591/300/891 | 6.568 s | $0.000000 | OpenTelemetry, CloudWatch logs, CloudWatch metrics, audit JSONL, experiment manifest | approval required; no order execution; temporary runtime torn down |
 | aws-bedrock | `us.meta.llama3-3-70b-instruct-v1:0` | Bedrock AgentCore Runtime | canonical_exact | 575/300/875 | 6.244 s | $0.000000 | OpenTelemetry, CloudWatch logs, CloudWatch metrics, audit JSONL, experiment manifest | approval required; no order execution; temporary runtime torn down |
@@ -77,7 +77,7 @@ The following providers used the canonical capstone input and can be compared di
 
 | Provider/model | Tokens | Latency | Cost basis | Approval | Order execution |
 |---|---:|---:|---|---|---|
-| `claude-haiku-4-5-20251001` | 613/300/913 | 3.706 s | provider token estimate; $0.002113 | yes | no |
+| `claude-haiku-4-5-20251001` | 613/300/913 | 3.730 s | provider token estimate; $0.002113 | yes | no |
 | `us.anthropic.claude-haiku-4-5-20251001-v1:0` | 591/300/891 | 6.568 s | AWS Cost Explorer account/day estimate; not request-attributed; $0.000000 | yes | no |
 | `us.meta.llama3-3-70b-instruct-v1:0` | 575/300/875 | 6.244 s | AWS Cost Explorer same-day account estimate shared with comparison; not model-attributed; $0.000000 | yes | no |
 
@@ -133,7 +133,7 @@ The Day 6 OpenAI baseline provides the current deepest evaluation implementation
 ### Evidence links
 
 - [OpenAI OTel/LangSmith baseline](../learning/observability-evaluation.md#baseline-runs)
-- [Direct Anthropic run](../../experiments/runs/anthropic-direct-capstone-20260816-230000/)
+- [Direct Anthropic canonical rerun](../../experiments/runs/anthropic-direct-canonical-20260817-030257/)
 - [AWS Claude exact canonical rerun](../../experiments/runs/canonical-claude-20260817-022944-34585c43/)
 - [AWS Llama exact canonical rerun](../../experiments/runs/canonical-llama-20260817-024235-eb81a0d4/)
 - [Historical model comparison](../learning/comparison-notes.md)

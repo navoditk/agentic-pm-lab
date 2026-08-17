@@ -127,6 +127,14 @@ the narrative log explicitly says that evidence was captured.
   [`Llama`](experiments/runs/canonical-llama-20260817-024235-eb81a0d4/), and
   [`consolidated report`](docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md).
 
+- **Direct Anthropic canonical rerun:** Loaded the local credential only into
+  the process environment and replayed the exact benchmark question through
+  the direct Messages API. The run recorded 613 input, 300 output, and 913
+  total tokens in 3,730 ms, with a `$0.002113` standard token estimate and no
+  cloud resources. The credential was not written to the repository or run
+  artifacts. Evidence:
+  [`anthropic-direct-canonical-20260817-030257`](experiments/runs/anthropic-direct-canonical-20260817-030257/).
+
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
   auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. Added the
