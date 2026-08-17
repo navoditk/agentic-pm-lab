@@ -216,6 +216,16 @@ contains five actual repetitions for each of OpenAI direct, Anthropic direct,
 AWS Claude Haiku, and AWS Llama. The configured five-repetition gate is a
 minimum for promotion, not a claim that the adversarial scenarios are complete.
 
+Generate the transparent provisional review across every committed observation:
+
+```bash
+uv run python scripts/generate_institutional_pm_qualitative_review.py
+```
+
+This writes [`qualitative-review-v2.json`](canonical-pm-benchmark/qualitative-review-v2.json)
+and the learner-facing [`INSTITUTIONAL_PM_QUALITATIVE_REVIEW.md`](../docs/learning/INSTITUTIONAL_PM_QUALITATIVE_REVIEW.md).
+It does not replace independent human calibration or committee approval.
+
 To reproduce the repeated baseline with direct providers, keep credentials in
 the process environment and run:
 

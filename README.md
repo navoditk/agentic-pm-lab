@@ -289,6 +289,11 @@ shows how responses, traces, logs, and scorecard decisions connect.
 The [Scorecard v2 report](docs/learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
 adds scenario coverage, repeated-run statistics, and promotion gates; planned
 adversarial scenarios remain visibly separate from observed runs.
+The [provisional qualitative review](docs/learning/INSTITUTIONAL_PM_QUALITATIVE_REVIEW.md)
+applies a transparent observable-output rubric to all 38 committed observations.
+It is useful for screening and learning, but independent human calibration is
+still required before promotion. The AWS day-level reconciliation is recorded in
+[`aws-billing-reconciliation.json`](experiments/canonical-pm-benchmark/aws-billing-reconciliation.json).
 
 Automation model roles are separated from benchmark targets in
 [`config/model-roles.yaml`](config/model-roles.yaml): Claude Opus 4.8 conducts

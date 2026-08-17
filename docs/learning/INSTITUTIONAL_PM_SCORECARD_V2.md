@@ -3,6 +3,8 @@
 > This report extends the [baseline four-model comparison](CANONICAL_PM_BENCHMARK_REPORT.md) without replacing it.
 > The matrix contains 5 observed repetition(s) per model at most; the configured promotion threshold is 5.
 
+The full 38-observation matrix now also has a reproducible [provisional qualitative review](INSTITUTIONAL_PM_QUALITATIVE_REVIEW.md), covering every baseline, hosted adversarial, and local control-contract artifact. Its status is intentionally **pending independent human calibration**.
+
 ## Repeated-run analysis
 
 | Model | Runs | Success rate | Mean score | Score stdev | Mean tokens | p95 latency | Cost/run | Gate |
@@ -52,3 +54,5 @@
 The matrix contains 5 observed repetition(s) per model at most; the configured promotion threshold is 5. The deterministic adversarial harness has executed 6 scenario(s), and hosted-provider replays have produced 12 model-facing observation(s). Boundary scenarios remain pre-model checks by design.
 
 AWS cost/run is a token estimate using standard on-demand Bedrock rates; the temporary AgentCore runtime, logging, and storage components are recorded separately and are not included when their asynchronous cost lookup returns zero or unavailable.
+
+The read-only [AWS Cost Explorer reconciliation](../../experiments/canonical-pm-benchmark/aws-billing-reconciliation.json) for 2026-08-17 returned `$0.00` accrued account-level unblended cost at query time. This is an aggregate account-day observation, not a per-request allocation, and delayed AgentCore billing may appear later. Token estimates remain the appropriate request-level comparison metric.

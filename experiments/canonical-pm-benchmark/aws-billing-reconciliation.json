@@ -1,0 +1,17 @@
+{
+  "reconciliation_id": "institutional-pm-aws-billing-2026-08-17",
+  "status": "reconciled",
+  "provider": "aws",
+  "account_alias": "agentic-pm-lab",
+  "time_period_utc": {
+    "start": "2026-08-17",
+    "end": "2026-08-18"
+  },
+  "granularity": "DAILY",
+  "metric": "UnblendedCost",
+  "amount_usd": 0.0,
+  "estimated": true,
+  "service_groups": [],
+  "source": "AWS Cost Explorer read-only query executed 2026-08-17T05:13:40Z",
+  "interpretation": "Cost Explorer returned zero accrued account-level unblended cost for the replay day at query time. This does not invalidate token estimates and may precede delayed billing for AgentCore runtime, logging, or storage. The aggregate result is not allocated to individual requests."
+}
