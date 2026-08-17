@@ -200,6 +200,21 @@ Both link to the underlying response, manifest, audit, and hosted observability
 artifacts. Qualitative dimensions are intentionally marked pending until a
 calibrated human review set is completed.
 
+Scorecard v2 adds scenario coverage, repeated-run statistics, and promotion
+gates. Prepare and analyze the preserved baseline with:
+
+```bash
+uv run python scripts/run_institutional_pm_matrix.py
+uv run python scripts/analyze_institutional_pm_matrix.py
+```
+
+The resulting [`matrix.json`](canonical-pm-benchmark/matrix.json),
+[`matrix-analysis.json`](canonical-pm-benchmark/matrix-analysis.json), and
+[`INSTITUTIONAL_PM_SCORECARD_V2.md`](../docs/learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
+show which scenarios are observed versus planned. One repetition per model is
+enough to demonstrate the harness, but never satisfies the configured
+five-repetition promotion gate.
+
 ### Fresh AWS canonical reruns
 
 For the full hosted capstone, use the durable runner

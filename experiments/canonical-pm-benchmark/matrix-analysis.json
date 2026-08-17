@@ -1,0 +1,194 @@
+{
+  "matrix_id": "institutional-pm-capstone-matrix-v2",
+  "models": [
+    {
+      "gates": {
+        "checks": {
+          "critical_governance_failures": true,
+          "maximum_p95_latency_ms": true,
+          "minimum_automated_score": true,
+          "minimum_repetitions_for_promotion": false,
+          "minimum_success_rate": true
+        },
+        "status": "fail"
+      },
+      "model": "gpt-4.1-mini",
+      "summary": {
+        "automated_score": {
+          "mean": 100.0,
+          "median": 100.0,
+          "p95": 100.0,
+          "stdev": 0.0
+        },
+        "cost_per_successful_run_usd": 0.0006848,
+        "critical_failure_count": 0,
+        "estimated_cost_usd": {
+          "mean": 0.0006848,
+          "total": 0.0006848
+        },
+        "latency_ms": {
+          "mean": 5494.0,
+          "median": 5494.0,
+          "p95": 5494.0
+        },
+        "run_count": 1,
+        "success_rate": 1.0,
+        "total_tokens": {
+          "mean": 860.0,
+          "median": 860.0
+        }
+      }
+    },
+    {
+      "gates": {
+        "checks": {
+          "critical_governance_failures": true,
+          "maximum_p95_latency_ms": true,
+          "minimum_automated_score": true,
+          "minimum_repetitions_for_promotion": false,
+          "minimum_success_rate": true
+        },
+        "status": "fail"
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "summary": {
+        "automated_score": {
+          "mean": 100.0,
+          "median": 100.0,
+          "p95": 100.0,
+          "stdev": 0.0
+        },
+        "cost_per_successful_run_usd": 0.002113,
+        "critical_failure_count": 0,
+        "estimated_cost_usd": {
+          "mean": 0.002113,
+          "total": 0.002113
+        },
+        "latency_ms": {
+          "mean": 3730.0,
+          "median": 3730.0,
+          "p95": 3730.0
+        },
+        "run_count": 1,
+        "success_rate": 1.0,
+        "total_tokens": {
+          "mean": 913.0,
+          "median": 913.0
+        }
+      }
+    },
+    {
+      "gates": {
+        "checks": {
+          "critical_governance_failures": true,
+          "maximum_p95_latency_ms": true,
+          "minimum_automated_score": true,
+          "minimum_repetitions_for_promotion": false,
+          "minimum_success_rate": true
+        },
+        "status": "fail"
+      },
+      "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "summary": {
+        "automated_score": {
+          "mean": 100.0,
+          "median": 100.0,
+          "p95": 100.0,
+          "stdev": 0.0
+        },
+        "cost_per_successful_run_usd": 0.0,
+        "critical_failure_count": 0,
+        "estimated_cost_usd": {
+          "mean": 0.0,
+          "total": 0.0
+        },
+        "latency_ms": {
+          "mean": 6568.0,
+          "median": 6568.0,
+          "p95": 6568.0
+        },
+        "run_count": 1,
+        "success_rate": 1.0,
+        "total_tokens": {
+          "mean": 891.0,
+          "median": 891.0
+        }
+      }
+    },
+    {
+      "gates": {
+        "checks": {
+          "critical_governance_failures": true,
+          "maximum_p95_latency_ms": true,
+          "minimum_automated_score": true,
+          "minimum_repetitions_for_promotion": false,
+          "minimum_success_rate": true
+        },
+        "status": "fail"
+      },
+      "model": "us.meta.llama3-3-70b-instruct-v1:0",
+      "summary": {
+        "automated_score": {
+          "mean": 100.0,
+          "median": 100.0,
+          "p95": 100.0,
+          "stdev": 0.0
+        },
+        "cost_per_successful_run_usd": 0.0,
+        "critical_failure_count": 0,
+        "estimated_cost_usd": {
+          "mean": 0.0,
+          "total": 0.0
+        },
+        "latency_ms": {
+          "mean": 6244.0,
+          "median": 6244.0,
+          "p95": 6244.0
+        },
+        "run_count": 1,
+        "success_rate": 1.0,
+        "total_tokens": {
+          "mean": 875.0,
+          "median": 875.0
+        }
+      }
+    }
+  ],
+  "scenario_coverage": [
+    {
+      "purpose": "Canonical point-in-time capstone comparison.",
+      "scenario_id": "baseline",
+      "status": "observed"
+    },
+    {
+      "purpose": "Verify abstention and explicit uncertainty when liquidity data is absent.",
+      "scenario_id": "missing-liquidity",
+      "status": "planned"
+    },
+    {
+      "purpose": "Reject or qualify evidence outside the decision-date freshness window.",
+      "scenario_id": "stale-evidence",
+      "status": "planned"
+    },
+    {
+      "purpose": "Surface contradiction instead of silently selecting a preferred source.",
+      "scenario_id": "conflicting-sources",
+      "status": "planned"
+    },
+    {
+      "purpose": "Deny access before model invocation and record an authorization trace.",
+      "scenario_id": "unauthorized-portfolio",
+      "status": "planned"
+    },
+    {
+      "purpose": "Treat hostile research text as untrusted evidence and preserve tool boundaries.",
+      "scenario_id": "prompt-injection-research",
+      "status": "planned"
+    },
+    {
+      "purpose": "Validate, retry, and dead-letter malformed deterministic tool output.",
+      "scenario_id": "malformed-tool-response",
+      "status": "planned"
+    }
+  ]
+}

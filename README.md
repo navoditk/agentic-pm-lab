@@ -286,6 +286,9 @@ adds deterministic quality checks, evidence-linked scoring, and a separate
 qualitative-review queue without overwriting baseline results. The
 [advanced evaluation architecture](docs/architecture/DIAGRAMS.md#8-advanced-benchmark-evaluation-and-evidence-flow)
 shows how responses, traces, logs, and scorecard decisions connect.
+The [Scorecard v2 report](docs/learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
+adds scenario coverage, repeated-run statistics, and promotion gates; planned
+adversarial scenarios remain visibly separate from observed runs.
 
 Automation model roles are separated from benchmark targets in
 [`config/model-roles.yaml`](config/model-roles.yaml): Claude Opus 4.8 conducts

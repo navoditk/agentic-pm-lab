@@ -269,6 +269,11 @@ or faster. Run-level evidence is browsable from
 [`INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](../learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md),
 while the original baseline remains in
 [`CANONICAL_PM_BENCHMARK_REPORT.md`](../learning/CANONICAL_PM_BENCHMARK_REPORT.md).
+Scorecard v2 adds the scenario manifest in
+`experiments/canonical-pm-benchmark/scenarios/`, repeated-run analysis, p50/p95
+latency and variance, and the promotion thresholds in
+`config/evaluation-gates.yaml`. Planned scenarios are not counted as observed
+evidence.
 
 ## Related implementation paths
 

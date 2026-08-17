@@ -24,6 +24,9 @@ flat list.
    observability, costs, and benchmark gaps.
 9. [`learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
    — inspect deterministic quality checks and links to every model run artifact.
+10. [`learning/INSTITUTIONAL_PM_SCORECARD_V2.md`](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
+    — inspect repeated-run statistics, adversarial scenario coverage, and
+    promotion-gate status.
 
 ## Documentation by purpose
 
@@ -50,6 +53,7 @@ flat list.
 - [Experiments](../experiments/README.md) · [Data catalog](../data/README.md)
 - [Canonical PM benchmark report](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
 - [Advanced PM evaluation scorecard](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
+- [Scorecard v2](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
 - [Automation model roles](../config/model-roles.yaml)
 
 `AGENTS.md` remains the canonical router for AI coding tools. Skills under
