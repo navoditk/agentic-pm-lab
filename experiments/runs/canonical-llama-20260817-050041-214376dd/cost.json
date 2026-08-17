@@ -1,0 +1,32 @@
+{
+  "DimensionValueAttributes": [],
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "cache-control": "no-cache",
+      "connection": "keep-alive",
+      "content-length": "189",
+      "content-type": "application/x-amz-json-1.1",
+      "date": "Mon, 17 Aug 2026 05:01:26 GMT",
+      "x-amzn-requestid": "db34b9a6-fc8b-4c3c-9cd5-24ed7beed8bd"
+    },
+    "HTTPStatusCode": 200,
+    "RequestId": "db34b9a6-fc8b-4c3c-9cd5-24ed7beed8bd",
+    "RetryAttempts": 0
+  },
+  "ResultsByTime": [
+    {
+      "Estimated": true,
+      "Groups": [],
+      "TimePeriod": {
+        "End": "2026-08-18",
+        "Start": "2026-08-17"
+      },
+      "Total": {
+        "UnblendedCost": {
+          "Amount": "0",
+          "Unit": "USD"
+        }
+      }
+    }
+  ]
+}

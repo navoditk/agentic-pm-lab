@@ -495,3 +495,10 @@ six passed the simple response contract and recorded real token/cost/latency
 data. The other three scenarios should remain pre-model checks: measuring a
 model response after authorization or guardrail denial would be evidence that
 the boundary was bypassed, not a successful test.
+
+The AWS replay confirmed the same three response contracts through temporary
+AgentCore Claude and Llama runtimes. It also reinforced an operational lesson:
+the hosted response and cleanup artifacts are reliable completion evidence,
+while the legacy wrapper's final JSON return can hang after asynchronous
+teardown. Discovery mode recovers those completed records without duplicating
+model calls or cloud resources.

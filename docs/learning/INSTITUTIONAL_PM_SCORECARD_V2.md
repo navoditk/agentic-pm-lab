@@ -40,9 +40,15 @@
 | `anthropic` | `missing-liquidity` | pass | 100 | [`evidence`](../../experiments/runs/hosted-adversarial-anthropic-missing-liquidity-20260817-045320-3e28a5/response.json) |
 | `anthropic` | `stale-evidence` | pass | 100 | [`evidence`](../../experiments/runs/hosted-adversarial-anthropic-stale-evidence-20260817-045324-ea5fc4/response.json) |
 | `anthropic` | `conflicting-sources` | pass | 100 | [`evidence`](../../experiments/runs/hosted-adversarial-anthropic-conflicting-sources-20260817-045328-58f751/response.json) |
+| `aws` | `missing-liquidity` | pass | 100 | [`evidence`](../../experiments/runs/canonical-claude-20260817-045712-23e08e21/hosted-response.json) |
+| `aws` | `stale-evidence` | pass | 100 | [`evidence`](../../experiments/runs/canonical-claude-20260817-045806-205d6c93/hosted-response.json) |
+| `aws` | `conflicting-sources` | pass | 100 | [`evidence`](../../experiments/runs/canonical-claude-20260817-045900-4c2b1097/hosted-response.json) |
+| `aws` | `missing-liquidity` | pass | 100 | [`evidence`](../../experiments/runs/canonical-llama-20260817-050041-214376dd/hosted-response.json) |
+| `aws` | `stale-evidence` | pass | 100 | [`evidence`](../../experiments/runs/canonical-llama-20260817-050133-a974bcea/hosted-response.json) |
+| `aws` | `conflicting-sources` | pass | 100 | [`evidence`](../../experiments/runs/canonical-llama-20260817-050225-add616c5/hosted-response.json) |
 
 ## Promotion interpretation
 
-The matrix contains 5 observed repetition(s) per model at most; the configured promotion threshold is 5. The deterministic adversarial harness has executed 6 scenario(s), and hosted-provider replays have produced 6 model-facing observation(s). Boundary scenarios remain pre-model checks by design.
+The matrix contains 5 observed repetition(s) per model at most; the configured promotion threshold is 5. The deterministic adversarial harness has executed 6 scenario(s), and hosted-provider replays have produced 12 model-facing observation(s). Boundary scenarios remain pre-model checks by design.
 
 AWS cost/run is a token estimate using standard on-demand Bedrock rates; the temporary AgentCore runtime, logging, and storage components are recorded separately and are not included when their asynchronous cost lookup returns zero or unavailable.

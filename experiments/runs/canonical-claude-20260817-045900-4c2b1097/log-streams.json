@@ -1,0 +1,37 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "content-length": "1080",
+      "content-type": "application/x-amz-json-1.1",
+      "date": "Mon, 17 Aug 2026 04:59:48 GMT",
+      "x-amzn-requestid": "54a95eda-b0d0-4854-8a97-f453ba8fe48c"
+    },
+    "HTTPStatusCode": 200,
+    "RequestId": "54a95eda-b0d0-4854-8a97-f453ba8fe48c",
+    "RetryAttempts": 0
+  },
+  "logStreams": [
+    {
+      "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/canonical_pm_claude_0dd7208a-ZSLWxtC82z-default:log-stream:2026/08/17/[runtime-logs-canonical-910e660f046d4258ba55fee2bddb8e65]6fbc34bf-5eb6-4564-b5af-3916746c77c1",
+      "creationTime": 1786942781641,
+      "firstEventTimestamp": 1786942784738,
+      "lastEventTimestamp": 1786942784759,
+      "lastIngestionTime": 1786942786524,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-910e660f046d4258ba55fee2bddb8e65]6fbc34bf-5eb6-4564-b5af-3916746c77c1",
+      "storedBytes": 0,
+      "uploadSequenceToken": "49039859682962822181076420312043221957269042357686550610"
+    },
+    {
+      "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/canonical_pm_claude_0dd7208a-ZSLWxtC82z-default:log-stream:spans",
+      "creationTime": 1786942770706,
+      "logStreamName": "spans",
+      "storedBytes": 0
+    },
+    {
+      "arn": "arn:aws:logs:us-west-2:463802498849:log-group:/aws/bedrock-agentcore/runtimes/canonical_pm_claude_0dd7208a-ZSLWxtC82z-default:log-stream:otel-rt-logs",
+      "creationTime": 1786942770670,
+      "logStreamName": "otel-rt-logs",
+      "storedBytes": 0
+    }
+  ]
+}

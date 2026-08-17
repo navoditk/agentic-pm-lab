@@ -1,0 +1,64 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "content-length": "3495",
+      "content-type": "application/x-amz-json-1.1",
+      "date": "Mon, 17 Aug 2026 04:57:58 GMT",
+      "x-amzn-requestid": "70cb1ed7-1593-4f8e-90ff-c1a877e830fd"
+    },
+    "HTTPStatusCode": 200,
+    "RequestId": "70cb1ed7-1593-4f8e-90ff-c1a877e830fd",
+    "RetryAttempts": 0
+  },
+  "events": [
+    {
+      "eventId": "39850153266331375885384361635116640231735637926740033536",
+      "ingestionTime": 1786942676568,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-45e2eac325f74ad0b9631e1f310f1bb7]5f1ecdb1-7984-4979-ab04-50f96b3f132e",
+      "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=request_received details={\"request_id\": \"aws-adversarial-missing-liquidity\"}",
+      "timestamp": 1786942674407
+    },
+    {
+      "eventId": "39850153266331375885384361635116640231735637926740033537",
+      "ingestionTime": 1786942676568,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-45e2eac325f74ad0b9631e1f310f1bb7]5f1ecdb1-7984-4979-ab04-50f96b3f132e",
+      "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=input_validated details={\"identity\": \"PM_USER\", \"portfolio_id\": \"PORT_A\"}",
+      "timestamp": 1786942674407
+    },
+    {
+      "eventId": "39850153266331375885384361635116640231735637926740033538",
+      "ingestionTime": 1786942676568,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-45e2eac325f74ad0b9631e1f310f1bb7]5f1ecdb1-7984-4979-ab04-50f96b3f132e",
+      "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=authorization_checked details={\"decision\": \"delegated_to_local_cedar_boundary\"}",
+      "timestamp": 1786942674407
+    },
+    {
+      "eventId": "39850153266420578866178484127682783104826231372763955203",
+      "ingestionTime": 1786942676568,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-45e2eac325f74ad0b9631e1f310f1bb7]5f1ecdb1-7984-4979-ab04-50f96b3f132e",
+      "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=capstone_completed details={\"workflow\": [\"authenticated_pm_request\", \"freshness_check\", \"macro_quant_fundamental_research_evidence\", \"deterministic_fixed_income_scenarios\", \"devils_advocate_challenge\", \"cited_committee_artifact\", \"human_review\", \"otel_audit_evaluation_metadata\"]}",
+      "timestamp": 1786942674411
+    },
+    {
+      "eventId": "39850153266420578866178484127682783104826231372763955204",
+      "ingestionTime": 1786942676568,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-45e2eac325f74ad0b9631e1f310f1bb7]5f1ecdb1-7984-4979-ab04-50f96b3f132e",
+      "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=orchestration_started details={\"order_execution\": false, \"tools\": []}",
+      "timestamp": 1786942674411
+    },
+    {
+      "eventId": "39850153266821992279752035344230426033733901879871602693",
+      "ingestionTime": 1786942676568,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-45e2eac325f74ad0b9631e1f310f1bb7]5f1ecdb1-7984-4979-ab04-50f96b3f132e",
+      "message": "INFO:botocore.credentials:Found credentials from IAM Role: execution_role",
+      "timestamp": 1786942674429
+    },
+    {
+      "eventId": "39850153336980136674329375748721672039520724476382674944",
+      "ingestionTime": 1786942677577,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-45e2eac325f74ad0b9631e1f310f1bb7]5f1ecdb1-7984-4979-ab04-50f96b3f132e",
+      "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=bedrock_completed details={\"usage\": {\"cacheReadInputTokens\": 0, \"cacheWriteInputTokens\": 0, \"inputTokens\": 590, \"outputTokens\": 300, \"totalTokens\": 890}}",
+      "timestamp": 1786942677575
+    }
+  ]
+}

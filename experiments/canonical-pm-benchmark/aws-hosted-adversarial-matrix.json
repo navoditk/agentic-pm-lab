@@ -1,0 +1,113 @@
+{
+  "runs": [
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.00209,
+        "input_tokens": 590,
+        "latency_ms": 7373,
+        "output_tokens": 300,
+        "total_tokens": 890
+      },
+      "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "provider": "aws",
+      "repetition": 1,
+      "result_path": "experiments/runs/canonical-claude-20260817-045712-23e08e21/hosted-response.json",
+      "run_id": "canonical-claude-20260817-045712-23e08e21",
+      "scenario_id": "missing-liquidity",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.002087,
+        "input_tokens": 587,
+        "latency_ms": 7654,
+        "output_tokens": 300,
+        "total_tokens": 887
+      },
+      "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "provider": "aws",
+      "repetition": 1,
+      "result_path": "experiments/runs/canonical-claude-20260817-045806-205d6c93/hosted-response.json",
+      "run_id": "canonical-claude-20260817-045806-205d6c93",
+      "scenario_id": "stale-evidence",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.002089,
+        "input_tokens": 589,
+        "latency_ms": 7646,
+        "output_tokens": 300,
+        "total_tokens": 889
+      },
+      "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "provider": "aws",
+      "repetition": 1,
+      "result_path": "experiments/runs/canonical-claude-20260817-045900-4c2b1097/hosted-response.json",
+      "run_id": "canonical-claude-20260817-045900-4c2b1097",
+      "scenario_id": "conflicting-sources",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.00062856,
+        "input_tokens": 573,
+        "latency_ms": 6328,
+        "output_tokens": 300,
+        "total_tokens": 873
+      },
+      "model": "us.meta.llama3-3-70b-instruct-v1:0",
+      "provider": "aws",
+      "repetition": 1,
+      "result_path": "experiments/runs/canonical-llama-20260817-050041-214376dd/hosted-response.json",
+      "run_id": "canonical-llama-20260817-050041-214376dd",
+      "scenario_id": "missing-liquidity",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.0006264,
+        "input_tokens": 570,
+        "latency_ms": 6834,
+        "output_tokens": 300,
+        "total_tokens": 870
+      },
+      "model": "us.meta.llama3-3-70b-instruct-v1:0",
+      "provider": "aws",
+      "repetition": 1,
+      "result_path": "experiments/runs/canonical-llama-20260817-050133-a974bcea/hosted-response.json",
+      "run_id": "canonical-llama-20260817-050133-a974bcea",
+      "scenario_id": "stale-evidence",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.00062928,
+        "input_tokens": 574,
+        "latency_ms": 6190,
+        "output_tokens": 300,
+        "total_tokens": 874
+      },
+      "model": "us.meta.llama3-3-70b-instruct-v1:0",
+      "provider": "aws",
+      "repetition": 1,
+      "result_path": "experiments/runs/canonical-llama-20260817-050225-add616c5/hosted-response.json",
+      "run_id": "canonical-llama-20260817-050225-add616c5",
+      "scenario_id": "conflicting-sources",
+      "status": "pass"
+    }
+  ],
+  "scenario_set_id": "institutional-pm-capstone-aws-adversarial-v1"
+}

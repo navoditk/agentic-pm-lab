@@ -1,0 +1,22 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "content-length": "876",
+      "content-type": "application/x-amz-json-1.1",
+      "date": "Mon, 17 Aug 2026 05:03:08 GMT",
+      "x-amzn-requestid": "3e95532b-84a4-4583-ab2e-a51e3229f984"
+    },
+    "HTTPStatusCode": 200,
+    "RequestId": "3e95532b-84a4-4583-ab2e-a51e3229f984",
+    "RetryAttempts": 0
+  },
+  "events": [
+    {
+      "eventId": "39850160213883234290416164900036021414580188966744686592",
+      "ingestionTime": 1786942985953,
+      "logStreamName": "2026/08/17/[runtime-logs-canonical-eee4e69710d24c79a9ea4d63a65a78a9]0757679e-a918-432e-825e-8f4a85a26fd9",
+      "message": "INFO:agentic_pm_lab.agentcore_capstone:workflow_stage=request_received details={\"request_id\": \"aws-adversarial-conflicting-sources\"}",
+      "timestamp": 1786942985946
+    }
+  ]
+}

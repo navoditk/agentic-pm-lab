@@ -274,6 +274,22 @@ artifacts. Authorization, prompt-injection, and malformed-tool scenarios stop
 at the local boundary by design; a hosted call for those cases would violate
 the expected control contract.
 
+For AWS AgentCore, use the scenario input fixtures with temporary runtimes:
+
+```bash
+uv run python scripts/run_aws_hosted_adversarial_matrix.py \
+  --package /tmp/agentic-pm-canonical-package.zip \
+  --profile agentic-pm-lab --region us-west-2 \
+  --model aws-claude --model aws-llama \
+  --scenario missing-liquidity \
+  --scenario stale-evidence \
+  --scenario conflicting-sources
+```
+
+If the legacy wrapper hangs after cleanup, recover completed responses with
+`--discover-existing`; verify `hosted-response.json` and cleanup evidence
+before consolidating the matrix.
+
 Every repetition remains an immutable directory under `experiments/runs/`.
 Direct-provider runs include response and audit artifacts; AWS runs include
 hosted response, runtime/endpoint, events/log streams, usage, and cleanup
