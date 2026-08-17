@@ -157,6 +157,13 @@ The lab permission set needs these narrowly scoped capabilities:
 The corrected template creates no Lambda or new IAM resources, so the next
 deployment avoids the first attempt's role-cleanup failure.
 
+The ready-to-apply policy statements are in
+[`permission-set-additions.json`](../../infrastructure/agentcore-gateway-target/permission-set-additions.json).
+An Identity Center administrator must merge them into the existing
+`AgenticPMLabDeveloper` permission set, reprovision the account assignment,
+then renew the SSO session. The current developer role cannot update its own
+permission set.
+
 Expected lessons from the live run:
 
 - API Gateway supplies the real TLS/HTTPS boundary.

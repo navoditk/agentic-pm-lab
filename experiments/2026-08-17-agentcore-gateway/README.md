@@ -48,3 +48,5 @@ After renewing the IAM Identity Center session, follow
 Add the least-privilege API Gateway create/configure/delete permissions and the
 temporary-role cleanup permissions documented in the setup guide, remove the
 retained first-attempt role/stack, and then rerun the v2 deployment.
+
+The exact policy document is [`permission-set-additions.json`](../../infrastructure/agentcore-gateway-target/permission-set-additions.json).

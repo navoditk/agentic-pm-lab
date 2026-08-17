@@ -1,0 +1,39 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "GatewayTargetApiGatewayLifecycle",
+      "Effect": "Allow",
+      "Action": [
+        "apigateway:POST",
+        "apigateway:GET",
+        "apigateway:PUT",
+        "apigateway:PATCH",
+        "apigateway:DELETE"
+      ],
+      "Resource": "arn:aws:apigateway:us-west-2::/restapis*"
+    },
+    {
+      "Sid": "GatewayExecutionRolePermission",
+      "Effect": "Allow",
+      "Action": "iam:PutRolePolicy",
+      "Resource": "arn:aws:iam::463802498849:role/AgenticPMLabGatewayExecutionRole"
+    },
+    {
+      "Sid": "GatewayTemporaryRoleCleanup",
+      "Effect": "Allow",
+      "Action": [
+        "iam:ListRolePolicies",
+        "iam:DeleteRolePolicy",
+        "iam:DeleteRole"
+      ],
+      "Resource": "arn:aws:iam::463802498849:role/agentic-pm-gateway-target-*"
+    },
+    {
+      "Sid": "GatewayCloudFormationDiagnostics",
+      "Effect": "Allow",
+      "Action": "cloudformation:DescribeEvents",
+      "Resource": "*"
+    }
+  ]
+}
