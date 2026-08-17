@@ -45,8 +45,14 @@ def render(scorecard: dict[str, Any]) -> str:
         latency_text = "—" if latency is None else f"{latency / 1000:.3f}s"
         cost = metrics.get("estimated_cost_usd")
         cost_text = "—" if cost is None else f"${cost:.6f}"
+        qualitative = result.get("qualitative_review", {})
+        qualitative_text = (
+            f"{qualitative['overall_score']:.1f}/5"
+            if qualitative.get("overall_score") is not None
+            else "pending"
+        )
         lines.append(
-            f"| {result['provider']} | `{result['model']}` | {result['automated_score']:.2f}/100 | {result['status']} | {'yes' if result['critical_failure'] else 'no'} | {tokens} | {latency_text} | {cost_text} | pending |"
+            f"| {result['provider']} | `{result['model']}` | {result['automated_score']:.2f}/100 | {result['status']} | {'yes' if result['critical_failure'] else 'no'} | {tokens} | {latency_text} | {cost_text} | {qualitative_text} |"
         )
     lines += [
         "",
@@ -60,6 +66,21 @@ def render(scorecard: dict[str, Any]) -> str:
         "| Risk coverage | Expected high/medium findings present |",
         "| Governance compliance | Human approval required, no order execution, evaluation passes |",
         "| Observability completeness | Response, usage, latency, session, audit, and workflow evidence linked |",
+        "",
+        "## Qualitative review",
+        "",
+        "These reviews are structured comparative assessments of the observed outputs. They are not independent investment advice or a calibrated committee consensus.",
+        "",
+        "| Model | Score | Strengths | Limitations |",
+        "|---|---:|---|---|",
+    ]
+    for result in scorecard["results"]:
+        qualitative = result.get("qualitative_review", {})
+        if qualitative.get("overall_score") is not None:
+            lines.append(
+                f"| `{result['model']}` | {qualitative['overall_score']:.1f}/5 | {qualitative['strengths']} | {qualitative['limitations']} |"
+            )
+    lines += [
         "",
         "## Interpretation",
         "",
@@ -87,6 +108,11 @@ def main() -> None:
         default=ROOT / "experiments/canonical-pm-benchmark/expected_results.json",
     )
     parser.add_argument(
+        "--qualitative",
+        type=Path,
+        default=ROOT / "experiments/canonical-pm-benchmark/qualitative_reviews.json",
+    )
+    parser.add_argument(
         "--output-json",
         type=Path,
         default=ROOT / "experiments/canonical-pm-benchmark/scorecard.json",
@@ -98,6 +124,7 @@ def main() -> None:
     )
     args = parser.parse_args()
     expected = load(args.expected)
+    qualitative = load(args.qualitative)
     benchmark = load(args.benchmark)
     results = []
     for provider in benchmark["providers"]:
@@ -110,18 +137,25 @@ def main() -> None:
             if (run_dir / "response.json").exists()
             else run_dir / "hosted-response.json"
         )
-        results.append(
-            evaluate_response(
-                response, manifest, expected, evidence_file_names(run_dir)
-            )
+        result = evaluate_response(
+            response, manifest, expected, evidence_file_names(run_dir)
         )
+        review = qualitative.get("reviews", {}).get(provider["run_id"])
+        if review:
+            result["qualitative_review"] = {
+                "status": "reviewed_not_calibrated",
+                "review_id": qualitative["review_id"],
+                "method": qualitative["method"],
+                **review,
+            }
+        results.append(result)
     scorecard = {
         "evaluation_id": expected["evaluation_id"],
         "benchmark_id": benchmark["benchmark_id"],
         "results": results,
         "notes": [
             "Baseline four-model results remain in CANONICAL_PM_BENCHMARK_REPORT.md.",
-            "Qualitative review is pending and must be calibrated against human committee reviewers.",
+            "Qualitative review is structured but not yet calibrated against independent human committee reviewers.",
         ],
     }
     args.output_json.write_text(json.dumps(scorecard, indent=2, sort_keys=True) + "\n")

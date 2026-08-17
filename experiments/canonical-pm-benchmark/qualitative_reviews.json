@@ -1,0 +1,31 @@
+{
+  "review_id": "institutional-pm-qualitative-review-v1",
+  "method": "Structured comparative review of the four observed canonical outputs; not a substitute for independent PM committee calibration.",
+  "scale": "1 poor, 3 adequate, 5 strong",
+  "reviews": {
+    "openai-direct-canonical-20260817-031116": {
+      "scores": {"business_usefulness": 5, "assumption_disclosure": 4, "uncertainty_communication": 5, "committee_readability": 4, "narrative_hallucination_rate": 4},
+      "overall_score": 4.4,
+      "strengths": "Explicitly identifies all four material findings and gives concrete next human-review actions.",
+      "limitations": "The statement that thresholds are standard limits is less precise than citing the fixture policy directly."
+    },
+    "anthropic-direct-canonical-20260817-030257": {
+      "scores": {"business_usefulness": 5, "assumption_disclosure": 5, "uncertainty_communication": 4, "committee_readability": 5, "narrative_hallucination_rate": 4},
+      "overall_score": 4.6,
+      "strengths": "Best committee-oriented structure: status, validations, findings, evidence, and risk gaps are clearly separated.",
+      "limitations": "The 300-token ceiling truncates the observed narrative, so completeness beyond the visible portion is not established."
+    },
+    "canonical-claude-20260817-022944-34585c43": {
+      "scores": {"business_usefulness": 4, "assumption_disclosure": 3, "uncertainty_communication": 4, "committee_readability": 5, "narrative_hallucination_rate": 4},
+      "overall_score": 4.0,
+      "strengths": "Highly scannable hosted committee summary with accurate material findings and approval boundary.",
+      "limitations": "The observed output is concise to the point that assumptions and next-step detail are limited."
+    },
+    "canonical-llama-20260817-024235-eb81a0d4": {
+      "scores": {"business_usefulness": 4, "assumption_disclosure": 4, "uncertainty_communication": 4, "committee_readability": 4, "narrative_hallucination_rate": 5},
+      "overall_score": 4.2,
+      "strengths": "Accurately reports the challenge coverage, material risks, and human-review next step with little unsupported elaboration.",
+      "limitations": "More generic than the other outputs and provides less prioritization or decision context for the committee."
+    }
+  }
+}

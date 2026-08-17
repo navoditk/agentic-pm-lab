@@ -3,7 +3,7 @@
   "evaluation_id": "institutional-pm-capstone-scorecard-v1",
   "notes": [
     "Baseline four-model results remain in CANONICAL_PM_BENCHMARK_REPORT.md.",
-    "Qualitative review is pending and must be calibrated against human committee reviewers."
+    "Qualitative review is structured but not yet calibrated against independent human committee reviewers."
   ],
   "results": [
     {
@@ -86,15 +86,19 @@
       "model": "gpt-4.1-mini",
       "provider": "openai",
       "qualitative_review": {
-        "dimensions": [
-          "business_usefulness",
-          "assumption_disclosure",
-          "uncertainty_communication",
-          "committee_readability",
-          "narrative_hallucination_rate"
-        ],
-        "note": "Automated checks do not replace calibrated human review of narrative quality.",
-        "status": "pending"
+        "limitations": "The statement that thresholds are standard limits is less precise than citing the fixture policy directly.",
+        "method": "Structured comparative review of the four observed canonical outputs; not a substitute for independent PM committee calibration.",
+        "overall_score": 4.4,
+        "review_id": "institutional-pm-qualitative-review-v1",
+        "scores": {
+          "assumption_disclosure": 4,
+          "business_usefulness": 5,
+          "committee_readability": 4,
+          "narrative_hallucination_rate": 4,
+          "uncertainty_communication": 5
+        },
+        "status": "reviewed_not_calibrated",
+        "strengths": "Explicitly identifies all four material findings and gives concrete next human-review actions."
       },
       "run_id": "openai-direct-canonical-20260817-031116",
       "status": "pass"
@@ -179,15 +183,19 @@
       "model": "claude-haiku-4-5-20251001",
       "provider": "anthropic",
       "qualitative_review": {
-        "dimensions": [
-          "business_usefulness",
-          "assumption_disclosure",
-          "uncertainty_communication",
-          "committee_readability",
-          "narrative_hallucination_rate"
-        ],
-        "note": "Automated checks do not replace calibrated human review of narrative quality.",
-        "status": "pending"
+        "limitations": "The 300-token ceiling truncates the observed narrative, so completeness beyond the visible portion is not established.",
+        "method": "Structured comparative review of the four observed canonical outputs; not a substitute for independent PM committee calibration.",
+        "overall_score": 4.6,
+        "review_id": "institutional-pm-qualitative-review-v1",
+        "scores": {
+          "assumption_disclosure": 5,
+          "business_usefulness": 5,
+          "committee_readability": 5,
+          "narrative_hallucination_rate": 4,
+          "uncertainty_communication": 4
+        },
+        "status": "reviewed_not_calibrated",
+        "strengths": "Best committee-oriented structure: status, validations, findings, evidence, and risk gaps are clearly separated."
       },
       "run_id": "anthropic-direct-canonical-20260817-030257",
       "status": "pass"
@@ -272,15 +280,19 @@
       "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
       "provider": "aws",
       "qualitative_review": {
-        "dimensions": [
-          "business_usefulness",
-          "assumption_disclosure",
-          "uncertainty_communication",
-          "committee_readability",
-          "narrative_hallucination_rate"
-        ],
-        "note": "Automated checks do not replace calibrated human review of narrative quality.",
-        "status": "pending"
+        "limitations": "The observed output is concise to the point that assumptions and next-step detail are limited.",
+        "method": "Structured comparative review of the four observed canonical outputs; not a substitute for independent PM committee calibration.",
+        "overall_score": 4.0,
+        "review_id": "institutional-pm-qualitative-review-v1",
+        "scores": {
+          "assumption_disclosure": 3,
+          "business_usefulness": 4,
+          "committee_readability": 5,
+          "narrative_hallucination_rate": 4,
+          "uncertainty_communication": 4
+        },
+        "status": "reviewed_not_calibrated",
+        "strengths": "Highly scannable hosted committee summary with accurate material findings and approval boundary."
       },
       "run_id": "canonical-claude-20260817-022944-34585c43",
       "status": "pass"
@@ -365,15 +377,19 @@
       "model": "us.meta.llama3-3-70b-instruct-v1:0",
       "provider": "aws",
       "qualitative_review": {
-        "dimensions": [
-          "business_usefulness",
-          "assumption_disclosure",
-          "uncertainty_communication",
-          "committee_readability",
-          "narrative_hallucination_rate"
-        ],
-        "note": "Automated checks do not replace calibrated human review of narrative quality.",
-        "status": "pending"
+        "limitations": "More generic than the other outputs and provides less prioritization or decision context for the committee.",
+        "method": "Structured comparative review of the four observed canonical outputs; not a substitute for independent PM committee calibration.",
+        "overall_score": 4.2,
+        "review_id": "institutional-pm-qualitative-review-v1",
+        "scores": {
+          "assumption_disclosure": 4,
+          "business_usefulness": 4,
+          "committee_readability": 4,
+          "narrative_hallucination_rate": 5,
+          "uncertainty_communication": 4
+        },
+        "status": "reviewed_not_calibrated",
+        "strengths": "Accurately reports the challenge coverage, material risks, and human-review next step with little unsupported elaboration."
       },
       "run_id": "canonical-llama-20260817-024235-eb81a0d4",
       "status": "pass"
