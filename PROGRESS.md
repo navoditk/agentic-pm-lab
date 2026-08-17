@@ -112,6 +112,21 @@ the narrative log explicitly says that evidence was captured.
   preserving approval-required/no-order controls. Evidence:
   [`experiments/runs/agentcore-llama33-exact-20260816-223000/`](experiments/runs/agentcore-llama33-exact-20260816-223000/).
 
+- **Canonical benchmark rerun and failure recovery:** Replayed the same
+  institutional PM capstone input against fresh temporary AgentCore runtimes
+  for Claude Haiku and Llama 3.3 70B. Claude recorded 591 input, 300 output,
+  and 891 total tokens in 6,568 ms; Llama recorded 575 input, 300 output, and
+  875 total tokens in 6,244 ms. Both returned the complete governance-aware
+  workflow, CloudWatch evidence, budget/Cost Explorer snapshots, and
+  approval-required/no-order outcomes. The runner now retries only transient
+  initialization timeouts, emits polling heartbeats, waits for asynchronous
+  endpoint deletion, and verifies cleanup. A prior failure was diagnosed as a
+  30-second AgentCore cold-start initialization timeout; the failed attempts
+  are retained as learning evidence. Fresh records:
+  [`Claude`](experiments/runs/canonical-claude-20260817-022944-34585c43/),
+  [`Llama`](experiments/runs/canonical-llama-20260817-024235-eb81a0d4/), and
+  [`consolidated report`](docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md).
+
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
   auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. Added the

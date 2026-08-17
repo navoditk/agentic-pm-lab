@@ -1,0 +1,24 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "connection": "keep-alive",
+      "content-length": "460",
+      "content-type": "application/json",
+      "date": "Mon, 17 Aug 2026 02:42:42 GMT",
+      "x-amz-apigw-id": "COc9WGFrvHcEv0A=",
+      "x-amzn-requestid": "26a9d6f5-885e-4a63-9343-dd58953cb3ac",
+      "x-amzn-trace-id": "Root=1-6a827521-60ec6f625b0c0ea339982d68"
+    },
+    "HTTPStatusCode": 202,
+    "RequestId": "26a9d6f5-885e-4a63-9343-dd58953cb3ac",
+    "RetryAttempts": 0
+  },
+  "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/canonical_pm_llama_6d35fc24-S9nDc23ukR",
+  "agentRuntimeId": "canonical_pm_llama_6d35fc24-S9nDc23ukR",
+  "agentRuntimeVersion": "1",
+  "createdAt": "2026-08-17 02:42:41.951262+00:00",
+  "status": "CREATING",
+  "workloadIdentityDetails": {
+    "workloadIdentityArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:workload-identity-directory/default/workload-identity/canonical_pm_llama_6d35fc24-S9nDc23ukR"
+  }
+}

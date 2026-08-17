@@ -239,6 +239,43 @@ The verification must show a file like
 `pydantic_core/_pydantic_core.cpython-313-aarch64-linux-gnu.so`. Do not proceed
 if it shows a macOS library or only an x86_64 wheel.
 
+### Full canonical PM benchmark package
+
+The small `agentcore-runtime-proof` fixture is the first smoke test. The
+canonical comparison uses the full capstone workflow and must include the
+application, `src`, `config`, and `governance` trees:
+
+```bash
+export CAPSTONE_PACKAGE=/tmp/agentic-pm-canonical-package
+rm -rf "$CAPSTONE_PACKAGE" /tmp/agentic-pm-canonical-package.zip
+mkdir -p "$CAPSTONE_PACKAGE"
+cp experiments/agentcore-capstone-proof/agentcore_app.py "$CAPSTONE_PACKAGE"/
+cp experiments/agentcore-capstone-proof/requirements.txt "$CAPSTONE_PACKAGE"/
+cp -R src config governance "$CAPSTONE_PACKAGE"/
+uv pip install --python-platform aarch64-manylinux2014 --python-version 3.13 \
+  --target "$CAPSTONE_PACKAGE" --only-binary=:all: \
+  -r "$CAPSTONE_PACKAGE/requirements.txt"
+find "$CAPSTONE_PACKAGE" -name '*pydantic_core*.so' -print
+(cd "$CAPSTONE_PACKAGE" && zip -qr /tmp/agentic-pm-canonical-package.zip .)
+```
+
+Run both canonical models with the repository runner:
+
+```bash
+AWS_PROFILE=agentic-pm-lab uv run python scripts/run_agentcore_benchmark.py \
+  --package /tmp/agentic-pm-canonical-package.zip \
+  --profile agentic-pm-lab --region us-west-2 \
+  --model claude=us.anthropic.claude-haiku-4-5-20251001-v1:0 \
+  --model llama=us.meta.llama3-3-70b-instruct-v1:0
+```
+
+The runner retries only the transient `Runtime initialization time exceeded`
+cold-start error. It emits heartbeat polls during runtime and endpoint
+creation, records a result only after `hosted-response.json` exists, and waits
+for asynchronous endpoint deletion before runtime deletion. If the caller
+lacks `bedrock-agentcore:DeleteAgentRuntime`, record the exact permission error
+and verify the runtime has disappeared before marking cleanup complete.
+
 ## 6. Upload and create the runtime
 
 Create or verify the temporary bucket, upload with SSE-S3, and verify the

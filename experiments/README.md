@@ -186,6 +186,31 @@ Quality comparisons require the same evaluator suite and human review of
 evidence grounding; AWS Cost Explorer values must remain separate from direct
 model token estimates.
 
+### Fresh AWS canonical reruns
+
+For the full hosted capstone, use the durable runner
+[`scripts/run_agentcore_benchmark.py`](../scripts/run_agentcore_benchmark.py).
+Build a Linux ARM64 package using the procedure in the
+[AWS AgentCore runbook](../docs/guides/AWS_AGENTCORE_SETUP.md), then run:
+
+```bash
+AWS_PROFILE=agentic-pm-lab uv run python scripts/run_agentcore_benchmark.py \
+  --package /tmp/agentic-pm-canonical-package.zip \
+  --profile agentic-pm-lab --region us-west-2 \
+  --model claude=us.anthropic.claude-haiku-4-5-20251001-v1:0 \
+  --model llama=us.meta.llama3-3-70b-instruct-v1:0
+```
+
+The runner uses the same `input.json` for both models, records runtime and
+endpoint metadata, hosted output, token usage, latency, CloudWatch events,
+budget and Cost Explorer snapshots, and deletes the unique endpoint, runtime,
+S3 object, and log groups. AgentCore endpoint deletion is asynchronous, so the
+runner waits for endpoint disappearance before requesting runtime deletion.
+The caller permission set must include `bedrock-agentcore:DeleteAgentRuntime`;
+without it, verify the runtime has disappeared before marking cleanup complete.
+A `READY` runtime by itself is never a successful benchmark result:
+`hosted-response.json` and its usage object are required.
+
 ### Automation model roles
 
 The automation roles are declared in [`config/model-roles.yaml`](../config/model-roles.yaml):

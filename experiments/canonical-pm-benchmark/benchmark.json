@@ -117,15 +117,15 @@
       "alignment": "canonical_exact",
       "status": "observed",
       "observed_scope": "Full hosted institutional PM capstone",
-      "input_tokens": 1319,
+      "input_tokens": 591,
       "output_tokens": 300,
-      "total_tokens": 1619,
-      "latency_ms": 7513,
-      "estimated_cost_usd": 0.034946236,
+      "total_tokens": 891,
+      "latency_ms": 6568,
+      "estimated_cost_usd": 0.0,
       "cost_basis": "AWS Cost Explorer account/day estimate; not request-attributed",
       "observability": ["OpenTelemetry", "CloudWatch logs", "CloudWatch metrics", "audit JSONL", "experiment manifest"],
       "governance": "approval required; no order execution; temporary runtime torn down",
-      "source": "experiments/runs/agentcore-full-capstone-20260816-204917/"
+      "source": "experiments/runs/ (see the generated report evidence links)"
     },
     {
       "provider": "aws-bedrock",
@@ -137,18 +137,18 @@
       "input_tokens": 575,
       "output_tokens": 300,
       "total_tokens": 875,
-      "latency_ms": 5915,
-      "estimated_cost_usd": 0.034946236,
+      "latency_ms": 6244,
+      "estimated_cost_usd": 0.0,
       "cost_basis": "AWS Cost Explorer same-day account estimate shared with comparison; not model-attributed",
       "observability": ["OpenTelemetry", "CloudWatch logs", "CloudWatch metrics", "audit JSONL", "experiment manifest"],
       "governance": "approval required; no order execution; temporary runtime torn down",
-      "source": "experiments/runs/agentcore-llama33-exact-20260816-223000/"
+      "source": "experiments/runs/ (see the generated report evidence links)"
     }
   ],
   "known_gaps": [
     "OpenAI and Ollama need exact canonical-question reruns for a strict five-model comparison.",
     "Direct Anthropic has not yet been connected to the full LangSmith dataset evaluator.",
-    "AWS Cost Explorer values are account/day estimates rather than request-attributed model prices.",
+    "AWS Cost Explorer returned 0.0 USD for the run date in the fresh benchmark records; this remains an account/day estimate rather than a request-attributed model price and may lag billing.",
     "The controlled-synthesis and full-agentic modes still need separate provider runs under this benchmark ID.",
     "Private model chain-of-thought is intentionally not captured; observable tool calls and structured artifacts are the traceability boundary."
   ]

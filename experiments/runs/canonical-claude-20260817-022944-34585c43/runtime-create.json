@@ -1,0 +1,24 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "connection": "keep-alive",
+      "content-length": "463",
+      "content-type": "application/json",
+      "date": "Mon, 17 Aug 2026 02:29:51 GMT",
+      "x-amz-apigw-id": "CObE7GO6vHcEjDg=",
+      "x-amzn-requestid": "82782a13-fbe5-49c7-b461-1289729b76eb",
+      "x-amzn-trace-id": "Root=1-6a82721f-3a9b5f573580ced1343a175a"
+    },
+    "HTTPStatusCode": 202,
+    "RequestId": "82782a13-fbe5-49c7-b461-1289729b76eb",
+    "RetryAttempts": 0
+  },
+  "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/canonical_pm_claude_28166b9a-hoWQ9GAchN",
+  "agentRuntimeId": "canonical_pm_claude_28166b9a-hoWQ9GAchN",
+  "agentRuntimeVersion": "1",
+  "createdAt": "2026-08-17 02:29:51.303954+00:00",
+  "status": "CREATING",
+  "workloadIdentityDetails": {
+    "workloadIdentityArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:workload-identity-directory/default/workload-identity/canonical_pm_claude_28166b9a-hoWQ9GAchN"
+  }
+}

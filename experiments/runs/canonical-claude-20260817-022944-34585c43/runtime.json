@@ -1,0 +1,41 @@
+{
+  "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/canonical_pm_claude_28166b9a-hoWQ9GAchN",
+  "agentRuntimeArtifact": {
+    "codeConfiguration": {
+      "code": {
+        "s3": {
+          "bucket": "bedrock-agentcore-code-463802498849-us-west-2",
+          "prefix": "canonical-claude-20260817-022944-34585c43/runtime.zip"
+        }
+      },
+      "entryPoint": [
+        "agentcore_app.py"
+      ],
+      "runtime": "PYTHON_3_13"
+    }
+  },
+  "agentRuntimeId": "canonical_pm_claude_28166b9a-hoWQ9GAchN",
+  "agentRuntimeName": "canonical_pm_claude_28166b9a",
+  "agentRuntimeVersion": "1",
+  "createdAt": "2026-08-17 02:29:51.303954+00:00",
+  "description": "Canonical PM benchmark claude",
+  "environmentVariables": {
+    "MODEL_ID": "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+  },
+  "lastUpdatedAt": "2026-08-17 02:30:03.654077+00:00",
+  "lifecycleConfiguration": {
+    "idleRuntimeSessionTimeout": 900,
+    "maxLifetime": 3600
+  },
+  "metadataConfiguration": {
+    "requireMMDSV2": true
+  },
+  "networkConfiguration": {
+    "networkMode": "PUBLIC"
+  },
+  "protocolConfiguration": {
+    "serverProtocol": "HTTP"
+  },
+  "roleArn": "arn:aws:iam::463802498849:role/AgenticPMLabRuntimeExecutionRole",
+  "status": "READY"
+}

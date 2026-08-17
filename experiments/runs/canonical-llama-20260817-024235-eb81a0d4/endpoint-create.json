@@ -1,0 +1,23 @@
+{
+  "ResponseMetadata": {
+    "HTTPHeaders": {
+      "connection": "keep-alive",
+      "content-length": "434",
+      "content-type": "application/json",
+      "date": "Mon, 17 Aug 2026 02:43:03 GMT",
+      "x-amz-apigw-id": "COdAsE3bvHcEYXw=",
+      "x-amzn-requestid": "caf064a1-2d45-4ec8-bc71-a054b17bab76",
+      "x-amzn-trace-id": "Root=1-6a827537-7d60285c419693a038a6cada"
+    },
+    "HTTPStatusCode": 202,
+    "RequestId": "caf064a1-2d45-4ec8-bc71-a054b17bab76",
+    "RetryAttempts": 0
+  },
+  "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/canonical_pm_llama_6d35fc24-S9nDc23ukR",
+  "agentRuntimeEndpointArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/canonical_pm_llama_6d35fc24-S9nDc23ukR/runtime-endpoint/default",
+  "agentRuntimeId": "canonical_pm_llama_6d35fc24-S9nDc23ukR",
+  "createdAt": "2026-08-17 02:43:03.219870+00:00",
+  "endpointName": "default",
+  "status": "CREATING",
+  "targetVersion": "1"
+}

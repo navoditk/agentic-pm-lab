@@ -1,0 +1,41 @@
+{
+  "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-west-2:463802498849:runtime/canonical_pm_llama_6d35fc24-S9nDc23ukR",
+  "agentRuntimeArtifact": {
+    "codeConfiguration": {
+      "code": {
+        "s3": {
+          "bucket": "bedrock-agentcore-code-463802498849-us-west-2",
+          "prefix": "canonical-llama-20260817-024235-eb81a0d4/runtime.zip"
+        }
+      },
+      "entryPoint": [
+        "agentcore_app.py"
+      ],
+      "runtime": "PYTHON_3_13"
+    }
+  },
+  "agentRuntimeId": "canonical_pm_llama_6d35fc24-S9nDc23ukR",
+  "agentRuntimeName": "canonical_pm_llama_6d35fc24",
+  "agentRuntimeVersion": "1",
+  "createdAt": "2026-08-17 02:42:41.951262+00:00",
+  "description": "Canonical PM benchmark llama",
+  "environmentVariables": {
+    "MODEL_ID": "us.meta.llama3-3-70b-instruct-v1:0"
+  },
+  "lastUpdatedAt": "2026-08-17 02:42:54.633579+00:00",
+  "lifecycleConfiguration": {
+    "idleRuntimeSessionTimeout": 900,
+    "maxLifetime": 3600
+  },
+  "metadataConfiguration": {
+    "requireMMDSV2": true
+  },
+  "networkConfiguration": {
+    "networkMode": "PUBLIC"
+  },
+  "protocolConfiguration": {
+    "serverProtocol": "HTTP"
+  },
+  "roleArn": "arn:aws:iam::463802498849:role/AgenticPMLabRuntimeExecutionRole",
+  "status": "READY"
+}

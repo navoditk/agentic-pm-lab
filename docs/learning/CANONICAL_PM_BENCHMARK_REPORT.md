@@ -64,8 +64,8 @@ Two modes are required:
 | openai | `gpt-4.1-mini` | direct API | related_historical_run | 159416/8530/167946 | 363.440 s | $0.077414 | OpenTelemetry, LangSmith, golden dataset, regression evaluators | policy and guardrail dimensions were not scored in the Day 6 baseline |
 | anthropic | `claude-haiku-4-5-20251001` | direct Messages API | canonical_exact | 613/300/913 | 3.706 s | $0.002113 | OpenTelemetry span metrics, audit JSONL, experiment manifest | approval required; no order execution |
 | ollama | `qwen3:4b` | local Ollama | related_historical_run | —/—/— | 18.825 s | $0.000000 | local transcript, experiment notes | not scored as part of the canonical capstone |
-| aws-bedrock | `us.anthropic.claude-haiku-4-5-20251001-v1:0` | Bedrock AgentCore Runtime | canonical_exact | 1319/300/1619 | 7.513 s | $0.034946 | OpenTelemetry, CloudWatch logs, CloudWatch metrics, audit JSONL, experiment manifest | approval required; no order execution; temporary runtime torn down |
-| aws-bedrock | `us.meta.llama3-3-70b-instruct-v1:0` | Bedrock AgentCore Runtime | canonical_exact | 575/300/875 | 5.915 s | $0.034946 | OpenTelemetry, CloudWatch logs, CloudWatch metrics, audit JSONL, experiment manifest | approval required; no order execution; temporary runtime torn down |
+| aws-bedrock | `us.anthropic.claude-haiku-4-5-20251001-v1:0` | Bedrock AgentCore Runtime | canonical_exact | 591/300/891 | 6.568 s | $0.000000 | OpenTelemetry, CloudWatch logs, CloudWatch metrics, audit JSONL, experiment manifest | approval required; no order execution; temporary runtime torn down |
+| aws-bedrock | `us.meta.llama3-3-70b-instruct-v1:0` | Bedrock AgentCore Runtime | canonical_exact | 575/300/875 | 6.244 s | $0.000000 | OpenTelemetry, CloudWatch logs, CloudWatch metrics, audit JSONL, experiment manifest | approval required; no order execution; temporary runtime torn down |
 
 ### Cost interpretation
 
@@ -78,8 +78,8 @@ The following providers used the canonical capstone input and can be compared di
 | Provider/model | Tokens | Latency | Cost basis | Approval | Order execution |
 |---|---:|---:|---|---|---|
 | `claude-haiku-4-5-20251001` | 613/300/913 | 3.706 s | provider token estimate; $0.002113 | yes | no |
-| `us.anthropic.claude-haiku-4-5-20251001-v1:0` | 1319/300/1619 | 7.513 s | AWS Cost Explorer account/day estimate; not request-attributed; $0.034946 | yes | no |
-| `us.meta.llama3-3-70b-instruct-v1:0` | 575/300/875 | 5.915 s | AWS Cost Explorer same-day account estimate shared with comparison; not model-attributed; $0.034946 | yes | no |
+| `us.anthropic.claude-haiku-4-5-20251001-v1:0` | 591/300/891 | 6.568 s | AWS Cost Explorer account/day estimate; not request-attributed; $0.000000 | yes | no |
+| `us.meta.llama3-3-70b-instruct-v1:0` | 575/300/875 | 6.244 s | AWS Cost Explorer same-day account estimate shared with comparison; not model-attributed; $0.000000 | yes | no |
 
 This table is not a quality leaderboard. Token count and latency depend on prompt shape, runtime overhead, output ceilings, and provider instrumentation. Quality requires the common evaluator suite and human review of evidence grounding.
 
@@ -134,15 +134,15 @@ The Day 6 OpenAI baseline provides the current deepest evaluation implementation
 
 - [OpenAI OTel/LangSmith baseline](../learning/observability-evaluation.md#baseline-runs)
 - [Direct Anthropic run](../../experiments/runs/anthropic-direct-capstone-20260816-230000/)
-- [AWS Claude full capstone](../../experiments/runs/agentcore-full-capstone-20260816-204917/)
-- [AWS Llama exact comparison](../../experiments/runs/agentcore-llama33-exact-20260816-223000/)
+- [AWS Claude exact canonical rerun](../../experiments/runs/canonical-claude-20260817-022944-34585c43/)
+- [AWS Llama exact canonical rerun](../../experiments/runs/canonical-llama-20260817-024235-eb81a0d4/)
 - [Historical model comparison](../learning/comparison-notes.md)
 
 ## 8. Current gaps and next benchmark actions
 
 - OpenAI and Ollama need exact canonical-question reruns for a strict five-model comparison.
 - Direct Anthropic has not yet been connected to the full LangSmith dataset evaluator.
-- AWS Cost Explorer values are account/day estimates rather than request-attributed model prices.
+- AWS Cost Explorer returned 0.0 USD for the run date in the fresh benchmark records; this remains an account/day estimate rather than a request-attributed model price and may lag billing.
 - The controlled-synthesis and full-agentic modes still need separate provider runs under this benchmark ID.
 - Private model chain-of-thought is intentionally not captured; observable tool calls and structured artifacts are the traceability boundary.
 
