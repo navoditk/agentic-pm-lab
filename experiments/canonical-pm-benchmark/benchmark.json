@@ -66,17 +66,17 @@
       "provider": "openai",
       "model": "gpt-4.1-mini",
       "surface": "direct API",
-      "alignment": "related_historical_run",
+      "alignment": "canonical_exact",
       "status": "observed",
-      "observed_scope": "Day 6 full evaluation dataset, not the exact canonical capstone question",
-      "input_tokens": 159416,
-      "output_tokens": 8530,
-      "total_tokens": 167946,
-      "latency_ms": 363440,
-      "estimated_cost_usd": 0.0774144,
+      "observed_scope": "Exact-input institutional PM capstone",
+      "input_tokens": 576,
+      "output_tokens": 284,
+      "total_tokens": 860,
+      "latency_ms": 5494,
+      "estimated_cost_usd": 0.0006848,
       "observability": ["OpenTelemetry", "LangSmith", "golden dataset", "regression evaluators"],
-      "governance": "policy and guardrail dimensions were not scored in the Day 6 baseline",
-      "source": "docs/learning/observability-evaluation.md#baseline-runs"
+      "governance": "approval required; no order execution",
+      "source": "experiments/runs/openai-direct-canonical-20260817-031116/"
     },
     {
       "provider": "anthropic",
@@ -146,7 +146,7 @@
     }
   ],
   "known_gaps": [
-    "OpenAI and Ollama need exact canonical-question reruns for a strict five-model comparison.",
+    "Ollama needs an exact canonical-question rerun for a strict local-versus-hosted comparison.",
     "Direct Anthropic has not yet been connected to the full LangSmith dataset evaluator.",
     "AWS Cost Explorer returned 0.0 USD for the run date in the fresh benchmark records; this remains an account/day estimate rather than a request-attributed model price and may lag billing.",
     "The controlled-synthesis and full-agentic modes still need separate provider runs under this benchmark ID.",

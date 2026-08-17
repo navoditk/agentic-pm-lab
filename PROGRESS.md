@@ -135,6 +135,14 @@ the narrative log explicitly says that evidence was captured.
   artifacts. Evidence:
   [`anthropic-direct-canonical-20260817-030257`](experiments/runs/anthropic-direct-canonical-20260817-030257/).
 
+- **Direct OpenAI canonical rerun:** Loaded the local credential only into the
+  process environment and replayed the exact benchmark question through the
+  Responses API with `gpt-4.1-mini`. The run recorded 576 input, 284 output,
+  and 860 total tokens in 5,494 ms, with a `$0.0006848` standard token estimate
+  and no cloud resources. The credential was not written to the repository or
+  run artifacts. Evidence:
+  [`openai-direct-canonical-20260817-031116`](experiments/runs/openai-direct-canonical-20260817-031116/).
+
 - **Public investment-data expansion:** Added tested, real-capable provider
   connectors/normalizers for SEC Company Facts/submissions, ALFRED, Treasury
   auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. Added the

@@ -1,0 +1,67 @@
+{
+  "cleanup": {
+    "notes": "No cloud resources created; credential remained process-local.",
+    "required": false,
+    "status": "complete"
+  },
+  "costs": {
+    "accounting_note": "Token cost and infrastructure cost are recorded separately to avoid hiding double counting.",
+    "aws_estimated_usd": null,
+    "aws_observed_usd": null,
+    "other_estimated_usd": null,
+    "token_estimate_usd": 0.0006848,
+    "total_estimated_usd": 0.0006848
+  },
+  "created_at": "2026-08-17T03:11:16.722570Z",
+  "evidence": [
+    {
+      "captured_at": "2026-08-17T03:11:23.098584Z",
+      "note": "",
+      "path": "response.json,audit.jsonl"
+    }
+  ],
+  "execution": {
+    "mode": "direct_responses_api",
+    "model": "gpt-4.1-mini",
+    "provider": "openai",
+    "region": "local",
+    "request_id": "openai-direct-canonical-20260817-031116",
+    "runtime_session_id": "resp_0f8d41d9275e4c10016a827bd68f80819a8555bf203c079abe"
+  },
+  "experiment": {
+    "description": "",
+    "name": "Canonical PM benchmark direct OpenAI",
+    "status": "success"
+  },
+  "findings": {
+    "cons": [],
+    "decision": "Observed exact-input direct OpenAI run; human approval remains required and no order was executed.",
+    "limitations": [],
+    "next_experiment": "Run the common evaluator suite against all canonical outputs.",
+    "pros": []
+  },
+  "input": {
+    "path": "experiments/agentcore-runtime-proof/input.json",
+    "sha256": ""
+  },
+  "output": {
+    "path": "response.json",
+    "summary": ""
+  },
+  "pricing": {
+    "as_of": "2026-08-17",
+    "currency": "USD",
+    "input_per_1m_tokens": 0.4,
+    "output_per_1m_tokens": 1.6,
+    "source": "OpenAI direct API standard token estimate"
+  },
+  "run_id": "openai-direct-canonical-20260817-031116",
+  "schema_version": 1,
+  "updated_at": "2026-08-17T03:11:23.163053Z",
+  "usage": {
+    "input_tokens": 576,
+    "latency_ms": 5494,
+    "output_tokens": 284,
+    "total_tokens": 860
+  }
+}
