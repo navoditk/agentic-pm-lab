@@ -64,6 +64,8 @@ def main() -> None:
         f"{minimum_repetitions}."
     )
     observed_scenarios = {run["scenario_id"] for run in scenario_results}
+    local_scenarios = sum(run.get("provider") == "local" for run in scenario_results)
+    hosted_scenarios = sum(run.get("provider") != "local" for run in scenario_results)
     scenario_coverage = [
         {
             **scenario,
@@ -112,18 +114,18 @@ def main() -> None:
             "",
             "## Adversarial harness results",
             "",
-            "| Scenario | Status | Score | Evidence |",
-            "|---|---|---:|---|",
+            "| Provider | Scenario | Status | Score | Evidence |",
+            "|---|---|---:|---:|---|",
         ]
         lines += [
-            f"| `{run['scenario_id']}` | {run['status']} | {run['automated_score']:.0f} | [`result.json`](../../{run['result_path']}) |"
+            f"| `{run['provider']}` | `{run['scenario_id']}` | {run['status']} | {run['automated_score']:.0f} | [`evidence`](../../{run['result_path']}) |"
             for run in scenario_results
         ]
     lines += [
         "",
         "## Promotion interpretation",
         "",
-        f"{repetition_message} The deterministic adversarial harness has executed {len(scenario_results)} scenario(s); hosted-provider replays remain a separate follow-up.",
+        f"{repetition_message} The deterministic adversarial harness has executed {local_scenarios} scenario(s), and hosted-provider replays have produced {hosted_scenarios} model-facing observation(s). Boundary scenarios remain pre-model checks by design.",
         "",
         "AWS cost/run is a token estimate using standard on-demand Bedrock rates; the temporary AgentCore runtime, logging, and storage components are recorded separately and are not included when their asynchronous cost lookup returns zero or unavailable.",
         "",

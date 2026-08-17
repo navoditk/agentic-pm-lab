@@ -1,0 +1,69 @@
+{
+  "cleanup": {
+    "notes": "No cloud resources created; provider credentials remained process-local.",
+    "required": false,
+    "status": "complete"
+  },
+  "costs": {
+    "accounting_note": "Token cost and infrastructure cost are recorded separately to avoid hiding double counting.",
+    "aws_estimated_usd": null,
+    "aws_observed_usd": null,
+    "other_estimated_usd": null,
+    "token_estimate_usd": 0.002104,
+    "total_estimated_usd": 0.002104
+  },
+  "created_at": "2026-08-17T04:53:20.032716Z",
+  "evidence": [
+    {
+      "captured_at": "2026-08-17T04:53:20.052396Z",
+      "note": "Hosted model-facing adversarial replay; no order execution enabled.",
+      "path": "response.json,audit.jsonl"
+    }
+  ],
+  "execution": {
+    "mode": "direct_adversarial",
+    "model": "claude-haiku-4-5-20251001",
+    "provider": "anthropic",
+    "region": "local",
+    "request_id": "hosted-adversarial-anthropic-missing-liquidity-53b2b50b",
+    "runtime_session_id": "msg_011Ce7ir4eb8XKSBaBGqtUpN"
+  },
+  "experiment": {
+    "description": "",
+    "name": "Hosted adversarial anthropic missing-liquidity",
+    "status": "success"
+  },
+  "findings": {
+    "cons": [],
+    "decision": "Hosted scenario contract passed.",
+    "limitations": [
+      "Hosted model-facing adversarial replay; no order execution enabled."
+    ],
+    "next_experiment": "Repeat with a different model revision or prompt policy.",
+    "pros": []
+  },
+  "input": {
+    "path": "scenario-question.txt",
+    "sha256": ""
+  },
+  "output": {
+    "path": "response.json",
+    "summary": ""
+  },
+  "pricing": {
+    "as_of": "2026-08-17",
+    "currency": "USD",
+    "input_per_1m_tokens": 1.0,
+    "output_per_1m_tokens": 5.0,
+    "source": "anthropic direct API standard token estimate"
+  },
+  "run_id": "hosted-adversarial-anthropic-missing-liquidity-20260817-045320-3e28a5",
+  "schema_version": 1,
+  "updated_at": "2026-08-17T04:53:20.071533Z",
+  "usage": {
+    "input_tokens": 604,
+    "latency_ms": 3410,
+    "output_tokens": 300,
+    "total_tokens": 904
+  }
+}

@@ -259,6 +259,21 @@ The adversarial harness proves the local control and failure contracts. It does
 not claim that every hosted model independently resisted every scenario; those
 provider-specific replays are the next expansion of the matrix.
 
+Replay the model-facing scenarios through direct hosted providers:
+
+```bash
+uv run python scripts/run_hosted_adversarial_matrix.py \
+  --provider openai --provider anthropic \
+  --scenario missing-liquidity \
+  --scenario stale-evidence \
+  --scenario conflicting-sources
+```
+
+This records actual hosted token usage, latency, cost, response, and audit
+artifacts. Authorization, prompt-injection, and malformed-tool scenarios stop
+at the local boundary by design; a hosted call for those cases would violate
+the expected control contract.
+
 Every repetition remains an immutable directory under `experiments/runs/`.
 Direct-provider runs include response and audit artifacts; AWS runs include
 hosted response, runtime/endpoint, events/log streams, usage, and cleanup

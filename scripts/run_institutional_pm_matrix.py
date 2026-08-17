@@ -42,6 +42,7 @@ def main() -> None:
     )
     parser.add_argument("--repeated", type=Path)
     parser.add_argument("--adversarial", type=Path)
+    parser.add_argument("--hosted-adversarial", type=Path)
     parser.add_argument(
         "--output",
         type=Path,
@@ -79,12 +80,14 @@ def main() -> None:
         ]
     if args.adversarial:
         runs.extend(json.loads(args.adversarial.read_text())["runs"])
+    if args.hosted_adversarial:
+        runs.extend(json.loads(args.hosted_adversarial.read_text())["runs"])
     matrix = {
         "matrix_id": "institutional-pm-capstone-matrix-v2",
         "scorecard_id": scorecard["evaluation_id"],
         "execution_note": (
             "Repeated baseline observations are populated from immutable provider "
-            "run records. Deterministic adversarial harness results are included "
+            "run records. Deterministic and hosted adversarial results are included "
             "when supplied. Planned scenario rows require provider adapter "
             "execution and are never treated as observed."
             if args.repeated

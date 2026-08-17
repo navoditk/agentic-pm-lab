@@ -488,3 +488,10 @@ control that is actually enforced by the tool or policy boundary. Hosted
 provider replays should be added next, especially for prompt injection and
 malformed tool recovery, because local deterministic proof does not measure
 provider-specific behavior or latency.
+
+The direct hosted replay added six provider observations across OpenAI and
+Anthropic for missing liquidity, stale evidence, and conflicting sources. All
+six passed the simple response contract and recorded real token/cost/latency
+data. The other three scenarios should remain pre-model checks: measuring a
+model response after authorization or guardrail denial would be evidence that
+the boundary was bypassed, not a successful test.

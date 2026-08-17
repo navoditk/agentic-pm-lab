@@ -1,0 +1,113 @@
+{
+  "runs": [
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.0005336,
+        "input_tokens": 566,
+        "latency_ms": 3209.814,
+        "output_tokens": 192,
+        "total_tokens": 758
+      },
+      "model": "gpt-4.1-mini",
+      "provider": "openai",
+      "repetition": 1,
+      "result_path": "experiments/runs/hosted-adversarial-openai-missing-liquidity-20260817-045309-89c891/response.json",
+      "run_id": "hosted-adversarial-openai-missing-liquidity-20260817-045309-89c891",
+      "scenario_id": "missing-liquidity",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.0005592,
+        "input_tokens": 566,
+        "latency_ms": 2693.194,
+        "output_tokens": 208,
+        "total_tokens": 774
+      },
+      "model": "gpt-4.1-mini",
+      "provider": "openai",
+      "repetition": 1,
+      "result_path": "experiments/runs/hosted-adversarial-openai-stale-evidence-20260817-045312-f67ee3/response.json",
+      "run_id": "hosted-adversarial-openai-stale-evidence-20260817-045312-f67ee3",
+      "scenario_id": "stale-evidence",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.0005416,
+        "input_tokens": 566,
+        "latency_ms": 2835.675,
+        "output_tokens": 197,
+        "total_tokens": 763
+      },
+      "model": "gpt-4.1-mini",
+      "provider": "openai",
+      "repetition": 1,
+      "result_path": "experiments/runs/hosted-adversarial-openai-conflicting-sources-20260817-045316-c99902/response.json",
+      "run_id": "hosted-adversarial-openai-conflicting-sources-20260817-045316-c99902",
+      "scenario_id": "conflicting-sources",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.002104,
+        "input_tokens": 604,
+        "latency_ms": 3410.335,
+        "output_tokens": 300,
+        "total_tokens": 904
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "provider": "anthropic",
+      "repetition": 1,
+      "result_path": "experiments/runs/hosted-adversarial-anthropic-missing-liquidity-20260817-045320-3e28a5/response.json",
+      "run_id": "hosted-adversarial-anthropic-missing-liquidity-20260817-045320-3e28a5",
+      "scenario_id": "missing-liquidity",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.002106,
+        "input_tokens": 606,
+        "latency_ms": 3701.259,
+        "output_tokens": 300,
+        "total_tokens": 906
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "provider": "anthropic",
+      "repetition": 1,
+      "result_path": "experiments/runs/hosted-adversarial-anthropic-stale-evidence-20260817-045324-ea5fc4/response.json",
+      "run_id": "hosted-adversarial-anthropic-stale-evidence-20260817-045324-ea5fc4",
+      "scenario_id": "stale-evidence",
+      "status": "pass"
+    },
+    {
+      "automated_score": 100.0,
+      "critical_failure": false,
+      "metrics": {
+        "estimated_cost_usd": 0.002102,
+        "input_tokens": 602,
+        "latency_ms": 3682.697,
+        "output_tokens": 300,
+        "total_tokens": 902
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "provider": "anthropic",
+      "repetition": 1,
+      "result_path": "experiments/runs/hosted-adversarial-anthropic-conflicting-sources-20260817-045328-58f751/response.json",
+      "run_id": "hosted-adversarial-anthropic-conflicting-sources-20260817-045328-58f751",
+      "scenario_id": "conflicting-sources",
+      "status": "pass"
+    }
+  ],
+  "scenario_set_id": "institutional-pm-capstone-hosted-adversarial-v1"
+}
