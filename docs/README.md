@@ -19,6 +19,9 @@ flat list.
    completed foundation in the recommended learning order.
 7. [`guides/CANVAS_EXERCISES.md`](guides/CANVAS_EXERCISES.md) — run the final
    Canvas-to-capstone workflow from the user-facing surface.
+8. [`learning/CANONICAL_PM_BENCHMARK_REPORT.md`](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
+   — review the consolidated cross-provider business workflow, run results,
+   observability, costs, and benchmark gaps.
 
 ## Documentation by purpose
 
@@ -43,6 +46,7 @@ flat list.
 - [References](reference/REFERENCES.md) · [Evidence ledger](evidence/EVIDENCE.md)
 - [Architecture diagrams](architecture/DIAGRAMS.md) · [ADRs](adr/)
 - [Experiments](../experiments/README.md) · [Data catalog](../data/README.md)
+- [Canonical PM benchmark report](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
 
 `AGENTS.md` remains the canonical router for AI coding tools. Skills under
 `../skills/` contain task-specific reusable instructions and contracts.

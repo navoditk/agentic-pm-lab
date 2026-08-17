@@ -273,6 +273,13 @@ The forward roadmap also studies and adapts these public examples:
 
 Additional background on agent harnesses, skills, context engineering, tools, and evals is curated in [docs/reference/REFERENCES.md](docs/reference/REFERENCES.md), including relevant OpenAI and Anthropic engineering articles, talks, and videos.
 
+The consolidated [canonical institutional PM benchmark report](docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md)
+shows the common business workflow, exact versus historical provider runs,
+OpenTelemetry/LangSmith and AWS observability coverage, token usage, cost
+bases, governance outcomes, and remaining benchmark gaps. Regenerate it with
+`uv run python scripts/generate_benchmark_report.py` after adding a new
+provider-neutral experiment record.
+
 The next learning track is the [Phase 2 institutional PM AI production-readiness plan](docs/learning/PHASE_2_PLAN.md). It extends the completed 21-day foundation with investment mandates, data governance, evidence graphs, fixed-income risk, RAG evaluation, model risk, identity and policy exceptions, red-team testing, CI/CD promotion, SLOs, resilience, and a reproducible institutional PM capstone.
 
 ## Repository guide

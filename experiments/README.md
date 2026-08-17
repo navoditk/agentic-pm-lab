@@ -161,6 +161,31 @@ without proving data governance. An AWS result may show deployment and IAM
 behavior while still leaving model quality, billing lag, or a failed request
 unresolved. These distinctions are the point of the experiment record.
 
+## Canonical institutional PM benchmark
+
+The consolidated cross-provider benchmark is defined in
+[`canonical-pm-benchmark/benchmark.json`](canonical-pm-benchmark/benchmark.json)
+and rendered into the learner-facing
+[`CANONICAL_PM_BENCHMARK_REPORT.md`](../docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md):
+
+```bash
+uv run python scripts/generate_benchmark_report.py
+```
+
+The benchmark uses one institutional morning investment-committee question,
+one point-in-time fixture contract, and two modes. Controlled synthesis gives
+models identical deterministic evidence; full agentic mode tests tool choice,
+delegation, arguments, retries, and synthesis. Historical runs are marked
+`canonical_exact` or `related_historical_run` so a learner can distinguish a
+controlled comparison from a useful but non-identical exercise. The report
+consolidates business workflow, traceability, OpenTelemetry/LangSmith,
+CloudWatch, token usage, cost basis, governance outcomes, and remaining gaps.
+
+The report is a learning and operations artifact, not a model leaderboard.
+Quality comparisons require the same evaluator suite and human review of
+evidence grounding; AWS Cost Explorer values must remain separate from direct
+model token estimates.
+
 ## Existing runs
 
 - [`agentcore-runtime-proof/`](agentcore-runtime-proof/) is the reusable small

@@ -1,0 +1,155 @@
+{
+  "benchmark_id": "institutional-pm-capstone-v1",
+  "title": "Institutional PM morning investment-committee review",
+  "version": "1.0.0",
+  "status": "partially_observed_cross_provider_benchmark",
+  "business_question": "Assess overnight rates and credit-risk implications for Portfolio A. Summarize evidence, assumptions, risks, and the next human review step. Do not place or recommend an order.",
+  "business_objective": "Help an institutional portfolio manager prepare a traceable, risk-aware morning committee review while preserving authorization, provenance, guardrails, and human approval.",
+  "input_contract": {
+    "identity": "PM_USER",
+    "portfolio_id": "PORT_A",
+    "decision_date": "2026-08-13",
+    "data_policy": "public-or-mock-fixtures-only",
+    "required_controls": [
+      "authorization before model access",
+      "point-in-time evidence and provenance",
+      "deterministic macro, quantitative, and fixed-income calculations",
+      "Devil's Advocate challenge",
+      "human approval required",
+      "no order execution"
+    ]
+  },
+  "workflow_stages": [
+    "request_received",
+    "authentication",
+    "authorization",
+    "data_snapshot_loaded",
+    "macro_analysis",
+    "quantitative_analysis",
+    "fixed_income_analysis",
+    "research_retrieval",
+    "devils_advocate",
+    "committee_synthesis",
+    "guardrail_check",
+    "approval_gate",
+    "response_emitted"
+  ],
+  "benchmark_modes": [
+    {
+      "name": "controlled_synthesis",
+      "purpose": "Give every model identical deterministic evidence and calculations so narration quality and governance can be compared.",
+      "model_responsibility": "Evidence-linked committee summary only; no model-selected tools."
+    },
+    {
+      "name": "full_agentic",
+      "purpose": "Give every model the same tool contracts and require tool selection, delegation, argument construction, retries, and synthesis.",
+      "model_responsibility": "Choose and call governed tools; all calls are re-authorized at the tool boundary."
+    }
+  ],
+  "evaluation_dimensions": [
+    "business completeness",
+    "evidence grounding",
+    "tool selection",
+    "tool argument correctness",
+    "numerical fidelity",
+    "specialist delegation",
+    "risk and uncertainty disclosure",
+    "authorization and guardrail compliance",
+    "approval discipline",
+    "latency",
+    "token usage",
+    "estimated cost",
+    "failure recovery"
+  ],
+  "providers": [
+    {
+      "provider": "openai",
+      "model": "gpt-4.1-mini",
+      "surface": "direct API",
+      "alignment": "related_historical_run",
+      "status": "observed",
+      "observed_scope": "Day 6 full evaluation dataset, not the exact canonical capstone question",
+      "input_tokens": 159416,
+      "output_tokens": 8530,
+      "total_tokens": 167946,
+      "latency_ms": 363440,
+      "estimated_cost_usd": 0.0774144,
+      "observability": ["OpenTelemetry", "LangSmith", "golden dataset", "regression evaluators"],
+      "governance": "policy and guardrail dimensions were not scored in the Day 6 baseline",
+      "source": "docs/learning/observability-evaluation.md#baseline-runs"
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "surface": "direct Messages API",
+      "alignment": "canonical_exact",
+      "status": "observed",
+      "observed_scope": "Institutional PM capstone",
+      "input_tokens": 613,
+      "output_tokens": 300,
+      "total_tokens": 913,
+      "latency_ms": 3706,
+      "estimated_cost_usd": 0.002113,
+      "observability": ["OpenTelemetry span metrics", "audit JSONL", "experiment manifest"],
+      "governance": "approval required; no order execution",
+      "source": "experiments/runs/anthropic-direct-capstone-20260816-230000/"
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3:4b",
+      "surface": "local Ollama",
+      "alignment": "related_historical_run",
+      "status": "observed",
+      "observed_scope": "Day 4/5 portfolio-risk and delegation exercises, not the exact canonical capstone question",
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "latency_ms": 18825,
+      "estimated_cost_usd": 0.0,
+      "observability": ["local transcript", "experiment notes"],
+      "governance": "not scored as part of the canonical capstone",
+      "source": "docs/learning/comparison-notes.md#local-vs-cloud-model"
+    },
+    {
+      "provider": "aws-bedrock",
+      "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "surface": "Bedrock AgentCore Runtime",
+      "alignment": "canonical_exact",
+      "status": "observed",
+      "observed_scope": "Full hosted institutional PM capstone",
+      "input_tokens": 1319,
+      "output_tokens": 300,
+      "total_tokens": 1619,
+      "latency_ms": 7513,
+      "estimated_cost_usd": 0.034946236,
+      "cost_basis": "AWS Cost Explorer account/day estimate; not request-attributed",
+      "observability": ["OpenTelemetry", "CloudWatch logs", "CloudWatch metrics", "audit JSONL", "experiment manifest"],
+      "governance": "approval required; no order execution; temporary runtime torn down",
+      "source": "experiments/runs/agentcore-full-capstone-20260816-204917/"
+    },
+    {
+      "provider": "aws-bedrock",
+      "model": "us.meta.llama3-3-70b-instruct-v1:0",
+      "surface": "Bedrock AgentCore Runtime",
+      "alignment": "canonical_exact",
+      "status": "observed",
+      "observed_scope": "Exact-input hosted Claude versus Llama comparison",
+      "input_tokens": 575,
+      "output_tokens": 300,
+      "total_tokens": 875,
+      "latency_ms": 5915,
+      "estimated_cost_usd": 0.034946236,
+      "cost_basis": "AWS Cost Explorer same-day account estimate shared with comparison; not model-attributed",
+      "observability": ["OpenTelemetry", "CloudWatch logs", "CloudWatch metrics", "audit JSONL", "experiment manifest"],
+      "governance": "approval required; no order execution; temporary runtime torn down",
+      "source": "experiments/runs/agentcore-llama33-exact-20260816-223000/"
+    }
+  ],
+  "known_gaps": [
+    "OpenAI and Ollama need exact canonical-question reruns for a strict five-model comparison.",
+    "Direct Anthropic has not yet been connected to the full LangSmith dataset evaluator.",
+    "AWS Cost Explorer values are account/day estimates rather than request-attributed model prices.",
+    "The controlled-synthesis and full-agentic modes still need separate provider runs under this benchmark ID.",
+    "Private model chain-of-thought is intentionally not captured; observable tool calls and structured artifacts are the traceability boundary."
+  ]
+}
