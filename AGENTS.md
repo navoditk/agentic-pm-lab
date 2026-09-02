@@ -40,7 +40,7 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 5. Run `uv run python scripts/check_progress.py` and commit the generated
    `PROGRESS.md` status table together with the change. Update its narrative
    line — including evidence links (PR, test run, eval run, trace, screenshot,
-   ADR — whichever apply) — and `docs/LEARNINGS.md`. The progress workflow
+   ADR — whichever apply) — and `docs/learning/LEARNINGS.md`. The progress workflow
    validates that the committed table is current; it does not write back to
    `main`, avoiding automated-commit races.
 6. Commit and push at each checkpoint listed in that day's docs/PLAN.md section, not just once at the end.

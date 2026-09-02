@@ -1,4 +1,4 @@
-# MOCK DATA — see docs/ARCHITECTURE.md
+# MOCK DATA — see docs/architecture/ARCHITECTURE.md
 security_id,name,asset_class,sector,currency,issuer
 SEC001,Sample Corp 4.50% 2030,credit,industrials,USD,Sample Corp
 SEC002,Sample Corp 5.25% 2033,credit,industrials,USD,Sample Corp

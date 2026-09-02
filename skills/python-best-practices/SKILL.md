@@ -24,7 +24,7 @@ Conventions any agent (or human) writing Python in this repo should follow. `ruf
 
 ## The `# MOCK` marker convention
 
-Every unfinished endpoint or function that stands in for real logic carries a docstring starting with `# MOCK — replace on Day N` (or, if permanently mocked by design, `# MOCK — stays mocked; <reason>`, e.g., the research tool per docs/PRD.md §6). This is not just documentation — `scripts/check_progress.py` (§6) greps `src/` for this exact marker to derive `PROGRESS.md`'s mock→real status table. Removing the marker is literally what flips a row from mock to real; it is the mechanism, not a side note. Never leave a stale `# MOCK` marker on code that's actually been made real, and never remove one before the real implementation is actually in place.
+Every unfinished endpoint or function that stands in for real logic carries a docstring starting with `# MOCK — replace on Day N` (or, if permanently mocked by design, `# MOCK — stays mocked; <reason>`, e.g., the research tool per docs/architecture/PRD.md §6). This is not just documentation — `scripts/check_progress.py` (§6) greps `src/` for this exact marker to derive `PROGRESS.md`'s mock→real status table. Removing the marker is literally what flips a row from mock to real; it is the mechanism, not a side note. Never leave a stale `# MOCK` marker on code that's actually been made real, and never remove one before the real implementation is actually in place.
 
 ## pytest conventions
 

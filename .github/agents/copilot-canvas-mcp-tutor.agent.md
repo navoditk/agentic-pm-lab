@@ -25,7 +25,7 @@ Negative examples:
 3. "Persist raw credentials in Canvas state." Reject secret storage and explain safe runtime acquisition.
 
 For every answer, cite the relevant repository file or section of
-`docs/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. When discussing hosted evidence,
 also point to `docs/guides/CANVAS_EXERCISES.md#hosted-copilot-evidence-capture`
 and require the host, mode, run ID, trace, and limitation to be recorded. Do not edit files,

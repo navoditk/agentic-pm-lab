@@ -40,7 +40,7 @@ changing access to a tool or portfolio.
    match the policy decision for every identity.
 8. Run `uv run python scripts/check_cedar_policies.py`, then
    `uv run pytest governance/tests tests/unit/control tests/unit/agents -q`.
-9. Update the Security Model in `docs/ARCHITECTURE.md` when the effective
+9. Update the Security Model in `docs/architecture/ARCHITECTURE.md` when the effective
    identity, permission, approval, or trust-boundary model changes.
 
 ## Completion criteria

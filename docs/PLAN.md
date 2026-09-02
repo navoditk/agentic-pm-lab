@@ -133,7 +133,7 @@ Note the deliberate split between `docs/architecture/PRD.md`/`docs/PLAN.md` (rar
 
 ## 2. GitHub Copilot Canvas: a four-project progression
 
-**Resources used to design this section** (all worth reading directly — full links in docs/REFERENCES.md): GitHub's "Working with canvas extensions in the GitHub Copilot app" docs (the reference/how-to); GitHub's "How to build interactive experiences with canvases" blog post (the best conceptual tutorial); Jon Gallant's `create-canvas-app` skill and `create-canvas-kit` (the best hands-on, batteries-included starting point — see below); and GitHub's "GitHub Copilot app for Beginners" post (good broader context on the app itself, including Canvas Dev Mode).
+**Resources used to design this section** (all worth reading directly — full links in docs/reference/REFERENCES.md): GitHub's "Working with canvas extensions in the GitHub Copilot app" docs (the reference/how-to); GitHub's "How to build interactive experiences with canvases" blog post (the best conceptual tutorial); Jon Gallant's `create-canvas-app` skill and `create-canvas-kit` (the best hands-on, batteries-included starting point — see below); and GitHub's "GitHub Copilot app for Beginners" post (good broader context on the app itself, including Canvas Dev Mode).
 
 **What a canvas actually is:** a shared, *bidirectional* work surface — a plan, triage board, dashboard, or running application — that a person and an agent both read and write. The architecture is genuinely a small stack of its own:
 
@@ -158,7 +158,7 @@ His companion repo, `jongio/copilot-extensions`, and the community-maintained "A
 1. **Agentic Kanban** (Day 8, ~1–2h) — learn `/create-canvas`, extension structure, shared state, UI actions, and agent-callable capabilities. This reproduces GitHub's own documented example and is deliberately the low-stakes warm-up.
 2. **GitHub Issue Triage Canvas** (Day 8, ~2–4h) — pull real issues from a repository, classify and prioritize them visually, let the agent update assignments/status. This introduces real external data and genuinely useful agent actions, still without touching your own portfolio stack.
 3. **Agent Operations Canvas** (Day 9, ~4–6h) — visualize a running Deep Agent: its graph, tool calls, state transitions, and retries, with human approval required before selected nodes. This is where the canvas stops being a toy UI and starts being an operational surface over the agent work you built Days 4–7 — the target shape is an operations-console layout showing agent run status, a live trace, and guardrail/eval results, with **Retry**, **Approve**, **Reject**, **Inspect trace**, and **Run evaluation** as both UI buttons and agent-callable capabilities (`get_runs`, `get_trace`, `retry_node`, `approve_run`, `run_evaluation`, `get_guardrail_results`). `run_evaluation` is not a placeholder button — per §5, it triggers a real LangSmith experiment against the sample-question dataset.
-4. **Portfolio/Risk Operations Canvas** (Day 10, capstone, sized by the source material at 1–2 days — budget accordingly and expect this to be the day most likely to run long) — turn the Portfolio Manager Deep Agent from Day 5 into a genuine human-in-the-loop workspace: scenario runs, agent traces, data provenance, guardrail results, approvals, and eval scores, all in one operational canvas, with capabilities backed by the Day 10 MCP wrapper (docs/PRD.md §3, principle 8). This is the project meant to stand on its own as a portfolio piece, not just a tutorial exercise.
+4. **Portfolio/Risk Operations Canvas** (Day 10, capstone, sized by the source material at 1–2 days — budget accordingly and expect this to be the day most likely to run long) — turn the Portfolio Manager Deep Agent from Day 5 into a genuine human-in-the-loop workspace: scenario runs, agent traces, data provenance, guardrail results, approvals, and eval scores, all in one operational canvas, with capabilities backed by the Day 10 MCP wrapper (docs/architecture/PRD.md §3, principle 8). This is the project meant to stand on its own as a portfolio piece, not just a tutorial exercise.
 
 **A canvas is an interaction surface, not a trust boundary.** Every capability a canvas exposes calls into the same governed Tool/MCP interface everything else in this project uses — it never gets a shortcut around authorization, and it never becomes a second place where entitlement checks would need to be reimplemented. This matters most for the capstone (Day 10) and the Agent Operations Canvas (Day 9), both of which surface real portfolio data and real control decisions — see §15 for the authorization model those capabilities actually call into.
 
@@ -189,7 +189,7 @@ Every layer gets its own test subfolder under `tests/unit/`, mirroring `src/`, a
 | Layer | What's tested | What's mocked |
 |---|---|---|
 | `src/ingestion/` | Parsing/normalization logic, cache TTL behavior | yfinance and FRED HTTP responses — recorded fixture data or `unittest.mock`/`responses`, never a live network call |
-| `src/analytics/` | Every pricer, curve interpolation, risk metric, regression, backtest, scenario, and optimization function against hand-calculable inputs (Day 12's optimizer included — a known-covariance toy portfolio has a verifiable optimum, same as everything else here) | Nothing external — these are pure functions by design (docs/PRD.md §3, principle 2), so they're the easiest layer to test and should have the highest coverage |
+| `src/analytics/` | Every pricer, curve interpolation, risk metric, regression, backtest, scenario, and optimization function against hand-calculable inputs (Day 12's optimizer included — a known-covariance toy portfolio has a verifiable optimum, same as everything else here) | Nothing external — these are pure functions by design (docs/architecture/PRD.md §3, principle 2), so they're the easiest layer to test and should have the highest coverage |
 | `contracts/tools/*.schema.json` | Every tool's declared input/output validates against real calls — a contract test, distinct from a unit test: it checks the *shape* matches the schema, not that the math is right (§8, §15) | Nothing external — same underlying functions as the `src/analytics/` row above |
 | `src/context/` | Context-builder composition and truncation/compression logic (§13) | The LLM call and any retrieval backend — context assembly is tested as pure data transformation, independent of what a model does with the result |
 | `src/control/` | Allowlist logic, audit log schema, role-to-tool mapping, AuthN/AuthZ decision logic (§15) | Nothing external — fixture role configs and fixture test identities |
@@ -267,7 +267,7 @@ day_2:
 
 `scripts/check_progress.py` evaluates each day's checks against the current repo state (does the file exist, does that test path pass, does a given git tag exist) and emits a markdown table plus a completion count. Developers run it locally and commit the result between the `<!-- PROGRESS:START -->` / `<!-- PROGRESS:END -->` markers; `progress-tracker.yml` runs the same generation on every push to `main` and fails if the committed table is stale. This keeps progress reviewable in the same commit and avoids a bot push racing normal development pushes.
 
-This doesn't replace `docs/LEARNINGS.md` or the narrative parts of `docs/ARCHITECTURE.md` — those need judgment, not just a file-exists check — but it removes the purely mechanical bookkeeping from the daily checklist (Appendix B intro).
+This doesn't replace `docs/learning/LEARNINGS.md` or the narrative parts of `docs/architecture/ARCHITECTURE.md` — those need judgment, not just a file-exists check — but it removes the purely mechanical bookkeeping from the daily checklist (Appendix B intro).
 
 **Track evidence, not just completion.** A day being "done" per `config/progress.yaml` is a weaker claim than a day being *demonstrated* — so each day's `PROGRESS.md` narrative entry links its evidence: the PR, the relevant test run, an eval-run link (once Day 6 exists), a trace URL, a screenshot (canvas days), and the ADR it produced (`docs/adr/`, where applicable). This is a one-line habit, not new tooling — the close-of-day checklist (Appendix B intro) already asks for a narrative sentence; evidence links are what that sentence should contain from Day 1 onward, not prose alone.
 
@@ -437,7 +437,7 @@ Beyond the two skills already in the plan (`portfolio-risk-summary`, `scenario-a
 3. Remove the `# MOCK` docstring marker — this is also the mechanism: `scripts/check_progress.py` greps for that marker (§6), so deleting it is literally what flips the mock→real status table, not a separate bookkeeping step.
 4. Update or add tests per §4's rules for that layer (a hand-calculable unit test may need to become a mocked-HTTP integration-style test, e.g., the Day 2 ingestion swap).
 5. Check for dependents: does any skill's `contract.yaml` `covers` this file? Bump its `last_verified_commit` (§8.4) rather than waiting for `skills-freshness.yml` to catch it. Does any MCP capability or canvas capability wrap this function? Confirm it still behaves the same from their side.
-6. Update `docs/ARCHITECTURE.md` if the swap changes documented behavior, not just implementation detail.
+6. Update `docs/architecture/ARCHITECTURE.md` if the swap changes documented behavior, not just implementation detail.
 
 ### 8.7 Meta-skills: skills about building and testing skills
 
@@ -454,7 +454,7 @@ Both get the standard package shape too — `skill-tester`'s own `tests/test_ski
 
 ### 9.1 What a prompt file is, and where it lives
 
-A **prompt file** (`.prompt.md`) is a reusable, versioned template for a specific, repeatable task — invoked with a `/name` slash command in Copilot Chat, distinct from a skill (background knowledge an agent decides to use) and a custom agent (a persona you select). GitHub stores these in `.github/prompts/` by default; each file is Markdown with YAML frontmatter (`description`, optionally `agent`, `model`, `tools`) followed by the instructions themselves, and can accept free-text input from the person invoking it. As of this plan being written, prompt files are a public-preview feature of the GitHub Copilot ecosystem (VS Code, Visual Studio, JetBrains) — worth confirming current status in the docs (docs/REFERENCES.md) since preview features change.
+A **prompt file** (`.prompt.md`) is a reusable, versioned template for a specific, repeatable task — invoked with a `/name` slash command in Copilot Chat, distinct from a skill (background knowledge an agent decides to use) and a custom agent (a persona you select). GitHub stores these in `.github/prompts/` by default; each file is Markdown with YAML frontmatter (`description`, optionally `agent`, `model`, `tools`) followed by the instructions themselves, and can accept free-text input from the person invoking it. As of this plan being written, prompt files are a public-preview feature of the GitHub Copilot ecosystem (VS Code, Visual Studio, JetBrains) — worth confirming current status in the docs (docs/reference/REFERENCES.md) since preview features change.
 
 ### 9.2 How this project defines a prompt
 
@@ -480,11 +480,11 @@ You're a portfolio risk analyst producing a PM-facing answer.
 <how to know the answer is grounded — e.g., "cite the underlying tool call and its inputs">
 ```
 
-This mirrors the description → workflow → output → validation pattern used across GitHub's own official prompt-file examples, adapted to name the business question up front (tying every prompt back to docs/PRD.md §4).
+This mirrors the description → workflow → output → validation pattern used across GitHub's own official prompt-file examples, adapted to name the business question up front (tying every prompt back to docs/architecture/PRD.md §4).
 
 ### 9.3 Recommended prompt catalog
 
-Each prompt maps to one or more of the 23 sample PM questions cataloged in full in `docs/PRD.md` §4; these seven cover the end-to-end workflows, not single-fact lookups (single-fact questions are handled by the agent directly, without needing a dedicated prompt). Six are built Day 11, alongside the rest of the prompt library; `/optimize-portfolio` is the exception, built Day 12 as part of that day's optimizer work, since the tool it wraps doesn't exist until then.
+Each prompt maps to one or more of the 23 sample PM questions cataloged in full in `docs/architecture/PRD.md` §4; these seven cover the end-to-end workflows, not single-fact lookups (single-fact questions are handled by the agent directly, without needing a dedicated prompt). Six are built Day 11, alongside the rest of the prompt library; `/optimize-portfolio` is the exception, built Day 12 as part of that day's optimizer work, since the tool it wraps doesn't exist until then.
 
 | Prompt | Business workflow it resolves | Primary agent(s) / tools invoked |
 |---|---|---|
@@ -514,7 +514,7 @@ A **custom agent** is a named, selectable persona with its own scope and (option
 
 | Custom agent | Introduced | Use case |
 |---|---|---|
-| `docs-agent` | Day 8 | Keeps `docs/ARCHITECTURE.md` and `docs/ficc-glossary.md` current as the repo evolves — scoped narrowly so it doesn't touch application code |
+| `docs-agent` | Day 8 | Keeps `docs/architecture/ARCHITECTURE.md` and `docs/ficc-glossary.md` current as the repo evolves — scoped narrowly so it doesn't touch application code |
 | `pr-reviewer-agent` | Day 11 | Reviews pull requests specifically for adherence to the `python-best-practices` skill, absence of company-sensitive data, and presence of a corresponding test — a domain-specific complement to Copilot's built-in code review |
 | `risk-narrator-agent` | Day 10 | Drafts PM-style narrative write-ups (committee memos, risk summaries) in a consistent voice — used ad hoc when you want polished prose distinct from the Portfolio Manager Deep Agent's own tool-calling responses |
 | `ficc-tutor-agent` | Day 2; extended Days 15–20 | Personal-scope tutor for FICC terminology, bond valuation, funding, liquidity, duration/DV01, convexity, hedging, and fixed-income data provenance; a learning aid, not part of the runtime system |
@@ -577,7 +577,7 @@ generated code as trusted.
 | `ruff` (import sorting) | Keep `src/` imports consistent as the module count grows | Day 1 |
 | A fast `pytest` subset (unit tests only, marked `-m unit`) | Catch a broken function before it's even pushed — deliberately excludes `scripts/run_eval.py`, which is slow and calls a real model | Day 3, once the first real tests exist |
 | `detect-secrets` or `gitleaks` | Prevent an API key (Anthropic, OpenAI, FRED, AWS) from ever being committed, even accidentally, from `.env` or a notebook | Day 1 — highest priority given how many keys this project accumulates |
-| A custom local hook: no-company-sensitive-data scan | A small regex-based check against a banned-terms list, reinforcing docs/PRD.md §3 principle 3 at commit time instead of only at review time | Day 1 |
+| A custom local hook: no-company-sensitive-data scan | A small regex-based check against a banned-terms list, reinforcing docs/architecture/PRD.md §3 principle 3 at commit time instead of only at review time | Day 1 |
 | A custom local hook: `SKILL.md` frontmatter schema check | Validates every `skills/*/SKILL.md` has the required frontmatter fields (§8.2) before it's committed, catching a malformed skill before it ever reaches `skills-freshness.yml` | Day 4, once the first real skill exists |
 | A custom local hook: `contract.yaml` schema validation | Every skill and tool contract validates against its own JSON Schema before commit — the same check `contract-tests.yml`'s schema/lint stage runs in CI, just earlier (§8.3) | Day 4, alongside the first skill contract |
 | Cedar policy syntax check (`cedarpy`'s `validate_policies`, or the standalone Cedar CLI) | Every `.cedar` file in `governance/policies/` parses and validates before commit — a malformed policy should never reach a PR, let alone `main` (§15) | Day 7, once the first policy exists |
@@ -599,7 +599,7 @@ uv run pre-commit install
 
 ## 12. References
 
-**Moved to `docs/REFERENCES.md`** — the full topic-by-topic bibliography now lives in its own file under `docs/`, so it's a quick, standalone read rather than something buried mid-document. Nothing about how references are *used* day to day changes: every day in Appendix B still has its own short "While it builds, read" list (1–5 items), each pointing at the relevant subsection of `docs/REFERENCES.md`. Update `docs/REFERENCES.md` directly as you find something new — there's one copy, not a snapshot-plus-mirror pair to keep in sync.
+**Moved to `docs/reference/REFERENCES.md`** — the full topic-by-topic bibliography now lives in its own file under `docs/`, so it's a quick, standalone read rather than something buried mid-document. Nothing about how references are *used* day to day changes: every day in Appendix B still has its own short "While it builds, read" list (1–5 items), each pointing at the relevant subsection of `docs/reference/REFERENCES.md`. Update `docs/reference/REFERENCES.md` directly as you find something new — there's one copy, not a snapshot-plus-mirror pair to keep in sync.
 
 ---
 
@@ -611,16 +611,16 @@ Context engineering is made explicit here rather than left implicit inside promp
 - User/role context (who's asking, per §15's AuthN)
 - Portfolio context (the current portfolio state relevant to the question)
 - Current market context (the latest ingested prices/macro series, Day 2)
-- Retrieved research (the mocked research tool's output, until it's real — docs/PRD.md §6)
+- Retrieved research (the mocked research tool's output, until it's real — docs/architecture/PRD.md §6)
 - Relevant memory (session state on Days 1–12; AgentCore Memory in the optional Day 13 extension)
 - Tool outputs (results from earlier steps in a multi-step answer)
 - Skills and task-specific instructions (the `SKILL.md` currently in play)
 
 **The experiment this project actually runs, not just describes:** on Day 4, deliberately overload the context window — pass every available source in full, regardless of relevance — and measure quality, latency, and cost (using Day 6's extended OTel spans once they exist; on Day 4 itself, a simple token count and wall-clock timer is enough to start the comparison). Then introduce filtering (only pull sources the question actually needs), summarization (compress retrieved research instead of pasting it whole), and compression (trim tool-output history beyond what's needed for the current step). Compare all three configurations on the same questions.
 
-**Acceptance criterion:** `docs/ARCHITECTURE.md`'s context-engineering section (written as part of Day 4's work) can answer, for any given task: what enters the model's context, why, how it's bounded, and what deliberately stays out. If that can't be answered precisely, the context layer isn't done yet, regardless of whether the agent's answers look fine.
+**Acceptance criterion:** `docs/architecture/ARCHITECTURE.md`'s context-engineering section (written as part of Day 4's work) can answer, for any given task: what enters the model's context, why, how it's bounded, and what deliberately stays out. If that can't be answered precisely, the context layer isn't done yet, regardless of whether the agent's answers look fine.
 
-This is also where multi-agent orchestration (Day 5) pays for itself or doesn't: each sub-agent gets its own, narrower context-build rather than inheriting the orchestrator's full context, and Day 5's failure-engineering work (§14) and Day 6's cost telemetry together are what let you actually answer docs/PRD.md §3 principle 11's question — does the multi-agent split's quality gain justify the extra tokens and latency of building N separate contexts instead of one.
+This is also where multi-agent orchestration (Day 5) pays for itself or doesn't: each sub-agent gets its own, narrower context-build rather than inheriting the orchestrator's full context, and Day 5's failure-engineering work (§14) and Day 6's cost telemetry together are what let you actually answer docs/architecture/PRD.md §3 principle 11's question — does the multi-agent split's quality gain justify the extra tokens and latency of building N separate contexts instead of one.
 
 ---
 
@@ -650,7 +650,7 @@ The objective is to learn how the agent platform behaves when its dependencies f
 
 ## 15. Security Model: AuthN, AuthZ, Guardrails, and Tool Enforcement
 
-Four separate concerns (docs/PRD.md §3, principle 10), tested independently, formalized starting Day 7 and extended through Day 12:
+Four separate concerns (docs/architecture/PRD.md §3, principle 10), tested independently, formalized starting Day 7 and extended through Day 12:
 
 ```
 Authentication → Authorization → Guardrails → Tool enforcement
@@ -675,7 +675,7 @@ Authentication → Authorization → Guardrails → Tool enforcement
   - Sensitive-data exfiltration framed as an innocuous-sounding request
   - A forbidden state-changing action framed as a read
 
-Each of these becomes a case in `governance/tests/test_authorization.py`, `test_prompt_injection.py`, or `test_sensitive_output.py` — deterministic where possible (the authorization decision itself), separated from probabilistic guardrail/LLM evaluation, per docs/PRD.md §3 principle 6.
+Each of these becomes a case in `governance/tests/test_authorization.py`, `test_prompt_injection.py`, or `test_sensitive_output.py` — deterministic where possible (the authorization decision itself), separated from probabilistic guardrail/LLM evaluation, per docs/architecture/PRD.md §3 principle 6.
 
 ### 15.2 Policy and guardrails as code
 
@@ -698,7 +698,7 @@ Policy and guardrail changes trigger their own CI regression suite (`authorizati
 
 ### 15.3 The Gateway-only governed path (Day 12)
 
-Once the AWS integration exists, production/demo traffic must reach the Tool Layer **only** through AgentCore Gateway — never by calling the underlying tools or MCP server directly. This is a deliberate design constraint, not an incidental detail: a direct-call path around the Gateway is a bypass of every policy and guardrail check the Gateway enforces, which would make the whole authorization exercise from Day 7 cosmetic once the system is AWS-deployed. `docs/ARCHITECTURE.md`'s security-boundaries section (updated Day 12) should be able to state plainly that no path exists from the interactive surface to the Tool Layer that skips Gateway.
+Once the AWS integration exists, production/demo traffic must reach the Tool Layer **only** through AgentCore Gateway — never by calling the underlying tools or MCP server directly. This is a deliberate design constraint, not an incidental detail: a direct-call path around the Gateway is a bypass of every policy and guardrail check the Gateway enforces, which would make the whole authorization exercise from Day 7 cosmetic once the system is AWS-deployed. `docs/architecture/ARCHITECTURE.md`'s security-boundaries section (updated Day 12) should be able to state plainly that no path exists from the interactive surface to the Tool Layer that skips Gateway.
 
 ### 15.4 Where each governance layer lands in the plan
 
@@ -709,7 +709,7 @@ Once the AWS integration exists, production/demo traffic must reach the Tool Lay
 | Guardrails | A lightweight local content check (denied-terms list, reusing §11's no-company-sensitive-data hook's list) | Bedrock Guardrails, minimal on Day 12, extended Day 14 |
 | Tool enforcement | FastAPI/MCP boundary re-checks entitlements | Gateway-fronted MCP boundary re-checks entitlements |
 
-`docs/ARCHITECTURE.md`'s Security Model section (added Day 7) should show this table, or an equivalent, as the canonical statement of what enforces what — so the security acceptance test (docs/PRD.md §5) is checkable against a written model, not tribal knowledge.
+`docs/architecture/ARCHITECTURE.md`'s Security Model section (added Day 7) should show this table, or an equivalent, as the canonical statement of what enforces what — so the security acceptance test (docs/architecture/PRD.md §5) is checkable against a written model, not tribal knowledge.
 
 ---
 
@@ -1171,9 +1171,9 @@ git push origin main
 **Every day below also ends with the same four-part close-of-day checklist**, stated once here rather than repeated 12 times:
 
 1. **Final commit & push for the day** (on top of the day's own checkpoints) — run `uv run python scripts/check_progress.py`, include the generated `PROGRESS.md` table, and confirm `ci.yml` plus progress validation are green before stopping.
-2. **Update documentation**: `PROGRESS.md`'s one-line narrative entry for the day (the auto-generated table covers the status, but a sentence of context is still worth writing); `docs/ARCHITECTURE.md` if a design decision was made that day; `docs/ficc-glossary.md` if a new term was encountered, using the `ficc-glossary-maintainer` skill's format; `docs/comparison-notes.md` (dev-tool section) if you want today's tool-usage numbers on record — worth doing on any day you switch tools mid-day or aren't sure the §7 default still holds, not required every single day.
-3. **Update `docs/LEARNINGS.md`**: a short, dated entry — what worked, what didn't, one thing you'd do differently — written the same day, not reconstructed later.
-4. **Update `docs/REFERENCES.md`**: add any resource you actually used today, plus anything new you found that isn't in there yet.
+2. **Update documentation**: `PROGRESS.md`'s one-line narrative entry for the day (the auto-generated table covers the status, but a sentence of context is still worth writing); `docs/architecture/ARCHITECTURE.md` if a design decision was made that day; `docs/ficc-glossary.md` if a new term was encountered, using the `ficc-glossary-maintainer` skill's format; `docs/comparison-notes.md` (dev-tool section) if you want today's tool-usage numbers on record — worth doing on any day you switch tools mid-day or aren't sure the §7 default still holds, not required every single day.
+3. **Update `docs/learning/LEARNINGS.md`**: a short, dated entry — what worked, what didn't, one thing you'd do differently — written the same day, not reconstructed later.
+4. **Update `docs/reference/REFERENCES.md`**: add any resource you actually used today, plus anything new you found that isn't in there yet.
 
 Each day's **Track progress** line below adds the day-specific artifacts (tags, screenshots, specific files) on top of this standard checklist — it isn't a replacement for it.
 
@@ -1187,7 +1187,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 
 **Recommended dev tool:** Claude Code for the initial repo-wide wiring decisions (how the five layers' stub modules import from each other); GitHub Copilot CLI for generating the repetitive stub files once the shape is agreed.
 
-**While it builds, read (docs/REFERENCES.md has full context):**
+**While it builds, read (docs/reference/REFERENCES.md has full context):**
 1. FastAPI official tutorial — you're about to scaffold six endpoints from scratch
 2. DuckDB Python API guide — the mock loader depends on it
 3. `uv` docs — worth a skim if `INSTALL.md`'s commands felt unfamiliar
@@ -1196,7 +1196,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 
 **Steps:**
 1. Create the folder tree from §1, including `tests/unit/`.
-2. **Data Layer mock:** create `data/mock_structured/portfolio_positions.csv`, `security_master.csv`, `curve_points.csv` (all invented values). Write `src/ingestion/load_mock_structured_data.py` to load them into a local DuckDB file at `data/cache/portfolio.duckdb`. Add `# MOCK DATA — see docs/ARCHITECTURE.md` to each CSV.
+2. **Data Layer mock:** create `data/mock_structured/portfolio_positions.csv`, `security_master.csv`, `curve_points.csv` (all invented values). Write `src/ingestion/load_mock_structured_data.py` to load them into a local DuckDB file at `data/cache/portfolio.duckdb`. Add `# MOCK DATA — see docs/architecture/ARCHITECTURE.md` to each CSV.
 3. **Control Layer stub:** `src/control/allowlist.py` with a hardcoded `ROLES` dict and `check_permission(role, tool_name)`; `src/control/audit.py` appending JSON Lines records. `config/roles.yaml` as the source of truth for now — **temporarily** holding both role→tool permissions and role assignment, since Cedar doesn't exist until Day 7; that day narrows this file's job down to identity→role only.
 4. **Tool Layer mockups:** `src/api/main.py` as the FastAPI app entry point, with stub endpoints for `price-bond`, `curve`, `research`, `econometrics`, `backtest`, `portfolio`, each with a `# MOCK — replace on Day X` docstring. Run it locally with `uv run uvicorn src.api.main:app --reload` to confirm it starts.
 5. **Interactive Layer:** `.github/copilot-instructions.md` pointing to `AGENTS.md`. Confirm all three harnesses and the GitHub Copilot app can see the repo (already confirmed in `INSTALL.md` §9, but worth a final check now that the repo has real content).
@@ -1206,7 +1206,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 9. **Pre-commit:** write `.pre-commit-config.yaml` with the Day-1 hooks from §11.2 (ruff, ruff-imports, `detect-secrets`/`gitleaks`, no-company-sensitive-data custom hook, `check-yaml`/`check-json`, commit-message check); `uv run pre-commit install`.
 10. **Automatic progress tracking (§6):** create `config/progress.yaml` with the Day 1 entry (and stub entries for Days 2–12 to fill in as you go); write `scripts/check_progress.py`; add `.github/workflows/progress-tracker.yml` to run it on push and update `PROGRESS.md` between `<!-- PROGRESS:START -->`/`<!-- PROGRESS:END -->` markers. Set up a GitHub Projects (v2) board with one item per day and a "PR merged → Done" workflow rule.
 11. **Tests, with mocks:** `tests/unit/control/test_allowlist.py` and `test_audit.py` against fixture roles — no network calls. `tests/unit/ingestion/test_mock_loader.py` confirming the mock CSVs load into DuckDB correctly.
-12. **Create `docs/ARCHITECTURE.md`**, now that the walking skeleton exists to describe: the five layers and how today's stub for each one maps to them, the logical component list, a first-pass request/tool sequence diagram (even a plain-text one), and a placeholder "Security Boundaries" section to be filled in properly on Day 7. This is the canonical architecture doc from here forward — update it, don't recreate it, whenever a design decision changes it (the close-of-day checklist below already asks for this).
+12. **Create `docs/architecture/ARCHITECTURE.md`**, now that the walking skeleton exists to describe: the five layers and how today's stub for each one maps to them, the logical component list, a first-pass request/tool sequence diagram (even a plain-text one), and a placeholder "Security Boundaries" section to be filled in properly on Day 7. This is the canonical architecture doc from here forward — update it, don't recreate it, whenever a design decision changes it (the close-of-day checklist below already asks for this).
 13. Commit, push, confirm CI and pre-commit are both green.
 
 **Commit checkpoints** (see the git workflow above for the exact command sequence):
@@ -1214,7 +1214,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 - After step 7: `feat(day-1): CI workflow and non-prod artifact host`
 - After step 10: `chore(day-1): pre-commit config, skills scaffolding, progress tracking`
 - After step 11: `test(day-1): control layer and mock loader tests`
-- After step 12 (final for the day): `docs(day-1): initial docs/ARCHITECTURE.md`
+- After step 12 (final for the day): `docs(day-1): initial docs/architecture/ARCHITECTURE.md`
 
 **Track progress:** Start `PROGRESS.md`'s "Day 1" narrative entry — the mock→real status table itself is auto-generated from here forward (§6), all rows starting at "mock" except Runtime's artifact host and Interactive setup.
 
@@ -1238,9 +1238,9 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 **While it builds, read:**
 1. FRED API docs — the source you're integrating
 2. yfinance package docs/README — the other source you're integrating
-3. FRED's Treasury yield curve series + Investopedia's fixed-income section (`docs/REFERENCES.md`) — start building the vocabulary the glossary skill will formalize, right as `curve_points` becomes real
+3. FRED's Treasury yield curve series + Investopedia's fixed-income section (`docs/reference/REFERENCES.md`) — start building the vocabulary the glossary skill will formalize, right as `curve_points` becomes real
 4. SEC EDGAR API docs — not used today, but worth previewing since it's the natural next stretch item
-5. Git & version control basics (`docs/REFERENCES.md`), if the commit-checkpoint pattern from Day 1 still feels unfamiliar
+5. Git & version control basics (`docs/reference/REFERENCES.md`), if the commit-checkpoint pattern from Day 1 still feels unfamiliar
 
 **Steps:**
 1. `src/ingestion/prices.py`: pull daily OHLCV for a small public ETF universe (e.g., SPY, AGG, TLT, LQD, HYG, GLD) via yfinance into a DuckDB `prices` table.
@@ -1269,7 +1269,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 
 **Recommended dev tool:** Claude Code for correctness of the financial formulas (test-driven); Copilot CLI for test-boilerplate scaffolding.
 
-**While it builds, read (`docs/REFERENCES.md`'s Quant/fixed-income section has more — yield curve construction, credit spreads, MBS convexity, risk metrics — read those alongside whichever function you're currently writing, not necessarily all five below first):**
+**While it builds, read (`docs/reference/REFERENCES.md`'s Quant/fixed-income section has more — yield curve construction, credit spreads, MBS convexity, risk metrics — read those alongside whichever function you're currently writing, not necessarily all five below first):**
 1. Investopedia: bond pricing, duration, and convexity — read before, not after, writing `pricers.py`
 2. Investopedia: the Black-Scholes model — same reasoning, for the option pricer
 3. `statsmodels` OLS regression docs — for the factor regression tool
@@ -1322,13 +1322,13 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 5. `langchain-ai/langchain-skills` — the official `SKILL.md` format spec, relevant to the skill you're writing today
 
 **Steps:**
-1. Skim the Deep Agents docs (docs/REFERENCES.md) — `create_deep_agent(model, tools, system_prompt, skills=[...])` gets you planning, a virtual filesystem, and skill-loading with three lines.
+1. Skim the Deep Agents docs (docs/reference/REFERENCES.md) — `create_deep_agent(model, tools, system_prompt, skills=[...])` gets you planning, a virtual filesystem, and skill-loading with three lines.
 2. **Context builder (§13):** before wiring the agent, write `src/context/builder.py` — a function that assembles context from named sources (user/role, portfolio state, market data, tool outputs, skills) rather than letting the agent's context accumulate implicitly. Start deliberately naive: pass everything available, in full. This naive version is today's baseline for the overload-then-compress experiment §13 describes.
 3. `src/agents/single_agent.py`: wrap each Day 3 analytics function as a LangChain tool, construct the agent with `skills=["./skills/"]`, and call it through `src/context/builder.py` rather than assembling the prompt inline.
 4. **Meta-skills, written before the first real skill:** `skills/skill-creator/SKILL.md` and `skills/skill-tester/SKILL.md`, both with their own `contract.yaml` (§8.7) — the checklist for scaffolding a correctly-shaped skill package, and the checklist/tooling for validating one locally before it reaches CI.
 5. **Use `skill-creator` to scaffold `skills/portfolio-risk-summary/`** — its `SKILL.md`, `contract.yaml` (`allowed_tools` limited to exactly the three read-only functions it needs), and starter `examples/`/`tests/` — combining exposure/volatility/drawdown into a PM-style summary. This is the meta-skill's first real use, one step after being written.
 6. Set the pattern for `interrupt_on` (nothing "risky" yet) so Day 7's Control Layer work has somewhere to plug in.
-7. Ask it several sample questions from docs/PRD.md §4's Portfolio Manager and Quant tables (e.g., "What's my portfolio volatility?") and confirm answers come from real tool calls, not hallucinated numbers.
+7. Ask it several sample questions from docs/architecture/PRD.md §4's Portfolio Manager and Quant tables (e.g., "What's my portfolio volatility?") and confirm answers come from real tool calls, not hallucinated numbers.
 8. **Context experiment (§13):** run the same questions with the naive full-context builder from step 2, note token count and latency; then add filtering (only relevant sources) and re-run; note the difference in `docs/comparison-notes.md`'s context-engineering section.
 9. **Tests, with mocks:** `tests/unit/agents/test_single_agent.py` using a scripted fake chat model (§4) — assert "given this input, the agent calls `get_volatility` with these arguments," deterministically, without spending API credits. `tests/unit/context/test_builder.py` — context composition is pure data transformation, no model call needed to test it. Run `skill-tester` against `portfolio-risk-summary` — the schema/lint + static-contract + mock-execution stages of §8.3's pipeline, exercised locally for the first time.
 10. **Local variant (optional, §3):** install Ollama and pull a tool-calling-capable model; `uv add langchain-ollama`. Build `src/agents/single_agent_local.py` — identical to `single_agent.py`, except the model is `ChatOllama(model="...")`. Run the same sample questions through it and note differences in `docs/comparison-notes.md` (local-vs-cloud-model section). Keep both agents side by side.
@@ -1356,24 +1356,24 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 **While it builds, read:**
 1. Deep Agents docs, the sub-agents section specifically — today's core mechanism
 2. LangGraph core concepts, if multi-agent state passing is still unclear from Day 4
-3. `docs/PRD.md` §4 — re-read the full business-problems catalog before assigning questions to sub-agents, so the domain split (Macro/Quant/Fundamental) maps cleanly
+3. `docs/architecture/PRD.md` §4 — re-read the full business-problems catalog before assigning questions to sub-agents, so the domain split (Macro/Quant/Fundamental) maps cleanly
 4. LangGraph human-in-the-loop docs — you're about to see why this matters more with three agents instead of one
 5. §14 (Failure & Recovery Engineering) — read this before step 6 below, since it's what step 6 actually implements
 
-*Worth reading once, not day-specific prep:* docs/REFERENCES.md's "Origins & inspiration" entry — the OpenAI Cookbook example this Portfolio-Manager-orchestrates-specialists pattern is translated from, built there on OpenAI's Agents SDK rather than LangGraph. A good comparison point once today's version exists: agents-as-tools vs. native `subagents` spawning, same underlying idea.
+*Worth reading once, not day-specific prep:* docs/reference/REFERENCES.md's "Origins & inspiration" entry — the OpenAI Cookbook example this Portfolio-Manager-orchestrates-specialists pattern is translated from, built there on OpenAI's Agents SDK rather than LangGraph. A good comparison point once today's version exists: agents-as-tools vs. native `subagents` spawning, same underlying idea.
 
 **Steps:**
-1. Define three specialist sub-agents via `create_deep_agent(..., subagents=[...])`: **Macro** (curve/macro tools), **Quant** (risk/econometrics/backtest tools), **Fundamental** (portfolio + the mocked research tool) — the same domain split used throughout docs/PRD.md §4 and Appendix C.
-2. Define the Portfolio Manager Deep Agent with those three as its `subagents`. Note this design explicitly in `docs/ARCHITECTURE.md`.
+1. Define three specialist sub-agents via `create_deep_agent(..., subagents=[...])`: **Macro** (curve/macro tools), **Quant** (risk/econometrics/backtest tools), **Fundamental** (portfolio + the mocked research tool) — the same domain split used throughout docs/architecture/PRD.md §4 and Appendix C.
+2. Define the Portfolio Manager Deep Agent with those three as its `subagents`. Note this design explicitly in `docs/architecture/ARCHITECTURE.md`.
 3. Write `skills/scenario-analysis/SKILL.md` and its `contract.yaml` (stub today, fleshed out Day 12) — used by the Quant sub-agent.
-4. Run a genuinely multi-part question from docs/PRD.md §4's Portfolio Manager table end to end (e.g., "How exposed are we to rising rates, and what's driving current volatility?") and record which sub-agent handled which part.
+4. Run a genuinely multi-part question from docs/architecture/PRD.md §4's Portfolio Manager table end to end (e.g., "How exposed are we to rising rates, and what's driving current volatility?") and record which sub-agent handled which part.
 5. **Failure engineering (§14):** inject the Day 3 failure fixtures (tool timeout, malformed JSON) into a live multi-agent run and observe the result before implementing anything — this is the "prove it fails badly first" baseline. Then implement timeouts, retries with backoff, and an iteration ceiling on the orchestrator's planning loop.
 6. **The key exercise:** add checkpoint/resume to `src/agents/`, then deliberately crash a multi-step workflow *after* one specialist sub-agent has completed its step. Prove the workflow resumes from the checkpoint without re-running the already-completed sub-agent's work. This is the test that actually validates checkpoint/resume, not just code that claims to implement it.
-7. **Tests, with mocks:** `tests/unit/agents/test_multi_agent.py` — scripted fake chat models for the orchestrator and each sub-agent, asserting correct routing for a handful of representative questions from docs/PRD.md §4, one per sub-agent domain. `tests/unit/agents/test_failure_recovery.py` — the injected-failure and checkpoint/resume scenarios from steps 5–6, as repeatable tests, not one-off manual runs.
+7. **Tests, with mocks:** `tests/unit/agents/test_multi_agent.py` — scripted fake chat models for the orchestrator and each sub-agent, asserting correct routing for a handful of representative questions from docs/architecture/PRD.md §4, one per sub-agent domain. `tests/unit/agents/test_failure_recovery.py` — the injected-failure and checkpoint/resume scenarios from steps 5–6, as repeatable tests, not one-off manual runs.
 8. **Local variant (optional, §3):** rebuild the Portfolio Manager + three specialists using the Day 4 local-model pattern. This is the day local models are most likely to struggle — document specific failure modes (misrouted sub-agent, malformed tool arguments) in `docs/comparison-notes.md` (local-vs-cloud-model section). The comparison is the point, not just getting it to work.
 
 **Commit checkpoints:**
-- After step 2: `feat(day-5): multi-agent Portfolio Manager orchestration with subagents, documented in docs/ARCHITECTURE.md`
+- After step 2: `feat(day-5): multi-agent Portfolio Manager orchestration with subagents, documented in docs/architecture/ARCHITECTURE.md`
 - After step 3: `feat(day-5): scenario-analysis skill stub`
 - After step 6: `feat(day-5): failure injection, retries/backoff, checkpoint/resume`
 - After step 7: `test(day-5): multi-agent routing and failure-recovery tests`
@@ -1424,9 +1424,9 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 - After step 8: `feat(day-6): baseline experiment and eval-regression CI workflow`
 - After step 10 (final for the day): `feat(day-6): eval-triage agent and evaluator wiring tests`
 
-**Track progress:** exported trace screenshot/summary in `docs/`; `PROGRESS.md` narrative note that observability is real, dual-stack, and cost-aware; note the baseline experiment's per-dimension pass rates and cost/latency footprint in `docs/ARCHITECTURE.md` for future comparison.
+**Track progress:** exported trace screenshot/summary in `docs/`; `PROGRESS.md` narrative note that observability is real, dual-stack, and cost-aware; note the baseline experiment's per-dimension pass rates and cost/latency footprint in `docs/architecture/ARCHITECTURE.md` for future comparison.
 
-*Further reading, not a Day 6 task:* GitHub's own Copilot SDK ships built-in OpenTelemetry instrumentation for anyone building agent apps directly on that SDK rather than on `deepagents`/LangGraph (docs/REFERENCES.md).
+*Further reading, not a Day 6 task:* GitHub's own Copilot SDK ships built-in OpenTelemetry instrumentation for anyone building agent apps directly on that SDK rather than on `deepagents`/LangGraph (docs/reference/REFERENCES.md).
 
 ---
 
@@ -1454,10 +1454,10 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 6. **Tool enforcement:** confirm the Day 3 entitlement check at the FastAPI/tool boundary (seeded that day) now actually consults the Cedar policy from step 2, so it's a real re-check, not a rubber stamp — the point being that even if steps 1–2 were somehow bypassed, this layer still withholds unauthorized data.
 7. Use `interrupt_on` to require human approval before any "expensive" or write-shaped tool call (backtest today). This is your local stand-in for AgentCore's Identity + Policy layers, and for the "Approve"/"Reject" capabilities the Day 9 operations canvas will expose.
 8. Extend the audit log schema with identity, decision (allowed/denied/interrupted), which layer made the decision (AuthN/AuthZ/Guardrail/Tool), and the OTel trace ID from Day 6.
-9. **Add a Security Model section to `docs/ARCHITECTURE.md`**, rather than a separate file (§1): trust boundaries, the AuthN/AuthZ/Guardrails/Tool-enforcement table from §15.4, identity propagation, tool permissions, the prompt-injection/sensitive-data threat model just tested against, secrets handling, and the human-approval/audit model. This section is the canonical security reference from here forward — update it in place, don't let it drift from `governance/`'s actual content.
+9. **Add a Security Model section to `docs/architecture/ARCHITECTURE.md`**, rather than a separate file (§1): trust boundaries, the AuthN/AuthZ/Guardrails/Tool-enforcement table from §15.4, identity propagation, tool permissions, the prompt-injection/sensitive-data threat model just tested against, secrets handling, and the human-approval/audit model. This section is the canonical security reference from here forward — update it in place, don't let it drift from `governance/`'s actual content.
 10. **Skill:** write `skills/control-layer-role-change/SKILL.md` and its `contract.yaml` (§8.6) — the safe checklist for adding/modifying a role now that step 1's split is in place: update the Cedar policy for a role→tool permission change; touch `config/roles.yaml` only for an identity→role assignment change, never for a permission change; update the Deep Agent's tool-list construction; add an authorization test case; verify both an allowed and a denied path before merging.
-11. **Build `.github/workflows/authorization-tests.yml`:** runs `governance/tests/` on every PR touching `governance/`, `config/roles.yaml`, or `src/control/`; fails the build on any authorization or negative-test regression — the CI acceptance test from `docs/PRD.md` §5, made concrete.
-12. Write an explicit comparison in `docs/ARCHITECTURE.md`'s Security Model section: what today's local Cedar/interrupt/entitlement setup covers versus AgentCore Identity, Policy, and Bedrock Guardrails — this sets up Day 12.
+11. **Build `.github/workflows/authorization-tests.yml`:** runs `governance/tests/` on every PR touching `governance/`, `config/roles.yaml`, or `src/control/`; fails the build on any authorization or negative-test regression — the CI acceptance test from `docs/architecture/PRD.md` §5, made concrete.
+12. Write an explicit comparison in `docs/architecture/ARCHITECTURE.md`'s Security Model section: what today's local Cedar/interrupt/entitlement setup covers versus AgentCore Identity, Policy, and Bedrock Guardrails — this sets up Day 12.
 13. **Tests, with mocks:** `tests/unit/control/test_role_gating.py` — an allowed-path and a denied-path test per identity, plus a test that an `interrupt_on` tool genuinely pauses execution (using the scripted fake chat model pattern from Day 4).
 
 **Commit checkpoints:**
@@ -1465,7 +1465,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 - After step 4: `test(day-7): authorization and adversarial negative tests`
 - After step 6: `feat(day-7): local guardrail check and tool-boundary re-enforcement`
 - After step 8: `feat(day-7): approval gating and enriched audit trail`
-- After step 9: `docs(day-7): Security Model section in docs/ARCHITECTURE.md`
+- After step 9: `docs(day-7): Security Model section in docs/architecture/ARCHITECTURE.md`
 - After step 11: `feat(day-7): authorization-tests CI workflow`
 - After step 13 (final for the day): `test(day-7): role-gating unit tests`
 
@@ -1493,7 +1493,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 2. **Canvas project 1 — Agentic Kanban (~1–2h):** `/create-canvas`, ask for an agentic kanban board with actions to create, assign, and move cards. Project scope, landing in `.github/extensions/agentic-kanban/`. Confirm a UI-added card and an agent-added card both show up on the same board.
 3. **Canvas project 2 — GitHub Issue Triage Canvas (~2–4h):** `/create-canvas`, ask for a canvas pulling open issues from this repository, filterable/prioritizable visually, with capabilities to update assignment/status. Project scope, `.github/extensions/issue-triage-canvas/`.
 4. While iterating, try Canvas Dev Mode with Pick & Polish at least once.
-5. Separately, try GitHub Copilot CLI's custom-agent mechanism: create `docs-agent` (§10.2) — a small `.agent.md` file scoped to keeping `docs/ARCHITECTURE.md` and `docs/ficc-glossary.md` current.
+5. Separately, try GitHub Copilot CLI's custom-agent mechanism: create `docs-agent` (§10.2) — a small `.agent.md` file scoped to keeping `docs/architecture/ARCHITECTURE.md` and `docs/ficc-glossary.md` current.
 6. Skim `jongio/copilot-extensions` and the "Awesome GitHub Copilot" extensions gallery for a few minutes before Day 9.
 7. **Tests, with mocks:** for both canvases, write standalone tests for the capability handler functions (e.g., `add_card`, `move_card`, `update_issue_status`) as plain functions, mocking the GitHub API call each makes — UI rendering itself stays out of scope for automated testing (§4).
 
@@ -1503,7 +1503,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 - After step 3: `feat(day-8): GitHub issue triage canvas`
 - After step 5 and 7 (final for the day): `feat(day-8): docs-agent and canvas capability tests`
 
-**Track progress:** GIF/screenshots of both canvases; commit `.github/extensions/agentic-kanban/` and `.github/extensions/issue-triage-canvas/`; short comparison notes in `docs/LEARNINGS.md`.
+**Track progress:** GIF/screenshots of both canvases; commit `.github/extensions/agentic-kanban/` and `.github/extensions/issue-triage-canvas/`; short comparison notes in `docs/learning/LEARNINGS.md`.
 
 ---
 
@@ -1522,12 +1522,12 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 4. Agent skills reference — if you're comparing custom agents vs. skills vs. canvas capabilities again today
 
 **Steps:**
-1. Sketch the target layout in `docs/ARCHITECTURE.md` first: an agent-run list, a graph/trace view, evals/guardrails panels, and a cost/latency panel (§13, §5's OTel extension).
+1. Sketch the target layout in `docs/architecture/ARCHITECTURE.md` first: an agent-run list, a graph/trace view, evals/guardrails panels, and a cost/latency panel (§13, §5's OTel extension).
 2. `/create-canvas`, project scope, `.github/extensions/agent-ops-canvas/`. Ask for capabilities mirroring the console: `get_runs`, `get_trace(run_id)`, `retry_node(run_id, node)`, `approve_run(run_id)`, `run_evaluation(run_id)`, `get_guardrail_results(run_id)`, `get_cost_metrics(run_id)`, plus matching UI controls.
 3. Feed it real data: capabilities read from the Day 5 Deep Agent's run history and the Day 6 OTel/LangSmith traces, including the cost/token/latency span attributes added Day 6.
 4. Wire `approve_run` to the Day 7 `interrupt_on` hook, so approving in the canvas actually resumes a paused agent run.
 5. **Wire `run_evaluation(run_id)` to the real mechanism from §5 and Day 6**: pressing it triggers a LangSmith experiment run against the golden dataset for the current agent configuration, and the canvas displays per-dimension results (routing, tool selection, arguments, retrieval, answer, policy, guardrail) plus the cost/latency footprint — not a placeholder, not one aggregate score.
-6. Run both a single-agent question (Day 4) and a multi-agent question (Day 5) through the canvas, and compare their cost/latency panels side by side — a first concrete data point toward docs/PRD.md §3 principle 11's question: does the multi-agent design's quality gain justify its extra cost and latency? Note the answer, even a provisional one, in `docs/ARCHITECTURE.md`.
+6. Run both a single-agent question (Day 4) and a multi-agent question (Day 5) through the canvas, and compare their cost/latency panels side by side — a first concrete data point toward docs/architecture/PRD.md §3 principle 11's question: does the multi-agent design's quality gain justify its extra cost and latency? Note the answer, even a provisional one, in `docs/architecture/ARCHITECTURE.md`.
 7. **Tests, with mocks:** capability handler tests for `get_runs`, `get_trace`, `retry_node`, `approve_run`, `get_guardrail_results`, `get_cost_metrics`, mocking the OTel/LangSmith backend calls; `run_evaluation`'s handler test mocks the LangSmith experiment API rather than actually running one on every test.
 
 **Commit checkpoints:**
@@ -1536,7 +1536,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 - After step 6: `docs(day-9): single-vs-multi-agent cost/latency comparison`
 - After step 7 (final for the day): `test(day-9): agent operations canvas capability tests`
 
-**Track progress:** GIF/screenshot of the operations canvas mid-run, including one `run_evaluation` result; update `docs/ARCHITECTURE.md` with the capability list; commit `.github/extensions/agent-ops-canvas/`.
+**Track progress:** GIF/screenshot of the operations canvas mid-run, including one `run_evaluation` result; update `docs/architecture/ARCHITECTURE.md` with the capability list; commit `.github/extensions/agent-ops-canvas/`.
 
 ---
 
@@ -1553,18 +1553,18 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 2. MCP Python SDK README/examples — what `src/mcp_server/` is actually built with
 3. GitHub's own MCP context docs — how the canvas mounts the server you're building
 4. Canvas extensions how-to (GitHub docs) — re-read once more; this is the most complex canvas of the four
-5. `docs/PRD.md` §4 — the full business-problems catalog, since step 7 runs several of these questions through the capstone canvas end to end
+5. `docs/architecture/PRD.md` §4 — the full business-problems catalog, since step 7 runs several of these questions through the capstone canvas end to end
 
 **Steps:**
-1. **Build `src/mcp_server/`:** wrap the Day 3 Tool Layer functions (pricers, curves, portfolio, econometrics, backtest, and the scenario engine once it exists) as MCP tools, one server, reusing the same underlying Python. **Load each tool's existing `contracts/tools/<name>.schema.json` directly as that MCP tool's `inputSchema`** when registering it with the MCP SDK — don't author a second schema. This is the "one Tool Layer, mounted everywhere" principle (docs/PRD.md §3, principle 8) applied one level deeper than before: not just one implementation, one contract per tool too.
+1. **Build `src/mcp_server/`:** wrap the Day 3 Tool Layer functions (pricers, curves, portfolio, econometrics, backtest, and the scenario engine once it exists) as MCP tools, one server, reusing the same underlying Python. **Load each tool's existing `contracts/tools/<name>.schema.json` directly as that MCP tool's `inputSchema`** when registering it with the MCP SDK — don't author a second schema. This is the "one Tool Layer, mounted everywhere" principle (docs/architecture/PRD.md §3, principle 8) applied one level deeper than before: not just one implementation, one contract per tool too.
 2. **Propagate authentication context through MCP:** the caller's identity (Day 7's test-identity model) travels with the MCP call, not just the tool arguments — so the MCP server can re-run the same Cedar authorization check the FastAPI boundary does, rather than trusting whatever called it. This is what makes Day 7's parameter-level authorization ("Portfolio A allowed, Portfolio B denied") still hold once a canvas is the caller instead of a test script.
 3. `/create-canvas`, project scope, `.github/extensions/portfolio-risk-canvas/`. Describe the workflow explicitly: current exposure/volatility/drawdown, a control to run a scenario shock, agent trace and guardrail panels reused conceptually from Day 9, data-provenance indicators (which numbers are real public data vs. mock), and approval controls gated by the Day 7 role model.
-4. Point its capabilities at `src/mcp_server/` rather than calling FastAPI directly — the MCP-once, mount-everywhere principle from docs/PRD.md §3 (principle 8) paying off for the first time.
+4. Point its capabilities at `src/mcp_server/` rather than calling FastAPI directly — the MCP-once, mount-everywhere principle from docs/architecture/PRD.md §3 (principle 8) paying off for the first time.
 5. Add an identity selector (`PM_USER`/`RISK_USER`/`ADMIN_USER`) that resolves to a role via `config/roles.yaml`, with permissions decided by Cedar from there (§15.1's split); confirm a `RISK_USER` session genuinely can't see or trigger an `ADMIN_USER`-only capability such as running the backtest, and confirm the Day 7 portfolio-level restriction (not just tool-level) still holds through the canvas → MCP path.
 6. **Custom agent:** define `risk-narrator-agent` (§10.2) — for drafting polished narrative write-ups from the canvas's underlying data, distinct from the Portfolio Manager's own tool-calling responses.
 7. Iterate using Canvas Dev Mode / Pick & Polish as needed.
-8. Run several questions from docs/PRD.md §4's full sample set through the canvas end to end, and capture at least one full screenshot walkthrough.
-9. **Confirm docs/PRD.md §4 is still accurate** — this is the day every layer of the platform is wired together, so it's the right point to do a complete pass confirming each of the 20 sample questions is actually answerable end to end, not just planned. If anything drifted, that's a `docs/PRD.md` update, made deliberately and reviewed like any spec change (not automated).
+8. Run several questions from docs/architecture/PRD.md §4's full sample set through the canvas end to end, and capture at least one full screenshot walkthrough.
+9. **Confirm docs/architecture/PRD.md §4 is still accurate** — this is the day every layer of the platform is wired together, so it's the right point to do a complete pass confirming each of the 20 sample questions is actually answerable end to end, not just planned. If anything drifted, that's a `docs/architecture/PRD.md` update, made deliberately and reviewed like any spec change (not automated).
 10. **Tests, with mocks:** `tests/unit/mcp_server/` — one test per MCP tool, calling the underlying `src/analytics/` function directly (already covered) plus a contract test confirming the registered MCP tool's `inputSchema` *is* (not just matches) the same `contracts/tools/` file the FastAPI endpoint validates against — a direct object/content check, which is what actually catches the two ever silently drifting apart. An authorization test confirming identity propagation actually blocks a cross-portfolio call through the MCP path specifically (not just at the FastAPI boundary already tested Day 7). Capability handler tests for the canvas itself, as in Day 8–9, mocking the MCP calls.
 
 **Commit checkpoints:**
@@ -1592,7 +1592,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 4. Conventional Commits (`conventionalcommits.org`) — a good day to make sure the commit-message convention is second nature before the real PR exercise in step 6
 
 **Steps:**
-1. Finish `scripts/artifacts_host.py` with one more real single-file HTML artifact (e.g., a self-contained Plotly report of the current risk summary), and compare it explicitly in `docs/ARCHITECTURE.md` against the canvases' own `artifacts/` folders from Days 8–10.
+1. Finish `scripts/artifacts_host.py` with one more real single-file HTML artifact (e.g., a self-contained Plotly report of the current risk summary), and compare it explicitly in `docs/architecture/ARCHITECTURE.md` against the canvases' own `artifacts/` folders from Days 8–10.
 2. Optionally stand up a minimal `src/ui/app.py` Streamlit view calling the Day 5 agent, purely as a second, framework-agnostic comparison point to the canvases.
 3. `docker-compose.yml` bringing up the API + MCP server + artifact host (+ Streamlit, if built) together; document `docker compose up` as the one-command demo.
 4. **Publish the prompt library (§9):** write all six business-workflow prompts (`/morning-portfolio-review`, `/scenario-stress-test`, `/benchmark-attribution`, `/investment-committee-brief`, `/liquidity-funding-check`, `/correlation-diversification-check`) plus the one developer-workflow prompt (`/onboard-new-tool`) into `.github/prompts/`, following the template in §9.2. Wire `/investment-committee-brief` to output a report and optionally render it as one of the single-file artifacts from step 1.
@@ -1601,7 +1601,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 7. **Implement `.github/workflows/skills-freshness.yml`** per §8.4.
 8. **Implement `.github/workflows/contract-tests.yml`**, completing the six-stage skill CI pipeline from §8.3 (schema/lint, freshness, static contract, mock execution, behavioral eval, negative tests) and running it against every skill built so far (`portfolio-risk-summary`, `scenario-analysis`, `python-best-practices`, `new-tool-onboarding`, `ficc-glossary-maintainer`, `canvas-capability-authoring`, `control-layer-role-change`) — this is the day the pipeline described since Day 4 actually becomes a real, running CI check rather than a manual first-pass.
 9. **Automation sub-layer, two ways:** (a) a scheduled GitHub Action (`morning-brief.yml`) running the `/morning-portfolio-review` prompt against the mock portfolio every weekday morning and opening a GitHub Issue with the result; (b) the GitHub Copilot app's own native automations feature doing the same from within the app. Both stay approval-only.
-10. **Create `docs/RUNBOOK.md`** — one place documenting how to: start the local stack (`docker compose up`), run tests (`uv run pytest`), run an evaluation (trigger `eval-regression.yml` or the Day 9 canvas's `run_evaluation`), inspect a trace (LangSmith UI, local OTel view), launch each canvas, deploy to AgentCore (points ahead to Day 12), validate security (`uv run pytest governance/tests/`), and tear down AWS resources. This is written now because the project is close enough to the deployable end-state (Day 12) for a runbook to mean something concrete.
+10. **Create `docs/guides/RUNBOOK.md`** — one place documenting how to: start the local stack (`docker compose up`), run tests (`uv run pytest`), run an evaluation (trigger `eval-regression.yml` or the Day 9 canvas's `run_evaluation`), inspect a trace (LangSmith UI, local OTel view), launch each canvas, deploy to AgentCore (points ahead to Day 12), validate security (`uv run pytest governance/tests/`), and tear down AWS resources. This is written now because the project is close enough to the deployable end-state (Day 12) for a runbook to mean something concrete.
 11. **Tests, with mocks:** a small standalone test for the `skills-freshness.yml` script itself (§4) — fixture git history / fixture `SKILL.md` frontmatter, asserting the check correctly passes/fails.
 
 **Commit checkpoints:**
@@ -1610,7 +1610,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 - After step 5: `feat(day-11): pr-reviewer and skills-auditor custom agents`
 - Step 6 is its own branch/PR, merged via GitHub's UI rather than a local `git push origin main`
 - After step 9 (back on `main`): `feat(day-11): skills-freshness and contract-tests CI, automation workflows`
-- After step 11 (final for the day): `docs(day-11): docs/RUNBOOK.md; test(day-11): skills-freshness script test`; **tag `v0.1`** (`git tag v0.1 && git push --tags`)
+- After step 11 (final for the day): `docs(day-11): docs/guides/RUNBOOK.md; test(day-11): skills-freshness script test`; **tag `v0.1`** (`git tag v0.1 && git push --tags`)
 
 **Track progress:** tag `v0.1`; link the real Copilot-App-authored PR and the first scheduled morning-brief issue from `PROGRESS.md`.
 
@@ -1642,18 +1642,18 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 
 **Steps:**
 1. Close out the Tool Layer, part 1 — scenario analysis: `src/analytics/scenario.py` — a rates-shock and credit-shock scenario engine, tested, wired as a tool and as an MCP capability, and finish `skills/scenario-analysis/SKILL.md`.
-2. **Close out the Tool Layer, part 2 — real portfolio optimization**, the capability the project's own name has been promising since Day 1 and hasn't delivered until now (see `docs/REFERENCES.md`'s new Portfolio Optimization section before starting this step). Build `src/analytics/optimizer.py` using `PyPortfolioOpt`, the standard library for this: `optimize_max_sharpe()` and `optimize_min_volatility()` (classic Markowitz mean-variance, via `EfficientFrontier`) and `optimize_risk_parity()` (Hierarchical Risk Parity via `HRPOpt`) — three genuinely different allocation philosophies, not three variations on one. Add a `compare_to_current()` helper returning the weight deltas and turnover versus the portfolio's actual current holdings, since a bare list of proposed weights is much less useful than a comparison. Write `contracts/tools/optimize_portfolio.schema.json` (input: method, optional target return, optional constraints; output: proposed weights, expected return/volatility, Sharpe ratio, turnover) — same pattern as every other tool contract since Day 3. Wire it as a FastAPI endpoint and, since Day 10's MCP server already exists, extend it with this capability the same way step 1 just did for the scenario engine. **Write `skills/portfolio-optimization-narration/SKILL.md` and its `contract.yaml`** (§8.6) — how to explain a proposed reallocation in PM terms (current vs. proposed weights, the return/volatility tradeoff, turnover cost), the optimization counterpart to `portfolio-risk-summary`. Validate against the three new business questions in `docs/PRD.md` §4.2 (minimum-variance reweighting, maximum-Sharpe allocation, risk-parity comparison) — these only became answerable as of this step. **Write `.github/prompts/optimize-portfolio.prompt.md`** (§9.3) — the seventh business-workflow prompt, the one exception not built alongside the other six on Day 11, since the tool it wraps didn't exist yet. **Tests:** hand-calculable cases against a small toy portfolio (2–3 assets with known covariance) where the mean-variance optimum can be verified by hand or against a reference implementation — this is a pure deterministic function, same testing philosophy as every other analytics tool since Day 3 (docs/PRD.md §3, principle 2), not a special case.
+2. **Close out the Tool Layer, part 2 — real portfolio optimization**, the capability the project's own name has been promising since Day 1 and hasn't delivered until now (see `docs/reference/REFERENCES.md`'s new Portfolio Optimization section before starting this step). Build `src/analytics/optimizer.py` using `PyPortfolioOpt`, the standard library for this: `optimize_max_sharpe()` and `optimize_min_volatility()` (classic Markowitz mean-variance, via `EfficientFrontier`) and `optimize_risk_parity()` (Hierarchical Risk Parity via `HRPOpt`) — three genuinely different allocation philosophies, not three variations on one. Add a `compare_to_current()` helper returning the weight deltas and turnover versus the portfolio's actual current holdings, since a bare list of proposed weights is much less useful than a comparison. Write `contracts/tools/optimize_portfolio.schema.json` (input: method, optional target return, optional constraints; output: proposed weights, expected return/volatility, Sharpe ratio, turnover) — same pattern as every other tool contract since Day 3. Wire it as a FastAPI endpoint and, since Day 10's MCP server already exists, extend it with this capability the same way step 1 just did for the scenario engine. **Write `skills/portfolio-optimization-narration/SKILL.md` and its `contract.yaml`** (§8.6) — how to explain a proposed reallocation in PM terms (current vs. proposed weights, the return/volatility tradeoff, turnover cost), the optimization counterpart to `portfolio-risk-summary`. Validate against the three new business questions in `docs/architecture/PRD.md` §4.2 (minimum-variance reweighting, maximum-Sharpe allocation, risk-parity comparison) — these only became answerable as of this step. **Write `.github/prompts/optimize-portfolio.prompt.md`** (§9.3) — the seventh business-workflow prompt, the one exception not built alongside the other six on Day 11, since the tool it wraps didn't exist yet. **Tests:** hand-calculable cases against a small toy portfolio (2–3 assets with known covariance) where the mean-variance optimum can be verified by hand or against a reference implementation — this is a pure deterministic function, same testing philosophy as every other analytics tool since Day 3 (docs/architecture/PRD.md §3, principle 2), not a special case.
 3. Deploy the Day 5 Portfolio Manager Deep Agent onto **AgentCore Runtime** via the **AgentCore Harness**, so model, tools, skills, and instructions are declared as configuration. **Use AgentCore Runtime's direct code deployment path for Python, not the container-based (Dockerfile → ECR) path.** This project is pure Python with no unusual system dependency forcing a custom image, so direct code deployment skips an entire extra AWS service (ECR) and the cross-platform ARM64 build issues that trip people up building containers for AgentCore on a Mac. Docker, installed since Day 1, plays no role in this step — it's genuinely idle again today, same as it was before Day 6/11 (see `INSTALL.md` §1 for why it's installed early anyway). If you want the container-based path as its own learning exercise later, it's a legitimate stretch item — just don't let it block today's core deployment. Write an ADR (`docs/adr/`) for this choice — direct code deployment vs. containers — since it's exactly the kind of decision the PDF's ADR recommendation exists for.
-4. Front your Tool Layer with **AgentCore Gateway**, pointing it at the *same* `src/mcp_server/` you built on Day 10 (AgentCore Gateway connects to existing MCP servers directly) — the payoff of docs/PRD.md §3's "build once, mount everywhere" principle (principle 8). **Enforce the Gateway-only governed path (§15.3): confirm no path exists from the deployed agent, or from anything else, to the Tool Layer that bypasses Gateway.** Write the ADR for this trust-boundary decision.
-5. Configure **AgentCore Identity** and **AgentCore Policy** as the managed equivalents of your Day 7 local Cedar/entitlement setup; port the intent of `governance/policies/*.cedar` into AgentCore Policy's model. Note in `docs/ARCHITECTURE.md`'s Security Model section what changed and what stayed conceptually the same, updating the §15.4 layer table with the AWS column now filled in for real rather than planned.
+4. Front your Tool Layer with **AgentCore Gateway**, pointing it at the *same* `src/mcp_server/` you built on Day 10 (AgentCore Gateway connects to existing MCP servers directly) — the payoff of docs/architecture/PRD.md §3's "build once, mount everywhere" principle (principle 8). **Enforce the Gateway-only governed path (§15.3): confirm no path exists from the deployed agent, or from anything else, to the Tool Layer that bypasses Gateway.** Write the ADR for this trust-boundary decision.
+5. Configure **AgentCore Identity** and **AgentCore Policy** as the managed equivalents of your Day 7 local Cedar/entitlement setup; port the intent of `governance/policies/*.cedar` into AgentCore Policy's model. Note in `docs/architecture/ARCHITECTURE.md`'s Security Model section what changed and what stayed conceptually the same, updating the §15.4 layer table with the AWS column now filled in for real rather than planned.
 6. **Configure a minimal Bedrock Guardrail** and attach it to the Bedrock model invocation used by the AgentCore Runtime deployment: one denied-topics filter (reuse the Day 7 local guardrail's banned-terms list) and one content filter. Test it blocks one deliberately-triggering prompt and passes a normal one through untouched. This is intentionally minimal — full depth (more topics, more testing, the fine-tuning/multi-region/cost stretch) is Day 14's job; today's job is proving the fourth layer of §15's model (AuthN → AuthZ → Guardrails → Tool enforcement) is real on AWS too, not just locally.
 7. Point **AgentCore Observability** at the deployed agent and confirm traces surface in CloudWatch, alongside your Day 6 local OTel/LangSmith setup and your Day 9 operations canvas.
 8. **Final regression check (§5, Appendix C):** re-run the full golden dataset (`evals/golden_dataset.jsonl`) as one more LangSmith experiment, this time against the AgentCore-deployed agent, and compare it per-dimension to the Day 6 baseline and any Day 4/5 local-variant experiments — the same dataset, three configurations, one comparable view, including the cost/latency footprint from Day 6's OTel extension.
-9. **Security acceptance test (docs/PRD.md §5), run for real against the deployed agent:** confirm an authenticated-but-unauthorized identity still cannot retrieve restricted portfolio data through the deployed system, including via a prompt-injection attempt — the Day 7 local version of this test, now proven at the AWS deployment too.
+9. **Security acceptance test (docs/architecture/PRD.md §5), run for real against the deployed agent:** confirm an authenticated-but-unauthorized identity still cannot retrieve restricted portfolio data through the deployed system, including via a prompt-injection attempt — the Day 7 local version of this test, now proven at the AWS deployment too.
 10. Write a small smoke-test script (deliberately *not* mocked — this is the one place a real deployed endpoint is hit once) confirming the AgentCore agent answers one sample question from Appendix C correctly end to end.
 11. **Tear down or scale the AWS resources to zero** once you've captured screenshots/exported traces, to avoid ongoing cost. Note in `PROGRESS.md` that this is a captured demo, not a running service.
-12. Write the final `docs/LEARNINGS.md` entry, consolidating the daily entries into a short retro: what clicked, where local mocks under- or over-simplified the managed services, 3–5 FICC terms genuinely understood through implementation, and a final mock→real status table.
-13. Do a final pass on `docs/REFERENCES.md`, `docs/adr/` (confirm every major decision from the plan has an ADR — LangGraph choice, deterministic tool boundary, MCP boundary, OTel, skills/prompts/agents, Gateway trust boundary, policy vs. guardrails, local vs. managed runtime, direct-code vs. container deployment), and confirm `docs/PRD.md` §4 and §5 (success criteria, all three tiers and all three acceptance tests) are met.
+12. Write the final `docs/learning/LEARNINGS.md` entry, consolidating the daily entries into a short retro: what clicked, where local mocks under- or over-simplified the managed services, 3–5 FICC terms genuinely understood through implementation, and a final mock→real status table.
+13. Do a final pass on `docs/reference/REFERENCES.md`, `docs/adr/` (confirm every major decision from the plan has an ADR — LangGraph choice, deterministic tool boundary, MCP boundary, OTel, skills/prompts/agents, Gateway trust boundary, policy vs. guardrails, local vs. managed runtime, direct-code vs. container deployment), and confirm `docs/architecture/PRD.md` §4 and §5 (success criteria, all three tiers and all three acceptance tests) are met.
 14. Draft a short public write-up summarizing the 20-day track, framed explicitly as personal, company-agnostic tooling practice.
 
 **Commit checkpoints:**
@@ -1664,7 +1664,7 @@ Each day's **Track progress** line below adds the day-specific artifacts (tags, 
 - After step 10: `test(day-12): AgentCore smoke test, security acceptance test, final cross-configuration regression check`
 - After step 14 (final for the whole project): `docs(day-12): final learnings, references, ADR pass, and write-up`; **tag `v0.2`** (`git tag v0.2 && git push --tags`)
 
-**Track progress:** tag `v0.2`; publish the write-up; list the next-iteration backlog (docs/PRD.md §6 — real hallucination/grounding evals wired into the operations canvases, an EDGAR-based research tool, a fifth canvas, public/synthetic-fallback sentiment connectors). AgentCore Memory, AWS-native Evaluations, and a richer Guardrails configuration, previously on this backlog, now have their own optional extension days immediately below.
+**Track progress:** tag `v0.2`; publish the write-up; list the next-iteration backlog (docs/architecture/PRD.md §6 — real hallucination/grounding evals wired into the operations canvases, an EDGAR-based research tool, a fifth canvas, public/synthetic-fallback sentiment connectors). AgentCore Memory, AWS-native Evaluations, and a richer Guardrails configuration, previously on this backlog, now have their own optional extension days immediately below.
 
 ---
 
@@ -1691,7 +1691,7 @@ Given the goal of *proficiency* with the AWS Bedrock/AgentCore stack specificall
 **Install:** nothing new — reuses the AgentCore SDK from Day 1/12.
 
 **Account setup — extend Day 12's IAM policy:**
-1. If live AWS work is planned, find the developer role created Day 12 and attach the additional least-privilege permissions AgentCore Memory and AgentCore Evaluations need (check AWS's current AgentCore IAM permissions doc, `docs/REFERENCES.md`, since exact policy names evolve). Otherwise use the local contract and mocks first.
+1. If live AWS work is planned, find the developer role created Day 12 and attach the additional least-privilege permissions AgentCore Memory and AgentCore Evaluations need (check AWS's current AgentCore IAM permissions doc, `docs/reference/REFERENCES.md`, since exact policy names evolve). Otherwise use the local contract and mocks first.
 2. Confirm the Day 12 budget alert is still active — Memory storage and Evaluations runs add small incremental cost on top of Day 12's baseline.
 
 **Recommended dev tool:** Claude Code — this is the day most likely to need debugging against unfamiliar AWS APIs, similar to Day 12.
@@ -1738,18 +1738,18 @@ Given the goal of *proficiency* with the AWS Bedrock/AgentCore stack specificall
 1. **Extend, don't recreate, Day 12's Guardrail:** add more denied topics beyond the single one from Day 12 — a denied topic for unqualified buy/sell trading directives (a genuinely relevant guardrail for a PM-facing tool that should narrate risk, not issue trade instructions), and expand the denied-terms list to fully match the Day 7/Day 1 banned-terms concept rather than the minimal starter subset.
 2. Confirm the extended Guardrail is still attached to the same Bedrock model invocation from Day 12 — no new attachment step, since that plumbing already exists.
 3. Test the expanded configuration: at least two prompts that should pass through untouched, and at least two more deliberately designed to trip different denied-topics filters than the one Day 12 already tested — confirm the Guardrail intervenes on the new cases too, and capture all transcripts.
-4. Finalize the §15.4 layer table in `docs/ARCHITECTURE.md`'s Security Model section: local Cedar policy governs *which tools and resources* an agent can access; AgentCore Policy governs *access* at the platform level; Bedrock Guardrails governs *content*, independent of both; the Gateway-fronted MCP boundary is the final tool-enforcement layer — four real, distinct governance layers, each demonstrated locally (Day 7) and on AWS (Day 12, deepened today).
+4. Finalize the §15.4 layer table in `docs/architecture/ARCHITECTURE.md`'s Security Model section: local Cedar policy governs *which tools and resources* an agent can access; AgentCore Policy governs *access* at the platform level; Bedrock Guardrails governs *content*, independent of both; the Gateway-fronted MCP boundary is the final tool-enforcement layer — four real, distinct governance layers, each demonstrated locally (Day 7) and on AWS (Day 12, deepened today).
 5. **Tests, with mocks:** extend the Day 12 standalone test for Guardrail configuration/response-handling to cover the new denied topics, mocking the Bedrock API response for both the pass and blocked cases.
 
 **Steps — optional stretch (skip any or all; each is independent of the others):**
-6. **Fine-tuning/customization — the most skippable of the three; can be read-only.** At minimum, read AWS's Bedrock custom-models documentation (docs/REFERENCES.md) and understand the shape of the workflow: data prep, a fine-tuning or continued-pretraining job, evaluating the resulting custom model. If you want a hands-on pass, run the smallest, cheapest example AWS's own quickstart offers, on a tiny synthetic/public dataset (e.g., a handful of FICC glossary Q&A pairs) — but treat this as genuinely optional; fine-tuning jobs can take real time and incur cost even at small scale, and nothing else in this project depends on a custom model.
+6. **Fine-tuning/customization — the most skippable of the three; can be read-only.** At minimum, read AWS's Bedrock custom-models documentation (docs/reference/REFERENCES.md) and understand the shape of the workflow: data prep, a fine-tuning or continued-pretraining job, evaluating the resulting custom model. If you want a hands-on pass, run the smallest, cheapest example AWS's own quickstart offers, on a tiny synthetic/public dataset (e.g., a handful of FICC glossary Q&A pairs) — but treat this as genuinely optional; fine-tuning jobs can take real time and incur cost even at small scale, and nothing else in this project depends on a custom model.
 7. **Multi-region deployment — light touch.** Redeploy the same AgentCore Runtime configuration from Day 12 into a second region via the Harness config. Note what changes (endpoint, and that Memory/state from Day 13 does *not* automatically follow to the new region) and what would be needed for real failover — you're not building failover logic, just understanding its shape. Tear this down immediately after taking notes.
 8. **Cost review — light touch, no new infrastructure.** Open AWS Cost Explorer, filter to the date range covering Days 12–14, and itemize spend by service (Bedrock inference, AgentCore Runtime compute, Memory storage, any second-region resources from step 7). Write 2–3 concrete cost-lowering techniques into `docs/comparison-notes.md`'s AWS-extension section — e.g., prompt caching, right-sizing the model per sub-agent role, on-demand vs. provisioned-throughput tradeoffs — an analytical pass, not a rebuild.
 9. **Tear down everything from today** — the extended Guardrail configuration (if you want to keep the account clean), any second-region resources from step 7, and reconfirm Day 12's teardown is still complete. Nothing from the AWS extension should be left running.
 
 **Commit checkpoints:**
 - After step 3: `feat(day-14): extended Bedrock Guardrail — additional denied topics, tested pass/block`
-- After step 5 (end of core path): `docs(day-14): finalized four-layer governance table in docs/ARCHITECTURE.md; test(day-14): extended Guardrail tests for new denied topics`
+- After step 5 (end of core path): `docs(day-14): finalized four-layer governance table in docs/architecture/ARCHITECTURE.md; test(day-14): extended Guardrail tests for new denied topics`
 - After any stretch items completed: `docs(day-14): optional AWS extension notes — fine-tuning / multi-region / cost review` (only whichever you actually did)
 
 **Track progress:** `PROGRESS.md` narrative entry with the pass/blocked Guardrail transcripts from step 3; note explicitly which stretch items (6–8) were done versus skipped — skipping some or all of them is a legitimate, expected outcome, not an incomplete day.
@@ -1820,11 +1820,11 @@ and live provider evidence.
 
 ## Appendix C — Traceability, Evaluation & Model-Switching Regression Tests
 
-This appendix is the concrete, per-agent detail behind §5's evaluation strategy: what actually goes in `evals/golden_dataset.jsonl` and its three companion files, and how it's used every time a model changes. It's the machine-checkable companion to the business problems catalog in `docs/PRD.md` §4.
+This appendix is the concrete, per-agent detail behind §5's evaluation strategy: what actually goes in `evals/golden_dataset.jsonl` and its three companion files, and how it's used every time a model changes. It's the machine-checkable companion to the business problems catalog in `docs/architecture/PRD.md` §4.
 
 ### C.1 The mechanism, restated concretely
 
-- **Golden dataset** = `evals/golden_dataset.jsonl` (C.2–C.5 below give the starter cases, one table per agent domain; `docs/PRD.md` §4's full 23 questions are all candidates for the dataset over time, added via the `eval-dataset-authoring` skill as the project matures, toward ~30 cases at full build-out) plus three companion files, each isolating one dimension that's easy to lose inside a general question: `evals/routing_cases.jsonl` (C.6), `evals/authorization_cases.jsonl` (C.7), and `evals/guardrail_cases.jsonl` (C.8).
+- **Golden dataset** = `evals/golden_dataset.jsonl` (C.2–C.5 below give the starter cases, one table per agent domain; `docs/architecture/PRD.md` §4's full 23 questions are all candidates for the dataset over time, added via the `eval-dataset-authoring` skill as the project matures, toward ~30 cases at full build-out) plus three companion files, each isolating one dimension that's easy to lose inside a general question: `evals/routing_cases.jsonl` (C.6), `evals/authorization_cases.jsonl` (C.7), and `evals/guardrail_cases.jsonl` (C.8).
 - **Seven evaluation dimensions** (§5): routing, tool selection, tool arguments, retrieval/context quality, final answer, policy compliance, guardrail behavior. Most golden-dataset cases exercise routing + tool selection + tool arguments + final answer together; the companion files exist because policy compliance and guardrail behavior specifically need adversarial, not just representative, cases.
 - **Experiment** = one full run of a dataset file against one specific agent configuration (a model, a prompt/skill version), scored per dimension by its own evaluator.
 - **OpenTelemetry** is the trace transport underneath both your local view and LangSmith — as of 2026 LangSmith is OTel-native, so a single trace ID is traceable in both places, and (from Day 6) carries cost/token/latency attributes alongside the quality score.
@@ -1857,7 +1857,7 @@ This appendix is the concrete, per-agent detail behind §5's evaluation strategy
 |---|---|---|---|
 | "Where are we overweight relative to benchmark?" | `get_benchmark_relative_weights()` | Specific asset classes/sectors where active weight is meaningfully positive | "The portfolio is overweight [sector] by approximately X percentage points relative to the benchmark, and underweight [sector] by Y." |
 | "What drove underperformance this month?" | `get_attribution(period="1M")` combined with benchmark comparison | A decomposition into at least two contributing factors (e.g., rates, selection, sector allocation) | "Underperformance was driven primarily by [factor], partially offset by favorable [factor]." |
-| "Which holdings have deteriorating sentiment?" | `get_research_summary()` (mocked — docs/PRD.md §6) | A named subset of holdings with a flagged sentiment trend, explicitly labeled as mock-sourced today | "Based on the current mock research feed, [tickers] show a declining sentiment trend — treat as illustrative until the research tool is real (docs/PRD.md §6)." |
+| "Which holdings have deteriorating sentiment?" | `get_research_summary()` (mocked — docs/architecture/PRD.md §6) | A named subset of holdings with a flagged sentiment trend, explicitly labeled as mock-sourced today | "Based on the current mock research feed, [tickers] show a declining sentiment trend — treat as illustrative until the research tool is real (docs/architecture/PRD.md §6)." |
 
 ### C.5 Portfolio Manager orchestrator — golden dataset examples
 

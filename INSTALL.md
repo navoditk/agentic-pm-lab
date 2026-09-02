@@ -88,10 +88,10 @@ This creates the empty repo on GitHub, then clones it to your machine with the `
    ```
    Worth setting once, globally, so this doesn't recur on future repos: `git config --global init.defaultBranch main`.
 
-**The very first commit should be the pre-written control-plane documents themselves** — copy the root entry points plus `docs/PRD.md`, `docs/PLAN.md`, and `docs/REFERENCES.md` into the paths shown below before writing any code:
+**The very first commit should be the pre-written control-plane documents themselves** — copy the root entry points plus `docs/architecture/PRD.md`, `docs/PLAN.md`, and `docs/reference/REFERENCES.md` into the paths shown below before writing any code:
 
 ```
-git add README.md docs/README.md docs/PRD.md docs/PLAN.md PROGRESS.md AGENTS.md docs/REFERENCES.md INSTALL.md
+git add README.md docs/README.md docs/architecture/PRD.md docs/PLAN.md PROGRESS.md AGENTS.md docs/reference/REFERENCES.md INSTALL.md
 git commit -m "docs: initial README, PRD, PLAN, PROGRESS, AGENTS, REFERENCES, INSTALL"
 git push --set-upstream origin main
 ```
@@ -274,7 +274,7 @@ Ask me before anything that needs an account or API key I haven't set up yet.
 - [ ] `codex --version` runs, and `codex` then "Sign in with ChatGPT" completes successfully (optional — only if you plan to use Codex CLI)
 - [ ] `aws --version` runs (credentials come later, on Day 12 — just confirm the CLI itself is installed)
 - [ ] The repo is cloned locally, with `origin` pointing at your GitHub repo (`git remote -v`), the current branch is `main` (`git branch --show-current`), and `git config user.email` shows a real address, not an auto-generated `.local` one
-- [ ] `README.md`, `docs/PRD.md`, `docs/PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `docs/REFERENCES.md`, and this file are committed and pushed
+- [ ] `README.md`, `docs/architecture/PRD.md`, `docs/PLAN.md`, `PROGRESS.md`, `AGENTS.md`, `docs/reference/REFERENCES.md`, and this file are committed and pushed
 - [ ] `pyproject.toml` and `uv.lock` exist and are committed; `uv run python -c "import fastapi, deepagents, boto3, jsonschema, tiktoken"` succeeds with no import errors (add `import cedarpy` to this same check once Day 7 arrives and it's actually wired up)
 - [ ] Optional — only if you installed the standalone Cedar CLI alongside `cedarpy`: `cedar --version` runs, and `cedar check-parse --policies <file>.cedar` correctly accepts a valid policy and rejects a malformed one
 - [ ] Copilot coding agent is enabled in repo Settings

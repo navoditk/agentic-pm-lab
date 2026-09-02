@@ -22,7 +22,7 @@ Negative examples:
 3. "Run a paid evaluation automatically on every unit test." Keep network/cloud calls outside deterministic tests.
 
 For every answer, cite the relevant repository file or section of
-`docs/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. Do not edit files, call paid
 services, access credentials, or make investment recommendations.
 

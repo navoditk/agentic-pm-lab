@@ -1,6 +1,6 @@
 """Pre-commit hook: reject a commit containing any banned term.
 
-Reinforces docs/PRD.md §3 principle 3 (public/mock data only, no company-sensitive
+Reinforces docs/architecture/PRD.md §3 principle 3 (public/mock data only, no company-sensitive
 terminology) at commit time rather than only at review time. Banned terms
 live in config/security/banned-terms.txt, one per line, case-insensitive.
 """
@@ -49,7 +49,7 @@ def main(argv: list[str]) -> int:
 
     if found_any:
         print(
-            "Commit blocked -- remove the banned term(s) above (docs/PRD.md §3, principle 3)."
+            "Commit blocked -- remove the banned term(s) above (docs/architecture/PRD.md §3, principle 3)."
         )
         return 1
     return 0

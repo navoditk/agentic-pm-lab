@@ -16,7 +16,7 @@ Review in this order:
 3. Check that FastAPI, MCP, Canvas, and agent paths re-check identity,
    authorization, portfolio resources, guardrails, and approval requirements.
 4. Check provenance, freshness, point-in-time assumptions, mock markers, and
-   whether docs/ARCHITECTURE.md, PROGRESS.md, and relevant skills changed.
+   whether docs/architecture/ARCHITECTURE.md, PROGRESS.md, and relevant skills changed.
 5. Check observability attributes, failure handling, and regression/eval impact.
 
 Return a severity-ranked Markdown report with file/line evidence, a concise

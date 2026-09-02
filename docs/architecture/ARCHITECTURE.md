@@ -29,16 +29,16 @@ flow.
 
 ## The layers, and what exists today (Day 21)
 
-| Layer | Target end-state (`docs/PRD.md` §2) | What exists today |
+| Layer | Target end-state (`docs/architecture/PRD.md` §2) | What exists today |
 |---|---|---|
 | **Data Layer** | Real yfinance/FRED/SEC EDGAR public ingestion | `src/ingestion/prices.py` loads daily OHLCV for six public ETFs from yfinance; `src/ingestion/macro.py` loads Treasury yields, Fed Funds, and CPI from FRED and derives `curve_points`. `src/ingestion/public_investment.py` adds tested, real-capable normalizers/fetchers for SEC Company Facts/submissions, ALFRED, Treasury auctions, NY Fed SOFR, CFTC COT, and Kenneth French factors. The latter paths are not yet promoted into canonical DuckDB tables or claimed as live experiment evidence. `security_master` and `portfolio_positions` remain invented CSV fixtures and retain their `# MOCK` marker. |
-| **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`docs/PRD.md` §3, principle 10) | `config/roles.yaml` assigns three local test identities only. Cedar policies independently govern tools and portfolio resources, agent construction removes unauthorized tools before model binding, portfolio context is checked before model access, a denied-terms guardrail checks input/context/output, and FastAPI re-checks tool plus resource access. Backtests pause for human approval. Every decision records its layer and OTel trace ID. |
+| **Control Layer** | AuthN, AuthZ, Guardrails, and Tool enforcement as four separately-tested concerns (`docs/architecture/PRD.md` §3, principle 10) | `config/roles.yaml` assigns three local test identities only. Cedar policies independently govern tools and portfolio resources, agent construction removes unauthorized tools before model binding, portfolio context is checked before model access, a denied-terms guardrail checks input/context/output, and FastAPI re-checks tool plus resource access. Backtests pause for human approval. Every decision records its layer and OTel trace ID. |
 | **Tool Layer** | Real deterministic engines, one JSON Schema contract each, wrapped once as MCP | In addition to pricing, curves, exposure, risk, regression, and backtest, `src/analytics/scenario.py` provides first-order rates/credit shocks and `src/analytics/optimizer.py` provides max-Sharpe, minimum-volatility, and risk-parity allocation proposals with turnover/concentration checks. FastAPI and MCP expose both under the same contracts. Research and portfolio classifications intentionally remain mocked. |
 | **Interactive Layer** | Four real GitHub Copilot Canvas extensions | Four project canvases now exist: `agentic-kanban`, `issue-triage-canvas`, `agent-ops-canvas`, and the Portfolio/Risk capstone. Day 19 extends Agent Operations with evidence-provider health, committee rebuttal, fixed-income, promotion/SLO, and incident/replay panels. Day 21 adds a bounded PM question runner that invokes the Python capstone in fixture mode and exposes stage, audit, evaluation, provenance, trace, token, cost, and failure evidence. The Canvas remains an interaction surface, not a trust boundary. |
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime → Gateway-governed tools | `src/runtime/agentcore_app.py` is a direct-code AgentCore entrypoint for the same Portfolio Manager, with `config/agentcore.yaml` capturing Runtime/Gateway/Identity/Policy/Guardrails/OTel intent. A temporary Runtime reached `READY`, completed a bounded read-only request, and was torn down. The disposable API Gateway target and AgentCore Gateway runbook are implemented; live Gateway evidence is pending SSO renewal. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. `src/agents/investment_research.py` adds a separate research supervisor with Quantitative Analysis, News/Research, and Smart Summarizer specialists. Each specialist receives only its domain tools, and the orchestrators receive no ungoverned analytics tools directly. `multi_agent_local.py` reproduces the original hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. Day 21 adds a structured local execution envelope with stage durations, audit events, trace IDs, explicit token basis, and zero-cost fixture accounting. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
-| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. AgentCore Memory, standalone Guardrails, batch control-path, and scored on-demand Evaluation evidence are recorded in `docs/EVIDENCE.md`; hosted-runtime span collection remains optional. |
+| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. AgentCore Memory, standalone Guardrails, batch control-path, and scored on-demand Evaluation evidence are recorded in `docs/evidence/EVIDENCE.md`; hosted-runtime span collection remains optional. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | `.github/workflows/morning-brief.yml` provides an approval-only scheduled review; native Copilot automation remains a platform/browser evidence task. Day 21 provides a learner-triggered Canvas workflow over the local capstone. |
 
 The Data Layer is intentionally mixed: public price/macro data is real and the
@@ -141,6 +141,18 @@ evals/*.jsonl                        golden, routing, authorization, and guardra
 scripts/run_eval.py                  OTel-native LangSmith experiment and scoring runner
 config/eval-baseline.json            accepted fast/full scores and regression tolerance
 skills/eval-dataset-authoring/       evaluation-case schema and authoring workflow
+
+src/education/investment_data_tutor.py  read-only source catalog backing the
+                                     investment-data tutor; browsable via
+                                     scripts/investment_data_tutor.py
+src/evaluation/institutional_pm_scorecard.py  deterministic scorecard checks
+                                     for the institutional PM capstone, including
+                                     per-model token pricing
+src/evaluation/matrix_analysis.py    statistics and promotion-gate analysis for
+                                     repeated PM evaluation runs
+src/evals/agentcore_evaluations.py   AWS-native Evaluations planning/comparison
+                                     helpers; creates a reviewable manifest and
+                                     does not call AWS itself
 
 .github/workflows/ci.yml             lint + test on push/PR
 .github/workflows/contract-tests.yml skill schema/static/mock/negative gates

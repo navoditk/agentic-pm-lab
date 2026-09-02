@@ -30,8 +30,8 @@ Memory and Guardrails proofs completed, and the on-demand Evaluation fixture
 produced a scored result. The remaining Gateway, live-provider, paid-model,
 and Copilot-hosted browser items are explicitly optional or account-dependent
 evidence, not missing local implementation. This distinction is now reflected
-in `README.md`, `PROGRESS.md`, `docs/ARCHITECTURE.md`, `docs/EVIDENCE.md`, and
-`docs/PLAN_REVIEW.md`.
+in `README.md`, `PROGRESS.md`, `docs/architecture/ARCHITECTURE.md`, `docs/evidence/EVIDENCE.md`, and
+`docs/learning/PLAN_REVIEW.md`.
 
 ## 2026-08-13 — AWS runbook hardening
 
@@ -217,7 +217,7 @@ Memory, evaluations, guardrails, provenance, research, and committee workflows.
 
 ## 2026-08-09 — Day 1
 
-**What worked:** Following docs/PLAN.md's Day 1 steps in order (data mock → control stub → tool stubs → runtime → CI → skills → pre-commit → progress tracking → tests → docs/ARCHITECTURE.md) meant each step could be smoke-tested in isolation before moving on — every FastAPI app, the DuckDB loader, and `check_progress.py`'s regex/glob logic all got caught and fixed immediately rather than discovered later during a big-bang test run.
+**What worked:** Following docs/PLAN.md's Day 1 steps in order (data mock → control stub → tool stubs → runtime → CI → skills → pre-commit → progress tracking → tests → docs/architecture/ARCHITECTURE.md) meant each step could be smoke-tested in isolation before moving on — every FastAPI app, the DuckDB loader, and `check_progress.py`'s regex/glob logic all got caught and fixed immediately rather than discovered later during a big-bang test run.
 
 **What didn't work / had to be fixed along the way:**
 - `uv init` doesn't create a `.gitignore` when run inside an already-initialized git repo — had to write one by hand before `data/cache/` or a future `.env` could be safely kept out of commits.

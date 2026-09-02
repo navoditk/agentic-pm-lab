@@ -348,9 +348,9 @@ Ask production-readiness-agent:
 
 ### Stage 9 — Learn AWS and runtime operations
 
-Read docs/AWS_AGENTCORE_SETUP.md, config/agentcore.yaml,
+Read docs/guides/AWS_AGENTCORE_SETUP.md, config/agentcore.yaml,
 src/runtime/agentcore_app.py, the AgentCore ADRs,
-experiments/agentcore-runtime-proof/, and docs/EVIDENCE.md.
+experiments/agentcore-runtime-proof/, and docs/evidence/EVIDENCE.md.
 
 Ask aws-agentcore-tutor:
 
@@ -364,7 +364,7 @@ up. Treat READY status as deployment state, not application success.
 ### Stage 10 — Run the capstone and transition
 
 Read scripts/run_capstone_replay.py, src/capstone/workflow.py,
-experiments/2026-08-13-agentcore-pm-review/, docs/EVIDENCE.md, and PROGRESS.md.
+experiments/2026-08-13-agentcore-pm-review/, docs/evidence/EVIDENCE.md, and PROGRESS.md.
 
 Run:
 

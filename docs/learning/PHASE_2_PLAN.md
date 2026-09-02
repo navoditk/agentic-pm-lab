@@ -27,7 +27,7 @@ Phase 2 extends, rather than replaces, the original learning path:
 
 | Existing foundation | Phase 2 extension |
 |---|---|
-| docs/PRD.md and docs/PLAN.md | Institutional operating requirements and promotion gates |
+| docs/architecture/PRD.md and docs/PLAN.md | Institutional operating requirements and promotion gates |
 | src/analytics/ | Mandate-aware fixed-income analytics and risk limits |
 | src/ingestion/ and data/ | Data contracts, lineage, quality, entitlement, and evidence graphs |
 | src/agents/ | Typed workflow state, bounded plans, abstention, and approval stages |
@@ -37,7 +37,7 @@ Phase 2 extends, rather than replaces, the original learning path:
 | AgentCore Runtime proof | Runtime versus Harness versus Gateway comparison and promotion workflow |
 | Day 20 capstone | Reproducible investment decision record and production-readiness review |
 
-Read docs/PLAN_REVIEW.md before starting. The Phase 2 track assumes the original local plan is complete and that its known live gaps remain explicitly labelled rather than silently converted into claims.
+Read docs/learning/PLAN_REVIEW.md before starting. The Phase 2 track assumes the original local plan is complete and that its known live gaps remain explicitly labelled rather than silently converted into claims.
 
 ## 3. Learning outcomes
 

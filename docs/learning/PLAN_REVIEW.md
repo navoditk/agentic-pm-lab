@@ -1,7 +1,7 @@
 # 21-day plan completion audit
 
 Reviewed 2026-08-16 UTC against `docs/PLAN.md`, `PROGRESS.md`, the repository
-implementation, `docs/EVIDENCE.md`, the Day 21 Canvas workflow, and the dated
+implementation, `docs/evidence/EVIDENCE.md`, the Day 21 Canvas workflow, and the dated
 experiment records. The Day 21 Canvas workflow is part of the canonical plan;
 its provider-neutral fixture acceptance is complete while live provider
 evidence remains separately labelled.
@@ -11,7 +11,7 @@ evidence remains separately labelled.
 The 21-day local learning plan is complete. The stronger interpretation,
 “every planned provider, AWS service, browser surface, and end-to-end hosted
 workflow has live evidence,” is not complete. `PROGRESS.md` intentionally marks
-the local slices complete while its narrative and `docs/EVIDENCE.md` preserve
+the local slices complete while its narrative and `docs/evidence/EVIDENCE.md` preserve
 the live gaps.
 
 This distinction is correct and should remain the project's completion rule:
@@ -53,19 +53,19 @@ The core documentation set is aligned as of this review:
 
 - `INSTALL.md`: one-time repository setup and tool onboarding.
 - `AGENTS.md`: routing, safety, skill selection, and current-day workflow.
-- `docs/PRD.md`: business problem, architecture intent, principles, acceptance
+- `docs/architecture/PRD.md`: business problem, architecture intent, principles, acceptance
   criteria, and non-goals.
 - `docs/PLAN.md`: day-by-day implementation plan and contracts.
 - `PROGRESS.md`: generated local completion table plus narrative evidence.
-- `docs/ARCHITECTURE.md`: current architecture and security model.
-- `docs/RUNBOOK.md`: local operation, tests, evaluations, and teardown.
-- `docs/AWS_AGENTCORE_SETUP.md`: reproducible AWS setup, deployment, evidence,
+- `docs/architecture/ARCHITECTURE.md`: current architecture and security model.
+- `docs/guides/RUNBOOK.md`: local operation, tests, evaluations, and teardown.
+- `docs/guides/AWS_AGENTCORE_SETUP.md`: reproducible AWS setup, deployment, evidence,
   billing, and teardown runbook.
 - `experiments/README.md`: provider-neutral experiment mandate, run manifest,
   token/infrastructure accounting, comparison rubric, and ad hoc commands.
-- `docs/EVIDENCE.md`: local versus live evidence ledger.
-- `docs/LEARNINGS.md`: dated retrospectives.
-- `docs/REFERENCES.md`: canonical bibliography, including the refreshed agent
+- `docs/evidence/EVIDENCE.md`: local versus live evidence ledger.
+- `docs/learning/LEARNINGS.md`: dated retrospectives.
+- `docs/reference/REFERENCES.md`: canonical bibliography, including the refreshed agent
   harness section reviewed on 2026-08-13.
 
 The experiment framework is now the recommended place to record new local,
