@@ -2,6 +2,14 @@
 
 Reflective retro log, one dated entry per day, written the same day rather than reconstructed later. Distinct from `PROGRESS.md`'s narrative log: that's "what happened and where's the evidence," this is "what worked, what didn't, what I'd do differently."
 
+## 2026-09-01 — Interactive tutor layer and doc housekeeping
+
+**What worked:** A five-audit review (one fork per doc area, run in parallel, synthesized into one published Artifact) surfaced real, specific drift that a single linear read would likely have missed piecemeal — 35 files with stale pre-reorg doc paths, three undocumented `src/` modules, a self-disclosed RUNBOOK placeholder, and 10 tutor personas that were structurally correct but content-thin. Splitting the fix the same way — a scripted mapping-table replacement for the mechanical path fixes, three parallel forks each owning a disjoint set of tutor topics for the content-heavy deepening-plus-quiz work — kept the turn-around fast without any file-ownership collisions, because each fork's scope was a clean partition of the 13 topics.
+
+**What I'd flag rather than call fully solved:** the quiz grading is deterministic multiple-choice by design (no NLP/LLM judge), which keeps it testable and consistent with every tutor's "no paid services" contract, but it can't assess a free-text explanation the way a human tutor could — it proves recall of a cited fact, not depth of understanding. The comprehension tracker (`LEARNER_PROGRESS.md`) is also self-reported in the sense that nothing stops someone from re-running a quiz until they pass; that's an acceptable trade-off for a solo learning tool, but it would need a stricter model (timed, unlimited-attempt visible, or reviewed) before it meant anything to a third party.
+
+**Explicitly deferred, not solved here:** the review's other two flagged gaps — the eval set's small size (22 cases) relative to the claims resting on it, and FICC-track depth lagging the "fixed-income-first" framing — were left as backlog per the original proposal's scope, not fixed in this pass. They're real content-authoring efforts of their own, not a housekeeping or infrastructure task.
+
 ## 2026-08-14 — High-feasibility public investment-data expansion
 
 The safest first expansion was a connector/normalizer slice rather than a

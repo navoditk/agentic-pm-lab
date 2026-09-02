@@ -8,6 +8,7 @@ The project is deliberately company-agnostic and uses only public or clearly lab
 
 | If you want to... | Start with... |
 |---|---|
+| Learn interactively, with zero prior context | [`docs/learning/START_HERE.md`](docs/learning/START_HERE.md) |
 | Install and verify the repository | [`INSTALL.md`](INSTALL.md) |
 | See what is complete and what evidence exists | [`PROGRESS.md`](PROGRESS.md) |
 | Follow the recommended learning sequence | [`docs/learning/PHASE_1_RECAP.md`](docs/learning/PHASE_1_RECAP.md) |

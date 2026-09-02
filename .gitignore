@@ -15,6 +15,10 @@ __pycache__/
 # Data caches (regenerated from ingestion, never committed)
 data/cache/
 
+# Personal quiz-attempt logs (local learner state, not shared evidence;
+# LEARNER_PROGRESS.md is the committed, regenerated summary of these)
+data/learner_progress/
+
 # Artifacts host output
 artifacts/*
 !artifacts/hello.html

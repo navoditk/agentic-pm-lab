@@ -7,6 +7,9 @@ flat list.
 
 ## Recommended reading order
 
+0. [`learning/START_HERE.md`](learning/START_HERE.md) — a zero-context,
+   step-by-step on-ramp for someone who did not build this repository and
+   wants to learn it interactively, starting with the tutor CLI.
 1. [`../INSTALL.md`](../INSTALL.md) — install and verify the repository.
 2. [`../PROGRESS.md`](../PROGRESS.md) — understand the current completion and
    evidence state.
@@ -47,6 +50,7 @@ flat list.
   [Direct model runs](guides/DIRECT_MODEL_RUNS.md)
 - [GitHub Projects learning board](guides/GITHUB_WORKFLOWS.md#github-projects-learning-board)
   · [Tutor exercises](guides/TUTOR_RUNBOOK.md#github-projects-learning-board-exercises)
+- [Start here (zero-context)](learning/START_HERE.md) · [Learner progress](learning/LEARNER_PROGRESS.md)
 - [Tutor runbook](guides/TUTOR_RUNBOOK.md) · [Agent runbook](guides/AGENT_RUNBOOK.md)
 - [References](reference/REFERENCES.md) · [Evidence ledger](evidence/EVIDENCE.md)
 - [Architecture diagrams](architecture/DIAGRAMS.md) · [ADRs](adr/)

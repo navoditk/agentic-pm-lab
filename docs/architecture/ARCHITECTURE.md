@@ -154,6 +154,19 @@ src/evals/agentcore_evaluations.py   AWS-native Evaluations planning/comparison
                                      helpers; creates a reviewable manifest and
                                      does not call AWS itself
 
+src/education/tutor.py               tool-agnostic access to the 13 tutor
+                                     personas: scope text sourced from
+                                     .github/agents/*.agent.md, plus quiz
+                                     loading/grading; scripts/tutor.py and
+                                     src/ui/app.py's tutor pane are both thin
+                                     wrappers over this module
+evals/tutor_quizzes/*.jsonl          five-question multiple-choice quiz per
+                                     tutor topic, citation-grounded like
+                                     evals/*.jsonl
+scripts/check_learner_progress.py    regenerates docs/learning/LEARNER_PROGRESS.md
+                                     from data/learner_progress/*.jsonl quiz logs;
+                                     tracks comprehension, not build status
+
 .github/workflows/ci.yml             lint + test on push/PR
 .github/workflows/contract-tests.yml skill schema/static/mock/negative gates
 .github/workflows/skills-freshness.yml changed-code/skill synchronization gate

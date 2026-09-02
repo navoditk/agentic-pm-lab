@@ -38,6 +38,42 @@ Sharpe using the repository's toy portfolio. Cite the implementation and tests,
 state which inputs are supplied or mock, and finish with one local exercise.
 ```
 
+## Standalone CLI, quizzes, and comprehension tracking
+
+Every tutor topic above is also reachable without an IDE agent surface, using
+the same 13 topic ids as `tests/unit/scripts/test_tutor_agents.py`'s `TUTORS`
+tuple:
+
+```bash
+uv run python scripts/tutor.py                              # list all 13 topics
+uv run python scripts/tutor.py agent-architecture-tutor      # print that topic's scope
+uv run python scripts/tutor.py agent-architecture-tutor --quiz   # take its 5-question quiz
+```
+
+`scripts/tutor.py` and its logic module `src/education/tutor.py` are a thin
+generalization of `scripts/investment_data_tutor.py` — same argparse/logic
+split, same read-only/no-paid-services contract. `teach_topic()` reads its
+scope text directly from the matching `.github/agents/*.agent.md` file, so
+the persona file stays the single source of truth; nothing here can drift
+independently of the tutor content above. Each quiz lives at
+`evals/tutor_quizzes/<topic-id>.jsonl` — five multiple-choice questions per
+topic, each citing the real repository file that grounds its answer, in the
+same spirit as `skills/eval-dataset-authoring/SKILL.md`'s golden-case
+grounding discipline. Grading is deterministic (no NLP, no model call): pick
+one of four choices per question.
+
+Each attempt is logged locally to `data/learner_progress/<topic-id>.jsonl`.
+Run `uv run python scripts/check_learner_progress.py` afterward to regenerate
+[`docs/learning/LEARNER_PROGRESS.md`](../learning/LEARNER_PROGRESS.md) — a
+table of best score and pass/fail (≥80%) per topic. This tracks *comprehension*,
+separate from `PROGRESS.md`, which tracks whether the underlying code was
+*built*. `uv run streamlit run src/ui/app.py` gives the same topic-browse and
+quiz flow a browser front end.
+
+Someone with no prior context in this repository should start at
+[`docs/learning/START_HERE.md`](../learning/START_HERE.md), which sequences
+this CLI, the quizzes, and the rest of the repository into an ordered path.
+
 ## GitHub Projects learning-board exercises
 
 The GitHub Projects board is a learning and evidence index, not an authorization
