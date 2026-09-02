@@ -32,6 +32,7 @@ from src.control.authorization import (
     check_portfolio_access,
     check_tool_permission,
 )
+from src.control.guardrails import GuardrailViolation, enforce_content
 from src.control.identity import role_for_identity
 from src.observability.telemetry import configure_telemetry
 
@@ -184,6 +185,22 @@ def predict(inputs: dict[str, Any]) -> dict[str, Any]:
             "policy_compliant": all(decisions.values()),
             "policy_decisions": decisions,
         }
+    if inputs.get("dimension") == "guardrail_behavior":
+        # Deterministic and local, like the policy_probe branch above: the
+        # denied-term/topic guardrail is a pure function, so this dimension
+        # never needs a model call to score.
+        try:
+            enforce_content(inputs["question"], "input")
+            outcome = "pass"
+        except GuardrailViolation:
+            outcome = "block"
+        return {
+            "answer": "",
+            "routing": [],
+            "tool_calls": [],
+            "context_sources": [],
+            "guardrail_outcome": outcome,
+        }
     recorder = EvalTraceRecorder()
     context_sources = inputs["required_context_sources"]
     result = invoke_multi_agent(
@@ -216,6 +233,10 @@ def _policy_case(example: Example) -> bool:
     return isinstance(example.inputs.get("policy_probe"), dict)
 
 
+def _guardrail_case(example: Example) -> bool:
+    return example.inputs.get("dimension") == "guardrail_behavior"
+
+
 def _not_applicable(key: str) -> dict[str, Any]:
     return {
         "key": key,
@@ -225,7 +246,7 @@ def _not_applicable(key: str) -> dict[str, Any]:
 
 
 def routing_evaluator(run: Run, example: Example) -> dict[str, Any]:
-    if _policy_case(example):
+    if _policy_case(example) or _guardrail_case(example):
         return _not_applicable("routing")
     expected = example.outputs["expected_routing"]
     actual = run.outputs.get("routing", [])
@@ -237,7 +258,7 @@ def routing_evaluator(run: Run, example: Example) -> dict[str, Any]:
 
 
 def tool_selection_evaluator(run: Run, example: Example) -> dict[str, Any]:
-    if _policy_case(example):
+    if _policy_case(example) or _guardrail_case(example):
         return _not_applicable("tool_selection")
     expected = example.outputs["expected_tools"]
     actual = [call["name"] for call in run.outputs.get("tool_calls", [])]
@@ -262,7 +283,7 @@ def _contains_subset(actual: Any, expected: Any) -> bool:
 
 
 def tool_arguments_evaluator(run: Run, example: Example) -> dict[str, Any]:
-    if _policy_case(example):
+    if _policy_case(example) or _guardrail_case(example):
         return _not_applicable("tool_arguments")
     expected = example.outputs["important_arguments"]
     actual_calls = run.outputs.get("tool_calls", [])
@@ -280,7 +301,7 @@ def tool_arguments_evaluator(run: Run, example: Example) -> dict[str, Any]:
 
 
 def retrieval_context_evaluator(run: Run, example: Example) -> dict[str, Any]:
-    if _policy_case(example):
+    if _policy_case(example) or _guardrail_case(example):
         return _not_applicable("retrieval_context")
     expected = example.outputs["required_context_sources"]
     actual = run.outputs.get("context_sources", [])
@@ -292,7 +313,7 @@ def retrieval_context_evaluator(run: Run, example: Example) -> dict[str, Any]:
 
 
 def final_answer_evaluator(run: Run, example: Example) -> dict[str, Any]:
-    if _policy_case(example):
+    if _policy_case(example) or _guardrail_case(example):
         return _not_applicable("final_answer")
     answer = run.outputs.get("answer", "").lower()
     required = example.outputs["required_facts"]
@@ -323,11 +344,14 @@ def policy_compliance_evaluator(run: Run, example: Example) -> dict[str, Any]:
 
 
 def guardrail_behavior_evaluator(run: Run, example: Example) -> dict[str, Any]:
-    del run, example
+    if not _guardrail_case(example):
+        return _not_applicable("guardrail_behavior")
+    expected = example.outputs["expected_guardrail_outcome"]
+    actual = run.outputs.get("guardrail_outcome")
     return {
         "key": "guardrail_behavior",
-        "score": None,
-        "comment": "Stub until Day 12 guardrail cases are active.",
+        "score": actual == expected,
+        "comment": f"expected={expected}; actual={actual}",
     }
 
 
@@ -406,6 +430,8 @@ def sync_dataset(client: Client, cases: Sequence[dict[str, Any]]) -> str:
         }
         if "policy_probe" in case:
             inputs["policy_probe"] = case["policy_probe"]
+        if case.get("dimension") == "guardrail_behavior":
+            inputs["dimension"] = case["dimension"]
         outputs = {
             key: case[key]
             for key in (
@@ -417,6 +443,8 @@ def sync_dataset(client: Client, cases: Sequence[dict[str, Any]]) -> str:
                 "required_facts",
             )
         }
+        if case.get("dimension") == "guardrail_behavior":
+            outputs["expected_guardrail_outcome"] = case["expected"]
         current = existing.get(case["id"])
         if current is None:
             new_examples.append(

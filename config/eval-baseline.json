@@ -33,7 +33,7 @@
     "full": {
       "experiment_name": "day7-full-450f21c2",
       "experiment_id": "94f6373f-231c-4c71-9812-55c32d4e1d8e",
-      "case_count": 18,
+      "case_count": 22,
       "dimension_scores": {
         "routing": 1.0,
         "tool_selection": 0.8666666666666667,
@@ -55,7 +55,8 @@
       "input_tokens": 158817,
       "output_tokens": 10123,
       "estimated_cost_usd": 0.0797236,
-      "total_latency_seconds": 204.60224625072442
+      "total_latency_seconds": 204.60224625072442,
+      "case_count_note": "Raised from 18 to 22 to include the 4 guardrail_cases.jsonl cases, which run_eval.py's load_cases() could not load at all before this fix (missing required schema fields -- a Day 14 regression). guardrail_behavior_evaluator now scores them deterministically (no model call), and every other evaluator short-circuits to null for them via _guardrail_case(), so this case_count correction does not change any dimension_scores/observed_dimension_scores value above -- verified locally in tests/unit/scripts/test_run_eval.py, not via a new experiment_id/name, since doing that requires a real LangSmith-backed run this fix did not perform."
     }
   }
 }
