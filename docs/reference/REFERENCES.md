@@ -248,6 +248,19 @@ the maintained audio starting points for this bibliography.
   skills/contracts, Deep Agents, sandboxing, and evaluation resources. The
   intended progression is document Q&A → generated skill package → validated
   deterministic calculators → governed Deep Agent.
+- Use `investment-data-tutor` with the [public-data terminology and
+  decision-use primers](#public-data-terminology-and-decision-use-primers)
+  and the public data APIs section above.
+- Use `ficc-tutor-agent` with the [FICC / fixed income
+  fundamentals](#ficc--fixed-income-fundamentals) and [fixed-income data
+  sources and provider access](#fixed-income-data-sources-and-provider-access)
+  sections. This tutor is "user-scoped" (`docs/agent-templates/ficc-tutor-agent.agent.md`
+  rather than `.github/agents/`), not a gap in this map.
+
+Every tutor above also has a deep-dive companion under
+[`docs/learning/tutors/`](../learning/tutors/) and a 20-30 question
+self-check quiz (`uv run python scripts/tutor.py <topic-id> --quiz`) — see
+[`docs/guides/TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md#standalone-cli-quizzes-and-comprehension-tracking).
 
 ### Document ingestion and document-to-skill design
 - [PyMuPDF documentation](https://pymupdf.readthedocs.io/) — page-aware PDF

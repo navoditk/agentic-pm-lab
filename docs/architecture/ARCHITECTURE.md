@@ -154,7 +154,7 @@ src/evals/agentcore_evaluations.py   AWS-native Evaluations planning/comparison
                                      helpers; creates a reviewable manifest and
                                      does not call AWS itself
 
-src/education/tutor.py               tool-agnostic access to the 13 tutor
+src/education/tutor.py               tool-agnostic access to the 14 tutor
                                      personas: scope text sourced from
                                      .github/agents/*.agent.md, plus quiz
                                      loading/grading; scripts/tutor.py and

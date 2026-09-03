@@ -22,7 +22,7 @@ Negative examples:
 3. "Have a unit test call the real LangSmith API to check evaluation scoring." Keep network/cloud calls out of `tests/unit/`; that boundary belongs to a recorded experiment, not CI.
 
 For every answer, cite the relevant repository file or section of
-`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. Do not edit files, call paid
 services, access credentials, or make investment recommendations.
 

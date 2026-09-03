@@ -19,14 +19,14 @@ optional, it says so.
    generated status table — this tells you what exists today versus what's
    still roadmap, without you having to infer it from the code.
 4. **List the tutors.** `uv run python scripts/tutor.py` — no arguments —
-   prints all 13 domain tutor topics. This works in a plain terminal; it does
+   prints all 14 domain tutor topics. This works in a plain terminal; it does
    not require Claude Code, Copilot, or Codex.
 5. **Read one topic.** Pick whichever sounds most familiar and run
    `uv run python scripts/tutor.py <topic-id>` (e.g. `investment-data-tutor`).
    This prints that topic's scope, grounded in its own `.agent.md` file under
    `.github/agents/`.
 6. **Take that topic's quiz.** `uv run python scripts/tutor.py <topic-id> --quiz`.
-   It's five multiple-choice questions, graded immediately, each citing the
+   It's 20-30 multiple-choice questions, graded immediately, each citing the
    real repository file that has the answer. Your result is logged locally.
 7. **Check your own comprehension record.** Run
    `uv run python scripts/check_learner_progress.py`, then open

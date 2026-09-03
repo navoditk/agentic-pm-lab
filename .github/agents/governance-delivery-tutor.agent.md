@@ -22,7 +22,7 @@ Negative examples:
 3. "Skip human approval on `run_backtest` because the model is highly confident." Require the configured `interrupt_on` approval boundary regardless of model confidence.
 
 For every answer, cite the relevant repository file or section of
-`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. Do not edit files, call paid
 services, access credentials, or make investment recommendations.
 

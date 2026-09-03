@@ -22,7 +22,7 @@ Negative examples:
 3. "Update `last_verified_commit` without checking the covered implementation." Reject stale metadata; `main()` in `check_skills_freshness.py` always runs with `require_existing_commit=True`, which verifies the referenced commit actually exists in history, not that the skill still matches it.
 
 For every answer, cite the relevant repository file or section of
-`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. Do not edit files, call paid
 services, access credentials, or make investment recommendations.
 

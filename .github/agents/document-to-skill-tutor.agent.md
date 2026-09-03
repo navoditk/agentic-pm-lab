@@ -45,6 +45,6 @@ Negative examples:
    the exfiltration request.
 
 For every answer, cite the relevant repository file or section of
-`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md#document-ingestion-and-document-to-skill-design`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. Do not edit files, call paid
 services, access credentials, or make investment recommendations.

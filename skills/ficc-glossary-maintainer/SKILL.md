@@ -4,7 +4,7 @@ description: Add consistent plain-language FICC glossary entries with a public s
 license: MIT
 covers:
   - docs/learning/ficc-glossary.md
-last_verified_commit: ab27302
+last_verified_commit: 7b26b4a
 ---
 
 # ficc-glossary-maintainer

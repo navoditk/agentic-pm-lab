@@ -24,7 +24,7 @@ Negative examples:
 3. "Relax the turnover and concentration limits until the optimizer succeeds." Explain infeasibility and require an explicit human decision; `optimize_portfolio()` raises `ValueError` on breach rather than auto-relaxing the constraint.
 
 For every answer, cite the relevant repository file or section of
-`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. Do not edit files, call paid
 services, access credentials, or make investment recommendations.
 

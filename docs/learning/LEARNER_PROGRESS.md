@@ -1,6 +1,6 @@
 # Learner progress
 
-This file is **generated**. It tracks quiz-verified comprehension of the 13
+This file is **generated**. It tracks quiz-verified comprehension of the 14
 tutor topics, not build status — that's `PROGRESS.md`. Take a topic's quiz
 with `uv run python scripts/tutor.py <topic> --quiz`, then run
 `uv run python scripts/check_learner_progress.py` and commit the regenerated
@@ -12,7 +12,7 @@ order to work through them in.
 
 <!-- LEARNER_PROGRESS:START -->
 
-## Status: 0 of 13 tutor topics passed (≥80% quiz score)
+## Status: 0 of 14 tutor topics passed (≥80% quiz score)
 
 **Tracks comprehension, not implementation.** A topic shows ✅ here only
 after the learner has taken and passed its quiz with
@@ -29,6 +29,7 @@ day's code was built.
 | data-provenance-research-tutor | 0 | - | ⬜ Not attempted |
 | document-to-skill-tutor | 0 | - | ⬜ Not attempted |
 | evaluation-agentops-tutor | 0 | - | ⬜ Not attempted |
+| ficc-tutor-agent | 0 | - | ⬜ Not attempted |
 | governance-delivery-tutor | 0 | - | ⬜ Not attempted |
 | investment-committee-tutor | 0 | - | ⬜ Not attempted |
 | investment-data-tutor | 0 | - | ⬜ Not attempted |

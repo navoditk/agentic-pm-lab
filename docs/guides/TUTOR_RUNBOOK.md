@@ -9,22 +9,22 @@ access, run paid evaluations, place orders, or make investment recommendations.
 
 ## Tutor catalog
 
-| Tutor | Best used for | Main roadmap days |
-|---|---|---|
-| `ficc-tutor-agent` | Rates, credit, curves, bond valuation, funding, liquidity, duration/DV01, convexity, hedging, and FICC vocabulary | 2–3, 15–20 |
-| `portfolio-construction-tutor` | Optimization, constraints, risk budgets, implementation, and validation | 3, 12, 15, 20 |
-| `agent-architecture-tutor` | Agent/workflow design, context, skills, tools, memory, recovery | 4–7, 11–20 |
-| `langgraph-deep-agents-tutor` | LangGraph state, Deep Agents, delegation, interrupts, and checkpoints | 4–5, 11, 17–20 |
-| `aws-agentcore-tutor` | Bedrock, AgentCore services, IAM, deployment, observability, teardown | 12–14, 19–20 |
-| `data-provenance-research-tutor` | Point-in-time data, EDGAR, evidence, sentiment, and research quality | 2, 15–17, 20 |
-| `investment-data-tutor` | SEC, prices, macro, N-PORT, TRACE, ratings, GDELT, research evidence, documents, terminology, and decision use | post-Day-20 public-data expansion |
-| `evaluation-agentops-tutor` | Golden datasets, eval dimensions, regression, SLOs, and operations | 6, 9, 13–14, 19–20 |
-| `opentelemetry-tutor` | Traces, spans, attributes, propagation, privacy, and AgentCore observability | 6, 9, 12–14, 19 |
-| `investment-committee-tutor` | Thesis review, Devil’s Advocate, evidence grading, dissent, and approval | 17–20 |
-| `copilot-canvas-mcp-tutor` | Canvas UX, shared state, MCP boundaries, approvals, and capability tests | 8–11, 19–20 |
-| `agent-development-lifecycle-tutor` | Skills, prompts, custom agents, contracts, tests, freshness, and cross-tool practice | 4, 8, 11, 19–20 |
-| `governance-delivery-tutor` | CI/CD, policy-as-code, guardrails, approvals, audit, promotion, rollback, and teardown | 6–7, 11–14, 19–20 |
-| `document-to-skill-tutor` | PDF/model-document extraction, generated skills, formula validation, provenance, sandboxing, and Deep Agent interfaces | 15–20 |
+| Tutor | Best used for | Main roadmap days | Deep dive |
+|---|---|---|---|
+| `ficc-tutor-agent` | Rates, credit, curves, bond valuation, funding, liquidity, duration/DV01, convexity, hedging, and FICC vocabulary | 2–3, 15–20 | [→](../learning/tutors/ficc-tutor-agent.md) |
+| `portfolio-construction-tutor` | Optimization, constraints, risk budgets, implementation, and validation | 3, 12, 15, 20 | [→](../learning/tutors/portfolio-construction-tutor.md) |
+| `agent-architecture-tutor` | Agent/workflow design, context, skills, tools, memory, recovery | 4–7, 11–20 | [→](../learning/tutors/agent-architecture-tutor.md) |
+| `langgraph-deep-agents-tutor` | LangGraph state, Deep Agents, delegation, interrupts, and checkpoints | 4–5, 11, 17–20 | [→](../learning/tutors/langgraph-deep-agents-tutor.md) |
+| `aws-agentcore-tutor` | Bedrock, AgentCore services, IAM, deployment, observability, teardown | 12–14, 19–20 | [→](../learning/tutors/aws-agentcore-tutor.md) |
+| `data-provenance-research-tutor` | Point-in-time data, EDGAR, evidence, sentiment, and research quality | 2, 15–17, 20 | [→](../learning/tutors/data-provenance-research-tutor.md) |
+| `investment-data-tutor` | SEC, prices, macro, N-PORT, TRACE, ratings, GDELT, research evidence, documents, terminology, and decision use | post-Day-20 public-data expansion | [→](../learning/tutors/investment-data-tutor.md) |
+| `evaluation-agentops-tutor` | Golden datasets, eval dimensions, regression, SLOs, and operations | 6, 9, 13–14, 19–20 | [→](../learning/tutors/evaluation-agentops-tutor.md) |
+| `opentelemetry-tutor` | Traces, spans, attributes, propagation, privacy, and AgentCore observability | 6, 9, 12–14, 19 | [→](../learning/tutors/opentelemetry-tutor.md) |
+| `investment-committee-tutor` | Thesis review, Devil’s Advocate, evidence grading, dissent, and approval | 17–20 | [→](../learning/tutors/investment-committee-tutor.md) |
+| `copilot-canvas-mcp-tutor` | Canvas UX, shared state, MCP boundaries, approvals, and capability tests | 8–11, 19–20 | [→](../learning/tutors/copilot-canvas-mcp-tutor.md) |
+| `agent-development-lifecycle-tutor` | Skills, prompts, custom agents, contracts, tests, freshness, and cross-tool practice | 4, 8, 11, 19–20 | [→](../learning/tutors/agent-development-lifecycle-tutor.md) |
+| `governance-delivery-tutor` | CI/CD, policy-as-code, guardrails, approvals, audit, promotion, rollback, and teardown | 6–7, 11–14, 19–20 | [→](../learning/tutors/governance-delivery-tutor.md) |
+| `document-to-skill-tutor` | PDF/model-document extraction, generated skills, formula validation, provenance, sandboxing, and Deep Agent interfaces | 15–20 | [→](../learning/tutors/document-to-skill-tutor.md) |
 
 ## How to use one independently
 
@@ -41,13 +41,14 @@ state which inputs are supplied or mock, and finish with one local exercise.
 ## Standalone CLI, quizzes, and comprehension tracking
 
 Every tutor topic above is also reachable without an IDE agent surface, using
-the same 13 topic ids as `tests/unit/scripts/test_tutor_agents.py`'s `TUTORS`
-tuple:
+the same 14 topic ids as `tests/unit/scripts/test_tutor_agents.py`'s
+`TUTOR_PATHS` mapping (13 under `.github/agents/`, plus the "user-scoped"
+`ficc-tutor-agent` under `docs/agent-templates/`):
 
 ```bash
-uv run python scripts/tutor.py                              # list all 13 topics
+uv run python scripts/tutor.py                              # list all 14 topics
 uv run python scripts/tutor.py agent-architecture-tutor      # print that topic's scope
-uv run python scripts/tutor.py agent-architecture-tutor --quiz   # take its 5-question quiz
+uv run python scripts/tutor.py agent-architecture-tutor --quiz   # take its 20-30 question quiz
 ```
 
 `scripts/tutor.py` and its logic module `src/education/tutor.py` are a thin
@@ -56,11 +57,16 @@ split, same read-only/no-paid-services contract. `teach_topic()` reads its
 scope text directly from the matching `.github/agents/*.agent.md` file, so
 the persona file stays the single source of truth; nothing here can drift
 independently of the tutor content above. Each quiz lives at
-`evals/tutor_quizzes/<topic-id>.jsonl` — five multiple-choice questions per
-topic, each citing the real repository file that grounds its answer, in the
-same spirit as `skills/eval-dataset-authoring/SKILL.md`'s golden-case
-grounding discipline. Grading is deterministic (no NLP, no model call): pick
-one of four choices per question.
+`evals/tutor_quizzes/<topic-id>.jsonl` — 20 to 30 multiple-choice questions per
+topic (mixing recall and applied/scenario questions), each citing the real
+repository file that grounds its answer, in the same spirit as
+`skills/eval-dataset-authoring/SKILL.md`'s golden-case grounding discipline.
+Grading is deterministic (no NLP, no model call): pick one of four choices
+per question. Each topic also has a deep-dive companion doc under
+[`docs/learning/tutors/`](../learning/tutors/) — plain-language orientation,
+core concepts, a real-code walkthrough, a worked example, common pitfalls,
+and further reading — for depth the compact persona file's fixed shape
+doesn't have room for.
 
 Each attempt is logged locally to `data/learner_progress/<topic-id>.jsonl`.
 Run `uv run python scripts/check_learner_progress.py` afterward to regenerate

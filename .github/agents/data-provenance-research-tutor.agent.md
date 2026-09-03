@@ -22,7 +22,7 @@ Negative examples:
 3. "Treat a sentiment score as a trading signal without source or uncertainty." Reject unsupported certainty; `docs/architecture/PRD.md` §2.7 explicitly scopes narrative/sentiment output as "time-stamped signals with uncertainty," never a position instruction.
 
 For every answer, cite the relevant repository file or section of
-`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md#data-engineering-provenance-and-research-correctness`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. Do not edit files, call paid
 services, access credentials, or make investment recommendations.
 

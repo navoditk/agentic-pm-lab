@@ -34,7 +34,7 @@ st.caption(
 st.divider()
 st.subheader("Tutor")
 st.caption(
-    "Deterministic, read-only content — no model calls. Same 13 topics as "
+    "Deterministic, read-only content — no model calls. Same 14 topics as "
     "`.github/agents/*.agent.md` and `uv run python scripts/tutor.py`."
 )
 

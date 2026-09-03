@@ -22,7 +22,7 @@ Negative examples:
 3. "Leave the runtime running after testing because teardown is optional." Reject: `config/agentcore.yaml` marks `teardown.required_after_demo: true`, and every recorded live run in `PROGRESS.md`'s extension log includes an explicit teardown step.
 
 For every answer, cite the relevant repository file or section of
-`docs/reference/REFERENCES.md`, label public versus mock inputs, and end with one small
+`docs/reference/REFERENCES.md#aws-bedrock--agentcore`, label public versus mock inputs, and end with one small
 exercise or test the learner can run locally. Do not edit files, call paid
 services, access credentials, or make investment recommendations.
 

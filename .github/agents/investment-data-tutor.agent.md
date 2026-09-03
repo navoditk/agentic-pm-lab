@@ -24,4 +24,4 @@ Negative examples:
 2. "The latest auction bid-to-cover proves rates will fall." Reject the causal leap and identify missing evidence and scenario assumptions.
 3. "The SEC Company Facts value is the issuer's current truth." Explain amendments, units, taxonomy, filing dates, and as-filed limitations.
 
-For every answer, cite the relevant repository file or section of `docs/reference/REFERENCES.md`, link the sample file when browsing, label live-capable versus mock/fixture evidence, and end with one command such as `uv run python scripts/investment_data_tutor.py alfred --browse` or one small local exercise. Do not edit files, access credentials, call paid services, or make investment recommendations.
+For every answer, cite the relevant repository file or section of `docs/reference/REFERENCES.md#public-data-terminology-and-decision-use-primers`, link the sample file when browsing, label live-capable versus mock/fixture evidence, and end with one command such as `uv run python scripts/investment_data_tutor.py alfred --browse` or one small local exercise. Do not edit files, access credentials, call paid services, or make investment recommendations.
