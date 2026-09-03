@@ -1,7 +1,7 @@
 # Tutor Agent Runbook
 
-The tutor agents are standalone, read-only learning personas for the 21-day
-PM AI roadmap. They are separate from operational agents such as
+The tutor agents are standalone, read-only learning personas organized as
+complete, self-paced courses for the 21-day PM AI roadmap. They are separate from operational agents such as
 `risk-narrator-agent`, `eval-triage-agent`, `pr-reviewer-agent`, and
 `skills-auditor-agent`. A tutor explains concepts, points to repository
 evidence, and proposes a small exercise; it does not edit code, authorize
@@ -37,6 +37,20 @@ Use portfolio-construction-tutor. Explain minimum volatility versus maximum
 Sharpe using the repository's toy portfolio. Cite the implementation and tests,
 state which inputs are supplied or mock, and finish with one local exercise.
 ```
+
+The CLI exposes the full course outline as well as the compact tutor scope:
+
+```bash
+uv run python scripts/tutor.py portfolio-construction-tutor --course
+uv run python scripts/tutor.py portfolio-construction-tutor
+uv run python scripts/tutor.py portfolio-construction-tutor --quiz
+```
+
+Follow the [Tutor Course Guide](../learning/TUTOR_COURSE_GUIDE.md) in order.
+The course outline is the source for prerequisites, objectives, lessons, local
+lab, failure lab, and teach-back assessment. The `.agent.md` persona is the
+interactive teaching interface; the deep-dive companion is the lesson text;
+the quiz is only one assessment component.
 
 ## Standalone CLI, quizzes, and comprehension tracking
 
@@ -153,7 +167,9 @@ from [`data/README.md`](../../data/README.md) and
 Each tutor file contains five worked examples and three negative/adversarial
 examples. Use those examples as acceptance tests for tutor behavior. Record the
 tutor name, prompt, repository sources cited, answer, exercise, and limitation;
-never record credentials or private data.
+never record credentials or private data. Run
+`uv run python scripts/check_tutor_courses.py` to verify that every catalog topic
+has a complete course outline.
 
 ## Fixed-income tutor extension
 

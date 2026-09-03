@@ -19,8 +19,8 @@ flow.
 
 | If you want to understand... | Read... |
 |---|---|
-| The platform shape | [The layers](#the-layers-and-what-exists-today-day-20) |
-| Request and data flow | [Logical components](#logical-components-through-day-20) |
+| The platform shape | [The layers](#the-layers-and-what-exists-today-day-21) |
+| Request and data flow | [Logical components](#logical-components-through-day-21) |
 | Agent delegation and failure handling | [Multi-agent orchestration](#multi-agent-orchestration-day-5) and [Failure and recovery](#failure-and-recovery-day-5) |
 | Traces and quality | [Observability and evaluation](#observability-and-evaluation-day-6) |
 | Authorization and safety | [Security Model](#security-model) |
@@ -38,7 +38,7 @@ flow.
 | **Runtime Layer** | Copilot-coding-agent PR through real CI → AWS Bedrock AgentCore Runtime → Gateway-governed tools | `src/runtime/agentcore_app.py` is a direct-code AgentCore entrypoint for the same Portfolio Manager, with `config/agentcore.yaml` capturing Runtime/Gateway/Identity/Policy/Guardrails/OTel intent. A temporary Runtime reached `READY`, completed a bounded read-only request, and was torn down. The disposable API Gateway target and AgentCore Gateway runbook are implemented; live Gateway evidence is pending SSO renewal. |
 | **Agent Layer** | LangGraph Deep Agents, single agent then multi-agent orchestration | `src/agents/multi_agent.py` defines a Portfolio Manager orchestrator with native Macro, Quant/Risk, and Fundamental sub-agents. `src/agents/investment_research.py` adds a separate research supervisor with Quantitative Analysis, News/Research, and Smart Summarizer specialists. Each specialist receives only its domain tools, and the orchestrators receive no ungoverned analytics tools directly. `multi_agent_local.py` reproduces the original hierarchy on Ollama/Qwen3 4B for comparison; the Day 5 cross-domain run did not delegate and returned empty. |
 | **Observability** | One cost-aware OTel stream with local and agent-specific views | `src/observability/telemetry.py` instruments FastAPI and emits manual analytics, agent, authorization, identity, and audit spans. Agent spans include model, token, tool/retrieval call, retry, latency, success, and estimated-cost attributes. Day 21 adds a structured local execution envelope with stage durations, audit events, trace IDs, explicit token basis, and zero-cost fixture accounting. The same OTLP stream exports to LangSmith; no parallel proprietary tracing path exists. |
-| **Evaluation** | Versioned behavioral regression suite across independent dimensions | Eighteen active golden/routing/policy cases run as OTel-native LangSmith experiments. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. AgentCore Memory, standalone Guardrails, batch control-path, and scored on-demand Evaluation evidence are recorded in `docs/evidence/EVIDENCE.md`; hosted-runtime span collection remains optional. |
+| **Evaluation** | Versioned behavioral regression suite across independent dimensions | The current full local baseline contains 22 active cases, including golden, routing, policy, and guardrail dimensions. `scripts/run_eval.py` scores routing, tool selection, tool arguments, retrieval context, final-answer criteria, and deterministic policy compliance. AgentCore Memory, standalone Guardrails, batch control-path, and scored on-demand Evaluation evidence are recorded in `docs/evidence/EVIDENCE.md`; hosted-runtime span collection remains optional. |
 | **Automation** (Runtime sub-layer) | Scheduled pipeline + native platform automation | `.github/workflows/morning-brief.yml` provides an approval-only scheduled review; native Copilot automation remains a platform/browser evidence task. Day 21 provides a learner-triggered Canvas workflow over the local capstone. |
 
 The Data Layer is intentionally mixed: public price/macro data is real and the
@@ -57,7 +57,7 @@ MCP/Gateway boundary. Remaining stubs are tracked from their `# MOCK` markers in
 
 ---
 
-## Logical components, through Day 20
+## Logical components, through Day 21
 
 ```
 data/mock_structured/*.csv          invented portfolio and security metadata
@@ -83,6 +83,7 @@ governance/policies/*.cedar         tool and portfolio authorization authority
   -> src/control/audit.py            layered decisions + OTel trace -> audit.jsonl
 
 src/analytics/*.py                   pure deterministic financial engines
+src/analytics/fixed_income.py        duration/DV01, key-rate DV01, price reconciliation
 src/analytics/scenario.py             rates/credit first-order scenario engine
 src/analytics/optimizer.py            constrained allocation proposals
 contracts/tools/*.schema.json        input/output contract per engine

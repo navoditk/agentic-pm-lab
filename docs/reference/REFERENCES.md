@@ -1,6 +1,6 @@
 # REFERENCES: Curated Reading, by Topic
 
-**Freshness:** reviewed 2026-08-14 UTC. The harness section prioritizes current
+**Freshness:** reviewed 2026-09-02 UTC. The harness section prioritizes current
 first-party engineering material from Anthropic, OpenAI, and GitHub; the
 technical sections retain stable specifications and implementation references.
 
@@ -58,6 +58,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
   [customization reference](https://docs.langchain.com/oss/python/deepagents/customization)
 - Deep Agents [GitHub repository](https://github.com/langchain-ai/deepagents)
 - LangGraph [core concepts](https://docs.langchain.com/oss/python/langgraph)
+- LangGraph [persistence and checkpointing](https://docs.langchain.com/oss/python/langgraph/persistence)
 - LangGraph [human-in-the-loop](https://docs.langchain.com/oss/python/langgraph/interrupts) patterns
 - Ollama tool-calling documentation and the Qwen3 4B model page, used for the
   optional Day 4 local variant: [Ollama tool calling](https://docs.ollama.com/capabilities/tool-calling) and
@@ -81,7 +82,7 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - Official OpenTelemetry [Python getting-started guide](https://opentelemetry.io/docs/languages/python/getting-started/)
 - OpenTelemetry Python [FastAPI instrumentation](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/fastapi/fastapi.html)
 - OpenTelemetry [Collector documentation](https://opentelemetry.io/docs/collector/), if you add a local Jaeger/Collector service in Docker Compose
-- OpenTelemetry [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)
+- OpenTelemetry [GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions)
 - OpenTelemetry [traces, metrics, and logs](https://opentelemetry.io/docs/concepts/signals/) — useful background for separating the Canvas execution envelope from provider/model spans.
 
 ### Model Context Protocol (MCP)

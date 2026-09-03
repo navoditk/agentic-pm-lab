@@ -62,12 +62,12 @@ explicit cash flows (`time_years`, `amount`), a curve
 (`curve_tenors_years`/`curve_rates_pct`), and a `compounding_frequency`, then
 discounts each cash flow at the curve rate for its maturity (via
 `interpolate_curve()` in `src/analytics/curves.py`) and sums the present
-values. Read the function before assuming more than that: it currently
-returns one present-value `price`, not a separate clean price, dirty price,
-and accrued-interest breakdown — that split is a real fixed-income concept
-(see Core concepts above) that this project's tooling has not yet built as a
-distinct calculation. Say so explicitly rather than implying the split
-already exists when a learner asks for it.
+values. `src/analytics/fixed_income.py` builds on that primitive with
+`bond_duration_dv01()`, node-level `key_rate_dv01()`, and
+`reconcile_bond_price()` for clean price, accrued interest, and dirty price.
+These are learning-scale calculations: settlement calendars, day-count
+conventions, callable features, and spread curves remain explicit inputs or
+deferred production concerns.
 
 Scenario-level risk lives in `src/analytics/scenario.py`. `scenario_analysis()`
 takes a list of positions, a `scenario_type` (`"rates"` or `"credit"`), and a
@@ -111,6 +111,9 @@ Trace one credit-shock scenario end to end:
 5. Now try the rates-shock branch with `"duration"` instead of
    `"spread_duration"` and confirm the two fields are genuinely separate
    inputs, not aliases of each other.
+6. Run `tests/unit/analytics/test_fixed_income.py` and explain why the
+   key-rate result is concentrated at the curve node matching the cash-flow
+   maturity.
 
 ## Common pitfalls
 

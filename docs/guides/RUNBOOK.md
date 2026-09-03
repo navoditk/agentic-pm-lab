@@ -151,6 +151,7 @@ uv run pytest
 uv run pytest governance/tests -q
 uv run pytest tests/unit/mcp_server -q
 uv run python scripts/check_skill_contracts.py
+uv run python scripts/check_docs_consistency.py
 uv run python scripts/check_skills_freshness.py --base HEAD~1 --head HEAD
 uv run ruff check .
 ```

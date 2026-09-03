@@ -121,6 +121,10 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
     },
 }
 
+COURSE_CATALOG: dict[str, dict[str, Any]] = json.loads(
+    (REPO_ROOT / "docs/learning/tutor-courses.json").read_text()
+)
+
 SCOPE_HEADER = "## Independent practice examples"
 
 
@@ -153,8 +157,25 @@ def teach_topic(topic_id: str) -> dict[str, Any]:
         "agent_file": record["agent_file"],
         "reference": record["reference"],
         "deep_dive": record["deep_dive"],
+        "course": COURSE_CATALOG[topic_id],
         "read_only": True,
         "investment_advice": False,
+    }
+
+
+def course_outline(topic_id: str) -> dict[str, Any]:
+    """Return the complete offline course outline for one tutor topic."""
+    if topic_id not in TOPIC_CATALOG:
+        raise ValueError(f"unknown topic {topic_id}")
+    return {
+        "topic": topic_id,
+        "label": TOPIC_CATALOG[topic_id]["label"],
+        **COURSE_CATALOG[topic_id],
+        "agent_file": TOPIC_CATALOG[topic_id]["agent_file"],
+        "deep_dive": TOPIC_CATALOG[topic_id]["deep_dive"],
+        "quiz_file": TOPIC_CATALOG[topic_id]["quiz_file"],
+        "read_only": True,
+        "offline": True,
     }
 
 

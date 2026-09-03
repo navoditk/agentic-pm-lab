@@ -48,3 +48,14 @@ The seven-case fast probe exposed model variability in tool use. Its observed
 scores remain recorded separately in `config/eval-baseline.json`; the enforced
 fast behavioral floors were not reduced. Guardrail behavior remains unscored
 until the Day 12 semantic guardrail cases activate.
+
+## Offline evidence-quality checks
+
+The repository also has deterministic checks that do not require LangSmith,
+model tokens, or network access. `src/evaluation/evidence_quality.py` evaluates
+citation completeness, required limitation disclosures, and explicit conflicts
+between claims. Use `scripts/run_depth_exercise.py` to see these dimensions
+alongside fixed-income calculations and point-in-time provenance. These checks
+are intentionally narrower than semantic grounding; they make the evidence
+contract executable without pretending that string or identifier checks replace
+human review.

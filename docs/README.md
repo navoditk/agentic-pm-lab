@@ -18,16 +18,20 @@ flat list.
    problem, scope, and success criteria.
 5. [`architecture/ARCHITECTURE.md`](architecture/ARCHITECTURE.md) — understand
    the current system and security boundaries.
-6. [`learning/PHASE_1_RECAP.md`](learning/PHASE_1_RECAP.md) — traverse the
+6. [`learning/TUTOR_COURSE_GUIDE.md`](learning/TUTOR_COURSE_GUIDE.md) — complete
+   a tutor course from prerequisites through teach-back.
+7. [`learning/DEPTH_PATH.md`](learning/DEPTH_PATH.md) — turn orientation into
+   code tracing, adversarial practice, and teach-back without paid services.
+8. [`learning/PHASE_1_RECAP.md`](learning/PHASE_1_RECAP.md) — traverse the
    completed foundation in the recommended learning order.
-7. [`guides/CANVAS_EXERCISES.md`](guides/CANVAS_EXERCISES.md) — run the final
+8. [`guides/CANVAS_EXERCISES.md`](guides/CANVAS_EXERCISES.md) — run the final
    Canvas-to-capstone workflow from the user-facing surface.
-8. [`learning/CANONICAL_PM_BENCHMARK_REPORT.md`](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
+9. [`learning/CANONICAL_PM_BENCHMARK_REPORT.md`](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
    — review the consolidated cross-provider business workflow, run results,
    observability, costs, and benchmark gaps.
-9. [`learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
+10. [`learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
    — inspect deterministic quality checks and links to every model run artifact.
-10. [`learning/INSTITUTIONAL_PM_SCORECARD_V2.md`](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
+11. [`learning/INSTITUTIONAL_PM_SCORECARD_V2.md`](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
     — inspect repeated-run statistics, adversarial scenario coverage, and
     promotion-gate status.
 
@@ -50,7 +54,7 @@ flat list.
   [Direct model runs](guides/DIRECT_MODEL_RUNS.md)
 - [GitHub Projects learning board](guides/GITHUB_WORKFLOWS.md#github-projects-learning-board)
   · [Tutor exercises](guides/TUTOR_RUNBOOK.md#github-projects-learning-board-exercises)
-- [Start here (zero-context)](learning/START_HERE.md) · [Learner progress](learning/LEARNER_PROGRESS.md)
+- [Start here (zero-context)](learning/START_HERE.md) · [Tutor courses](learning/TUTOR_COURSE_GUIDE.md) · [Depth path](learning/DEPTH_PATH.md) · [Learner progress](learning/LEARNER_PROGRESS.md)
 - [Tutor runbook](guides/TUTOR_RUNBOOK.md) · [Agent runbook](guides/AGENT_RUNBOOK.md)
 - [References](reference/REFERENCES.md) · [Evidence ledger](evidence/EVIDENCE.md)
 - [Architecture diagrams](architecture/DIAGRAMS.md) · [ADRs](adr/)

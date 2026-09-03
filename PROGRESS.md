@@ -55,7 +55,7 @@ the narrative log explicitly says that evidence was captured.
 | Data Layer | 🟡 Partial | 8/9 file(s) real |
 | Control Layer (AuthN/AuthZ) | 🟢 Real | 6 file(s), no `# MOCK` markers |
 | Guardrails | 🟢 Real | 1 file(s), no `# MOCK` markers |
-| Tool Layer | 🟡 Partial | 8/10 file(s) real |
+| Tool Layer | 🟡 Partial | 9/11 file(s) real |
 | Portfolio Optimization | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Interactive Layer | 🟢 Real | 68 file(s), no `# MOCK` markers |
 | Runtime Layer | 🟢 Real | 2 file(s), no `# MOCK` markers |

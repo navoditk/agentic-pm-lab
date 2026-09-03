@@ -14,6 +14,51 @@ REQUIRED_PROVENANCE_FIELDS = {
 }
 
 
+def assess_observation_quality(
+    observations: Iterable[dict[str, Any]],
+    *,
+    decision_date: str,
+    licensing_state: str = "permitted",
+) -> dict[str, Any]:
+    """Classify evidence before it is used by a decision workflow.
+
+    This is intentionally a small local policy helper. It makes stale,
+    conflicting, incomplete, and unlicensed fixture states explicit instead of
+    allowing a caller to silently select a plausible record.
+    """
+    records = list(observations)
+    if not records:
+        return {"status": "incomplete", "reason": "no observations supplied"}
+    try:
+        for record in records:
+            _validate_observation(record)
+    except (KeyError, TypeError, ValueError) as exc:
+        return {"status": "incomplete", "reason": str(exc)}
+    if licensing_state not in {"permitted", "restricted", "unknown"}:
+        raise ValueError("licensing_state must be permitted, restricted, or unknown")
+    if licensing_state != "permitted":
+        return {"status": "unlicensed", "reason": licensing_state}
+    eligible = [record for record in records if eligible_as_of(record, decision_date)]
+    if not eligible:
+        return {"status": "stale", "reason": "no record was eligible at decision time"}
+    by_key: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+    for record in eligible:
+        key = (
+            str(record["source"]),
+            str(record["series_id"]),
+            str(record["observation_date"]),
+        )
+        by_key.setdefault(key, []).append(record)
+    conflicts = [
+        key
+        for key, values in by_key.items()
+        if len({float(value["value"]) for value in values}) > 1
+    ]
+    if conflicts:
+        return {"status": "conflicted", "conflicting_keys": conflicts}
+    return {"status": "usable", "eligible_count": len(eligible)}
+
+
 def make_observation(
     *,
     source: str,

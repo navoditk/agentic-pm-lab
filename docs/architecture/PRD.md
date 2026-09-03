@@ -252,7 +252,7 @@ Success is tiered on purpose — **one working vertical slice matters more than 
 ### Tier 1 — must demonstrate
 - Deterministic Tool Layer (with contracts, including real portfolio optimization, not just risk description) + LangGraph/Deep Agents (single and multi-agent) + MCP + OpenTelemetry + a golden-dataset eval suite + basic skills with contracts and tests, all working together end to end.
 - All five architecture layers (§2) have moved from mock to real, per the mock→real status table (`PROGRESS.md`), except the items explicitly excluded in §6.
-- A multi-agent Portfolio Manager system (Macro, Quant, Fundamental sub-agents) answers all 23 questions in §4, end to end, using real tool calls rather than hallucinated numbers.
+- A multi-agent Portfolio Manager system (Macro, Quant, Fundamental sub-agents) answers every currently supported question in §4 end to end, using real tool calls rather than hallucinated numbers. Questions whose required data or analytics are deferred are explicitly labelled as deferred and are not counted as passing cases.
 - A CI pipeline exists that would catch, automatically: a stale skill, a broken skill/tool contract, a regression in agent behavior or eval score across a model change, and a broken test — without a person having to remember to check.
 
 ### Tier 2 — strongly desirable
@@ -270,6 +270,15 @@ Success is tiered on purpose — **one working vertical slice matters more than 
 
 ### Core end-state acceptance test
 A user request enters through the interactive surface, reaches a LangGraph/Deep Agent or the reproducible Day 21 fixture capstone path, selects a reusable skill/tool path, invokes governed MCP-backed deterministic portfolio/risk tools, returns an answer, emits structured trace/evaluation evidence and token/cost metadata, records control/audit decisions, and can be deployed through the Bedrock/AgentCore target path — without changing the fundamental business/tool architecture.
+
+The current evaluation boundary is the supported subset of the §4 catalog. The
+numbered catalog contains 23 questions, while the active golden dataset contains
+15 answer cases and the full local baseline contains 22 active cases after
+including routing, policy, and guardrail dimensions. The remaining catalog
+questions are either represented by deterministic unit tests, fixture exercises,
+or explicitly deferred capability backlog. A future expansion must add a case,
+expected evidence, and a local acceptance test before claiming broader question
+coverage.
 
 ### Security acceptance test
 An authenticated but unauthorized user cannot retrieve restricted portfolio data even if the model is successfully prompt-injected or attempts an alternate tool path. (`docs/PLAN.md` §15 has the concrete test-identity scenarios this is checked against.)

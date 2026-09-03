@@ -2,6 +2,7 @@ import pytest
 
 from src.ingestion.fixed_income import validate_bond_instrument
 from src.ingestion.provenance import (
+    assess_observation_quality,
     eligible_as_of,
     make_observation,
     select_point_in_time,
@@ -34,6 +35,30 @@ def test_future_release_is_not_eligible_even_for_past_observation():
     record = observation("2020-02-03", 1.85)
 
     assert not eligible_as_of(record, "2020-01-31")
+
+
+def test_quality_classifies_stale_and_conflicting_evidence():
+    stale = observation("2020-02-03", 1.85)
+    assert (
+        assess_observation_quality([stale], decision_date="2020-01-31")["status"]
+        == "stale"
+    )
+
+    conflict_a = observation("2020-01-03", 1.80)
+    conflict_b = observation("2020-01-03", 1.90)
+    result = assess_observation_quality(
+        [conflict_a, conflict_b], decision_date="2020-01-31"
+    )
+    assert result["status"] == "conflicted"
+
+
+def test_quality_rejects_restricted_evidence_before_selection():
+    result = assess_observation_quality(
+        [observation("2020-01-03", 1.80)],
+        decision_date="2020-01-31",
+        licensing_state="restricted",
+    )
+    assert result == {"status": "unlicensed", "reason": "restricted"}
 
 
 def test_invalid_provenance_date_is_rejected():

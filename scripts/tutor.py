@@ -10,6 +10,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.education.tutor import (
+    course_outline,
     grade_answers,
     list_topics,
     load_quiz,
@@ -52,11 +53,21 @@ def main() -> None:
         action="store_true",
         help="take the topic's multiple-choice quiz interactively",
     )
+    parser.add_argument(
+        "--course",
+        action="store_true",
+        help="show the complete course outline for the topic",
+    )
     args = parser.parse_args()
     if args.topic is None:
         if args.quiz:
             parser.error("--quiz requires a topic id")
         print(json.dumps(list_topics(), indent=2, sort_keys=True))
+        return
+    if args.quiz and args.course:
+        parser.error("--quiz and --course cannot be combined")
+    if args.course:
+        print(json.dumps(course_outline(args.topic), indent=2, sort_keys=True))
         return
     if args.quiz:
         _run_quiz(args.topic)
