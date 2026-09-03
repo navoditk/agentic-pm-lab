@@ -116,10 +116,14 @@ compare_to_current({"A": 0.3, "B": 0.7}, {"A": 0.5, "B": 0.5})
 ```
 
 **Feasibility is enforced by raising, not clipping:** if the computed turnover
-exceeds `max_turnover`, or the largest weight exceeds `max_concentration`,
-`optimize_portfolio()` raises `ValueError` with the actual computed figure in
-the message. This is the concrete mechanism behind "infeasible means a human
-decides" — there is no silent constraint-relaxation path in this code.
+exceeds `max_turnover`, `optimize_portfolio()` raises `ValueError` with the
+actual computed figure in the message (`f"optimization exceeds max_turnover:
+{turnover:.6f}"`). A `max_concentration` breach also raises, but its message
+does *not* include the computed figure (`"optimization exceeds
+max_concentration"`, no number) — worth knowing if you're debugging from the
+exception text alone. Either way, this is the concrete mechanism behind
+"infeasible means a human decides" — there is no silent constraint-relaxation
+path in this code.
 
 **Every result carries `"mock": True`** — a literal field in the returned
 dict, not just documentation — which the Fundamental/Quant specialist prompts
@@ -154,13 +158,23 @@ Actual output (run 2026-09-02):
 ```
 
 Now run the same inputs through `"min_volatility"` and `"risk_parity"` and
-compare: `min_volatility` moves furthest from the return-chasing 50/50 start
-toward the lower-variance asset B (weights `{"A": 0.1, "B": 0.9}`, volatility
-0.0949 versus max-Sharpe's 0.1019); `risk_parity`'s inverse-volatility fallback
-lands at `{"A": 0.25, "B": 0.75}` — between the other two, since asset A's
-variance (0.09) is 9x asset B's (0.01), so inverse-volatility gives A a
-1:3 weight ratio against B rather than max-Sharpe's more aggressive tilt
-toward A's higher expected return.
+compare — the ordering is not what intuition might predict.
+`min_volatility` gives A the least weight of the three (`{"A": 0.1, "B":
+0.9}`, volatility 0.0949 versus max-Sharpe's 0.1019), which fits the
+"minimize variance" objective given A's variance (0.09) is 9x B's (0.01).
+`risk_parity`'s inverse-volatility fallback lands at `{"A": 0.25, "B":
+0.75}` — a 1:3 weight ratio, from weighting each asset inversely to its own
+standard deviation (`1/sqrt(0.09) : 1/sqrt(0.01)` normalized). That 0.25 is
+actually *larger* than max-Sharpe's 0.21739, not "between" min-volatility and
+max-Sharpe as the numbers might suggest at a glance: risk parity's
+inverse-volatility heuristic never looks at expected return at all, only the
+volatility ratio, while max-Sharpe's 0.21739 is the result of a genuine
+risk/return trade-off that partially — but not fully — offsets A's higher
+volatility against its much higher expected return (0.10 vs. B's 0.04). In
+this particular example that trade-off happens to land max-Sharpe's weight on
+A *below* risk parity's, which is a useful reminder that "which method is
+more aggressive toward a given asset" depends on the specific numbers, not on
+a general ranking between the three methods.
 
 Then try tightening the constraint until it breaks:
 

@@ -31,10 +31,14 @@ its shock size as `shock_bps`.
 **Plain-language definition:** A callable bond gives the issuer the right, but
 not the obligation, to redeem it before its stated maturity, usually at a
 preset call price. That optionality means a callable bond's price and duration
-behave differently near a call date than a plain (bullet) bond's, which is why
-this project's bond instrument-master validator treats an unresolved call
-provision as a reason to return `needs_review` rather than price the bond as
-if it were non-callable.
+behave differently near a call date than a plain (bullet) bond's. This
+project's bond instrument-master validator (`src/ingestion/fixed_income.py`'s
+`validate_bond_instrument()`) does not yet check callability at all --
+`REQUIRED_BOND_FIELDS` has no `callable`, `call_date`, or `call_price` field,
+so a callable bond with an unresolved call provision currently validates the
+same as a plain bullet bond if its other required fields are present. That is
+a real gap, not a handled case -- say so rather than implying the validator
+already protects against it.
 
 **Introduced:** Day 15
 

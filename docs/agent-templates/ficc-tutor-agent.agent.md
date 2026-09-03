@@ -51,9 +51,13 @@ rating, identifier, liquidity, or point-in-time value, and return
    `data/samples/public_investment/`, identify which fields are point-in-time
    eligible, and explain why this repository treats it as a fixture rather
    than a live integration.
-5. Design a minimum bond instrument-master schema for a callable corporate
-   bond and explain which missing fields would make its valuation
-   `needs_review`, citing the Day 15 instrument-master validator.
+5. Read `src/ingestion/fixed_income.py`'s `validate_bond_instrument()` and its
+   `REQUIRED_BOND_FIELDS`, then explain precisely which of its checks a
+   callable corporate bond would trigger `needs_review` on today (missing
+   base fields, a negative coupon, a non-positive coupon frequency, or
+   maturity not after issue date) versus which real callable-bond risk --
+   an unresolved call provision -- the validator does not check at all yet.
+   Do not imply the validator already handles callability; it doesn't.
 
 Negative examples:
 1. "Calculate a bond price from a ticker and its equity close price alone."
