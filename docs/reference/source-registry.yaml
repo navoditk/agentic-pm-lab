@@ -1,0 +1,228 @@
+version: 1
+sources:
+  - id: langgraph
+    title: LangGraph
+    url: https://docs.langchain.com/oss/python/langgraph
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: agent-architecture-tutor
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, .github/agents/agent-architecture-tutor.agent.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, .github/agents/langgraph-deep-agents-tutor.agent.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: deepagents
+    title: Deep Agents
+    url: https://docs.langchain.com/oss/python/deepagents
+    kind: pypi
+    version_or_fingerprint: "0.7.5"
+    last_reviewed: 2026-09-02
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: agent-architecture-tutor
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, .github/agents/agent-architecture-tutor.agent.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, .github/agents/langgraph-deep-agents-tutor.agent.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langsmith
+    title: LangSmith
+    url: https://docs.langchain.com/langsmith/evaluation
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: evaluation-agentops-tutor
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, .github/agents/evaluation-agentops-tutor.agent.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
+  - id: opentelemetry-python
+    title: OpenTelemetry Python
+    url: https://opentelemetry.io/docs/languages/python/getting-started/
+    kind: pypi
+    version_or_fingerprint: "1.44.0"
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, .github/agents/opentelemetry-tutor.agent.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+      - topic: evaluation-agentops-tutor
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, .github/agents/evaluation-agentops-tutor.agent.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
+  - id: mcp
+    title: Model Context Protocol
+    url: https://modelcontextprotocol.io/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: copilot-canvas-mcp-tutor
+        assets: [docs/learning/tutors/copilot-canvas-mcp-tutor.md, .github/agents/copilot-canvas-mcp-tutor.agent.md, evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl]
+  - id: aws-agentcore
+    title: AWS Bedrock AgentCore
+    url: https://docs.aws.amazon.com/bedrock-agentcore/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, .github/agents/aws-agentcore-tutor.agent.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+      - topic: governance-delivery-tutor
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, .github/agents/governance-delivery-tutor.agent.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+  - id: aws-bedrock-guardrails
+    title: Amazon Bedrock Guardrails
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, .github/agents/aws-agentcore-tutor.agent.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+      - topic: governance-delivery-tutor
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, .github/agents/governance-delivery-tutor.agent.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+  - id: github-copilot-skills
+    title: GitHub Copilot Agent Skills
+    url: https://docs.github.com/en/copilot/concepts/agents/about-agent-skills
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: copilot-canvas-mcp-tutor
+        assets: [docs/learning/tutors/copilot-canvas-mcp-tutor.md, .github/agents/copilot-canvas-mcp-tutor.agent.md, evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl]
+      - topic: agent-development-lifecycle-tutor
+        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, .github/agents/agent-development-lifecycle-tutor.agent.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
+  - id: claude-code
+    title: Claude Code
+    url: https://docs.anthropic.com/en/docs/claude-code/overview
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: agent-development-lifecycle-tutor
+        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, .github/agents/agent-development-lifecycle-tutor.agent.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
+  - id: openai-codex
+    title: OpenAI Codex
+    url: https://developers.openai.com/codex/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: agent-development-lifecycle-tutor
+        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, .github/agents/agent-development-lifecycle-tutor.agent.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
+  - id: fastapi
+    title: FastAPI
+    url: https://fastapi.tiangolo.com/tutorial/
+    kind: pypi
+    version_or_fingerprint: "0.141.1"
+    last_reviewed: 2026-09-02
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: agent-architecture-tutor
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, .github/agents/agent-architecture-tutor.agent.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
+  - id: sec-edgar
+    title: SEC EDGAR data APIs
+    url: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [deprecated, removed, terms, security]
+    impacts:
+      - topic: investment-data-tutor
+        assets: [docs/learning/tutors/investment-data-tutor.md, .github/agents/investment-data-tutor.agent.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
+      - topic: data-provenance-research-tutor
+        assets: [docs/learning/tutors/data-provenance-research-tutor.md, .github/agents/data-provenance-research-tutor.agent.md, evals/tutor_quizzes/data-provenance-research-tutor.jsonl]
+  - id: fred-alfred
+    title: FRED and ALFRED
+    url: https://fred.stlouisfed.org/docs/api/fred/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [deprecated, removed, terms, security]
+    impacts:
+      - topic: investment-data-tutor
+        assets: [docs/learning/tutors/investment-data-tutor.md, .github/agents/investment-data-tutor.agent.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
+      - topic: data-provenance-research-tutor
+        assets: [docs/learning/tutors/data-provenance-research-tutor.md, .github/agents/data-provenance-research-tutor.agent.md, evals/tutor_quizzes/data-provenance-research-tutor.jsonl]
+  - id: treasury-data
+    title: U.S. Treasury Fiscal Data
+    url: https://fiscaldata.treasury.gov/api-documentation/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [deprecated, removed, terms, security]
+    impacts:
+      - topic: ficc-tutor-agent
+        assets: [docs/learning/tutors/ficc-tutor-agent.md, docs/agent-templates/ficc-tutor-agent.agent.md, evals/tutor_quizzes/ficc-tutor-agent.jsonl]
+      - topic: investment-data-tutor
+        assets: [docs/learning/tutors/investment-data-tutor.md, .github/agents/investment-data-tutor.agent.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
+  - id: pyportfolioopt
+    title: PyPortfolioOpt
+    url: https://pyportfolioopt.readthedocs.io/
+    kind: pypi
+    version_or_fingerprint: "1.6.0"
+    last_reviewed: 2026-09-02
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: portfolio-construction-tutor
+        assets: [docs/learning/tutors/portfolio-construction-tutor.md, .github/agents/portfolio-construction-tutor.agent.md, evals/tutor_quizzes/portfolio-construction-tutor.jsonl]
+      - topic: investment-committee-tutor
+        assets: [docs/learning/tutors/investment-committee-tutor.md, .github/agents/investment-committee-tutor.agent.md, evals/tutor_quizzes/investment-committee-tutor.jsonl]
+  - id: cedar
+    title: Cedar Policy Language
+    url: https://docs.cedarpolicy.com/
+    kind: pypi
+    version_or_fingerprint: "4.8.7"
+    last_reviewed: 2026-09-02
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: governance-delivery-tutor
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, .github/agents/governance-delivery-tutor.agent.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+      - topic: investment-committee-tutor
+        assets: [docs/learning/tutors/investment-committee-tutor.md, .github/agents/investment-committee-tutor.agent.md, evals/tutor_quizzes/investment-committee-tutor.jsonl]
+  - id: document-ingestion
+    title: OpenAI document ingestion and skills guidance
+    url: https://developers.openai.com/codex/skills/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-02
+    last_reviewed: 2026-09-02
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: document-to-skill-tutor
+        assets: [docs/learning/tutors/document-to-skill-tutor.md, .github/agents/document-to-skill-tutor.agent.md, evals/tutor_quizzes/document-to-skill-tutor.jsonl]

@@ -6,6 +6,12 @@ technical sections retain stable specifications and implementation references.
 
 One or two best starting points per topic, favoring official docs and hands-on tutorials over general blog posts — not exhaustive. This is the single, canonical copy: update it directly as you find something genuinely useful or a link goes stale, rather than maintaining a separate mirror elsewhere. External resources are clickable Markdown links; repository references use relative links.
 
+The companion [external-source registry](source-registry.yaml) records review
+cadence, accountable owner, version/fingerprint baseline, and the exact tutor
+assets affected by each monitored source. Run
+`uv run python scripts/check_curriculum_sources.py` after changing either the
+curriculum or its external-source mappings.
+
 ## How to use this file
 
 Use the references as a study map, not as a linear textbook. Start with the

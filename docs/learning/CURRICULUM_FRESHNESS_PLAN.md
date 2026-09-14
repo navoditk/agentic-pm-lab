@@ -14,8 +14,10 @@ key, or evidence claim.
 
 ## Phase 1: source registry and asset map
 
-Create `docs/reference/source-registry.yaml` as the canonical external-source
-inventory. Each record should include:
+Implemented: [`docs/reference/source-registry.yaml`](../reference/source-registry.yaml)
+is the canonical external-source inventory, validated by
+`uv run python scripts/check_curriculum_sources.py` in pull-request CI. Each
+record includes:
 
 | Field | Purpose |
 |---|---|
@@ -37,7 +39,7 @@ deep dives and quiz banks before a reviewer reads the release notes.
 
 ## Phase 2: deterministic validation
 
-Add an offline `scripts/check_curriculum_sources.py` validation command that:
+Implemented: `scripts/check_curriculum_sources.py` validates:
 
 1. validates source-registry schema and unique IDs;
 2. verifies every topic and referenced learning asset exists;
@@ -45,7 +47,7 @@ Add an offline `scripts/check_curriculum_sources.py` validation command that:
 4. ensures the registry topic IDs match `TOPIC_CATALOG`; and
 5. checks all required reference URLs syntactically, without network access.
 
-Run it in pull-request CI beside `check_tutor_courses.py`. A new or modified
+It runs in pull-request CI beside `check_tutor_courses.py`. A new or modified
 course that names external behavior must add or update the corresponding
 source-registry record.
 

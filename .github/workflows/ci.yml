@@ -29,6 +29,9 @@ jobs:
       - name: Tutor course completeness
         run: uv run python scripts/check_tutor_courses.py
 
+      - name: Curriculum source registry
+        run: uv run python scripts/check_curriculum_sources.py
+
       - name: Generated learning curriculum
         run: uv run python scripts/build_learning_curriculum.py --check
 
