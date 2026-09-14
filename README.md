@@ -126,8 +126,8 @@ calculation, reasoning, policy, evidence, and human decision-making.
 [GitHub Pages](https://navoditk.github.io/agentic-pm-lab/) or open the
 [standalone HTML artifact](artifacts/agentic-pm-curriculum.html) directly in
 the repository. Both are generated from the same canonical course sources on
-every merge to `main`; GitHub Pages must be enabled with **GitHub Actions** as
-its source in repository settings before the public URL is available.
+every merge to `main`; the publication workflow enables and deploys GitHub
+Pages automatically.
 
 For the fastest guided route, open this checkout in **Copilot, Claude Code, or
 Codex** and say **`pmexpert`**. The
