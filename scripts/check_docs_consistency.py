@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -24,8 +25,8 @@ def check() -> list[str]:
     architecture = (ROOT / "docs/architecture/ARCHITECTURE.md").read_text()
     references = (ROOT / "docs/reference/REFERENCES.md").read_text()
     prd = (ROOT / "docs/architecture/PRD.md").read_text()
-    if "175 passed" in readme:
-        errors.append("README contains the retired 175-test claim")
+    if re.search(r"\b\d+\s+(?:passing\s+)?tests?\b", readme, flags=re.IGNORECASE):
+        errors.append("README contains a hardcoded test-count claim")
     if "#the-layers-and-what-exists-today-day-20" in architecture:
         errors.append("architecture links to the retired Day 20 layer anchor")
     if "#logical-components-through-day-20" in architecture:

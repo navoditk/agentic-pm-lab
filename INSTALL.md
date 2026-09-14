@@ -243,7 +243,7 @@ Same message. Copilot CLI reads `AGENTS.md` the same way (via the `.github/copil
 cd agentic-pm-lab
 codex
 ```
-Same message again. Where Codex tends to fit best in this plan: it's a reasonable substitute for Claude Code specifically — deep multi-file reasoning, architecture decisions, debugging unfamiliar APIs (`docs/PLAN.md` §7's tool-guidance table calls out which days lean that way) — if you'd rather use an OpenAI-model-backed tool for that role, or want to compare the two on the same day's work. Codex also has its own on-demand skills mechanism, conceptually the same shape as this project's `skills/` folder, so the shared `SKILL.md` library is likely readable by it too — worth confirming once you're using it regularly, since exact compatibility can shift.
+Same message again. Where Codex tends to fit best in this plan: it's a reasonable substitute for Claude Code specifically — deep multi-file reasoning, architecture decisions, debugging unfamiliar APIs (`docs/PLAN.md` §7's tool-guidance table calls out which days lean that way) — if you'd rather use an OpenAI-model-backed tool for that role, or want to compare the two on the same day's work. This repository supports Codex through its discovery loader; consult Codex's current documentation for behavior beyond this packaged skill, since broader format compatibility can shift.
 
 **GitHub Copilot Desktop / the Copilot app:** open the app, select this repo, start a new agent session, and give it the same message. This is the tool of choice specifically for the canvas-building days (8–10) and the Day 11 PR exercise, since those lean on app-specific features (`/create-canvas`, Copilot coding agent) not available from the CLI alone — nothing here substitutes for it.
 

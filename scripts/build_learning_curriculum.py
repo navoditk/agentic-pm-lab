@@ -11,29 +11,59 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "artifacts/agentic-pm-curriculum.html"
+REPOSITORY_URL = "https://github.com/navoditk/agentic-pm-lab"
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 
-def inline_markdown(text: str) -> str:
+def repository_link(href: str, source_path: Path | None) -> str:
+    """Translate checkout-relative links into durable GitHub source links."""
+    parsed = urlsplit(href)
+    if parsed.scheme or parsed.netloc or href.startswith(("#", "/", "mailto:")):
+        return href
+    if source_path is None:
+        return href
+
+    target = (source_path.parent / parsed.path).resolve()
+    try:
+        relative_target = target.relative_to(ROOT)
+    except ValueError:
+        return href
+    location = "tree" if target.is_dir() else "blob"
+    return urlunsplit(
+        (
+            "https",
+            "github.com",
+            f"{urlsplit(REPOSITORY_URL).path}/{location}/main/{relative_target.as_posix()}",
+            parsed.query,
+            parsed.fragment,
+        )
+    )
+
+
+def inline_markdown(text: str, source_path: Path | None = None) -> str:
     """Render the small Markdown subset used by curriculum source documents."""
     escaped = html.escape(text, quote=False)
     escaped = re.sub(r"`([^`]+)`", r"<code>\1</code>", escaped)
     escaped = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", escaped)
     escaped = re.sub(
         r"\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)",
-        r'<a href="\2">\1</a>',
+        lambda match: (
+            f'<a href="{repository_link(html.unescape(match.group(2)), source_path)}">'
+            f"{match.group(1)}</a>"
+        ),
         escaped,
     )
     return escaped
 
 
-def render_markdown(markdown: str) -> str:
+def render_markdown(markdown: str, source_path: Path | None = None) -> str:
     """Render headings, lists, code blocks, tables, links, and paragraphs."""
     output: list[str] = []
     paragraph: list[str] = []
@@ -43,7 +73,7 @@ def render_markdown(markdown: str) -> str:
 
     def flush_paragraph() -> None:
         if paragraph:
-            output.append(f"<p>{inline_markdown(' '.join(paragraph))}</p>")
+            output.append(f"<p>{inline_markdown(' '.join(paragraph), source_path)}</p>")
             paragraph.clear()
 
     def close_list() -> None:
@@ -76,13 +106,15 @@ def render_markdown(markdown: str) -> str:
             close_list()
             level = min(len(line) - len(line.lstrip("#")), 4)
             output.append(
-                f"<h{level}>{inline_markdown(line[level:].strip())}</h{level}>"
+                f"<h{level}>{inline_markdown(line[level:].strip(), source_path)}</h{level}>"
             )
             continue
         if line.startswith("> "):
             flush_paragraph()
             close_list()
-            output.append(f"<blockquote>{inline_markdown(line[2:])}</blockquote>")
+            output.append(
+                f"<blockquote>{inline_markdown(line[2:], source_path)}</blockquote>"
+            )
             continue
         if line in {"---", "***", "___"}:
             flush_paragraph()
@@ -99,7 +131,7 @@ def render_markdown(markdown: str) -> str:
                 output.append(f"<{expected_tag}>")
                 list_tag = expected_tag
             output.append(
-                f"<li>{inline_markdown((unordered or ordered).group(1))}</li>"
+                f"<li>{inline_markdown((unordered or ordered).group(1), source_path)}</li>"
             )
             continue
         if "|" in line and line.strip().startswith("|"):
@@ -111,11 +143,15 @@ def render_markdown(markdown: str) -> str:
             tag = "th" if not any("<table" in item for item in output[-1:]) else "td"
             if tag == "th":
                 output.append("<table><thead><tr>")
-                output.extend(f"<th>{inline_markdown(cell)}</th>" for cell in cells)
+                output.extend(
+                    f"<th>{inline_markdown(cell, source_path)}</th>" for cell in cells
+                )
                 output.append("</tr></thead><tbody>")
             else:
                 output.append("<tr>")
-                output.extend(f"<td>{inline_markdown(cell)}</td>" for cell in cells)
+                output.extend(
+                    f"<td>{inline_markdown(cell, source_path)}</td>" for cell in cells
+                )
                 output.append("</tr>")
             continue
         if output and output[-1] == "</tr>":
@@ -194,7 +230,7 @@ def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
         topics[topic_id] = {
             **source,
             "course": courses[topic_id],
-            "deep_dive_html": render_markdown(deep_dive),
+            "deep_dive_html": render_markdown(deep_dive, deep_dive_path),
             "quiz": quiz,
             "freshness": freshness[topic_id],
         }
@@ -203,7 +239,7 @@ def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     shared_html = {}
     for title, path in shared_guides.items():
         content = path.read_text()
-        shared_html[title] = render_markdown(content)
+        shared_html[title] = render_markdown(content, path)
         fingerprint_parts.append(content)
     fingerprint = hashlib.sha256("\n".join(fingerprint_parts).encode()).hexdigest()[:12]
     return (
@@ -246,13 +282,13 @@ def build_html() -> str:
 <p class="source">Source: <code>{html.escape(topic["deep_dive"])}</code> · {len(topic["quiz"])} quiz questions</p>
 <div class="freshness" data-freshness="{freshness["status"]}"><strong>External-source review:</strong> {source_links}. {freshness_message}</div>
 <div class="course-grid">
-<div><h3>Prerequisites</h3><ul>{"".join(f"<li>{inline_markdown(item)}</li>" for item in course["prerequisites"])}</ul></div>
-<div><h3>Objectives</h3><ul>{"".join(f"<li>{inline_markdown(item)}</li>" for item in course["objectives"])}</ul></div>
+<div><h3>Prerequisites</h3><ul>{"".join(f"<li>{inline_markdown(item, ROOT / 'docs/learning/tutor-courses.json')}</li>" for item in course["prerequisites"])}</ul></div>
+<div><h3>Objectives</h3><ul>{"".join(f"<li>{inline_markdown(item, ROOT / 'docs/learning/tutor-courses.json')}</li>" for item in course["objectives"])}</ul></div>
 </div>
-<h3>Lessons</h3><ol>{"".join(f"<li>{inline_markdown(item)}</li>" for item in course["lessons"])}</ol>
-<div class="labs"><p><strong>Local lab:</strong> {inline_markdown(course["local_lab"])}</p>
-<p><strong>Failure lab:</strong> {inline_markdown(course["failure_lab"])}</p>
-<p><strong>Teach-back:</strong> {inline_markdown(course["assessment"])}</p></div>
+<h3>Lessons</h3><ol>{"".join(f"<li>{inline_markdown(item, ROOT / 'docs/learning/tutor-courses.json')}</li>" for item in course["lessons"])}</ol>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> {inline_markdown(course["local_lab"], ROOT / "docs/learning/tutor-courses.json")}</p>
+<p><strong>Failure lab (run after cloning):</strong> {inline_markdown(course["failure_lab"], ROOT / "docs/learning/tutor-courses.json")}</p>
+<p><strong>Teach-back:</strong> {inline_markdown(course["assessment"], ROOT / "docs/learning/tutor-courses.json")}</p></div>
 <details><summary>Read the deep dive</summary><article>{topic["deep_dive_html"]}</article></details>
 <button class="quiz-button" data-topic="{topic_id}">Start this topic's quiz</button>
 </section>"""
@@ -268,9 +304,9 @@ a{{color:var(--accent)}}header{{background:#0e263e;color:#fff;padding:4rem max(1
 main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}}h2{{font-size:1.8rem;line-height:1.2}}h3{{margin-bottom:.25rem}}.eyebrow,.source{{color:var(--muted);font-size:.9rem}}.notice,.labs{{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}}.freshness{{background:var(--soft);border-radius:.35rem;font-size:.9rem;margin:1rem 0;padding:.7rem}}.freshness[data-freshness="enrollment-pending"],.freshness[data-freshness="upstream-review-required"],.freshness[data-freshness="source-check-unavailable"],.freshness.overdue{{background:var(--warning-bg);color:var(--warning)}}.topic-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}}.topic-card{{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}}.topic-card span{{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}}.topic{{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}}.course-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}}details{{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}}summary{{cursor:pointer;font-weight:700}}article{{max-width:82ch}}pre{{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}}code{{font:.9em ui-monospace,SFMono-Regular,monospace}}table{{border-collapse:collapse;width:100%;overflow-x:auto;display:block}}td,th{{border:1px solid var(--line);padding:.55rem;text-align:left}}button{{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}}dialog{{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}}dialog::backdrop{{background:#0008}}.choice{{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}}.result{{font-weight:700}}footer{{color:var(--muted);font-size:.9rem;margin-top:3rem}}@media(prefers-color-scheme:dark){{:root{{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548;--warning:#ffd48c;--warning-bg:#4d350f}}body{{background:#101720}}}}
 </style></head><body>
 <header><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
-<p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Learn with the deep dives, local and failure labs, quizzes, teach-backs, and integrated assessment—without downloading the repository.</p>
+<p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Read the full course material and take browser-local quizzes without downloading the repository.</p>
 </header><main>
-<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>{metadata["fingerprint"]}</code>.</div>
+<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>{metadata["fingerprint"]}</code>.</div>
 <h2>Start a path</h2><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
 <p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>pmexpert</code>. For durable offline quiz records, use <code>scripts/tutor.py</code> after cloning.</p>
 <details><summary>How to use this curriculum</summary><article>{metadata["shared_html"]["Course guide"]}</article></details>

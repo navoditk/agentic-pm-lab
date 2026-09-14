@@ -8,14 +8,15 @@ a{color:var(--accent)}header{background:#0e263e;color:#fff;padding:4rem max(1.5r
 main{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}h1{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}h2{font-size:1.8rem;line-height:1.2}h3{margin-bottom:.25rem}.eyebrow,.source{color:var(--muted);font-size:.9rem}.notice,.labs{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}.freshness{background:var(--soft);border-radius:.35rem;font-size:.9rem;margin:1rem 0;padding:.7rem}.freshness[data-freshness="enrollment-pending"],.freshness[data-freshness="upstream-review-required"],.freshness[data-freshness="source-check-unavailable"],.freshness.overdue{background:var(--warning-bg);color:var(--warning)}.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}.topic-card{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}.topic-card span{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}.topic{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}details{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}summary{cursor:pointer;font-weight:700}article{max-width:82ch}pre{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}code{font:.9em ui-monospace,SFMono-Regular,monospace}table{border-collapse:collapse;width:100%;overflow-x:auto;display:block}td,th{border:1px solid var(--line);padding:.55rem;text-align:left}button{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}dialog{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}dialog::backdrop{background:#0008}.choice{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}.result{font-weight:700}footer{color:var(--muted);font-size:.9rem;margin-top:3rem}@media(prefers-color-scheme:dark){:root{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548;--warning:#ffd48c;--warning-bg:#4d350f}body{background:#101720}}
 </style></head><body>
 <header><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
-<p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Learn with the deep dives, local and failure labs, quizzes, teach-backs, and integrated assessment—without downloading the repository.</p>
+<p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Read the full course material and take browser-local quizzes without downloading the repository.</p>
 </header><main>
-<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>98f92d19de96</code>.</div>
+<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>5678bf7f747b</code>.</div>
 <h2>Start a path</h2><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
 <p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>pmexpert</code>. For durable offline quiz records, use <code>scripts/tutor.py</code> after cloning.</p>
 <details><summary>How to use this curriculum</summary><article><h1>Tutor courses: learner guide</h1>
 <p>The tutor layer is a set of complete, self-paced local courses. A course is not just a prompt or a quiz: it combines a tutor persona, deep-dive lessons, repository tracing, an implementation lab, an adversarial lab, a quiz, and a teach-back assessment.</p>
-<p>For a conversational guide over the same canonical content, open this checkout in Copilot, Claude Code, or Codex and say <strong><code>pmexpert</code></strong>. The <a href="MASTERY_SKILL.md">Agentic PM Lab Mastery skill</a> selects a path, teaches one objective at a time, runs source-grounded quizzes and scenarios, and tracks session progress. The CLI below remains the durable, offline route for quiz records and works without a Copilot surface.</p>
+<p>The <a href="https://navoditk.github.io/agentic-pm-lab/">GitHub Pages curriculum</a> and <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/artifacts/agentic-pm-curriculum.html">standalone HTML artifact</a> provide the same reading material and browser-local quizzes without a checkout. They cannot record durable progress, run code tracing or labs, or establish course completion; use this local path for those requirements.</p>
+<p>For a conversational guide over the same canonical content, open this checkout in Copilot, Claude Code, or Codex and say <strong><code>pmexpert</code></strong>. The <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/MASTERY_SKILL.md">Agentic PM Lab Mastery skill</a> selects a path, teaches one objective at a time, runs source-grounded quizzes and scenarios, and tracks session progress. The CLI below remains the durable, offline route for quiz records and works without a Copilot surface.</p>
 <h2>Use one course from start to finish</h2>
 <ol>
 <li>List topics:</li>
@@ -51,32 +52,32 @@ main{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}h1{font-size:clamp(2r
 <li>the failure lab produces an explicit safe outcome; and</li>
 <li>the learner passes the quiz and completes the teach-back.</li>
 </ul>
-<p>The generated <a href="LEARNER_PROGRESS.md"><code>LEARNER_PROGRESS.md</code></a> records quiz comprehension. Keep the lab and teach-back note beside it locally or in a learning issue; do not put private data or credentials in either record.</p>
+<p>The generated <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/LEARNER_PROGRESS.md"><code>LEARNER_PROGRESS.md</code></a> records quiz comprehension. Keep the lab and teach-back note beside it locally or in a learning issue; do not put private data or credentials in either record.</p>
 <h2>Recommended order</h2>
 <p>Start with agent architecture, LangGraph/Deep Agents, FICC, and portfolio construction. Then study provenance and public investment data, followed by OpenTelemetry, evaluation/AgentOps, governance, and AgentCore. Finish with Canvas/MCP, investment committee review, document-to-skill, and the integrated fixture capstone. The courses are independent, so an experienced learner can start with any topic's prerequisites.</p>
 <p>Every course is offline and provider-neutral. Current AWS, LangGraph, and OpenTelemetry behavior must still be checked against the official references; the course teaches how this repository uses those systems, not a guarantee of future vendor APIs.</p></article></details>
 <details><summary>Mastery-skill guide</summary><article><h1>Agentic PM Lab mastery skill</h1>
 <p>The <strong>Agentic PM Lab Mastery</strong> skill is the recommended conversational route through the repository. It turns the existing 14 tutor courses into a guided lesson, quiz, scenario, lab, teach-back, and cross-topic assessment flow across GitHub Copilot, Claude Code, and Codex.</p>
-<p>Learners without a local checkout can use the complete <a href="https://navoditk.github.io/agentic-pm-lab/">GitHub Pages curriculum</a> or the repository's <a href="../../artifacts/agentic-pm-curriculum.html">standalone HTML artifact</a>. Those routes include the deep dives, course outlines, labs, and browser-local quizzes, but not CLI session progress or code-tracing exercises.</p>
+<p>Learners without a local checkout can use the complete <a href="https://navoditk.github.io/agentic-pm-lab/">GitHub Pages curriculum</a> or the repository's <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/artifacts/agentic-pm-curriculum.html">standalone HTML artifact</a>. Those routes include the deep dives, course outlines, labs, and browser-local quizzes, but not CLI session progress or code-tracing exercises.</p>
 <h2>Invoke it</h2>
 <p>Open this repository in GitHub Copilot CLI, Copilot coding agent, Claude Code, or Codex, then say:</p>
 <pre><code>pmexpert</code></pre>
-<p>You can also say <code>teach me FICC fundamentals</code>, <code>quiz me on governance</code>, <code>give me a PM AI scenario</code>, <code>review my teach-back</code>, or <code>start the final assessment</code>. The canonical, tool-neutral instruction package is <a href="../../skills/agentic-pm-mastery/"><code>skills/agentic-pm-mastery/</code></a>. Thin tool-specific discovery loaders live at:</p>
+<p>You can also say <code>teach me FICC fundamentals</code>, <code>quiz me on governance</code>, <code>give me a PM AI scenario</code>, <code>review my teach-back</code>, or <code>start the final assessment</code>. The canonical, tool-neutral instruction package is <a href="https://github.com/navoditk/agentic-pm-lab/tree/main/skills/agentic-pm-mastery"><code>skills/agentic-pm-mastery/</code></a>. Thin tool-specific discovery loaders live at:</p>
 <table><thead><tr>
 <th>CLI</th>
 <th>Loader</th>
 </tr></thead><tbody>
 <table><thead><tr>
 <th>GitHub Copilot</th>
-<th><a href="../../.github/skills/agentic-pm-mastery/"><code>.github/skills/agentic-pm-mastery/</code></a></th>
+<th><a href="https://github.com/navoditk/agentic-pm-lab/tree/main/.github/skills/agentic-pm-mastery"><code>.github/skills/agentic-pm-mastery/</code></a></th>
 </tr></thead><tbody>
 <table><thead><tr>
 <th>Claude Code</th>
-<th><a href="../../.claude/skills/agentic-pm-mastery/"><code>.claude/skills/agentic-pm-mastery/</code></a></th>
+<th><a href="https://github.com/navoditk/agentic-pm-lab/tree/main/.claude/skills/agentic-pm-mastery"><code>.claude/skills/agentic-pm-mastery/</code></a></th>
 </tr></thead><tbody>
 <table><thead><tr>
 <th>Codex</th>
-<th><a href="../../.agents/skills/agentic-pm-mastery/"><code>.agents/skills/agentic-pm-mastery/</code></a></th>
+<th><a href="https://github.com/navoditk/agentic-pm-lab/tree/main/.agents/skills/agentic-pm-mastery"><code>.agents/skills/agentic-pm-mastery/</code></a></th>
 </tr></thead><tbody>
 <p>The skill is read-only and offline by default. It uses local fixtures and canonical repository sources; it does not call live providers, access credentials, make investment recommendations, or execute trades.</p>
 <h2>How the skill stays current</h2>
@@ -85,10 +86,10 @@ main{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}h1{font-size:clamp(2r
 <pre><code>uv run python scripts/tutor.py &lt;topic-id&gt; --course
 uv run python scripts/tutor.py &lt;topic-id&gt; --quiz
 uv run python scripts/check_learner_progress.py</code></pre>
-<p>Use <a href="TUTOR_COURSE_GUIDE.md">TUTOR_COURSE_GUIDE.md</a> for the completion rubric and <a href="DEPTH_PATH.md">DEPTH_PATH.md</a> for the orient, trace, break, teach method. See <a href="CURRICULUM_FRESHNESS_PLAN.md">CURRICULUM_FRESHNESS_PLAN.md</a> for the external-documentation review roadmap.</p></article></details>
+<p>Use <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/TUTOR_COURSE_GUIDE.md">TUTOR_COURSE_GUIDE.md</a> for the completion rubric and <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/DEPTH_PATH.md">DEPTH_PATH.md</a> for the orient, trace, break, teach method. See <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/CURRICULUM_FRESHNESS_PLAN.md">CURRICULUM_FRESHNESS_PLAN.md</a> for the external-documentation review roadmap.</p></article></details>
 <details><summary>Depth path</summary><article><h1>Topic depth path</h1>
 <p>This is the no-cost route from “I can describe the component” to “I can explain its trade-offs, inspect its implementation, test its failure modes, and teach it to someone else.” It complements the 21-day build plan; it does not claim that a tutor or a quiz creates production expertise.</p>
-<p>Use <a href="TUTOR_COURSE_GUIDE.md"><code>TUTOR_COURSE_GUIDE.md</code></a> for the complete course sequence and <code>uv run python scripts/tutor.py &lt;topic-id&gt; --course</code> for the topic-specific syllabus.</p>
+<p>Use <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/TUTOR_COURSE_GUIDE.md"><code>TUTOR_COURSE_GUIDE.md</code></a> for the complete course sequence and <code>uv run python scripts/tutor.py &lt;topic-id&gt; --course</code> for the topic-specific syllabus.</p>
 <h2>The four-pass method</h2>
 <p>For every topic, complete these passes in order:</p>
 <ol>
@@ -195,7 +196,7 @@ uv run python scripts/check_learner_progress.py</code></pre>
 </tr></thead><tbody>
 <h2>A no-cost capstone</h2>
 <p>Use the fixture Canvas-to-capstone path with a synthetic rates-and-credit question. Before running it, predict the stages, tools, policy decisions, approval state, evidence records, and failure behavior. Afterward, compare the prediction with the structured execution envelope. Then deliberately alter one fixture to be stale, unauthorized, contradictory, or incomplete and repeat the run.</p>
-<p>Useful commands are documented in <a href="../guides/RUNBOOK.md"><code>RUNBOOK.md</code></a> and <a href="../guides/CANVAS_EXERCISES.md"><code>CANVAS_EXERCISES.md</code></a>. Record the result in a small markdown note or issue; do not treat a successful fixture run as live provider or AWS evidence.</p>
+<p>Useful commands are documented in <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/guides/RUNBOOK.md"><code>RUNBOOK.md</code></a> and <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/guides/CANVAS_EXERCISES.md"><code>CANVAS_EXERCISES.md</code></a>. Record the result in a small markdown note or issue; do not treat a successful fixture run as live provider or AWS evidence.</p>
 <p>For a compact command-line version of the rates, provenance, and evidence exercise, run:</p>
 <pre><code>uv run python scripts/run_depth_exercise.py --pretty</code></pre>
 <p>The command is deterministic and offline. It demonstrates duration/DV01, key-rate DV01, point-in-time eligibility, citation completeness, abstention, and contradiction-aware evidence checks in one inspectable JSON envelope.</p>
@@ -209,7 +210,7 @@ uv run python scripts/check_learner_progress.py</code></pre>
 <li>explain what evidence would be required for a live or production claim; and</li>
 <li>teach the trade-off without relying on a vendor slogan or a single score.</li>
 </ul>
-<p>For current external APIs, always re-check the official documentation linked in <a href="../reference/REFERENCES.md"><code>REFERENCES.md</code></a>. The repository's code and fixtures are the local ground truth; references explain the external systems, not what this repository has actually proven.</p></article></details>
+<p>For current external APIs, always re-check the official documentation linked in <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md"><code>REFERENCES.md</code></a>. The repository's code and fixtures are the local ground truth; references explain the external systems, not what this repository has actually proven.</p></article></details>
 <h2>Courses</h2><nav class="topic-grid"><a class="topic-card" href="#portfolio-construction-tutor"><span>01</span><strong>Portfolio construction</strong></a>
 <a class="topic-card" href="#agent-architecture-tutor"><span>02</span><strong>Agent architecture</strong></a>
 <a class="topic-card" href="#langgraph-deep-agents-tutor"><span>03</span><strong>LangGraph and Deep Agents</strong></a>
@@ -234,11 +235,11 @@ uv run python scripts/check_learner_progress.py</code></pre>
 <div><h3>Objectives</h3><ul><li>Explain minimum volatility, maximum Sharpe, and risk parity</li><li>Identify estimation and constraint risk</li><li>Evaluate turnover, cost, feasibility, and sensitivity</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Optimization foundations</li><li>Constraints and implementation</li><li>Robustness and validation</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Run an allocation on supplied inputs and perturb covariance or constraints.</p>
-<p><strong>Failure lab:</strong> Create infeasible, concentrated, or high-turnover proposals and explain the safe result.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Run an allocation on supplied inputs and perturb covariance or constraints.</p>
+<p><strong>Failure lab (run after cloning):</strong> Create infeasible, concentrated, or high-turnover proposals and explain the safe result.</p>
 <p><strong>Teach-back:</strong> Present an allocation proposal with assumptions, sensitivity, costs, and human approval requirements.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Portfolio construction — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/portfolio-construction-tutor.agent.md"><code>.github/agents/portfolio-construction-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py portfolio-construction-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/portfolio-construction-tutor.agent.md"><code>.github/agents/portfolio-construction-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py portfolio-construction-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Portfolio construction is the discipline of turning a view (expected returns, risk estimates, constraints) into a set of portfolio weights — and, just as importantly, into an honest account of what that set of weights assumes, costs to implement, and might get wrong. It is not the same discipline as trading: construction produces a *proposal* for a human to review; execution is a separate, later, and in this repository explicitly out-of-scope step.</p>
 <p>Three classical approaches dominate the field, and this repository implements all three as one function with a <code>method</code> switch:</p>
@@ -327,7 +328,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction"><code>docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction"><code>docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction</code></a></li>
 <p>— the full reading path (PyPortfolioOpt, CVXPY, Cvxportfolio, Riskfolio-Lib, skfolio, vectorbt) this repository's implementation is one point within.</p>
 <li><code>README.md</code>'s "Portfolio optimization depth" section for the exact</li>
 <p>implemented-versus-roadmap boundary.</p>
@@ -345,11 +346,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Separate agents, workflows, tools, skills, and controls</li><li>Design bounded context and delegation paths</li><li>Explain retries, checkpoints, interrupts, and recovery</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Architecture and context</li><li>Delegation and tool boundaries</li><li>Recovery and durable execution</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Trace one request through src/context, src/agents, and tests; draw the state transitions.</p>
-<p><strong>Failure lab:</strong> Inject a specialist timeout and explain retry, call limits, checkpoint, and dead-letter behavior.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Trace one request through src/context, src/agents, and tests; draw the state transitions.</p>
+<p><strong>Failure lab (run after cloning):</strong> Inject a specialist timeout and explain retry, call limits, checkpoint, and dead-letter behavior.</p>
 <p><strong>Teach-back:</strong> Teach the architecture without notes and map five components to their trust boundaries.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Agent architecture — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/agent-architecture-tutor.agent.md"><code>.github/agents/agent-architecture-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py agent-architecture-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/agent-architecture-tutor.agent.md"><code>.github/agents/agent-architecture-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py agent-architecture-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>"Agent architecture" is the set of design decisions that separate a chatbot wrapper around an LLM from a system that can be trusted with real work: where does state live, what can the model actually call, who checks its output, and what happens when a step fails. None of these questions are about prompting — they're about the code and infrastructure *around* the model. A well-architected agent system makes the model's job narrow (reason and choose) and keeps everything else — arithmetic, authorization, retries, audit — in deterministic code the model cannot silently override.</p>
 <p>This repository's answer to "how much agent do you actually need" is layered: a single Deep Agent for simple cases, a supervisor-with-specialists hierarchy when a task genuinely splits into independent domains, and a second, separate supervisor when the domains involved are different enough that mixing them into one hierarchy would blur their tool boundaries. The architecture is not one pattern reused everywhere — it's a small set of patterns applied where each one earns its complexity.</p>
@@ -398,7 +399,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents"><code>docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents"><code>docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents</code></a></li>
 <li><code>docs/adr/0018-research-supervisor-pattern.md</code> — why a second supervisor,</li>
 <p>not a bigger first one.</p>
 <li><code>docs/architecture/ARCHITECTURE.md</code>'s "Multi-agent orchestration" and</li>
@@ -417,11 +418,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Explain graph state, subagents, persistence, and interrupts</li><li>Trace native Deep Agents delegation</li><li>Design safe retry and resume behavior</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Graph and state model</li><li>Subagents and tools</li><li>Persistence, interrupts, and recovery</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Trace a multi-agent request and inspect the checkpoint/resume tests.</p>
-<p><strong>Failure lab:</strong> Crash Quant after Macro completes and explain why completed work is preserved.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Trace a multi-agent request and inspect the checkpoint/resume tests.</p>
+<p><strong>Failure lab (run after cloning):</strong> Crash Quant after Macro completes and explain why completed work is preserved.</p>
 <p><strong>Teach-back:</strong> Compare a hand-built graph, Deep Agent, and supervisor pattern for one workflow.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>LangGraph and Deep Agents — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/langgraph-deep-agents-tutor.agent.md"><code>.github/agents/langgraph-deep-agents-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py langgraph-deep-agents-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/langgraph-deep-agents-tutor.agent.md"><code>.github/agents/langgraph-deep-agents-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py langgraph-deep-agents-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>LangGraph models an agent as a graph: nodes do work, edges route between them, and a checkpointer can snapshot the graph's state at any point so execution can pause and later resume from exactly there. Deep Agents is a library built on top of LangGraph that provides a ready-made supervisor pattern — a coordinator agent with a <code>task</code> tool that hands work off to named sub-agents — so you don't hand-wire the graph nodes and edges for that specific, common shape yourself.</p>
 <p>The distinction that matters most for this repository: a LangGraph *node* should never do arithmetic. Its job is state, routing, and delegation. Every number in a response has to come from a deterministic function under <code>src/analytics/</code>, called as a *tool*, not computed by the model inside a node. This is the same architectural boundary the agent-architecture tutor describes, viewed from the graph-mechanics side rather than the supervisor-design side.</p>
@@ -468,7 +469,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#langgraph--langgraph-deep-agents"><code>docs/reference/REFERENCES.md#langgraph--langgraph-deep-agents</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#langgraph--langgraph-deep-agents"><code>docs/reference/REFERENCES.md#langgraph--langgraph-deep-agents</code></a></li>
 <li><code>docs/architecture/ARCHITECTURE.md</code>'s "Multi-agent orchestration (Day 5)"</li>
 <p>and "Failure and recovery (Day 5)" sections.</p>
 <li><code>docs/learning/comparison-notes.md</code> for the Day 4/5 local-vs-cloud-model</li>
@@ -485,11 +486,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Distinguish Runtime, Gateway, Identity, Policy, Memory, Evaluations, and Guardrails</li><li>Map local controls to hosted intent</li><li>Classify deployment, invocation, and cleanup evidence</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Runtime and deployment</li><li>Governed Gateway and IAM</li><li>Observability, evaluation, and teardown</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Map every config/agentcore.yaml field to a local implementation and evidence artifact.</p>
-<p><strong>Failure lab:</strong> Diagnose missing model access, IAM permission, and Gateway permission using recorded fixtures.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Map every config/agentcore.yaml field to a local implementation and evidence artifact.</p>
+<p><strong>Failure lab (run after cloning):</strong> Diagnose missing model access, IAM permission, and Gateway permission using recorded fixtures.</p>
 <p><strong>Teach-back:</strong> Explain a safe deploy-smoke-teardown plan without requesting credentials.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>AWS Bedrock AgentCore — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/aws-agentcore-tutor.agent.md"><code>.github/agents/aws-agentcore-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py aws-agentcore-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/aws-agentcore-tutor.agent.md"><code>.github/agents/aws-agentcore-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py aws-agentcore-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Amazon Bedrock AgentCore is AWS's managed platform for running agentic applications in production: a Runtime that hosts your agent code, a Gateway that fronts your tools with a governed MCP boundary, an Identity service for delegated credentials, a Policy service for authorization, Guardrails for content safety, and Observability wired into CloudWatch. The general idea AgentCore is solving is one every serious agent deployment eventually hits: your agent's *reasoning* can live in a Python process, but the moment it touches real data or real actions, you need the same authentication, authorization, content-safety, and audit machinery a normal production service needs — AgentCore is AWS's opinionated, managed way to get that machinery without building it all yourself.</p>
 <p>This repository treats AgentCore as a *deployment target* for a system whose governance already exists locally (Cedar policies, the four-layer security model, OpenTelemetry traces) — the point isn't to invent new controls in the cloud, it's to map controls that already work locally onto their managed AWS equivalents, and to be honest about which of those mappings are proven with a real deployment versus still just configured intent.</p>
@@ -546,11 +547,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#aws-bedrock--agentcore"><code>docs/reference/REFERENCES.md#aws-bedrock--agentcore</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#aws-bedrock--agentcore"><code>docs/reference/REFERENCES.md#aws-bedrock--agentcore</code></a></li>
 <p>for the official AgentCore docs, workshops, and sample repositories.</p>
-<li><a href="../../guides/AWS_AGENTCORE_SETUP.md"><code>docs/guides/AWS_AGENTCORE_SETUP.md</code></a> for</li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/guides/AWS_AGENTCORE_SETUP.md"><code>docs/guides/AWS_AGENTCORE_SETUP.md</code></a> for</li>
 <p>the full account-setup-to-teardown runbook, including cost guardrails and troubleshooting from the real live setup.</p>
-<li><a href="../../guides/AGENTCORE_GATEWAY_SETUP.md"><code>docs/guides/AGENTCORE_GATEWAY_SETUP.md</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/guides/AGENTCORE_GATEWAY_SETUP.md"><code>docs/guides/AGENTCORE_GATEWAY_SETUP.md</code></a></li>
 <p>for the Gateway-specific exercise this walkthrough is drawn from.</p>
 <li><code>docs/adr/0016-agentcore-direct-code-deployment.md</code> and</li>
 <p><code>docs/adr/0017-agentcore-gateway-only-tool-path.md</code> for the two governing decisions in full.</p>
@@ -568,11 +569,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Distinguish observation, publication, filing, retrieval, and decision times</li><li>Apply point-in-time eligibility</li><li>Handle stale, conflicting, and uncertain evidence</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Provenance fields</li><li>Vintage selection</li><li>Evidence and research boundaries</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Create two vintages and select the record eligible for a historical decision.</p>
-<p><strong>Failure lab:</strong> Submit stale, conflicting, incomplete, and unlicensed evidence and classify each outcome.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Create two vintages and select the record eligible for a historical decision.</p>
+<p><strong>Failure lab (run after cloning):</strong> Submit stale, conflicting, incomplete, and unlicensed evidence and classify each outcome.</p>
 <p><strong>Teach-back:</strong> Produce a cited research bundle that states what it proves and what it cannot prove.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Data provenance and research quality — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/data-provenance-research-tutor.agent.md"><code>.github/agents/data-provenance-research-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py data-provenance-research-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/data-provenance-research-tutor.agent.md"><code>.github/agents/data-provenance-research-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py data-provenance-research-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Data provenance is the discipline of knowing, for every value a system uses, where it came from, when it was true, when it was published, and under what terms it may be used. In most software this is a nice-to-have. In an investment workflow it is load-bearing: a backtest that silently uses a value that was not yet known at the decision date isn't slightly optimistic, it's testing a strategy that could not have existed. A research citation without a retrieval timestamp isn't slightly less rigorous, it's unfalsifiable — nobody can check it against what was actually published when.</p>
 <p>This repository treats provenance as a data-shape problem, not a prose convention. Every structured observation has a fixed set of required fields; every piece of evidence has a fixed set of required fields; a function rejects the record if a required field is missing, rather than a document merely asking a human to remember to include it.</p>
@@ -620,8 +621,8 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#data-engineering-provenance-and-research-correctness"><code>docs/reference/REFERENCES.md#data-engineering-provenance-and-research-correctness</code></a></li>
-<p>and the adjacent <a href="../../reference/REFERENCES.md#news-sentiment-and-research-retrieval"><code>#news-sentiment-and-research-retrieval</code></a> section.</p>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#data-engineering-provenance-and-research-correctness"><code>docs/reference/REFERENCES.md#data-engineering-provenance-and-research-correctness</code></a></li>
+<p>and the adjacent <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#news-sentiment-and-research-retrieval"><code>#news-sentiment-and-research-retrieval</code></a> section.</p>
 <li><code>docs/architecture/PRD.md</code> §2.1's data-contracts-and-provenance fundamental</li>
 <p>and §2.7's external financial-intelligence adapter, which is the source of the "evidence, not a position instruction" output-boundary language.</p>
 <li><code>tests/unit/ingestion/test_governed_public.py</code> and the fixed-income branch</li>
@@ -638,11 +639,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Design independent evaluation dimensions</li><li>Interpret regression and repeated-run results</li><li>Separate automated scores from human review</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Cases and evaluators</li><li>Baselines and regressions</li><li>AgentOps and promotion</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Add or inspect a case with routing, tool, argument, answer, and policy expectations.</p>
-<p><strong>Failure lab:</strong> Investigate a case that passes answer quality but fails policy or citation coverage.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Add or inspect a case with routing, tool, argument, answer, and policy expectations.</p>
+<p><strong>Failure lab (run after cloning):</strong> Investigate a case that passes answer quality but fails policy or citation coverage.</p>
 <p><strong>Teach-back:</strong> Write a promotion decision that includes quality, safety, stability, cost, and evidence.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Evaluations and AgentOps — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/evaluation-agentops-tutor.agent.md"><code>.github/agents/evaluation-agentops-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py evaluation-agentops-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/evaluation-agentops-tutor.agent.md"><code>.github/agents/evaluation-agentops-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py evaluation-agentops-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Evaluating an agent is not the same problem as evaluating a function. A function either returns the right value or it doesn't. An agent can route to the wrong specialist and still produce a plausible-sounding answer; it can call the right tool with the wrong argument and still return a number that looks reasonable; it can give a factually correct answer while violating a policy it should have refused. A single pass/fail score collapses all of those into one bit and throws away exactly the information you'd need to fix the failure. AgentOps is the operational half of the same problem: once you can score an agent, you need traces to diagnose *why* a run scored badly, a gate that blocks a regression before it ships, and a way to compare one model or prompt version against another on the same fixed dataset.</p>
 <h2>Core concepts</h2>
@@ -691,8 +692,8 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation"><code>docs/reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation</code></a></li>
-<p>and the adjacent <a href="../../reference/REFERENCES.md#opentelemetry-python"><code>#opentelemetry-python</code></a> section.</p>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation"><code>docs/reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation</code></a></li>
+<p>and the adjacent <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#opentelemetry-python"><code>#opentelemetry-python</code></a> section.</p>
 <li><code>skills/eval-dataset-authoring/SKILL.md</code>'s full golden-case and</li>
 <p>guardrail-case authoring checklist.</p>
 <li><code>PROGRESS.md</code>'s 2026-09-02 entry and <code>docs/learning/LEARNINGS.md</code>'s</li>
@@ -711,11 +712,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Explain traces, spans, propagation, attributes, and exporters</li><li>Design cost-aware, privacy-safe telemetry</li><li>Correlate application, audit, and evaluation evidence</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Telemetry primitives</li><li>Instrumentation and semantic attributes</li><li>Privacy and operations</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Trace an API request through authorization, analytics, and audit spans.</p>
-<p><strong>Failure lab:</strong> Remove raw prompts and holdings from a proposed span schema while preserving diagnosability.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Trace an API request through authorization, analytics, and audit spans.</p>
+<p><strong>Failure lab (run after cloning):</strong> Remove raw prompts and holdings from a proposed span schema while preserving diagnosability.</p>
 <p><strong>Teach-back:</strong> Design a trace schema and justify every attribute, exporter, and redaction rule.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>OpenTelemetry — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/opentelemetry-tutor.agent.md"><code>.github/agents/opentelemetry-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py opentelemetry-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/opentelemetry-tutor.agent.md"><code>.github/agents/opentelemetry-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py opentelemetry-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>OpenTelemetry (OTel) is a vendor-neutral standard for producing traces, metrics, and logs from an application — a *trace* is the end-to-end record of one request as it moves through a system, made up of nested *spans*, each representing one unit of work (an HTTP call, a database query, a tool invocation) with a start time, a duration, and a set of key/value *attributes*. The point of instrumenting with OTel rather than ad hoc logging is that spans compose: a single trace ID can connect a request's authorization check, its tool calls, its model invocation, and its audit record into one navigable structure, and because the format is vendor-neutral, the same trace can be viewed in more than one backend without instrumenting twice.</p>
 <p>For an agentic system specifically, tracing matters more than in a typical web service, because an agent's behavior is comparatively opaque — a single user question can trigger several nested tool calls and delegate to sub-agents, and without a trace, "why did it do that" has no answer except re-reading the conversation. OTel is also where cost and quality tracking naturally attach: once every model call is a span, token counts, latency, and estimated dollar cost become span attributes, and evaluation frameworks like LangSmith can read the same spans rather than requiring a second, purpose-built instrumentation pass.</p>
@@ -777,11 +778,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#opentelemetry-python"><code>docs/reference/REFERENCES.md#opentelemetry-python</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#opentelemetry-python"><code>docs/reference/REFERENCES.md#opentelemetry-python</code></a></li>
 <p>for the official Python SDK docs and semantic-convention references.</p>
-<li><a href="../observability-evaluation.md"><code>docs/learning/observability-evaluation.md</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/observability-evaluation.md"><code>docs/learning/observability-evaluation.md</code></a></li>
 <p>for the accepted baseline scores tied to this telemetry and how they were derived.</p>
-<li><a href="../../architecture/ARCHITECTURE.md"><code>docs/architecture/ARCHITECTURE.md</code></a>'s</li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/architecture/ARCHITECTURE.md"><code>docs/architecture/ARCHITECTURE.md</code></a>'s</li>
 <p>"Observability and evaluation" section for how this module's spans feed both the local view and the LangSmith-backed evaluation pipeline <code>evaluation-agentops-tutor</code> covers in depth.</p>
 <li><code>docs/architecture/ARCHITECTURE.md</code>'s Observability row for how the future</li>
 <p>AgentCore/CloudWatch export path (<code>aws-agentcore-tutor</code>) extends this same stream rather than replacing it.</p>
@@ -797,11 +798,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Separate thesis, evidence, dissent, and decision</li><li>Grade uncertainty and open questions</li><li>Keep committee review distinct from order execution</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Thesis construction</li><li>Challenge and rebuttal</li><li>Approval decision record</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Run a synthetic rates-and-credit committee review and identify required evidence.</p>
-<p><strong>Failure lab:</strong> Challenge unsupported certainty, missing evidence, and an attempted autonomous trade.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Run a synthetic rates-and-credit committee review and identify required evidence.</p>
+<p><strong>Failure lab (run after cloning):</strong> Challenge unsupported certainty, missing evidence, and an attempted autonomous trade.</p>
 <p><strong>Teach-back:</strong> Write a balanced committee record with recommendation, dissent, conditions, and approval state.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Investment committee challenge — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/investment-committee-tutor.agent.md"><code>.github/agents/investment-committee-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py investment-committee-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/investment-committee-tutor.agent.md"><code>.github/agents/investment-committee-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py investment-committee-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Most investment-committee failures aren't bad models — they're bad process: a thesis gets presented, nobody in the room is structurally incentivized to argue against it, and it passes on momentum rather than evidence. A "Devil's Advocate" role exists to fix exactly that: someone (or something) whose only job is to try to disprove the thesis in front of them, before capital moves. Done well, it surfaces missing evidence, stale data, concentration risk, and unstated assumptions *before* they become losses, not in the post-mortem.</p>
 <p>The hard part of building this into software isn't the checklist — it's resisting the temptation to let the same system that proposed a trade also bless it. If the critic and the approver can be the same actor, the challenge is theater. This repository's investment-committee track is really a study in one design constraint: how do you make independent challenge and human approval *structurally* separate, not just procedurally separate.</p>
@@ -849,7 +850,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#tutor-agent-study-map"><code>docs/reference/REFERENCES.md#tutor-agent-study-map</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#tutor-agent-study-map"><code>docs/reference/REFERENCES.md#tutor-agent-study-map</code></a></li>
 <p>(this tutor's cited source, the LinqAlpha Devil's Advocate case study on Amazon Bedrock, is linked from inside that section).</p>
 <li><code>docs/adr/0019-devils-advocate-committee-challenge.md</code> for the full decision</li>
 <p>record and its consequences.</p>
@@ -867,11 +868,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Design shared Canvas handler state</li><li>Trace identity and provenance through MCP</li><li>Separate UX evidence from security evidence</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Canvas capabilities</li><li>MCP boundaries</li><li>Approval and evidence UX</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Trace a portfolio request from Canvas action to MCP authorization and deterministic tool output.</p>
-<p><strong>Failure lab:</strong> Attempt a cross-portfolio request through a mocked Canvas capability and document the denial.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Trace a portfolio request from Canvas action to MCP authorization and deterministic tool output.</p>
+<p><strong>Failure lab (run after cloning):</strong> Attempt a cross-portfolio request through a mocked Canvas capability and document the denial.</p>
 <p><strong>Teach-back:</strong> Design a governed Canvas panel with state, evidence, approval, and failure visibility.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Copilot Canvas and MCP — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/copilot-canvas-mcp-tutor.agent.md"><code>.github/agents/copilot-canvas-mcp-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py copilot-canvas-mcp-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/copilot-canvas-mcp-tutor.agent.md"><code>.github/agents/copilot-canvas-mcp-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py copilot-canvas-mcp-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Two separate ideas get bundled under this tutor because they solve the same underlying problem from opposite ends: <strong>MCP (Model Context Protocol)</strong> is a standard way for an AI system to call external tools with a shared, typed contract, and <strong>GitHub Copilot Canvas</strong> is a rich, stateful UI surface an agent (and a human) can both act on. The connecting question is: when a button on a screen and a model's tool call both need to reach the same governed backend, how do you make sure neither path can quietly bypass the authorization checks the other one goes through?</p>
 <p>The naive answer — "the UI is internal, so it can call the backend directly" — is exactly the failure mode this repository's design rejects. A Canvas panel is an *interaction surface*: a place to see state and trigger an action. It is never itself a *trust boundary*. Every real check happens one layer down, in the same governed tool boundary a model-driven MCP call would also have to pass through.</p>
@@ -918,8 +919,8 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#github-copilot-app-canvas-prompts-skills-custom-agents"><code>docs/reference/REFERENCES.md#github-copilot-app-canvas-prompts-skills-custom-agents</code></a></li>
-<p>and the adjacent <a href="../../reference/REFERENCES.md#model-context-protocol-mcp"><code>#model-context-protocol-mcp</code></a> section.</p>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#github-copilot-app-canvas-prompts-skills-custom-agents"><code>docs/reference/REFERENCES.md#github-copilot-app-canvas-prompts-skills-custom-agents</code></a></li>
+<p>and the adjacent <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#model-context-protocol-mcp"><code>#model-context-protocol-mcp</code></a> section.</p>
 <li><code>docs/architecture/ARCHITECTURE.md</code>'s "Interactive Layer (Days 8–9)" and</li>
 <p>"Governed Tool Layer sequence (Day 7)" sections for the full request-flow diagrams.</p>
 <li><code>docs/guides/CANVAS_EXERCISES.md</code> for hands-on Canvas walkthroughs, and</li>
@@ -936,11 +937,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Distinguish skills, prompts, agents, contracts, and tools</li><li>Create reviewable skill packages</li><li>Explain freshness and contract CI</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Artifact types and contracts</li><li>Testing and freshness</li><li>Cross-tool delivery</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Inspect one skill package and validate its contract, examples, and tests.</p>
-<p><strong>Failure lab:</strong> Change a covered implementation path without updating its skill and predict the CI failure.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Inspect one skill package and validate its contract, examples, and tests.</p>
+<p><strong>Failure lab (run after cloning):</strong> Change a covered implementation path without updating its skill and predict the CI failure.</p>
 <p><strong>Teach-back:</strong> Design a complete skill package and explain why its contract is not authorization.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Agent development lifecycle — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/agent-development-lifecycle-tutor.agent.md"><code>.github/agents/agent-development-lifecycle-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py agent-development-lifecycle-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/agent-development-lifecycle-tutor.agent.md"><code>.github/agents/agent-development-lifecycle-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py agent-development-lifecycle-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Building an agentic system produces more than model prompts — it produces a set of artifacts that describe what the agent is allowed to do, how it should behave, and how another engineer (or another AI coding tool) can verify that behavior without re-deriving it from scratch. That's the "agent development lifecycle": skill packages that document reusable domain knowledge, prompt files that package a repeatable workflow, custom agent personas that scope a persistent role, and the tests/contracts that keep all three honest as the underlying code changes.</p>
 <p>The hard problem this discipline solves isn't writing the first version of an artifact — it's *keeping it true*. A skill's documentation drifts from the code it describes the moment someone changes the code and forgets the doc. Most projects have no mechanism to catch that drift; this one does, and it's worth understanding as a concrete instance of "documentation as a tested artifact" rather than "documentation as a good intention."</p>
@@ -991,7 +992,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents"><code>docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents"><code>docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents</code></a></li>
 <li><code>docs/PLAN.md</code> §8 (skills/contracts/prompts/custom-agents catalog)</li>
 <li><code>docs/guides/AGENT_RUNBOOK.md</code> for running a skill or custom agent standalone</li>
 <li><code>tests/unit/scripts/test_check_skills_freshness.py</code> for the freshness</li>
@@ -1008,11 +1009,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Separate AuthN, AuthZ, guardrails, and tool enforcement</li><li>Test policy and prompt-injection boundaries</li><li>Explain release, rollback, approval, and teardown evidence</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Trust boundaries</li><li>Adversarial controls</li><li>Delivery and promotion</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Run the authorization and guardrail suites and classify each enforcement layer.</p>
-<p><strong>Failure lab:</strong> Attempt role spoofing, portfolio bypass, output exfiltration, and a disguised write.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Run the authorization and guardrail suites and classify each enforcement layer.</p>
+<p><strong>Failure lab (run after cloning):</strong> Attempt role spoofing, portfolio bypass, output exfiltration, and a disguised write.</p>
 <p><strong>Teach-back:</strong> Produce a release review that names controls, residual risks, and rollback evidence.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Governance and delivery — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/governance-delivery-tutor.agent.md"><code>.github/agents/governance-delivery-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py governance-delivery-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/governance-delivery-tutor.agent.md"><code>.github/agents/governance-delivery-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py governance-delivery-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>"Governance" in an agentic system means answering, for every request: who is this, what are they allowed to do, is the content safe, and did the tool actually check before acting? "Delivery" means the CI/CD machinery that decides whether a change is allowed to reach <code>main</code> at all. Neither is a single check — real production agent systems separate identity (authentication), permission (authorization), content safety (guardrails), and enforcement (the tool boundary re-checking at execution time) into independently testable concerns, because conflating them creates a single point of failure: if "is this allowed" and "is this safe" are the same check, a content-safety bypass becomes an authorization bypass too.</p>
 <p>This repository implements that separation for real, not just as a diagram. Understanding it means being able to answer, for any given decision, exactly which of the four layers made it — and knowing that none of the other three are a substitute if one is missing.</p>
@@ -1073,7 +1074,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection"><code>docs/reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection"><code>docs/reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection</code></a></li>
 <li><code>docs/architecture/ARCHITECTURE.md</code>'s full "Security Model" section</li>
 <p>(trust boundaries, the four-concern table, threat model, human approval/ audit/secrets, local-versus-AgentCore mapping)</p>
 <li><code>docs/adr/0017-agentcore-gateway-only-tool-path.md</code></li>
@@ -1090,11 +1091,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Extract page-aware document evidence</li><li>Separate explanation from executable calculation</li><li>Validate generated formulas and refuse ambiguity</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Document map</li><li>Candidate skill and contract</li><li>Calculator validation and review</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Create a document map and source-derived test vector for one public formula.</p>
-<p><strong>Failure lab:</strong> Identify missing units, inputs, or page evidence in a candidate calculator.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Create a document map and source-derived test vector for one public formula.</p>
+<p><strong>Failure lab (run after cloning):</strong> Identify missing units, inputs, or page evidence in a candidate calculator.</p>
 <p><strong>Teach-back:</strong> Review a candidate skill and return pass, fail, or needs-human-review with reasons.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Document-to-skill pipeline — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/document-to-skill-tutor.agent.md"><code>.github/agents/document-to-skill-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py document-to-skill-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/document-to-skill-tutor.agent.md"><code>.github/agents/document-to-skill-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py document-to-skill-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Investment teams constantly encounter unfamiliar model documents — a methodology PDF, a risk-model whitepaper, a vendor's factor-construction notes — and need to understand and eventually *use* them. The naive approach is to hand the whole PDF to a model and ask it to write code implementing whatever formulas it finds. That is exactly the approach this track is built to refuse. A document is untrusted input: it may contain OCR errors, ambiguous conventions, missing edge cases, or (adversarially) text designed to look like an instruction to the agent reading it. Treating "the PDF said so" as equivalent to "this is safe, tested code" is the core failure mode this pipeline exists to prevent.</p>
 <p>The alternative is a staged pipeline where trust is earned incrementally: extraction preserves the source faithfully, a structured representation makes formulas and assumptions explicit and citable, a generated skill package documents intent, and only after static checks, sandboxing, source-derived tests, and human review does any generated code get to run. The first useful milestone — and the one worth reaching before touching code generation at all — is document-grounded question answering with page citations.</p>
@@ -1141,11 +1142,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#document-ingestion-and-document-to-skill-design"><code>docs/reference/REFERENCES.md#document-ingestion-and-document-to-skill-design</code></a></li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#document-ingestion-and-document-to-skill-design"><code>docs/reference/REFERENCES.md#document-ingestion-and-document-to-skill-design</code></a></li>
 <p>for PyMuPDF/pypdf/Unstructured extraction references, the OWASP prompt-injection guidance, and the Python AST static-inspection reference for pre-sandbox checks.</p>
 <li><code>docs/architecture/ARCHITECTURE.md</code>'s "Document intelligence boundary"</li>
 <p>section for the canonical staged-pipeline statement this deep dive expands on.</p>
-<li><a href="../../guides/TUTOR_RUNBOOK.md"><code>docs/guides/TUTOR_RUNBOOK.md</code></a>'s "Document-to-skill</li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/guides/TUTOR_RUNBOOK.md"><code>docs/guides/TUTOR_RUNBOOK.md</code></a>'s "Document-to-skill</li>
 <p>examples" section for the full worked prompt sequence.</p>
 <li><code>skills/skill-creator/SKILL.md</code> and <code>skills/eval-dataset-authoring/SKILL.md</code></li>
 <p>for the authoring conventions any generated skill package should converge toward.</p>
@@ -1161,11 +1162,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Understand the decision use of each public source</li><li>Compare source timing, licensing, and identifiers</li><li>Distinguish fixture, connector-capable, and live evidence</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Source catalog</li><li>Field and provenance semantics</li><li>Provider comparison</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Browse three sample sources and build a source comparison table.</p>
-<p><strong>Failure lab:</strong> Reject a source that is stale, unlicensed, unresolved, or incorrectly treated as authoritative.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Browse three sample sources and build a source comparison table.</p>
+<p><strong>Failure lab (run after cloning):</strong> Reject a source that is stale, unlicensed, unresolved, or incorrectly treated as authoritative.</p>
 <p><strong>Teach-back:</strong> Recommend evidence for a PM question while stating limitations and integration status.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>Public investment data — deep dive</h1>
-<p>*Companion to <a href="../../../.github/agents/investment-data-tutor.agent.md"><code>.github/agents/investment-data-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py investment-data-tutor --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/investment-data-tutor.agent.md"><code>.github/agents/investment-data-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py investment-data-tutor --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>Every downstream analytics function in this repository — pricing, risk, optimization, scenarios — is only as trustworthy as the data feeding it. This track is about the discipline of *knowing what you actually have*: which source produced a number, when it was observed, when it was published, what units it's in, and whether the connector that fetched it is real, fixture-backed, or aspirational. None of that is optional detail — it's the difference between a defensible answer and a plausible-sounding guess.</p>
 <p>Public investment data splits into two classes with different rules. Structured data (prices, macro series, curves, positioning) has typed fields and can feed a calculation directly, once quality-checked. Unstructured or semi-structured data (filings, news, research narratives) supports retrieval and explanation, but must never silently become a price, a risk number, or a portfolio weight. This tutor's whole catalog is organized around that split.</p>
@@ -1216,11 +1217,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#public-data-terminology-and-decision-use-primers"><code>docs/reference/REFERENCES.md#public-data-terminology-and-decision-use-primers</code></a></li>
-<p>and <a href="../../reference/REFERENCES.md#public-data-apis"><code>#public-data-apis</code></a>.</p>
-<li><a href="../../../data/README.md"><code>data/README.md</code></a> and</li>
-<p><a href="../../../data/samples/public_investment/README.md"><code>data/samples/public_investment/README.md</code></a> for the full source catalog and field-level explanations.</p>
-<li><a href="../../guides/TUTOR_RUNBOOK.md"><code>docs/guides/TUTOR_RUNBOOK.md</code></a> for more worked</li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#public-data-terminology-and-decision-use-primers"><code>docs/reference/REFERENCES.md#public-data-terminology-and-decision-use-primers</code></a></li>
+<p>and <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#public-data-apis"><code>#public-data-apis</code></a>.</p>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/data/README.md"><code>data/README.md</code></a> and</li>
+<p><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/data/samples/public_investment/README.md"><code>data/samples/public_investment/README.md</code></a> for the full source catalog and field-level explanations.</p>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/guides/TUTOR_RUNBOOK.md"><code>docs/guides/TUTOR_RUNBOOK.md</code></a> for more worked</li>
 <p>and adversarial prompts across the full 17-source catalog.</p>
 </ul></article></details>
 <button class="quiz-button" data-topic="investment-data-tutor">Start this topic's quiz</button>
@@ -1234,11 +1235,11 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <div><h3>Objectives</h3><ul><li>Explain bond cash flows, curves, price, duration, DV01, and convexity</li><li>Distinguish rates, spread, liquidity, and basis risk</li><li>Apply fixed-income assumptions without inventing missing terms</li></ul></div>
 </div>
 <h3>Lessons</h3><ol><li>Bond and curve mechanics</li><li>Risk sensitivities</li><li>Portfolio and market-data context</li></ol>
-<div class="labs"><p><strong>Local lab:</strong> Run scripts/run_depth_exercise.py and reconcile price, duration, key-rate DV01, and provenance.</p>
-<p><strong>Failure lab:</strong> Reject incomplete bond terms, stale data, and ticker-only valuation requests.</p>
+<div class="labs"><p><strong>Local lab (run after cloning):</strong> Run scripts/run_depth_exercise.py and reconcile price, duration, key-rate DV01, and provenance.</p>
+<p><strong>Failure lab (run after cloning):</strong> Reject incomplete bond terms, stale data, and ticker-only valuation requests.</p>
 <p><strong>Teach-back:</strong> Explain a synthetic bond portfolio review with assumptions, units, and limitations.</p></div>
 <details><summary>Read the deep dive</summary><article><h1>FICC fundamentals — deep dive</h1>
-<p>*Companion to <a href="../../agent-templates/ficc-tutor-agent.agent.md"><code>docs/agent-templates/ficc-tutor-agent.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py ficc-tutor-agent --quiz</code>.*</p>
+<p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/agent-templates/ficc-tutor-agent.agent.md"><code>docs/agent-templates/ficc-tutor-agent.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py ficc-tutor-agent --quiz</code>.*</p>
 <h2>What this actually is</h2>
 <p>FICC stands for fixed income, currencies, and commodities — the trading-desk umbrella term for everything that isn't equities. This repository's FICC track narrows that scope to fixed income specifically: bonds, the interest-rate curves that price them, and the funding and credit markets around them.</p>
 <p>A bond is, at its core, a promise to pay a series of known cash flows (coupons, plus principal at maturity) on known dates. Pricing a bond means discounting those future cash flows back to today using an interest-rate curve. Everything else in fixed-income analytics — duration, DV01, spread duration, carry, rolldown — is a way of answering "how does that price change if rates, credit spreads, or time itself move?" The discipline that separates fixed-income analysis from a spreadsheet guess is precision about *which* rate, *whose* credit spread, *what* day-count convention, and *as of which date* — get any of those wrong and the number is confidently wrong, not just imprecise.</p>
@@ -1294,9 +1295,9 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2>Further reading</h2>
 <ul>
-<li><a href="../../reference/REFERENCES.md#ficc--fixed-income-fundamentals"><code>docs/reference/REFERENCES.md#ficc--fixed-income-fundamentals</code></a></li>
-<p>and the adjacent <a href="../../reference/REFERENCES.md#fixed-income-data-sources-and-provider-access"><code>#fixed-income-data-sources-and-provider-access</code></a> and <a href="../../reference/REFERENCES.md#fixed-income-pm-analytics-reading-checklist"><code>#fixed-income-pm-analytics-reading-checklist</code></a> sections.</p>
-<li><a href="../ficc-glossary.md"><code>docs/learning/ficc-glossary.md</code></a> for every term above,</li>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#ficc--fixed-income-fundamentals"><code>docs/reference/REFERENCES.md#ficc--fixed-income-fundamentals</code></a></li>
+<p>and the adjacent <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#fixed-income-data-sources-and-provider-access"><code>#fixed-income-data-sources-and-provider-access</code></a> and <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#fixed-income-pm-analytics-reading-checklist"><code>#fixed-income-pm-analytics-reading-checklist</code></a> sections.</p>
+<li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/ficc-glossary.md"><code>docs/learning/ficc-glossary.md</code></a> for every term above,</li>
 <p>each with its own public primary source.</p>
 <li><code>docs/adr/0018-research-supervisor-pattern.md</code> and the fixed-income branch</li>
 <p>of <code>src/capstone/workflow.py</code> for how curve/spread shocks and bond validation fit into the full governed PM workflow.</p>

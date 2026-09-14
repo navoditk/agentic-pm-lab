@@ -5,6 +5,12 @@ not just a prompt or a quiz: it combines a tutor persona, deep-dive lessons,
 repository tracing, an implementation lab, an adversarial lab, a quiz, and a
 teach-back assessment.
 
+The [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) and
+[standalone HTML artifact](../../artifacts/agentic-pm-curriculum.html) provide
+the same reading material and browser-local quizzes without a checkout. They
+cannot record durable progress, run code tracing or labs, or establish course
+completion; use this local path for those requirements.
+
 For a conversational guide over the same canonical content, open this
 checkout in Copilot, Claude Code, or Codex and say **`pmexpert`**. The
 [Agentic PM Lab Mastery skill](MASTERY_SKILL.md) selects a path, teaches one

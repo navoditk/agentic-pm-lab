@@ -78,8 +78,7 @@ UV_CACHE_DIR=/tmp/agentic-pm-lab-uv-cache uv run python scripts/check_progress.p
 UV_CACHE_DIR=/tmp/agentic-pm-lab-uv-cache uv run python scripts/check_skill_contracts.py
 ```
 
-The current suite is expected to report **203 passing tests**. The progress
-table is intentionally local: a green local check does not imply a successful
+The test result is local verification evidence, not proof of a successful
 cloud request, live provider response, or hosted Canvas session.
 
 ## What is not complete, and why that matters
@@ -148,7 +147,7 @@ and AgentOps, OpenTelemetry, investment committees, Canvas/MCP, development
 lifecycle, governance/delivery, document-to-skill workflows, and public
 investment data. Each course has a compact persona, a repository-grounded
 deep dive, explicit lessons and objectives, worked and adversarial examples,
-a deterministic 25-question quiz, a local lab, a failure lab, and a teach-back
+a deterministic 20–30-question quiz, a local lab, a failure lab, and a teach-back
 assessment. This supports complete self-paced learning courses, but does not
 claim production certification or expert mastery.
 
@@ -173,8 +172,8 @@ The next improvements do not require live model or AWS spending:
   contradiction evaluators over authored fixtures;
 - add local fault-injection scenarios for stale, unavailable, duplicated,
   conflicting, unlicensed, and prompt-injected evidence;
-- add a link checker, reference freshness metadata, and a per-topic study
-  matrix; and
+- extend CI-enforced link validation beyond the generated curriculum artifact;
+  and
 - add a fully local browser/Canvas replay harness that checks state transitions
   and evidence presentation without claiming Copilot-hosted behavior.
 

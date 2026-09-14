@@ -1,3 +1,4 @@
+import re
 from datetime import date
 from pathlib import Path
 
@@ -16,6 +17,19 @@ def test_curriculum_includes_every_topic_and_quiz():
     assert rendered.count("Start this topic's quiz") == 14
     assert "portfolio-construction-tutor-q1" in rendered
     assert "ficc-tutor-agent-q1" in rendered
+    assert "Browser quiz results stay in this browser" in rendered
+
+
+def test_curriculum_rewrites_checkout_relative_links_to_github():
+    rendered = build_html()
+    links = re.findall(r'href="([^"]+)"', rendered)
+
+    assert links
+    assert all(link.startswith(("https://", "#", "mailto:")) for link in links)
+    assert (
+        "https://github.com/navoditk/agentic-pm-lab/blob/main/"
+        "docs/reference/REFERENCES.md"
+    ) in rendered
 
 
 def test_generated_curriculum_artifact_is_current():

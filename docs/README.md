@@ -13,54 +13,17 @@ The canonical product and architecture documents are:
 - [`PLAN.md`](PLAN.md) — the canonical 21-day build plan
 - [`../PROGRESS.md`](../PROGRESS.md) — current status and evidence state
 
-## Pick your path
+## Choose your path
 
-### If you are new to the repo
-
-1. [`../README.md`](../README.md)
-2. [`../INSTALL.md`](../INSTALL.md)
-3. [`learning/START_HERE.md`](learning/START_HERE.md)
-4. [`../PROGRESS.md`](../PROGRESS.md)
-
-### If you want to understand the platform
-
-1. [`architecture/PRD.md`](architecture/PRD.md)
-2. [`architecture/ARCHITECTURE.md`](architecture/ARCHITECTURE.md)
-3. [`architecture/DIAGRAMS.md`](architecture/DIAGRAMS.md)
-4. [`PLAN.md`](PLAN.md)
-
-### If you want to run or operate it locally
-
-1. [`../INSTALL.md`](../INSTALL.md)
-2. [`guides/RUNBOOK.md`](guides/RUNBOOK.md)
-3. [`guides/GITHUB_WORKFLOWS.md`](guides/GITHUB_WORKFLOWS.md)
-4. [`../PROGRESS.md`](../PROGRESS.md)
-
-### If you want to learn through the tutor and course flow
-
-1. Without a checkout, read the [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/)
-   or [standalone artifact](../artifacts/agentic-pm-curriculum.html).
-2. Open this checkout in Copilot, Claude Code, or Codex and say **`pmexpert`**:
-   [`learning/MASTERY_SKILL.md`](learning/MASTERY_SKILL.md)
-3. [`learning/START_HERE.md`](learning/START_HERE.md)
-4. [`learning/TUTOR_COURSE_GUIDE.md`](learning/TUTOR_COURSE_GUIDE.md)
-5. [`learning/DEPTH_PATH.md`](learning/DEPTH_PATH.md)
-6. [`guides/TUTOR_RUNBOOK.md`](guides/TUTOR_RUNBOOK.md)
-7. [`learning/LEARNER_PROGRESS.md`](learning/LEARNER_PROGRESS.md)
-
-### If you want proof, evidence, and benchmarks
-
-1. [`evidence/EVIDENCE.md`](evidence/EVIDENCE.md)
-2. [`learning/CANONICAL_PM_BENCHMARK_REPORT.md`](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
-3. [`learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
-4. [`learning/INSTITUTIONAL_PM_SCORECARD_V2.md`](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
-
-### If you want AWS, Canvas, or orchestration details
-
-- [`guides/AWS_AGENTCORE_SETUP.md`](guides/AWS_AGENTCORE_SETUP.md)
-- [`guides/AGENTCORE_GATEWAY_SETUP.md`](guides/AGENTCORE_GATEWAY_SETUP.md)
-- [`guides/CANVAS_EXERCISES.md`](guides/CANVAS_EXERCISES.md)
-- [`guides/AGENT_RUNBOOK.md`](guides/AGENT_RUNBOOK.md)
+| Goal | Start here |
+|---|---|
+| Browse the full curriculum without downloading | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) or [standalone artifact](../artifacts/agentic-pm-curriculum.html) |
+| Learn with a guided agent | Open a local checkout in Copilot, Claude Code, or Codex and say **`pmexpert`**; see [Mastery skill](learning/MASTERY_SKILL.md) |
+| Complete local courses with lab evidence | [Start here](learning/START_HERE.md), then [Tutor Course Guide](learning/TUTOR_COURSE_GUIDE.md) and [Depth Path](learning/DEPTH_PATH.md) |
+| Understand or build the platform | [PRD](architecture/PRD.md), [Architecture](architecture/ARCHITECTURE.md), [Plan](PLAN.md), and [Progress](../PROGRESS.md) |
+| Run or operate it locally | [Install](../INSTALL.md), [Runbook](guides/RUNBOOK.md), and [GitHub workflow guide](guides/GITHUB_WORKFLOWS.md) |
+| Review proof and benchmarks | [Evidence ledger](evidence/EVIDENCE.md) and the [benchmark reports](#evidence-and-evaluation) |
+| Explore AWS, Canvas, or orchestration | [AWS AgentCore setup](guides/AWS_AGENTCORE_SETUP.md), [Gateway exercise](guides/AGENTCORE_GATEWAY_SETUP.md), [Canvas exercises](guides/CANVAS_EXERCISES.md), and [Agent runbook](guides/AGENT_RUNBOOK.md) |
 
 ## Documentation by purpose
 
@@ -113,21 +76,6 @@ The canonical product and architecture documents are:
 - [`adr/`](adr/)
 - [`../experiments/README.md`](../experiments/README.md)
 - [`../data/README.md`](../data/README.md)
-
-## Reader workflow
-
-Use the docs in this sequence when you are first trying to understand the repo:
-
-1. Start with [`../README.md`](../README.md)
-2. Install and verify using [`../INSTALL.md`](../INSTALL.md)
-3. Read the platform intent in [`architecture/PRD.md`](architecture/PRD.md)
-4. Understand the current implementation in [`architecture/ARCHITECTURE.md`](architecture/ARCHITECTURE.md)
-5. Follow the plan in [`PLAN.md`](PLAN.md)
-6. Use the operational guide in [`guides/RUNBOOK.md`](guides/RUNBOOK.md)
-7. Use the learning path in [`learning/START_HERE.md`](learning/START_HERE.md)
-8. Check evidence in [`evidence/EVIDENCE.md`](evidence/EVIDENCE.md)
-
-This repo is intentionally broad. The docs are designed to be read by intent, not by raw file listing.
 
 `AGENTS.md` remains the canonical router for AI coding tools. Reusable
 implementation and learning skills live under `../skills/`; the shared

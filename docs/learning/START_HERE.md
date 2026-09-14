@@ -5,16 +5,20 @@ it, working through it day by day. This one doesn't. It's for someone opening
 the repository for the first time, with no prior context, who wants to
 understand what it is and actually learn from it — not just read about it.
 
-Work through these steps in order. Each one is small; none require an AWS
-account, a paid API key, or a specific IDE. Where a step needs something
-optional, it says so.
+Choose the path that matches how you want to learn. None requires an AWS
+account, a paid API key, or a specific IDE.
 
-**No local checkout?** Start with the complete
-[GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) or its
-[standalone HTML artifact](../../artifacts/agentic-pm-curriculum.html). You can
-read every course, work through labs conceptually, and take browser-local
-quizzes; clone the repository later for code tracing, commands, and durable
-progress records.
+| Goal | Start here | What it provides |
+|---|---|---|
+| Browse without downloading | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) or the [standalone HTML artifact](../../artifacts/agentic-pm-curriculum.html) | Every course, deep dive, and browser-local quiz; quizzes are learning checks, not durable completion. |
+| Learn conversationally | Open a local checkout in Copilot, Claude Code, or Codex and say **`pmexpert`** | Guided lessons, scenarios, quizzes, and teach-back review. |
+| Complete evidence-backed local courses | Follow the path below | Code tracing, runnable labs, failure practice, durable quiz records, and the completion rubric. |
+| Build or contribute | [`AGENTS.md`](../../AGENTS.md), then [`PROGRESS.md`](../../PROGRESS.md) and [`docs/PLAN.md`](../PLAN.md) | Project routing, current status, and the implementation plan. |
+
+## Evidence-backed local course path
+
+Clone the repository and complete its environment setup before using this path.
+Then work through these steps in order:
 
 1. **Read the pitch.** Start with [`README.md`](../../README.md)'s first two
    sections: the scope, trust boundaries, and what the lab does not claim.
@@ -76,7 +80,7 @@ progress records.
     Claude Code, Copilot, or Codex available, open this repository in it and
     ask for one of the tutors by name — see
     [`docs/guides/TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md#how-to-use-one-independently)
-    for exact prompts. The CLI tutor in steps 4–7 is deliberately the same
+    for exact prompts. The CLI tutor in steps 6–10 is deliberately the same
     content, so this is a richer conversation over the same ground truth, not
     a different one.
 18. **Go deep rather than stopping at orientation.** Follow the
@@ -90,5 +94,5 @@ progress records.
     through tutor topics and their quizzes (steps 5–11) until
     `LEARNER_PROGRESS.md` shows every topic passed.
 
-Nothing above requires an AWS account, a paid model API key, or write access
-to this repository — read the code, run the tests, take the quizzes.
+This local path requires a checkout, but no AWS account, paid model API key,
+or repository write access.
