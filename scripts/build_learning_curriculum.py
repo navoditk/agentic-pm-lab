@@ -227,16 +227,18 @@ function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;bod
 
 
 def write_output(output: Path, *, check: bool) -> int:
+    output = output.resolve()
+    display_path = output.relative_to(ROOT) if output.is_relative_to(ROOT) else output
     rendered = build_html()
     if check:
         if not output.is_file() or output.read_text() != rendered:
-            print(f"ERROR: generated curriculum is stale: {output.relative_to(ROOT)}")
+            print(f"ERROR: generated curriculum is stale: {display_path}")
             return 1
-        print(f"Generated curriculum is current: {output.relative_to(ROOT)}")
+        print(f"Generated curriculum is current: {display_path}")
         return 0
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(rendered)
-    print(f"Wrote {output.relative_to(ROOT)}")
+    print(f"Wrote {display_path}")
     return 0
 
 

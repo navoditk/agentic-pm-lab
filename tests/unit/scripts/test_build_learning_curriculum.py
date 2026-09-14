@@ -18,3 +18,10 @@ def test_generated_curriculum_artifact_is_current():
         == Path(__file__).resolve().parents[3] / "artifacts/agentic-pm-curriculum.html"
     )
     assert write_output(output=DEFAULT_OUTPUT, check=True) == 0
+
+
+def test_compiler_supports_a_relative_pages_output(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+    assert write_output(output=Path("_site/index.html"), check=False) == 0
+    assert (tmp_path / "_site/index.html").is_file()
