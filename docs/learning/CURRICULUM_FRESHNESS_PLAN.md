@@ -53,8 +53,9 @@ source-registry record.
 
 ## Phase 3: scheduled external monitoring
 
-Add a weekly `curriculum-freshness.yml` workflow plus manual dispatch. It
-should run a networked monitor in report-only mode:
+Implemented: `.github/workflows/curriculum-freshness.yml` runs every Monday at
+10:00 UTC and supports manual dispatch. It invokes
+`scripts/monitor_curriculum_sources.py` in report-only mode:
 
 1. Fetch GitHub release feeds/API, PyPI versions, RSS/Atom feeds, or a
    conditional HTTP response (`ETag`/`Last-Modified`) according to source kind.
@@ -68,6 +69,15 @@ should run a networked monitor in report-only mode:
 The monitor must use timeouts, a clear user agent, conditional requests, and
 bounded retries. Network failure is reported as `unavailable`; it must not
 pretend that a source is unchanged.
+
+Package sources use their configured PyPI project version as the comparison
+baseline. Documentation URLs use `ETag` or `Last-Modified` when supplied, and
+otherwise a bounded response-body fingerprint. The first observation of a URL
+is explicitly `unbaselined`; review the generated issue and add its
+`monitor_baseline` to `source-registry.yaml` before later observations can be
+classified as changed. The monitor does not create issues for unavailable
+sources and does not repeat a comment if an open issue already has the same
+review body.
 
 ## Phase 4: review and change control
 

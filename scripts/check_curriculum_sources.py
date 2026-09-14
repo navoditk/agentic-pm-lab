@@ -81,6 +81,15 @@ def check(
             errors.append(f"{source_id}: url must be an absolute HTTPS URL")
         if source["kind"] not in VALID_KINDS:
             errors.append(f"{source_id}: invalid kind {source['kind']!r}")
+        if source["kind"] == "pypi" and (
+            not isinstance(source.get("monitor"), str) or not source["monitor"]
+        ):
+            errors.append(f"{source_id}: pypi sources require a monitor project")
+        if "monitor_baseline" in source and (
+            not isinstance(source["monitor_baseline"], str)
+            or not source["monitor_baseline"]
+        ):
+            errors.append(f"{source_id}: monitor_baseline must be a non-empty string")
         if (
             not isinstance(source["version_or_fingerprint"], str)
             or not source["version_or_fingerprint"]

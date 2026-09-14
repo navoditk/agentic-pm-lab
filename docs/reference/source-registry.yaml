@@ -18,6 +18,7 @@ sources:
     title: Deep Agents
     url: https://docs.langchain.com/oss/python/deepagents
     kind: pypi
+    monitor: deepagents
     version_or_fingerprint: "0.7.5"
     last_reviewed: 2026-09-02
     review_after_days: 60
@@ -44,6 +45,7 @@ sources:
     title: OpenTelemetry Python
     url: https://opentelemetry.io/docs/languages/python/getting-started/
     kind: pypi
+    monitor: opentelemetry-sdk
     version_or_fingerprint: "1.44.0"
     last_reviewed: 2026-09-02
     review_after_days: 90
@@ -136,6 +138,7 @@ sources:
     title: FastAPI
     url: https://fastapi.tiangolo.com/tutorial/
     kind: pypi
+    monitor: fastapi
     version_or_fingerprint: "0.141.1"
     last_reviewed: 2026-09-02
     review_after_days: 180
@@ -190,6 +193,7 @@ sources:
     title: PyPortfolioOpt
     url: https://pyportfolioopt.readthedocs.io/
     kind: pypi
+    monitor: PyPortfolioOpt
     version_or_fingerprint: "1.6.0"
     last_reviewed: 2026-09-02
     review_after_days: 180
@@ -204,6 +208,7 @@ sources:
     title: Cedar Policy Language
     url: https://docs.cedarpolicy.com/
     kind: pypi
+    monitor: cedarpy
     version_or_fingerprint: "4.8.7"
     last_reviewed: 2026-09-02
     review_after_days: 180

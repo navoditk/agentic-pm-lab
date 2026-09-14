@@ -10,7 +10,9 @@ The companion [external-source registry](source-registry.yaml) records review
 cadence, accountable owner, version/fingerprint baseline, and the exact tutor
 assets affected by each monitored source. Run
 `uv run python scripts/check_curriculum_sources.py` after changing either the
-curriculum or its external-source mappings.
+curriculum or its external-source mappings. The weekly
+`Monitor Curriculum Freshness` workflow compares those sources and opens
+scoped maintainer-review issues; it never edits learning material automatically.
 
 ## How to use this file
 

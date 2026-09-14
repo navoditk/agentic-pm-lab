@@ -39,3 +39,11 @@ def test_source_registry_requires_all_topic_assets(tmp_path):
     path.write_text(registry)
 
     assert any("deep dive, persona, and quiz bank" in error for error in check(path))
+
+
+def test_source_registry_requires_pypi_monitor_project(tmp_path):
+    registry = REGISTRY_PATH.read_text().replace("    monitor: deepagents\n", "", 1)
+    path = tmp_path / "registry.yaml"
+    path.write_text(registry)
+
+    assert any("require a monitor project" in error for error in check(path))

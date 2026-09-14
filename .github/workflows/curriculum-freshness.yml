@@ -1,0 +1,59 @@
+name: Monitor Curriculum Freshness
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 * * 1" # Weekly Monday 10:00 UTC
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: curriculum-freshness
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv sync
+      - name: Validate source registry
+        run: uv run python scripts/check_curriculum_sources.py
+      - name: Monitor external curriculum sources
+        run: >-
+          uv run python scripts/monitor_curriculum_sources.py
+          --output curriculum-source-report.json
+          --issue-dir curriculum-review-issues
+      - name: Upload source-monitor report
+        uses: actions/upload-artifact@v4
+        with:
+          name: curriculum-source-report-${{ github.run_id }}
+          path: |
+            curriculum-source-report.json
+            curriculum-review-issues/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Open or update review issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          shopt -s nullglob
+          for issue in curriculum-review-issues/*.md; do
+            source_id="$(basename "$issue" .md)"
+            title="Curriculum freshness: ${source_id}"
+            existing="$(gh issue list --state open --search "$title in:title" --json number,title --jq ".[] | select(.title == \"$title\") | .number" | head -1)"
+            if [ -n "$existing" ]; then
+              gh issue view "$existing" --json body --jq .body > existing-issue-body.md
+              if ! cmp --silent "$issue" existing-issue-body.md; then
+                gh issue comment "$existing" --body-file "$issue"
+              fi
+            else
+              gh issue create --title "$title" --body-file "$issue" --label curriculum-freshness || \
+                gh issue create --title "$title" --body-file "$issue"
+            fi
+          done
