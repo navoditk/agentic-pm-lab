@@ -8,8 +8,11 @@ import html
 import json
 import re
 import sys
+from datetime import timedelta
 from pathlib import Path
 from typing import Any
+
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "artifacts/agentic-pm-curriculum.html"
@@ -127,10 +130,55 @@ def render_markdown(markdown: str) -> str:
     return "\n".join(output)
 
 
+def topic_freshness(
+    catalog: dict[str, dict[str, str]], registry: dict[str, Any]
+) -> dict[str, dict[str, Any]]:
+    """Summarize reviewed external sources for each learner-facing course."""
+    freshness = {topic_id: {"sources": []} for topic_id in catalog}
+    for source in registry["sources"]:
+        reviewed = source["last_reviewed"]
+        next_review = reviewed + timedelta(days=source["review_after_days"])
+        source_status = source.get(
+            "monitor_state",
+            "enrollment-pending" if "monitor_baseline" not in source else "scheduled",
+        )
+        for impact in source["impacts"]:
+            freshness[impact["topic"]]["sources"].append(
+                {
+                    "title": source["title"],
+                    "url": source["url"],
+                    "status": source_status,
+                    "last_reviewed": reviewed.isoformat(),
+                    "next_review": next_review.isoformat(),
+                }
+            )
+    for topic in freshness.values():
+        topic["sources"].sort(key=lambda source: source["title"])
+        topic["status"] = next(
+            (
+                status
+                for status in (
+                    "upstream-review-required",
+                    "source-check-unavailable",
+                    "enrollment-pending",
+                )
+                if any(source["status"] == status for source in topic["sources"])
+            ),
+            "scheduled",
+        )
+    return freshness
+
+
 def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     from src.education.tutor import TOPIC_CATALOG
 
     courses = json.loads((ROOT / "docs/learning/tutor-courses.json").read_text())
+    registry = yaml.safe_load(
+        (ROOT / "docs/reference/source-registry.yaml").read_text(encoding="utf-8")
+    )
+    if not isinstance(registry, dict):
+        raise TypeError("source registry must be a mapping")
+    freshness = topic_freshness(TOPIC_CATALOG, registry)
     topics: dict[str, Any] = {}
     shared_guides = {
         "Mastery skill": ROOT / "docs/learning/MASTERY_SKILL.md",
@@ -148,6 +196,7 @@ def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
             "course": courses[topic_id],
             "deep_dive_html": render_markdown(deep_dive),
             "quiz": quiz,
+            "freshness": freshness[topic_id],
         }
         fingerprint_parts.extend((deep_dive, quiz_path.read_text()))
     fingerprint_parts.append(json.dumps(courses, sort_keys=True))
@@ -175,12 +224,27 @@ def build_html() -> str:
     quiz_data: dict[str, list[dict[str, Any]]] = {}
     for topic_id, topic in topics.items():
         course = topic["course"]
+        freshness = topic["freshness"]
+        source_links = ", ".join(
+            (
+                f'<a href="{html.escape(source["url"])}">'
+                f"{html.escape(source['title'])}</a> — reviewed "
+                f"{source['last_reviewed']}, next review {source['next_review']}"
+            )
+            for source in freshness["sources"]
+        )
+        freshness_message = {
+            "upstream-review-required": "Upstream version review required.",
+            "source-check-unavailable": "Source check unavailable; review pending.",
+            "enrollment-pending": "Initial monitor enrollment pending.",
+        }.get(freshness["status"], "")
         quiz_data[topic_id] = topic["quiz"]
         sections.append(
             f"""<section id="{topic_id}" class="topic">
 <p class="eyebrow">Course {list(catalog).index(topic_id) + 1:02}</p>
 <h2>{html.escape(topic["label"])}</h2>
 <p class="source">Source: <code>{html.escape(topic["deep_dive"])}</code> · {len(topic["quiz"])} quiz questions</p>
+<div class="freshness" data-freshness="{freshness["status"]}"><strong>External-source review:</strong> {source_links}. {freshness_message}</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul>{"".join(f"<li>{inline_markdown(item)}</li>" for item in course["prerequisites"])}</ul></div>
 <div><h3>Objectives</h3><ul>{"".join(f"<li>{inline_markdown(item)}</li>" for item in course["objectives"])}</ul></div>
@@ -198,10 +262,10 @@ def build_html() -> str:
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Agentic PM Lab Learning Curriculum</title>
 <style>
-:root{{color-scheme:light dark;--ink:#18212f;--muted:#536174;--accent:#13599a;--card:#fff;--line:#d8e0ea;--soft:#eef5fc}}
+:root{{color-scheme:light dark;--ink:#18212f;--muted:#536174;--accent:#13599a;--card:#fff;--line:#d8e0ea;--soft:#eef5fc;--warning:#8b5200;--warning-bg:#fff1d6}}
 *{{box-sizing:border-box}} body{{margin:0;font:16px/1.58 system-ui,-apple-system,sans-serif;color:var(--ink);background:#f7fafc}}
 a{{color:var(--accent)}}header{{background:#0e263e;color:#fff;padding:4rem max(1.5rem,calc((100% - 1120px)/2)) 3rem}}header p{{max-width:850px;font-size:1.12rem}}
-main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}}h2{{font-size:1.8rem;line-height:1.2}}h3{{margin-bottom:.25rem}}.eyebrow,.source{{color:var(--muted);font-size:.9rem}}.notice,.labs{{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}}.topic-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}}.topic-card{{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}}.topic-card span{{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}}.topic{{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}}.course-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}}details{{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}}summary{{cursor:pointer;font-weight:700}}article{{max-width:82ch}}pre{{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}}code{{font:.9em ui-monospace,SFMono-Regular,monospace}}table{{border-collapse:collapse;width:100%;overflow-x:auto;display:block}}td,th{{border:1px solid var(--line);padding:.55rem;text-align:left}}button{{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}}dialog{{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}}dialog::backdrop{{background:#0008}}.choice{{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}}.result{{font-weight:700}}footer{{color:var(--muted);font-size:.9rem;margin-top:3rem}}@media(prefers-color-scheme:dark){{:root{{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548}}body{{background:#101720}}}}
+main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}}h2{{font-size:1.8rem;line-height:1.2}}h3{{margin-bottom:.25rem}}.eyebrow,.source{{color:var(--muted);font-size:.9rem}}.notice,.labs{{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}}.freshness{{background:var(--soft);border-radius:.35rem;font-size:.9rem;margin:1rem 0;padding:.7rem}}.freshness[data-freshness="enrollment-pending"],.freshness[data-freshness="upstream-review-required"],.freshness[data-freshness="source-check-unavailable"],.freshness.overdue{{background:var(--warning-bg);color:var(--warning)}}.topic-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}}.topic-card{{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}}.topic-card span{{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}}.topic{{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}}.course-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}}details{{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}}summary{{cursor:pointer;font-weight:700}}article{{max-width:82ch}}pre{{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}}code{{font:.9em ui-monospace,SFMono-Regular,monospace}}table{{border-collapse:collapse;width:100%;overflow-x:auto;display:block}}td,th{{border:1px solid var(--line);padding:.55rem;text-align:left}}button{{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}}dialog{{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}}dialog::backdrop{{background:#0008}}.choice{{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}}.result{{font-weight:700}}footer{{color:var(--muted);font-size:.9rem;margin-top:3rem}}@media(prefers-color-scheme:dark){{:root{{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548;--warning:#ffd48c;--warning-bg:#4d350f}}body{{background:#101720}}}}
 </style></head><body>
 <header><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
 <p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Learn with the deep dives, local and failure labs, quizzes, teach-backs, and integrated assessment—without downloading the repository.</p>
@@ -223,6 +287,7 @@ document.querySelectorAll('.quiz-button').forEach(button=>button.onclick=()=>{{q
 document.querySelector('#close').onclick=()=>dialog.close();
 function render(){{if(position===questions.length){{body.innerHTML=`<h2>Quiz complete</h2><p class="result">Score: ${{correct}} / ${{questions.length}} (${{Math.round(correct/questions.length*100)}}%)</p><p>Review the cited sources and repeat the local/failure labs before treating a score as course completion.</p>`;return;}}const q=questions[position];body.innerHTML=`<p class="eyebrow">Question ${{position+1}} of ${{questions.length}}</p><h2>${{q.question}}</h2>${{q.choices.map((choice,index)=>`<button class="choice" data-index="${{index}}">${{String.fromCharCode(65+index)}}. ${{choice}}</button>`).join('')}}<p id="feedback"></p>`;body.querySelectorAll('.choice').forEach(button=>button.onclick=()=>answer(Number(button.dataset.index),q));}}
 function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;body.querySelector('#feedback').innerHTML=`<span class="result">${{ok?'Correct.':'Not quite.'}}</span> Source: <code>${{q.citation}}</code>. <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>button.disabled=true);body.querySelector('#next').onclick=()=>{{position++;render();}};}}
+for(const panel of document.querySelectorAll('.freshness')){{const dates=[...panel.textContent.matchAll(/next review (\\d{{4}}-\\d{{2}}-\\d{{2}})/g)].map(match=>match[1]);if(dates.some(value=>new Date(`${{value}}T00:00:00Z`)<new Date())){{panel.classList.add('overdue');panel.insertAdjacentHTML('beforeend',' <strong>Review overdue.</strong>');}}}}
 </script></body></html>"""
 
 

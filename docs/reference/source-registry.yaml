@@ -5,7 +5,8 @@ sources:
     url: https://docs.langchain.com/oss/python/langgraph
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: 17a6efbb43d12f4b20b978b66e1bc5bf27dfda478108c78e805f3ff82afbe737 # pragma: allowlist secret
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -20,6 +21,7 @@ sources:
     kind: pypi
     monitor: deepagents
     version_or_fingerprint: "0.7.5"
+    monitor_state: upstream-review-required
     last_reviewed: 2026-09-02
     review_after_days: 60
     owner: navoditk
@@ -34,7 +36,8 @@ sources:
     url: https://docs.langchain.com/langsmith/evaluation
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: 34acd99fa1ab3aa9efd0f797d80e5d2ab582481e61e99797ba3d960cfe6c2133 # pragma: allowlist secret
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -47,7 +50,8 @@ sources:
     kind: pypi
     monitor: opentelemetry-sdk
     version_or_fingerprint: "1.44.0"
-    last_reviewed: 2026-09-02
+    monitor_baseline: "1.44.0"
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -61,7 +65,8 @@ sources:
     url: https://modelcontextprotocol.io/
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: 953f0be1750f307b8431ccfd2a8b609eadbc2d16d302e773c3770056a4e9c31f # pragma: allowlist secret
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -73,7 +78,8 @@ sources:
     url: https://docs.aws.amazon.com/bedrock-agentcore/
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: "\"vP/4aJslXAG5tdLBxvk/c4z3nno=\""
+    last_reviewed: 2026-09-14
     review_after_days: 60
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -87,7 +93,8 @@ sources:
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: "\"jnqqH+R/3YVkUZsIqlol1PTjh/U=\""
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -101,7 +108,8 @@ sources:
     url: https://docs.github.com/en/copilot/concepts/agents/about-agent-skills
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: 942a89395a73f130dd7b63ada6ce095e7de21aa56b3d3d689b8844dfe4722780 # pragma: allowlist secret
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -115,7 +123,8 @@ sources:
     url: https://docs.anthropic.com/en/docs/claude-code/overview
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: 77342837771e9754af9c00668ef4cf45ebe8918594053821147c361b31dd60cf # pragma: allowlist secret
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -127,7 +136,8 @@ sources:
     url: https://developers.openai.com/codex/
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: "\"b39e127d33ee190625e358968275fe3d\""
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -140,7 +150,8 @@ sources:
     kind: pypi
     monitor: fastapi
     version_or_fingerprint: "0.141.1"
-    last_reviewed: 2026-09-02
+    monitor_baseline: "0.141.1"
+    last_reviewed: 2026-09-14
     review_after_days: 180
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -152,6 +163,7 @@ sources:
     url: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
+    monitor_state: source-check-unavailable
     last_reviewed: 2026-09-02
     review_after_days: 180
     owner: navoditk
@@ -166,6 +178,7 @@ sources:
     url: https://fred.stlouisfed.org/docs/api/fred/
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
+    monitor_state: source-check-unavailable
     last_reviewed: 2026-09-02
     review_after_days: 180
     owner: navoditk
@@ -180,6 +193,7 @@ sources:
     url: https://fiscaldata.treasury.gov/api-documentation/
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
+    monitor_state: source-check-unavailable
     last_reviewed: 2026-09-02
     review_after_days: 180
     owner: navoditk
@@ -195,7 +209,8 @@ sources:
     kind: pypi
     monitor: PyPortfolioOpt
     version_or_fingerprint: "1.6.0"
-    last_reviewed: 2026-09-02
+    monitor_baseline: "1.6.0"
+    last_reviewed: 2026-09-14
     review_after_days: 180
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]
@@ -210,6 +225,7 @@ sources:
     kind: pypi
     monitor: cedarpy
     version_or_fingerprint: "4.8.7"
+    monitor_state: upstream-review-required
     last_reviewed: 2026-09-02
     review_after_days: 180
     owner: navoditk
@@ -224,7 +240,8 @@ sources:
     url: https://developers.openai.com/codex/skills/
     kind: url
     version_or_fingerprint: documentation-reviewed-2026-09-02
-    last_reviewed: 2026-09-02
+    monitor_baseline: "\"d27e59ce1121bc67e6e0fb79f16937d7\""
+    last_reviewed: 2026-09-14
     review_after_days: 90
     owner: navoditk
     severity_rules: [breaking, deprecated, removed, security]

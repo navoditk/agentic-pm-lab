@@ -27,6 +27,10 @@ REQUIRED_SOURCE_FIELDS = {
     "impacts",
 }
 VALID_KINDS = {"github_release", "pypi", "rss", "url"}
+VALID_MONITOR_STATES = {
+    "upstream-review-required",
+    "source-check-unavailable",
+}
 
 
 def _load_registry(path: Path) -> dict[str, Any]:
@@ -90,6 +94,13 @@ def check(
             or not source["monitor_baseline"]
         ):
             errors.append(f"{source_id}: monitor_baseline must be a non-empty string")
+        if (
+            "monitor_state" in source
+            and source["monitor_state"] not in VALID_MONITOR_STATES
+        ):
+            errors.append(
+                f"{source_id}: invalid monitor_state {source['monitor_state']!r}"
+            )
         if (
             not isinstance(source["version_or_fingerprint"], str)
             or not source["version_or_fingerprint"]

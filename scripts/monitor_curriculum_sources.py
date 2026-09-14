@@ -28,7 +28,7 @@ def _fetch(url: str, method: str) -> tuple[dict[str, str], bytes]:
     request = Request(url, method=method, headers={"User-Agent": USER_AGENT})
     with urlopen(request, timeout=15) as response:
         headers = {key.lower(): value for key, value in response.headers.items()}
-        return headers, response.read(65_536) if method == "GET" else b""
+        return headers, response.read() if method == "GET" else b""
 
 
 def _observed_pypi(source: dict[str, Any], fetch: Fetch) -> str:
@@ -50,9 +50,11 @@ def _observed_url(source: dict[str, Any], fetch: Fetch) -> str:
             or headers.get("last-modified")
             or hashlib.sha256(body).hexdigest()
         )
-    return (
-        headers.get("etag") or headers.get("last-modified") or "validator-unavailable"
-    )
+    validator = headers.get("etag") or headers.get("last-modified")
+    if validator:
+        return validator
+    _headers, body = fetch(source["url"], "GET")
+    return hashlib.sha256(body).hexdigest()
 
 
 def monitor_source(source: dict[str, Any], fetch: Fetch = _fetch) -> dict[str, Any]:
@@ -84,16 +86,10 @@ def monitor_source(source: dict[str, Any], fetch: Fetch = _fetch) -> dict[str, A
     ) as error:
         return {**result, "status": "unavailable", "detail": str(error)}
 
-    if observed == "validator-unavailable":
-        return {
-            **result,
-            "status": "unbaselined",
-            "observed": observed,
-            "detail": "The source supplied no HTTP validator; add monitor_baseline after review.",
-        }
-    if observed == source["version_or_fingerprint"]:
+    monitor_baseline = source.get("monitor_baseline")
+    if monitor_baseline is not None and observed == monitor_baseline:
         return {**result, "status": "unchanged", "observed": observed}
-    if source["kind"] != "pypi" and "monitor_baseline" not in source:
+    if monitor_baseline is None:
         return {
             **result,
             "status": "unbaselined",

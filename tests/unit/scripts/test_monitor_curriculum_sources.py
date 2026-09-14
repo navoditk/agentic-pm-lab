@@ -7,7 +7,7 @@ from scripts.monitor_curriculum_sources import (
 )
 
 
-def test_pypi_source_reports_changed_version():
+def test_pypi_source_requires_initial_monitor_baseline():
     source = {
         "id": "sample",
         "title": "Sample",
@@ -22,7 +22,7 @@ def test_pypi_source_reports_changed_version():
         fetch=lambda _url, _method: ({}, b'{"info": {"version": "2.0.0"}}'),
     )
 
-    assert result["status"] == "changed"
+    assert result["status"] == "unbaselined"
     assert result["observed"] == "2.0.0"
 
 
@@ -42,6 +42,65 @@ def test_url_source_requires_initial_monitor_baseline():
 
     assert result["status"] == "unbaselined"
     assert result["observed"] == '"abc"'
+
+
+def test_url_source_without_head_validator_uses_content_fingerprint():
+    source = {
+        "id": "sample",
+        "title": "Sample",
+        "url": "https://example.com",
+        "kind": "url",
+        "version_or_fingerprint": "documentation-reviewed",
+        "impacts": [{"topic": "ficc-tutor-agent", "assets": ["example.md"]}],
+    }
+
+    result = monitor_source(
+        source,
+        fetch=lambda _url, method: (
+            ({}, b"current documentation") if method == "GET" else ({}, b"")
+        ),
+    )
+
+    assert result["status"] == "unbaselined"
+    assert len(result["observed"]) == 64
+
+
+def test_monitor_baseline_distinguishes_reviewed_version_from_package_pin():
+    source = {
+        "id": "sample",
+        "title": "Sample",
+        "url": "https://example.com",
+        "kind": "pypi",
+        "version_or_fingerprint": "1.0.0",
+        "monitor_baseline": "2.0.0",
+        "impacts": [{"topic": "ficc-tutor-agent", "assets": ["example.md"]}],
+    }
+
+    result = monitor_source(
+        source,
+        fetch=lambda _url, _method: ({}, b'{"info": {"version": "2.0.0"}}'),
+    )
+
+    assert result["status"] == "unchanged"
+
+
+def test_pypi_source_reports_changed_after_initial_enrollment():
+    source = {
+        "id": "sample",
+        "title": "Sample",
+        "url": "https://example.com",
+        "kind": "pypi",
+        "version_or_fingerprint": "1.0.0",
+        "monitor_baseline": "2.0.0",
+        "impacts": [{"topic": "ficc-tutor-agent", "assets": ["example.md"]}],
+    }
+
+    result = monitor_source(
+        source,
+        fetch=lambda _url, _method: ({}, b'{"info": {"version": "3.0.0"}}'),
+    )
+
+    assert result["status"] == "changed"
 
 
 def test_unavailable_source_is_reported_without_failure():
@@ -71,6 +130,7 @@ sources:
     url: https://example.com
     kind: pypi
     version_or_fingerprint: "1.0.0"
+    monitor_baseline: "1.0.0"
     impacts:
       - topic: ficc-tutor-agent
         assets: [example.md]

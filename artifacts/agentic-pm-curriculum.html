@@ -2,10 +2,10 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Agentic PM Lab Learning Curriculum</title>
 <style>
-:root{color-scheme:light dark;--ink:#18212f;--muted:#536174;--accent:#13599a;--card:#fff;--line:#d8e0ea;--soft:#eef5fc}
+:root{color-scheme:light dark;--ink:#18212f;--muted:#536174;--accent:#13599a;--card:#fff;--line:#d8e0ea;--soft:#eef5fc;--warning:#8b5200;--warning-bg:#fff1d6}
 *{box-sizing:border-box} body{margin:0;font:16px/1.58 system-ui,-apple-system,sans-serif;color:var(--ink);background:#f7fafc}
 a{color:var(--accent)}header{background:#0e263e;color:#fff;padding:4rem max(1.5rem,calc((100% - 1120px)/2)) 3rem}header p{max-width:850px;font-size:1.12rem}
-main{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}h1{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}h2{font-size:1.8rem;line-height:1.2}h3{margin-bottom:.25rem}.eyebrow,.source{color:var(--muted);font-size:.9rem}.notice,.labs{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}.topic-card{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}.topic-card span{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}.topic{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}details{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}summary{cursor:pointer;font-weight:700}article{max-width:82ch}pre{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}code{font:.9em ui-monospace,SFMono-Regular,monospace}table{border-collapse:collapse;width:100%;overflow-x:auto;display:block}td,th{border:1px solid var(--line);padding:.55rem;text-align:left}button{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}dialog{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}dialog::backdrop{background:#0008}.choice{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}.result{font-weight:700}footer{color:var(--muted);font-size:.9rem;margin-top:3rem}@media(prefers-color-scheme:dark){:root{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548}body{background:#101720}}
+main{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}h1{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}h2{font-size:1.8rem;line-height:1.2}h3{margin-bottom:.25rem}.eyebrow,.source{color:var(--muted);font-size:.9rem}.notice,.labs{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}.freshness{background:var(--soft);border-radius:.35rem;font-size:.9rem;margin:1rem 0;padding:.7rem}.freshness[data-freshness="enrollment-pending"],.freshness[data-freshness="upstream-review-required"],.freshness[data-freshness="source-check-unavailable"],.freshness.overdue{background:var(--warning-bg);color:var(--warning)}.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}.topic-card{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}.topic-card span{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}.topic{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}details{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}summary{cursor:pointer;font-weight:700}article{max-width:82ch}pre{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}code{font:.9em ui-monospace,SFMono-Regular,monospace}table{border-collapse:collapse;width:100%;overflow-x:auto;display:block}td,th{border:1px solid var(--line);padding:.55rem;text-align:left}button{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}dialog{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}dialog::backdrop{background:#0008}.choice{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}.result{font-weight:700}footer{color:var(--muted);font-size:.9rem;margin-top:3rem}@media(prefers-color-scheme:dark){:root{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548;--warning:#ffd48c;--warning-bg:#4d350f}body{background:#101720}}
 </style></head><body>
 <header><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
 <p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Learn with the deep dives, local and failure labs, quizzes, teach-backs, and integrated assessment—without downloading the repository.</p>
@@ -228,6 +228,7 @@ uv run python scripts/check_learner_progress.py</code></pre>
 <p class="eyebrow">Course 01</p>
 <h2>Portfolio construction</h2>
 <p class="source">Source: <code>docs/learning/tutors/portfolio-construction-tutor.md</code> · 26 quiz questions</p>
+<div class="freshness" data-freshness="scheduled"><strong>External-source review:</strong> <a href="https://pyportfolioopt.readthedocs.io/">PyPortfolioOpt</a> — reviewed 2026-09-14, next review 2027-03-13. </div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read optimizer.py and the portfolio optimization references</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Explain minimum volatility, maximum Sharpe, and risk parity</li><li>Identify estimation and constraint risk</li><li>Evaluate turnover, cost, feasibility, and sensitivity</li></ul></div>
@@ -338,6 +339,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 02</p>
 <h2>Agent architecture</h2>
 <p class="source">Source: <code>docs/learning/tutors/agent-architecture-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="upstream-review-required"><strong>External-source review:</strong> <a href="https://docs.langchain.com/oss/python/deepagents">Deep Agents</a> — reviewed 2026-09-02, next review 2026-11-01, <a href="https://fastapi.tiangolo.com/tutorial/">FastAPI</a> — reviewed 2026-09-14, next review 2027-03-13, <a href="https://docs.langchain.com/oss/python/langgraph">LangGraph</a> — reviewed 2026-09-14, next review 2026-12-13. Upstream version review required.</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read README.md and ARCHITECTURE.md</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Separate agents, workflows, tools, skills, and controls</li><li>Design bounded context and delegation paths</li><li>Explain retries, checkpoints, interrupts, and recovery</li></ul></div>
@@ -409,6 +411,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 03</p>
 <h2>LangGraph and Deep Agents</h2>
 <p class="source">Source: <code>docs/learning/tutors/langgraph-deep-agents-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="upstream-review-required"><strong>External-source review:</strong> <a href="https://docs.langchain.com/oss/python/deepagents">Deep Agents</a> — reviewed 2026-09-02, next review 2026-11-01, <a href="https://docs.langchain.com/oss/python/langgraph">LangGraph</a> — reviewed 2026-09-14, next review 2026-12-13. Upstream version review required.</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the agent architecture tutor first</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Explain graph state, subagents, persistence, and interrupts</li><li>Trace native Deep Agents delegation</li><li>Design safe retry and resume behavior</li></ul></div>
@@ -476,6 +479,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 04</p>
 <h2>AWS Bedrock AgentCore</h2>
 <p class="source">Source: <code>docs/learning/tutors/aws-agentcore-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="scheduled"><strong>External-source review:</strong> <a href="https://docs.aws.amazon.com/bedrock-agentcore/">AWS Bedrock AgentCore</a> — reviewed 2026-09-14, next review 2026-11-13, <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html">Amazon Bedrock Guardrails</a> — reviewed 2026-09-14, next review 2026-12-13. </div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the local AgentCore config and evidence ledger</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Distinguish Runtime, Gateway, Identity, Policy, Memory, Evaluations, and Guardrails</li><li>Map local controls to hosted intent</li><li>Classify deployment, invocation, and cleanup evidence</li></ul></div>
@@ -558,6 +562,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 05</p>
 <h2>Data provenance and research quality</h2>
 <p class="source">Source: <code>docs/learning/tutors/data-provenance-research-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="source-check-unavailable"><strong>External-source review:</strong> <a href="https://fred.stlouisfed.org/docs/api/fred/">FRED and ALFRED</a> — reviewed 2026-09-02, next review 2027-03-01, <a href="https://www.sec.gov/search-filings/edgar-application-programming-interfaces">SEC EDGAR data APIs</a> — reviewed 2026-09-02, next review 2027-03-01. Source check unavailable; review pending.</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the provenance module and public-data catalog</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Distinguish observation, publication, filing, retrieval, and decision times</li><li>Apply point-in-time eligibility</li><li>Handle stale, conflicting, and uncertain evidence</li></ul></div>
@@ -627,6 +632,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 06</p>
 <h2>Evaluations and AgentOps</h2>
 <p class="source">Source: <code>docs/learning/tutors/evaluation-agentops-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="scheduled"><strong>External-source review:</strong> <a href="https://docs.langchain.com/langsmith/evaluation">LangSmith</a> — reviewed 2026-09-14, next review 2026-12-13, <a href="https://opentelemetry.io/docs/languages/python/getting-started/">OpenTelemetry Python</a> — reviewed 2026-09-14, next review 2026-12-13. </div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read evals/, config/eval-baseline.json, and observability notes</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Design independent evaluation dimensions</li><li>Interpret regression and repeated-run results</li><li>Separate automated scores from human review</li></ul></div>
@@ -699,6 +705,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 07</p>
 <h2>OpenTelemetry</h2>
 <p class="source">Source: <code>docs/learning/tutors/opentelemetry-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="scheduled"><strong>External-source review:</strong> <a href="https://opentelemetry.io/docs/languages/python/getting-started/">OpenTelemetry Python</a> — reviewed 2026-09-14, next review 2026-12-13. </div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the observability module and one agent trace</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Explain traces, spans, propagation, attributes, and exporters</li><li>Design cost-aware, privacy-safe telemetry</li><li>Correlate application, audit, and evaluation evidence</li></ul></div>
@@ -784,6 +791,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 08</p>
 <h2>Investment committee challenge</h2>
 <p class="source">Source: <code>docs/learning/tutors/investment-committee-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="upstream-review-required"><strong>External-source review:</strong> <a href="https://docs.cedarpolicy.com/">Cedar Policy Language</a> — reviewed 2026-09-02, next review 2027-03-01, <a href="https://pyportfolioopt.readthedocs.io/">PyPortfolioOpt</a> — reviewed 2026-09-14, next review 2027-03-13. Upstream version review required.</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the capstone and Devil's Advocate implementation</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Separate thesis, evidence, dissent, and decision</li><li>Grade uncertainty and open questions</li><li>Keep committee review distinct from order execution</li></ul></div>
@@ -853,6 +861,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 09</p>
 <h2>Copilot Canvas and MCP</h2>
 <p class="source">Source: <code>docs/learning/tutors/copilot-canvas-mcp-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="scheduled"><strong>External-source review:</strong> <a href="https://docs.github.com/en/copilot/concepts/agents/about-agent-skills">GitHub Copilot Agent Skills</a> — reviewed 2026-09-14, next review 2026-12-13, <a href="https://modelcontextprotocol.io/">Model Context Protocol</a> — reviewed 2026-09-14, next review 2026-12-13. </div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the Canvas exercises and MCP server</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Design shared Canvas handler state</li><li>Trace identity and provenance through MCP</li><li>Separate UX evidence from security evidence</li></ul></div>
@@ -921,6 +930,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 10</p>
 <h2>Agent development lifecycle</h2>
 <p class="source">Source: <code>docs/learning/tutors/agent-development-lifecycle-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="scheduled"><strong>External-source review:</strong> <a href="https://docs.anthropic.com/en/docs/claude-code/overview">Claude Code</a> — reviewed 2026-09-14, next review 2026-12-13, <a href="https://docs.github.com/en/copilot/concepts/agents/about-agent-skills">GitHub Copilot Agent Skills</a> — reviewed 2026-09-14, next review 2026-12-13, <a href="https://developers.openai.com/codex/">OpenAI Codex</a> — reviewed 2026-09-14, next review 2026-12-13. </div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read AGENTS.md routing rules</li><li>Run the local test suite</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Distinguish skills, prompts, agents, contracts, and tools</li><li>Create reviewable skill packages</li><li>Explain freshness and contract CI</li></ul></div>
@@ -992,6 +1002,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 11</p>
 <h2>Governance and delivery</h2>
 <p class="source">Source: <code>docs/learning/tutors/governance-delivery-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="upstream-review-required"><strong>External-source review:</strong> <a href="https://docs.aws.amazon.com/bedrock-agentcore/">AWS Bedrock AgentCore</a> — reviewed 2026-09-14, next review 2026-11-13, <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html">Amazon Bedrock Guardrails</a> — reviewed 2026-09-14, next review 2026-12-13, <a href="https://docs.cedarpolicy.com/">Cedar Policy Language</a> — reviewed 2026-09-02, next review 2027-03-01. Upstream version review required.</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the security model and CI workflow map</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Separate AuthN, AuthZ, guardrails, and tool enforcement</li><li>Test policy and prompt-injection boundaries</li><li>Explain release, rollback, approval, and teardown evidence</li></ul></div>
@@ -1073,6 +1084,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 12</p>
 <h2>Document-to-skill pipeline</h2>
 <p class="source">Source: <code>docs/learning/tutors/document-to-skill-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="scheduled"><strong>External-source review:</strong> <a href="https://developers.openai.com/codex/skills/">OpenAI document ingestion and skills guidance</a> — reviewed 2026-09-14, next review 2026-12-13. </div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the staged document-to-skill deep dive</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Extract page-aware document evidence</li><li>Separate explanation from executable calculation</li><li>Validate generated formulas and refuse ambiguity</li></ul></div>
@@ -1143,6 +1155,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 13</p>
 <h2>Public investment data</h2>
 <p class="source">Source: <code>docs/learning/tutors/investment-data-tutor.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="source-check-unavailable"><strong>External-source review:</strong> <a href="https://fred.stlouisfed.org/docs/api/fred/">FRED and ALFRED</a> — reviewed 2026-09-02, next review 2027-03-01, <a href="https://www.sec.gov/search-filings/edgar-application-programming-interfaces">SEC EDGAR data APIs</a> — reviewed 2026-09-02, next review 2027-03-01, <a href="https://fiscaldata.treasury.gov/api-documentation/">U.S. Treasury Fiscal Data</a> — reviewed 2026-09-02, next review 2027-03-01. Source check unavailable; review pending.</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Browse data/README.md and the public sample pack</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Understand the decision use of each public source</li><li>Compare source timing, licensing, and identifiers</li><li>Distinguish fixture, connector-capable, and live evidence</li></ul></div>
@@ -1215,6 +1228,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p class="eyebrow">Course 14</p>
 <h2>FICC fundamentals</h2>
 <p class="source">Source: <code>docs/learning/tutors/ficc-tutor-agent.md</code> · 25 quiz questions</p>
+<div class="freshness" data-freshness="source-check-unavailable"><strong>External-source review:</strong> <a href="https://fiscaldata.treasury.gov/api-documentation/">U.S. Treasury Fiscal Data</a> — reviewed 2026-09-02, next review 2027-03-01. Source check unavailable; review pending.</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul><li>Read the FICC glossary and fixed-income analytics tests</li></ul></div>
 <div><h3>Objectives</h3><ul><li>Explain bond cash flows, curves, price, duration, DV01, and convexity</li><li>Distinguish rates, spread, liquidity, and basis risk</li><li>Apply fixed-income assumptions without inventing missing terms</li></ul></div>
@@ -1298,4 +1312,5 @@ document.querySelectorAll('.quiz-button').forEach(button=>button.onclick=()=>{qu
 document.querySelector('#close').onclick=()=>dialog.close();
 function render(){if(position===questions.length){body.innerHTML=`<h2>Quiz complete</h2><p class="result">Score: ${correct} / ${questions.length} (${Math.round(correct/questions.length*100)}%)</p><p>Review the cited sources and repeat the local/failure labs before treating a score as course completion.</p>`;return;}const q=questions[position];body.innerHTML=`<p class="eyebrow">Question ${position+1} of ${questions.length}</p><h2>${q.question}</h2>${q.choices.map((choice,index)=>`<button class="choice" data-index="${index}">${String.fromCharCode(65+index)}. ${choice}</button>`).join('')}<p id="feedback"></p>`;body.querySelectorAll('.choice').forEach(button=>button.onclick=()=>answer(Number(button.dataset.index),q));}
 function answer(answer,q){const ok=answer===q.correct_index;if(ok)correct++;body.querySelector('#feedback').innerHTML=`<span class="result">${ok?'Correct.':'Not quite.'}</span> Source: <code>${q.citation}</code>. <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>button.disabled=true);body.querySelector('#next').onclick=()=>{position++;render();};}
+for(const panel of document.querySelectorAll('.freshness')){const dates=[...panel.textContent.matchAll(/next review (\d{4}-\d{2}-\d{2})/g)].map(match=>match[1]);if(dates.some(value=>new Date(`${value}T00:00:00Z`)<new Date())){panel.classList.add('overdue');panel.insertAdjacentHTML('beforeend',' <strong>Review overdue.</strong>');}}
 </script></body></html>

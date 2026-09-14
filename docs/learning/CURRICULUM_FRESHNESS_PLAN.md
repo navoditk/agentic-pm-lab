@@ -98,13 +98,14 @@ automatically merge generated content or quiz answer changes.
 
 ## Phase 5: learner-visible freshness
 
-Add per-topic metadata to the generated curriculum and mastery-skill responses:
+Implemented in the standalone curriculum and GitHub Pages artifact: each topic
+shows its monitored external sources, last-reviewed date, next review date,
+and an enrollment-pending or browser-calculated overdue warning. This
+information is sourced directly from `source-registry.yaml`.
 
-- external sources reviewed and their pinned version/fingerprint;
-- `last_reviewed` date and next review date;
-- a visible `review overdue` warning where applicable; and
-- a clear distinction between the curriculum review date, repository commit,
-  local test evidence, and hosted/production evidence.
+The next incremental enhancement is adding the same metadata to mastery-skill
+responses. The artifact already preserves the distinction between curriculum
+source review, the checked-in repository, and hosted/production evidence.
 
 This allows a learner to see that an OpenTelemetry lesson was reviewed against
 a stated source version without implying that the lab is using or proving the
