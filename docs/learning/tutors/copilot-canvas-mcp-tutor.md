@@ -120,9 +120,9 @@ one governed core, not two independently-trusted systems.
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#github-copilot-app-canvas-prompts-skills-custom-agents`](../reference/REFERENCES.md#github-copilot-app-canvas-prompts-skills-custom-agents)
+- [`docs/reference/REFERENCES.md#github-copilot-app-canvas-prompts-skills-custom-agents`](../../reference/REFERENCES.md#github-copilot-app-canvas-prompts-skills-custom-agents)
   and the adjacent
-  [`#model-context-protocol-mcp`](../reference/REFERENCES.md#model-context-protocol-mcp)
+  [`#model-context-protocol-mcp`](../../reference/REFERENCES.md#model-context-protocol-mcp)
   section.
 - `docs/architecture/ARCHITECTURE.md`'s "Interactive Layer (Days 8–9)" and
   "Governed Tool Layer sequence (Day 7)" sections for the full request-flow

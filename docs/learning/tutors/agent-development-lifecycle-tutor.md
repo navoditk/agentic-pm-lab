@@ -131,7 +131,7 @@ touching its skill:
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents`](../reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents)
+- [`docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents`](../../reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents)
 - `docs/PLAN.md` §8 (skills/contracts/prompts/custom-agents catalog)
 - `docs/guides/AGENT_RUNBOOK.md` for running a skill or custom agent standalone
 - `tests/unit/scripts/test_check_skills_freshness.py` for the freshness

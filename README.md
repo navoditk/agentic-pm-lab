@@ -120,14 +120,27 @@ See [EVIDENCE](docs/evidence/EVIDENCE.md) for local versus live proof and
 The important pattern is not any single vendor. It is the separation of
 calculation, reasoning, policy, evidence, and human decision-making.
 
-## Learning path and depth
+## Start learning
 
-For a first pass, use [START_HERE](docs/learning/START_HERE.md). For complete
-course instructions, use the [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md).
-The [Depth Path](docs/learning/DEPTH_PATH.md) supplies the cross-topic study
-method. Each tutor now has a machine-readable course outline containing
-prerequisites, objectives, lessons, a local lab, a failure lab, and a
-teach-back assessment.
+**No download required:** read the complete interactive curriculum on
+[GitHub Pages](https://navoditk.github.io/agentic-pm-lab/) or open the
+[standalone HTML artifact](artifacts/agentic-pm-curriculum.html) directly in
+the repository. Both are generated from the same canonical course sources on
+every merge to `main`; GitHub Pages must be enabled with **GitHub Actions** as
+its source in repository settings before the public URL is available.
+
+For the fastest guided route, open this checkout in **Copilot, Claude Code, or
+Codex** and say **`pmexpert`**. The
+[Agentic PM Lab Mastery skill](docs/learning/MASTERY_SKILL.md) routes you
+through source-grounded lessons, quizzes, failure scenarios, labs, teach-backs,
+and a cross-topic assessment. It is read-only and offline by default; it never
+uses credentials, live providers, or investment actions.
+
+For a terminal-only route, start at [START_HERE](docs/learning/START_HERE.md),
+then use the [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) and
+the [Depth Path](docs/learning/DEPTH_PATH.md). Each tutor has a
+machine-readable course outline with prerequisites, objectives, lessons, a
+local lab, a failure lab, and a teach-back assessment.
 
 The fourteen tutor topics cover FICC, portfolio construction, agent
 architecture, LangGraph/Deep Agents, AWS AgentCore, data/provenance, evaluation
@@ -179,7 +192,8 @@ repo's evidence boundary.
 | Day-by-day build plan | [PLAN.md](docs/PLAN.md) |
 | Local operation | [RUNBOOK.md](docs/guides/RUNBOOK.md) |
 | AWS AgentCore path | [AWS AgentCore setup](docs/guides/AWS_AGENTCORE_SETUP.md), [Gateway exercise](docs/guides/AGENTCORE_GATEWAY_SETUP.md) |
-| Tutors and courses | [START_HERE.md](docs/learning/START_HERE.md), [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md), [Depth Path](docs/learning/DEPTH_PATH.md), [Tutor Runbook](docs/guides/TUTOR_RUNBOOK.md) |
+| Guided learning | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/), [standalone artifact](artifacts/agentic-pm-curriculum.html), or say **`pmexpert`** in a Copilot, Claude Code, or Codex checkout |
+| Curriculum maintenance | [Freshness plan](docs/learning/CURRICULUM_FRESHNESS_PLAN.md), [Mastery skill](docs/learning/MASTERY_SKILL.md), [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) |
 | References | [REFERENCES.md](docs/reference/REFERENCES.md) |
 | Experiments and comparisons | [experiments README](experiments/README.md), [benchmark report](docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md) |
 | Public-data catalog | [data README](data/README.md), [sample pack](data/samples/public_investment/README.md) |

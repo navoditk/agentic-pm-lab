@@ -5,6 +5,13 @@ not just a prompt or a quiz: it combines a tutor persona, deep-dive lessons,
 repository tracing, an implementation lab, an adversarial lab, a quiz, and a
 teach-back assessment.
 
+For a conversational guide over the same canonical content, open this
+checkout in Copilot, Claude Code, or Codex and say **`pmexpert`**. The
+[Agentic PM Lab Mastery skill](MASTERY_SKILL.md) selects a path, teaches one
+objective at a time, runs source-grounded quizzes and scenarios, and tracks
+session progress. The CLI below remains the durable, offline route for quiz
+records and works without a Copilot surface.
+
 ## Use one course from start to finish
 
 1. List topics:

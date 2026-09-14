@@ -133,12 +133,12 @@ succeeded. Contrast this with the temporary AgentCore Runtime request that
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#aws-bedrock--agentcore`](../reference/REFERENCES.md#aws-bedrock--agentcore)
+- [`docs/reference/REFERENCES.md#aws-bedrock--agentcore`](../../reference/REFERENCES.md#aws-bedrock--agentcore)
   for the official AgentCore docs, workshops, and sample repositories.
-- [`docs/guides/AWS_AGENTCORE_SETUP.md`](../guides/AWS_AGENTCORE_SETUP.md) for
+- [`docs/guides/AWS_AGENTCORE_SETUP.md`](../../guides/AWS_AGENTCORE_SETUP.md) for
   the full account-setup-to-teardown runbook, including cost guardrails and
   troubleshooting from the real live setup.
-- [`docs/guides/AGENTCORE_GATEWAY_SETUP.md`](../guides/AGENTCORE_GATEWAY_SETUP.md)
+- [`docs/guides/AGENTCORE_GATEWAY_SETUP.md`](../../guides/AGENTCORE_GATEWAY_SETUP.md)
   for the Gateway-specific exercise this walkthrough is drawn from.
 - `docs/adr/0016-agentcore-direct-code-deployment.md` and
   `docs/adr/0017-agentcore-gateway-only-tool-path.md` for the two governing

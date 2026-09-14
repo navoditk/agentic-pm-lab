@@ -137,11 +137,11 @@ Trace one credit-shock scenario end to end:
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#ficc--fixed-income-fundamentals`](../reference/REFERENCES.md#ficc--fixed-income-fundamentals)
+- [`docs/reference/REFERENCES.md#ficc--fixed-income-fundamentals`](../../reference/REFERENCES.md#ficc--fixed-income-fundamentals)
   and the adjacent
-  [`#fixed-income-data-sources-and-provider-access`](../reference/REFERENCES.md#fixed-income-data-sources-and-provider-access)
+  [`#fixed-income-data-sources-and-provider-access`](../../reference/REFERENCES.md#fixed-income-data-sources-and-provider-access)
   and
-  [`#fixed-income-pm-analytics-reading-checklist`](../reference/REFERENCES.md#fixed-income-pm-analytics-reading-checklist)
+  [`#fixed-income-pm-analytics-reading-checklist`](../../reference/REFERENCES.md#fixed-income-pm-analytics-reading-checklist)
   sections.
 - [`docs/learning/ficc-glossary.md`](../ficc-glossary.md) for every term above,
   each with its own public primary source.

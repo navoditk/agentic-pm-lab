@@ -207,7 +207,7 @@ directly in the exception — not a generic message, the real number.
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction`](../reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction)
+- [`docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction`](../../reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction)
   — the full reading path (PyPortfolioOpt, CVXPY, Cvxportfolio, Riskfolio-Lib,
   skfolio, vectorbt) this repository's implementation is one point within.
 - `README.md`'s "Portfolio optimization depth" section for the exact

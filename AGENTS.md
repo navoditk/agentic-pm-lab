@@ -14,6 +14,12 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 - **`docs/guides/RUNBOOK.md`** — how to start/test/eval/deploy/teardown; the other operational guides are grouped beside it.
 - **`docs/reference/REFERENCES.md`** — curated reading by topic, pre-written from Day 1 and updated in place as you learn. `docs/PLAN.md`'s day-by-day steps each point at a specific subsection of this file rather than repeating it.
 - **`docs/learning/PHASE_1_RECAP.md`** — completed Phase 1 recap, self-check questions, recommended learning path, tutor prompts, evidence checkpoints, and transition to Phase 2.
+- **`skills/agentic-pm-mastery/SKILL.md`** — the canonical read-only,
+  source-grounded learning router for all 14 tutor courses. When a learner
+  says `pmexpert`, load it and follow its lesson, quiz, scenario, and
+  assessment protocol. Copilot, Claude Code, and Codex discovery loaders all
+  point to this package; its durable CLI-neutral companion is
+  `docs/learning/MASTERY_SKILL.md`.
 - **`docs/guides/GITHUB_WORKFLOWS.md`** — GitHub Actions workflow map, triggers, checks, permissions, local equivalents, and troubleshooting.
 - **Day 21 Canvas workflow** — now consolidated in `docs/PLAN.md` and exercised through `docs/guides/CANVAS_EXERCISES.md`; there is no separate Day 21 contract document.
 - **`docs/learning/PHASE_2_PLAN.md`** — the follow-on 20-day institutional PM AI production-readiness track: mandate and risk policy, governed data, evidence/RAG, fixed-income risk, model risk, expanded evaluations, red-team testing, CI/CD, SLOs, resilience, and the Phase 2 capstone.

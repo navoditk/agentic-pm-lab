@@ -132,14 +132,14 @@ tutor's own practice examples do:
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#document-ingestion-and-document-to-skill-design`](../reference/REFERENCES.md#document-ingestion-and-document-to-skill-design)
+- [`docs/reference/REFERENCES.md#document-ingestion-and-document-to-skill-design`](../../reference/REFERENCES.md#document-ingestion-and-document-to-skill-design)
   for PyMuPDF/pypdf/Unstructured extraction references, the OWASP prompt-injection
   guidance, and the Python AST static-inspection reference for pre-sandbox
   checks.
 - `docs/architecture/ARCHITECTURE.md`'s "Document intelligence boundary"
   section for the canonical staged-pipeline statement this deep dive expands
   on.
-- [`docs/guides/TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md)'s "Document-to-skill
+- [`docs/guides/TUTOR_RUNBOOK.md`](../../guides/TUTOR_RUNBOOK.md)'s "Document-to-skill
   examples" section for the full worked prompt sequence.
 - `skills/skill-creator/SKILL.md` and `skills/eval-dataset-authoring/SKILL.md`
   for the authoring conventions any generated skill package should converge

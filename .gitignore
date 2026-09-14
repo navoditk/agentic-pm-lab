@@ -22,6 +22,7 @@ data/learner_progress/
 # Artifacts host output
 artifacts/*
 !artifacts/hello.html
+!artifacts/agentic-pm-curriculum.html
 
 # OS
 .DS_Store

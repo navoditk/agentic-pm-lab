@@ -142,7 +142,7 @@ Trace one authorization decision end to end:
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#opentelemetry-python`](../reference/REFERENCES.md#opentelemetry-python)
+- [`docs/reference/REFERENCES.md#opentelemetry-python`](../../reference/REFERENCES.md#opentelemetry-python)
   for the official Python SDK docs and semantic-convention references.
 - [`docs/learning/observability-evaluation.md`](../observability-evaluation.md)
   for the accepted baseline scores tied to this telemetry and how they were

@@ -1,0 +1,30 @@
+inputs:
+  learner_request:
+    type: string
+  topic_id:
+    type: string
+    required: false
+allowed_tools:
+  - read_repository_sources
+  - ask_learner_question
+  - session_progress_tracking
+forbidden_tools:
+  - investment_advice
+  - order_execution
+  - live_provider_invocation
+  - credential_access
+  - repository_editing
+output_schema:
+  type: object
+  required:
+    - lesson_or_assessment
+    - citations
+    - limitations
+side_effects: none
+approval_required: false
+covers:
+  - src/education/tutor.py
+  - docs/learning/tutor-courses.json
+  - docs/learning/tutors
+  - evals/tutor_quizzes
+version: 1.0.0

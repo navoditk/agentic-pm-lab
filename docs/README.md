@@ -1,68 +1,135 @@
 # Documentation map
 
-This directory is organized by reader intent. The canonical 21-day plan stays
-at `docs/PLAN.md`; the folders below keep operational procedures, design
-material, learning retrospectives, references, and evidence from becoming one
-flat list.
+This directory is organized by reader intent, not by chronology. Use this page to
+choose the right entry point for your goal.
 
-## Recommended reading order
+The canonical product and architecture documents are:
 
-0. [`learning/START_HERE.md`](learning/START_HERE.md) — a zero-context,
-   step-by-step on-ramp for someone who did not build this repository and
-   wants to learn it interactively, starting with the tutor CLI.
-1. [`../INSTALL.md`](../INSTALL.md) — install and verify the repository.
-2. [`../PROGRESS.md`](../PROGRESS.md) — understand the current completion and
-   evidence state.
-3. [`PLAN.md`](PLAN.md) — follow the canonical 21-day implementation plan.
-4. [`architecture/PRD.md`](architecture/PRD.md) — understand the business
-   problem, scope, and success criteria.
-5. [`architecture/ARCHITECTURE.md`](architecture/ARCHITECTURE.md) — understand
-   the current system and security boundaries.
-6. [`learning/TUTOR_COURSE_GUIDE.md`](learning/TUTOR_COURSE_GUIDE.md) — complete
-   a tutor course from prerequisites through teach-back.
-7. [`learning/DEPTH_PATH.md`](learning/DEPTH_PATH.md) — turn orientation into
-   code tracing, adversarial practice, and teach-back without paid services.
-8. [`learning/PHASE_1_RECAP.md`](learning/PHASE_1_RECAP.md) — traverse the
-   completed foundation in the recommended learning order.
-8. [`guides/CANVAS_EXERCISES.md`](guides/CANVAS_EXERCISES.md) — run the final
-   Canvas-to-capstone workflow from the user-facing surface.
-9. [`learning/CANONICAL_PM_BENCHMARK_REPORT.md`](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
-   — review the consolidated cross-provider business workflow, run results,
-   observability, costs, and benchmark gaps.
-10. [`learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
-   — inspect deterministic quality checks and links to every model run artifact.
-11. [`learning/INSTITUTIONAL_PM_SCORECARD_V2.md`](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
-    — inspect repeated-run statistics, adversarial scenario coverage, and
-    promotion-gate status.
+- [`../README.md`](../README.md) — the repository pitch, scope, and quick start
+- [`../INSTALL.md`](../INSTALL.md) — installation and verification
+- [`../AGENTS.md`](../AGENTS.md) — AI-tool routing and repo entry points
+- [`architecture/PRD.md`](architecture/PRD.md) — problem statement, goals, and success criteria
+- [`architecture/ARCHITECTURE.md`](architecture/ARCHITECTURE.md) — current system shape and security boundaries
+- [`PLAN.md`](PLAN.md) — the canonical 21-day build plan
+- [`../PROGRESS.md`](../PROGRESS.md) — current status and evidence state
+
+## Pick your path
+
+### If you are new to the repo
+
+1. [`../README.md`](../README.md)
+2. [`../INSTALL.md`](../INSTALL.md)
+3. [`learning/START_HERE.md`](learning/START_HERE.md)
+4. [`../PROGRESS.md`](../PROGRESS.md)
+
+### If you want to understand the platform
+
+1. [`architecture/PRD.md`](architecture/PRD.md)
+2. [`architecture/ARCHITECTURE.md`](architecture/ARCHITECTURE.md)
+3. [`architecture/DIAGRAMS.md`](architecture/DIAGRAMS.md)
+4. [`PLAN.md`](PLAN.md)
+
+### If you want to run or operate it locally
+
+1. [`../INSTALL.md`](../INSTALL.md)
+2. [`guides/RUNBOOK.md`](guides/RUNBOOK.md)
+3. [`guides/GITHUB_WORKFLOWS.md`](guides/GITHUB_WORKFLOWS.md)
+4. [`../PROGRESS.md`](../PROGRESS.md)
+
+### If you want to learn through the tutor and course flow
+
+1. Without a checkout, read the [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/)
+   or [standalone artifact](../artifacts/agentic-pm-curriculum.html).
+2. Open this checkout in Copilot, Claude Code, or Codex and say **`pmexpert`**:
+   [`learning/MASTERY_SKILL.md`](learning/MASTERY_SKILL.md)
+3. [`learning/START_HERE.md`](learning/START_HERE.md)
+4. [`learning/TUTOR_COURSE_GUIDE.md`](learning/TUTOR_COURSE_GUIDE.md)
+5. [`learning/DEPTH_PATH.md`](learning/DEPTH_PATH.md)
+6. [`guides/TUTOR_RUNBOOK.md`](guides/TUTOR_RUNBOOK.md)
+7. [`learning/LEARNER_PROGRESS.md`](learning/LEARNER_PROGRESS.md)
+
+### If you want proof, evidence, and benchmarks
+
+1. [`evidence/EVIDENCE.md`](evidence/EVIDENCE.md)
+2. [`learning/CANONICAL_PM_BENCHMARK_REPORT.md`](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
+3. [`learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
+4. [`learning/INSTITUTIONAL_PM_SCORECARD_V2.md`](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
+
+### If you want AWS, Canvas, or orchestration details
+
+- [`guides/AWS_AGENTCORE_SETUP.md`](guides/AWS_AGENTCORE_SETUP.md)
+- [`guides/AGENTCORE_GATEWAY_SETUP.md`](guides/AGENTCORE_GATEWAY_SETUP.md)
+- [`guides/CANVAS_EXERCISES.md`](guides/CANVAS_EXERCISES.md)
+- [`guides/AGENT_RUNBOOK.md`](guides/AGENT_RUNBOOK.md)
 
 ## Documentation by purpose
 
-| Area | Contents |
-|---|---|
-| [`guides/`](guides/) | Setup, local operation, AWS AgentCore, GitHub workflows, tutors, agents, and Canvas exercises |
-| [`architecture/`](architecture/) | PRD, canonical architecture, diagrams, and security boundaries |
-| [`learning/`](learning/) | Phase recaps/plans, retrospectives, plan review, terminology, comparisons, and evaluation notes |
-| [`reference/`](reference/) | Curated external reading, links, videos, podcasts, and primers |
-| [`evidence/`](evidence/) | Local-versus-live evidence ledger |
-| [`adr/`](adr/) | Architectural decision records |
-| [`agent-templates/`](agent-templates/) | Reusable tutor and agent templates |
+### Canonical product and architecture
 
-## Quick links
+- [`../README.md`](../README.md)
+- [`../INSTALL.md`](../INSTALL.md)
+- [`../AGENTS.md`](../AGENTS.md)
+- [`../PROGRESS.md`](../PROGRESS.md)
+- [`architecture/PRD.md`](architecture/PRD.md)
+- [`architecture/ARCHITECTURE.md`](architecture/ARCHITECTURE.md)
+- [`architecture/DIAGRAMS.md`](architecture/DIAGRAMS.md)
+- [`PLAN.md`](PLAN.md)
 
-- [Runbook](guides/RUNBOOK.md) · [AWS setup](guides/AWS_AGENTCORE_SETUP.md) · [Gateway exercise](guides/AGENTCORE_GATEWAY_SETUP.md) ·
-  [Canvas exercises](guides/CANVAS_EXERCISES.md) ·
-  [Direct model runs](guides/DIRECT_MODEL_RUNS.md)
-- [GitHub Projects learning board](guides/GITHUB_WORKFLOWS.md#github-projects-learning-board)
-  · [Tutor exercises](guides/TUTOR_RUNBOOK.md#github-projects-learning-board-exercises)
-- [Start here (zero-context)](learning/START_HERE.md) · [Tutor courses](learning/TUTOR_COURSE_GUIDE.md) · [Depth path](learning/DEPTH_PATH.md) · [Learner progress](learning/LEARNER_PROGRESS.md)
-- [Tutor runbook](guides/TUTOR_RUNBOOK.md) · [Agent runbook](guides/AGENT_RUNBOOK.md)
-- [References](reference/REFERENCES.md) · [Evidence ledger](evidence/EVIDENCE.md)
-- [Architecture diagrams](architecture/DIAGRAMS.md) · [ADRs](adr/)
-- [Experiments](../experiments/README.md) · [Data catalog](../data/README.md)
-- [Canonical PM benchmark report](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
-- [Advanced PM evaluation scorecard](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
-- [Scorecard v2](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
-- [Automation model roles](../config/model-roles.yaml)
+### Learning and study materials
 
-`AGENTS.md` remains the canonical router for AI coding tools. Skills under
-`../skills/` contain task-specific reusable instructions and contracts.
+- [`learning/START_HERE.md`](learning/START_HERE.md)
+- [`learning/MASTERY_SKILL.md`](learning/MASTERY_SKILL.md)
+- [`learning/CURRICULUM_FRESHNESS_PLAN.md`](learning/CURRICULUM_FRESHNESS_PLAN.md)
+- [`learning/TUTOR_COURSE_GUIDE.md`](learning/TUTOR_COURSE_GUIDE.md)
+- [`learning/DEPTH_PATH.md`](learning/DEPTH_PATH.md)
+- [`learning/PHASE_1_RECAP.md`](learning/PHASE_1_RECAP.md)
+- [`learning/PHASE_2_PLAN.md`](learning/PHASE_2_PLAN.md)
+- [`learning/LEARNER_PROGRESS.md`](learning/LEARNER_PROGRESS.md)
+- [`learning/LEARNINGS.md`](learning/LEARNINGS.md)
+- [`learning/comparison-notes.md`](learning/comparison-notes.md)
+- [`learning/observability-evaluation.md`](learning/observability-evaluation.md)
+- [`learning/ficc-glossary.md`](learning/ficc-glossary.md)
+
+### Guides and operations
+
+- [`guides/RUNBOOK.md`](guides/RUNBOOK.md)
+- [`guides/GITHUB_WORKFLOWS.md`](guides/GITHUB_WORKFLOWS.md)
+- [`guides/CANVAS_EXERCISES.md`](guides/CANVAS_EXERCISES.md)
+- [`guides/TUTOR_RUNBOOK.md`](guides/TUTOR_RUNBOOK.md)
+- [`guides/AGENT_RUNBOOK.md`](guides/AGENT_RUNBOOK.md)
+- [`guides/AWS_AGENTCORE_SETUP.md`](guides/AWS_AGENTCORE_SETUP.md)
+- [`guides/AGENTCORE_GATEWAY_SETUP.md`](guides/AGENTCORE_GATEWAY_SETUP.md)
+
+### Evidence and evaluation
+
+- [`evidence/EVIDENCE.md`](evidence/EVIDENCE.md)
+- [`learning/CANONICAL_PM_BENCHMARK_REPORT.md`](learning/CANONICAL_PM_BENCHMARK_REPORT.md)
+- [`learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md`](learning/INSTITUTIONAL_PM_EVALUATION_SCORECARD.md)
+- [`learning/INSTITUTIONAL_PM_SCORECARD_V2.md`](learning/INSTITUTIONAL_PM_SCORECARD_V2.md)
+
+### Reference and decisions
+
+- [`reference/REFERENCES.md`](reference/REFERENCES.md)
+- [`adr/`](adr/)
+- [`../experiments/README.md`](../experiments/README.md)
+- [`../data/README.md`](../data/README.md)
+
+## Reader workflow
+
+Use the docs in this sequence when you are first trying to understand the repo:
+
+1. Start with [`../README.md`](../README.md)
+2. Install and verify using [`../INSTALL.md`](../INSTALL.md)
+3. Read the platform intent in [`architecture/PRD.md`](architecture/PRD.md)
+4. Understand the current implementation in [`architecture/ARCHITECTURE.md`](architecture/ARCHITECTURE.md)
+5. Follow the plan in [`PLAN.md`](PLAN.md)
+6. Use the operational guide in [`guides/RUNBOOK.md`](guides/RUNBOOK.md)
+7. Use the learning path in [`learning/START_HERE.md`](learning/START_HERE.md)
+8. Check evidence in [`evidence/EVIDENCE.md`](evidence/EVIDENCE.md)
+
+This repo is intentionally broad. The docs are designed to be read by intent, not by raw file listing.
+
+`AGENTS.md` remains the canonical router for AI coding tools. Reusable
+implementation and learning skills live under `../skills/`; the shared
+mastery package is [`skills/agentic-pm-mastery/`](../skills/agentic-pm-mastery/)
+with discovery loaders for Copilot, Claude Code, and Codex.

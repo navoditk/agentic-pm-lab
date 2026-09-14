@@ -128,10 +128,10 @@ Look at three entries closely, since they illustrate three different kinds of
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#public-data-terminology-and-decision-use-primers`](../reference/REFERENCES.md#public-data-terminology-and-decision-use-primers)
-  and [`#public-data-apis`](../reference/REFERENCES.md#public-data-apis).
+- [`docs/reference/REFERENCES.md#public-data-terminology-and-decision-use-primers`](../../reference/REFERENCES.md#public-data-terminology-and-decision-use-primers)
+  and [`#public-data-apis`](../../reference/REFERENCES.md#public-data-apis).
 - [`data/README.md`](../../../data/README.md) and
   [`data/samples/public_investment/README.md`](../../../data/samples/public_investment/README.md)
   for the full source catalog and field-level explanations.
-- [`docs/guides/TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md) for more worked
+- [`docs/guides/TUTOR_RUNBOOK.md`](../../guides/TUTOR_RUNBOOK.md) for more worked
   and adversarial prompts across the full 17-source catalog.

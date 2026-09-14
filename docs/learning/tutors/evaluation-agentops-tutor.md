@@ -150,8 +150,8 @@ Trace how one authorization case gets scored without a model call:
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation`](../reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation)
-  and the adjacent [`#opentelemetry-python`](../reference/REFERENCES.md#opentelemetry-python)
+- [`docs/reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation`](../../reference/REFERENCES.md#langsmith-tracing-datasets-experiments-evaluation)
+  and the adjacent [`#opentelemetry-python`](../../reference/REFERENCES.md#opentelemetry-python)
   section.
 - `skills/eval-dataset-authoring/SKILL.md`'s full golden-case and
   guardrail-case authoring checklist.

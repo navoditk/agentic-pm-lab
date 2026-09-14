@@ -138,7 +138,7 @@ investment-committee judgment; it's a floor, not a replacement.
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#tutor-agent-study-map`](../reference/REFERENCES.md#tutor-agent-study-map)
+- [`docs/reference/REFERENCES.md#tutor-agent-study-map`](../../reference/REFERENCES.md#tutor-agent-study-map)
   (this tutor's cited source, the LinqAlpha Devil's Advocate case study on
   Amazon Bedrock, is linked from inside that section).
 - `docs/adr/0019-devils-advocate-committee-challenge.md` for the full decision

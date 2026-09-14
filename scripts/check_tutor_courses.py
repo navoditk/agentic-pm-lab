@@ -9,6 +9,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+MASTERY_SKILL = ROOT / "skills/agentic-pm-mastery/SKILL.md"
+MASTERY_REFERENCES = ROOT / "skills/agentic-pm-mastery/references"
+MASTERY_LOADERS = (
+    ROOT / ".github/skills/agentic-pm-mastery/SKILL.md",
+    ROOT / ".claude/skills/agentic-pm-mastery/SKILL.md",
+    ROOT / ".agents/skills/agentic-pm-mastery/SKILL.md",
+)
 REQUIRED = {
     "prerequisites",
     "objectives",
@@ -35,6 +42,34 @@ def check() -> list[str]:
         for field in ("prerequisites", "objectives", "lessons"):
             if not isinstance(course.get(field), list) or not course[field]:
                 errors.append(f"{topic}: {field} must be a non-empty list")
+    required_skill_files = (
+        MASTERY_SKILL,
+        MASTERY_REFERENCES / "learning-paths.md",
+        MASTERY_REFERENCES / "scenarios.md",
+        MASTERY_REFERENCES / "final-assessment.md",
+    )
+    for path in required_skill_files:
+        if not path.is_file():
+            errors.append(f"missing mastery skill asset: {path.relative_to(ROOT)}")
+    if MASTERY_SKILL.is_file():
+        skill_text = MASTERY_SKILL.read_text()
+        for required_source in (
+            "src/education/tutor.py",
+            "docs/learning/tutor-courses.json",
+            "docs/evidence/EVIDENCE.md",
+        ):
+            if required_source not in skill_text:
+                errors.append(
+                    f"mastery skill omits canonical source: {required_source}"
+                )
+    canonical_link = "skills/agentic-pm-mastery/SKILL.md"
+    for path in MASTERY_LOADERS:
+        if not path.is_file():
+            errors.append(f"missing mastery skill loader: {path.relative_to(ROOT)}")
+        elif canonical_link not in path.read_text():
+            errors.append(
+                f"mastery skill loader omits canonical package: {path.relative_to(ROOT)}"
+            )
     return errors
 
 

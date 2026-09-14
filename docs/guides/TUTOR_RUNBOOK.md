@@ -28,6 +28,16 @@ access, run paid evaluations, place orders, or make investment recommendations.
 
 ## How to use one independently
 
+For the recommended guided experience, open this checkout in Copilot, Claude
+Code, or Codex and say **`pmexpert`**. The
+[Agentic PM Lab Mastery skill](../learning/MASTERY_SKILL.md) chooses a path,
+reads the current course sources, and runs lessons, quizzes, failure scenarios,
+labs, teach-backs, and a cross-topic assessment. It is read-only and offline
+by default.
+
+To select an individual tutor directly, use the route below. This is useful
+when you already know the topic you want to study.
+
 Select the project-scoped agent in GitHub Copilot, Copilot CLI, Claude Code, or
 another compatible agent surface that reads `.github/agents/`. The same prompt
 works across tools:

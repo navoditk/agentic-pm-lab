@@ -1,0 +1,9 @@
+{
+  "learner_request": "pmexpert: teach me governed agent design",
+  "expected_behavior": [
+    "Selects the governed-agent-builder learning path.",
+    "Loads the current agent architecture course from the canonical catalog.",
+    "Teaches one objective with repository citations.",
+    "Offers a quiz, code trace, lab, or next objective without invoking a live service."
+  ]
+}

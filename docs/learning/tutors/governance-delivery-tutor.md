@@ -143,7 +143,7 @@ Trace one denied request through all four layers:
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection`](../reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection)
+- [`docs/reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection`](../../reference/REFERENCES.md#security-authnauthz-policy-as-code-prompt-injection)
 - `docs/architecture/ARCHITECTURE.md`'s full "Security Model" section
   (trust boundaries, the four-concern table, threat model, human approval/
   audit/secrets, local-versus-AgentCore mapping)

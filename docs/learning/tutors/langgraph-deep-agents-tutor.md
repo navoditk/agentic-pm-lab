@@ -122,7 +122,7 @@ tool result.
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#langgraph--langgraph-deep-agents`](../reference/REFERENCES.md#langgraph--langgraph-deep-agents)
+- [`docs/reference/REFERENCES.md#langgraph--langgraph-deep-agents`](../../reference/REFERENCES.md#langgraph--langgraph-deep-agents)
 - `docs/architecture/ARCHITECTURE.md`'s "Multi-agent orchestration (Day 5)"
   and "Failure and recovery (Day 5)" sections.
 - `docs/learning/comparison-notes.md` for the Day 4/5 local-vs-cloud-model

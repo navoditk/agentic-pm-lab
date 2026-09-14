@@ -128,7 +128,7 @@ for a real one.
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents`](../reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents)
+- [`docs/reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents`](../../reference/REFERENCES.md#agent-harnesses-skills-prompts-and-custom-agents)
 - `docs/adr/0018-research-supervisor-pattern.md` — why a second supervisor,
   not a bigger first one.
 - `docs/architecture/ARCHITECTURE.md`'s "Multi-agent orchestration" and

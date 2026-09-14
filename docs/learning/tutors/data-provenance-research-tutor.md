@@ -122,9 +122,9 @@ Trace what happens to a stale vintage:
 
 ## Further reading
 
-- [`docs/reference/REFERENCES.md#data-engineering-provenance-and-research-correctness`](../reference/REFERENCES.md#data-engineering-provenance-and-research-correctness)
+- [`docs/reference/REFERENCES.md#data-engineering-provenance-and-research-correctness`](../../reference/REFERENCES.md#data-engineering-provenance-and-research-correctness)
   and the adjacent
-  [`#news-sentiment-and-research-retrieval`](../reference/REFERENCES.md#news-sentiment-and-research-retrieval)
+  [`#news-sentiment-and-research-retrieval`](../../reference/REFERENCES.md#news-sentiment-and-research-retrieval)
   section.
 - `docs/architecture/PRD.md` §2.1's data-contracts-and-provenance fundamental
   and §2.7's external financial-intelligence adapter, which is the source of
