@@ -7,6 +7,14 @@ on:
   push:
     branches: [main]
     paths: ["skills/**", "contracts/**", "governance/**", "scripts/**", ".github/workflows/contract-tests.yml"]
+  workflow_dispatch:
+  # The path filters above mean this only runs when someone happens to touch a
+  # watched directory. A contract can therefore drift and stay green for weeks:
+  # agentic-pm-mastery declared three non-existent tools from d21f3cd until an
+  # unrelated docs PR touched skills/ and surfaced it (#45). The weekly run
+  # catches that class of drift without waiting for a coincidence.
+  schedule:
+    - cron: "0 11 * * 1" # Weekly Monday 11:00 UTC, an hour after curriculum-freshness
 
 permissions:
   contents: read
