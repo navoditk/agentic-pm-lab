@@ -10,6 +10,25 @@ It is deliberately company-agnostic and uses only public or clearly labelled
 mock data. It is not an investment adviser, trading system, autonomous order
 executor, or production deployment.
 
+## Related repositories
+
+This repo is the **agent layer**: how to put deterministic financial analytics
+behind an LLM without letting plausible language become an unaudited investment
+decision.
+
+[**pm-mechanics**](https://github.com/navoditk/pm-mechanics) is the **math
+layer** underneath it — a build-first trainer for the PM/FICC and equity
+analytics themselves, where you derive, code, and test each formula by hand.
+Its coverage of the finance domain is substantially deeper than this repo's:
+36 fixed-income reference pages, 37 notebooks, and tested implementations of
+duration, DV01, convexity, Z-spread, CDS, MBS prepayment, Black-Scholes, and
+Black-Litterman, among others.
+
+If the fixed-income or portfolio-theory concepts here are unfamiliar, start
+there and come back. This repo assumes the math and focuses on governing it.
+The FICC and portfolio-construction tutors below are scoped to what these
+tools need, and point at pm-mechanics for the full treatment.
+
 ## The gist in five minutes
 
 The central design question is: **how can an AI assist a PM without turning

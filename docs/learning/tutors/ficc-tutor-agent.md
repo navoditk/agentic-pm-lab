@@ -2,6 +2,8 @@
 
 *Companion to [`docs/agent-templates/ficc-tutor-agent.agent.md`](../../agent-templates/ficc-tutor-agent.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run python scripts/tutor.py ficc-tutor-agent --quiz`.*
 
+> **Scope note.** This page covers the fixed-income concepts needed to understand this repository's tools — enough to reason about what the agent is calling and whether its answer is sane. It is not a fixed-income curriculum. For the derive-it-yourself treatment — bond pricing, duration, DV01, convexity, key-rate duration, Z-spread, OAS, CDS, and MBS prepayment, each with tested code, a notebook, and a worked example — see [pm-mechanics](https://github.com/navoditk/pm-mechanics), whose fixed-income track runs to 36 reference pages.
+
 ## What this actually is
 
 FICC stands for fixed income, currencies, and commodities — the trading-desk

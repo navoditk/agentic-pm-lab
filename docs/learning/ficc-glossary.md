@@ -3,6 +3,11 @@
 Plain-language terms encountered while building agentic-pm-lab. Entries follow
 the `ficc-glossary-maintainer` skill and use only public sources.
 
+Scope is deliberately narrow: terms that show up in *this* repository's tools,
+fixtures, and agent output. For a glossary spanning a full PM/FICC curriculum —
+and reference pages behind each term — see
+[pm-mechanics](https://github.com/navoditk/pm-mechanics) (`reference/glossary.md`).
+
 ## Accrued interest
 
 **Plain-language definition:** Accrued interest is interest that has
