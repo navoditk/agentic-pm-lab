@@ -4,10 +4,13 @@ inputs:
   topic_id:
     type: string
     required: false
-allowed_tools:
-  - read_repository_sources
-  - ask_learner_question
-  - session_progress_tracking
+# This skill invokes no Cedar-governed Tool Layer capability. Reading repository
+# sources, asking the learner a question, and tracking session progress are
+# harness capabilities, not runtime tools -- the same category as skill-creator's
+# apply_patch and skill-tester's bash, which check_skill_contracts.py exempts via
+# the meta-skill rule. They were previously listed here as if they were governed
+# tools; no such tools exist anywhere in src/ or scripts/.
+allowed_tools: []
 forbidden_tools:
   - investment_advice
   - order_execution
