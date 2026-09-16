@@ -20,7 +20,7 @@ decision.
 layer** underneath it — a build-first trainer for the PM/FICC and equity
 analytics themselves, where you derive, code, and test each formula by hand.
 Its coverage of the finance domain is substantially deeper than this repo's:
-36 fixed-income reference pages, 37 notebooks, and tested implementations of
+37 fixed-income reference pages, 37 notebooks, and tested implementations of
 duration, DV01, convexity, Z-spread, CDS, MBS prepayment, Black-Scholes, and
 Black-Litterman, among others.
 
