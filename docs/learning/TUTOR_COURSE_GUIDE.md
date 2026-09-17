@@ -12,7 +12,7 @@ cannot record durable progress, run code tracing or labs, or establish course
 completion; use this local path for those requirements.
 
 For a conversational guide over the same canonical content, open this
-checkout in Copilot, Claude Code, or Codex and say **`pmexpert`**. The
+checkout in Copilot, Claude Code, or Codex and say **`agentexpert`**. The
 [Agentic PM Lab Mastery skill](MASTERY_SKILL.md) selects a path, teaches one
 objective at a time, runs source-grounded quizzes and scenarios, and tracks
 session progress. The CLI below remains the durable, offline route for quiz

@@ -17,7 +17,7 @@ Open this repository in GitHub Copilot CLI, Copilot coding agent, Claude Code,
 or Codex, then say:
 
 ```text
-pmexpert
+agentexpert
 ```
 
 You can also say `teach me FICC fundamentals`, `quiz me on governance`,

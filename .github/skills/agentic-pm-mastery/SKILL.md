@@ -1,6 +1,6 @@
 ---
 name: agentic-pm-mastery
-description: "Copilot discovery loader for the shared Agentic PM Lab mastery skill. Say 'pmexpert' to start."
+description: "Copilot discovery loader for the shared Agentic PM Lab mastery skill. Say 'agentexpert' to start."
 ---
 
 # Agentic PM Lab Mastery loader
