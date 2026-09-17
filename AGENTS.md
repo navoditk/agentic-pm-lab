@@ -35,6 +35,13 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 - No PR that touches `governance/`, `config/roles.yaml`, or `src/control/` merges without `authorization-tests.yml` passing, including its negative/adversarial cases (docs/PLAN.md §15.2).
 - Commit small, commit often, push after every commit — see the git workflow at the top of docs/PLAN.md's Appendix B, and the commit checkpoints listed in each day's section.
 
+## Auditing rules (learned the hard way)
+
+- **Enumerate the convention before writing a detector for it.** Never grep for the pattern you assume the repo uses — list what it actually uses, then match that. A real case: classifying quiz questions by searching the *question text* for `src/` reported `portfolio-construction-tutor` as 50% misaligned and nearly triggered a rewrite of a perfectly good quiz bank. The real signal is the `citation` field; measured that way it had **zero** glossary citations and was never misaligned. Check the schema, not your guess at it.
+- **After a repo-wide replace, grep for the corrupted token, not just the new one.** A token that is a substring of a filename or identifier corrupts silently, and no test catches it because the damage is in prose and paths.
+- **`check_skills_freshness.py` compares `base...HEAD`, so it passes vacuously against uncommitted work.** Commit first, then run it — otherwise a clean result means nothing. This has reported "passed" twice on changes that were actually stale.
+- **An over-broad `covers` produces stale flags on files a skill does not govern.** `skill-creator` covers `skills` wholesale and `eval-dataset-authoring` covers `evals` wholesale, so both flag on edits their checklists say nothing about. Bump the hash, but state the scope in the skill rather than implying the checklist applied.
+
 ## How to onboard onto today's work
 
 **First time in this repo, or `pyproject.toml` doesn't exist yet?** Do `INSTALL.md` first, start to finish, including its verification checklist — it's self-contained and covers repo bootstrap plus every tool the whole plan needs. Only come back here once that's done.
