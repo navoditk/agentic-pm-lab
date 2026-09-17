@@ -5,13 +5,23 @@ license: MIT
 covers:
   - evals
   - scripts/run_eval.py
-last_verified_commit: f677d70
+last_verified_commit: 58c7531
 ---
 
 # eval-dataset-authoring
 
 Use this skill when adding or revising a case in `evals/`. Evaluation cases are
 executable product requirements, not example prompts without pass criteria.
+
+**Not in scope: `evals/tutor_quizzes/`.** Those are learner quiz banks with a
+different schema entirely — `id`, `topic`, `question`, `choices`,
+`correct_index`, `citation` — and none of the checklist below applies to them.
+This skill's `covers` names `evals` as a whole, so a quiz-bank edit will still
+flag it as stale; that is the freshness check being coarse, not a signal that
+this checklist was violated. For quiz banks the rules are simpler: four
+distinct choices, a `correct_index` within range, and a `citation` that
+resolves — preferring a source file or contract over a glossary entry, so the
+question tests this repository's behaviour rather than general vocabulary.
 
 ## Golden-case checklist
 
