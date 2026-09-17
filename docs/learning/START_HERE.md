@@ -11,7 +11,7 @@ account, a paid API key, or a specific IDE.
 | Goal | Start here | What it provides |
 |---|---|---|
 | Browse without downloading | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) or the [standalone HTML artifact](../../artifacts/agentic-pm-curriculum.html) | Every course, deep dive, and browser-local quiz; quizzes are learning checks, not durable completion. |
-| Learn conversationally | Open a local checkout in Copilot, Claude Code, or Codex and say **`pmexpert`** | Guided lessons, scenarios, quizzes, and teach-back review. |
+| Learn conversationally | Open a local checkout in Copilot, Claude Code, or Codex and say **`agentexpert`** | Guided lessons, scenarios, quizzes, and teach-back review. |
 | Complete evidence-backed local courses | Follow the path below | Code tracing, runnable labs, failure practice, durable quiz records, and the completion rubric. |
 | Build or contribute | [`AGENTS.md`](../../AGENTS.md), then [`PROGRESS.md`](../../PROGRESS.md) and [`docs/PLAN.md`](../PLAN.md) | Project routing, current status, and the implementation plan. |
 
@@ -29,7 +29,7 @@ Then work through these steps in order:
    generated status table — this tells you what exists today versus what's
    still roadmap, without you having to infer it from the code.
 4. **Choose a learning interface.** In Copilot, Claude Code, or Codex, say
-   **`pmexpert`** for the guided [mastery skill](MASTERY_SKILL.md). In a
+   **`agentexpert`** for the guided [mastery skill](MASTERY_SKILL.md). In a
    terminal, continue with the offline CLI path below. Both use the same
    courses and quiz banks.
 5. **Read the course instructions.** Open

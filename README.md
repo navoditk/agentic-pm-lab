@@ -148,7 +148,7 @@ every merge to `main`; the publication workflow enables and deploys GitHub
 Pages automatically.
 
 For the fastest guided route, open this checkout in **Copilot, Claude Code, or
-Codex** and say **`pmexpert`**. The
+Codex** and say **`agentexpert`**. The
 [Agentic PM Lab Mastery skill](docs/learning/MASTERY_SKILL.md) routes you
 through source-grounded lessons, quizzes, failure scenarios, labs, teach-backs,
 and a cross-topic assessment. It is read-only and offline by default; it never
@@ -210,7 +210,7 @@ repo's evidence boundary.
 | Day-by-day build plan | [PLAN.md](docs/PLAN.md) |
 | Local operation | [RUNBOOK.md](docs/guides/RUNBOOK.md) |
 | AWS AgentCore path | [AWS AgentCore setup](docs/guides/AWS_AGENTCORE_SETUP.md), [Gateway exercise](docs/guides/AGENTCORE_GATEWAY_SETUP.md) |
-| Guided learning | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/), [standalone artifact](artifacts/agentic-pm-curriculum.html), or say **`pmexpert`** in a Copilot, Claude Code, or Codex checkout |
+| Guided learning | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/), [standalone artifact](artifacts/agentic-pm-curriculum.html), or say **`agentexpert`** in a Copilot, Claude Code, or Codex checkout |
 | Curriculum maintenance | [Freshness plan](docs/learning/CURRICULUM_FRESHNESS_PLAN.md), [Mastery skill](docs/learning/MASTERY_SKILL.md), [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) |
 | References | [REFERENCES.md](docs/reference/REFERENCES.md) |
 | Experiments and comparisons | [experiments README](experiments/README.md), [benchmark report](docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md) |

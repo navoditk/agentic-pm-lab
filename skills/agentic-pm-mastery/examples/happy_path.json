@@ -1,5 +1,5 @@
 {
-  "learner_request": "pmexpert: teach me governed agent design",
+  "learner_request": "agentexpert: teach me governed agent design",
   "expected_behavior": [
     "Selects the governed-agent-builder learning path.",
     "Loads the current agent architecture course from the canonical catalog.",

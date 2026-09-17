@@ -1,7 +1,9 @@
 ---
 name: agentic-pm-mastery
-description: "Interactive, source-grounded learning for the Agentic PM Lab. Lessons, quizzes, failure scenarios, and a cross-topic assessment. Say 'pmexpert' to start."
+description: "Interactive, source-grounded learning for the Agentic PM Lab. Lessons, quizzes, failure scenarios, and a cross-topic assessment. Say 'agentexpert' to start."
 license: MIT
+metadata:
+  version: 1.0.0
 covers:
   - src/education/tutor.py
   - docs/learning/tutor-courses.json
@@ -14,7 +16,7 @@ last_verified_commit: 58c75317766b76b3c57114182965d18a71421d2d
 
 **UTILITY SKILL** - a read-only, progressive tutor for this repository.
 
-**Use for:** `pmexpert`, "teach me Agentic PM Lab", "quiz me on PM AI",
+**Use for:** `agentexpert`, "teach me Agentic PM Lab", "quiz me on PM AI",
 "PM AI scenario", "Agentic PM final assessment", or learning one of the
 repository's tutor topics.
 
@@ -44,7 +46,7 @@ state a documented limitation when it materially affects the answer.
 
 | Learner request | Action |
 |---|---|
-| `pmexpert` or "start learning" | Read `references/learning-paths.md`; ask the learner to choose a path or topic. |
+| `agentexpert` or "start learning" | Read `references/learning-paths.md`; ask the learner to choose a path or topic. |
 | "teach me `<topic>`" | Resolve the topic in `TOPIC_CATALOG`; teach one current course objective at a time. |
 | "quiz me" or "test me" | Read the topic JSONL bank; ask 5 mixed questions unless the learner requests the full quiz. |
 | "scenario" or "failure lab" | Read `references/scenarios.md`; route to the selected topic's failure lab and require a safe outcome. |

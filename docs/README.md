@@ -18,7 +18,7 @@ The canonical product and architecture documents are:
 | Goal | Start here |
 |---|---|
 | Browse the full curriculum without downloading | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) or [standalone artifact](../artifacts/agentic-pm-curriculum.html) |
-| Learn with a guided agent | Open a local checkout in Copilot, Claude Code, or Codex and say **`pmexpert`**; see [Mastery skill](learning/MASTERY_SKILL.md) |
+| Learn with a guided agent | Open a local checkout in Copilot, Claude Code, or Codex and say **`agentexpert`**; see [Mastery skill](learning/MASTERY_SKILL.md) |
 | Complete local courses with lab evidence | [Start here](learning/START_HERE.md), then [Tutor Course Guide](learning/TUTOR_COURSE_GUIDE.md) and [Depth Path](learning/DEPTH_PATH.md) |
 | Understand or build the platform | [PRD](architecture/PRD.md), [Architecture](architecture/ARCHITECTURE.md), [Plan](PLAN.md), and [Progress](../PROGRESS.md) |
 | Run or operate it locally | [Install](../INSTALL.md), [Runbook](guides/RUNBOOK.md), and [GitHub workflow guide](guides/GITHUB_WORKFLOWS.md) |

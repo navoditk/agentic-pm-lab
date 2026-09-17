@@ -308,7 +308,7 @@ main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp
 </header><main>
 <div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>{metadata["fingerprint"]}</code>.</div>
 <h2>Start a path</h2><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
-<p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>pmexpert</code>. For durable offline quiz records, use <code>scripts/tutor.py</code> after cloning.</p>
+<p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, use <code>scripts/tutor.py</code> after cloning.</p>
 <details><summary>How to use this curriculum</summary><article>{metadata["shared_html"]["Course guide"]}</article></details>
 <details><summary>Mastery-skill guide</summary><article>{metadata["shared_html"]["Mastery skill"]}</article></details>
 <details><summary>Depth path</summary><article>{metadata["shared_html"]["Depth path"]}</article></details>
