@@ -4,7 +4,7 @@ description: Scaffold a complete repository skill package with synchronized fron
 license: MIT
 covers:
   - skills
-last_verified_commit: 3dfd8ee
+last_verified_commit: e9e1dae
 ---
 
 # skill-creator

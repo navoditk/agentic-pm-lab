@@ -6,60 +6,58 @@
 
 ## What this actually is
 
-Portfolio construction is the discipline of turning a view (expected returns,
-risk estimates, constraints) into a set of portfolio weights — and, just as
-importantly, into an honest account of what that set of weights assumes,
-costs to implement, and might get wrong. It is not the same discipline as
-trading: construction produces a *proposal* for a human to review; execution
-is a separate, later, and in this repository explicitly out-of-scope step.
+Portfolio construction turns a view — expected returns, risk estimates,
+constraints — into a set of weights, and into an honest account of what those
+weights assume, cost to implement, and might get wrong. It is not trading:
+construction produces a *proposal* for a human to review; execution is a
+separate step and explicitly out of scope here. That boundary is the reason
+this course exists in an agent repository at all.
 
-Three classical approaches dominate the field, and this repository implements
-all three as one function with a `method` switch:
+Three classical methods dominate, and this repository exposes all three
+behind one `method` switch. The theory belongs to pm-mechanics; what belongs
+here is that the optimiser's output is only as trustworthy as its inputs, and
+that an institutional process needs the turnover, cost, and feasibility of
+getting there — not just the weights.
 
-- **Maximum Sharpe** picks the weights that maximize expected return per unit
-  of volatility — the textbook "optimal" portfolio on the efficient frontier,
-  and also the most sensitive to estimation error in the inputs.
-- **Minimum volatility** ignores expected return entirely and picks the
-  lowest-risk point on the frontier — more robust to bad return estimates,
-  at the cost of potentially leaving return on the table.
-- **Risk parity** allocates so that each asset contributes roughly equal risk
-  to the portfolio, rather than equal capital — a response to the observation
-  that a naive equal-weight portfolio is usually dominated by its riskiest
-  asset's risk contribution, not its capital weight.
-
-The recurring theme across all three, and across this whole topic, is that an
-optimizer's output is only as trustworthy as its inputs, and a real
-institutional process needs to know not just the proposed weights but the
-turnover, cost, and constraint feasibility of getting there.
+- **Maximum Sharpe** — best return per unit of volatility, and the most
+  sensitive to estimation error. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/efficient_frontier/)
+- **Minimum volatility** — ignores expected return entirely; more robust when
+  return estimates are poor. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/mean_variance_optimization/)
+- **Risk parity** — equalises each asset's risk contribution rather than its
+  capital weight. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/risk_parity/)
 
 ## Core concepts
 
-- **Expected return and covariance.** The two required inputs to every
-  classical mean-variance method. This repository treats them as explicit,
-  caller-supplied, auditable numbers — never inferred or hidden inside the
-  optimizer.
-- **The efficient frontier.** The set of portfolios that offer the best
-  possible expected return for each level of risk. Max-Sharpe and
-  min-volatility are both single points on this frontier.
-- **Risk parity / equal risk contribution.** An allocation where each asset's
-  marginal contribution to total portfolio variance is equal, computed here
-  via hierarchical risk parity (HRP) rather than a naive inverse-variance
-  split.
-- **Turnover.** How much of the portfolio has to change hands to move from
-  the current weights to the proposed ones — computed here as one-way
-  turnover, half the sum of absolute weight deltas.
+The first three are pm-mechanics' subject — orientation only, follow the
+links. The rest are this repository's own, because they describe how a
+proposal is checked before a human sees it.
+
+- **Expected return and covariance** — the two required inputs to every
+  classical method. Here they are explicit, caller-supplied and auditable,
+  never inferred inside the optimiser. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/mean_variance_optimization/)
+- **The efficient frontier** — the best achievable return at each risk level;
+  max-Sharpe and min-volatility are both single points on it.
+  [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/efficient_frontier/)
+- **Risk contribution** — each asset's marginal contribution to portfolio
+  variance, the quantity risk parity equalises. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/risk_contribution/)
+- **Turnover.** How much of the portfolio changes hands to reach the proposed
+  weights — one-way turnover here, half the sum of absolute weight deltas.
 - **Concentration.** The largest single-asset weight in a proposal; an
-  institutional constraint, not just a diversification preference.
+  institutional constraint, not a diversification preference.
 - **Feasibility.** Whether a proposal satisfies its stated turnover and
   concentration limits. An infeasible proposal is not silently adjusted to
   fit — it fails loudly, so a human decides whether to relax a constraint or
-  accept the current allocation.
-- **The next institutional layer (not yet built).** Tracking error and
-  active risk versus a benchmark, group/factor constraints, downside/CVaR
-  risk, shrinkage and Black-Litterman inputs, liquidity/market-impact costs,
-  walk-forward out-of-sample validation, and robust/uncertainty-aware
-  allocations — all named explicitly in `README.md`'s "Portfolio optimization
-  depth" section as roadmap, not implemented.
+  keep the current allocation.
+- **The next institutional layer (not yet built).** Benchmark-relative
+  tracking error and active risk, group/factor constraints, downside/CVaR
+  risk, shrinkage and Black-Litterman inputs, liquidity and market-impact
+  costs, walk-forward validation, and uncertainty-aware allocation — named in
+  `README.md`'s "Portfolio optimization depth" section as roadmap, not
+  implemented. Several already have derivations in pm-mechanics
+  ([shrinkage](https://navoditk.github.io/pm-mechanics/reference/concepts/covariance_shrinkage/),
+  [Black-Litterman](https://navoditk.github.io/pm-mechanics/reference/concepts/black_litterman/),
+  [tracking error](https://navoditk.github.io/pm-mechanics/reference/concepts/tracking_error/)) that would inform building
+  them here.
 
 ## How this repository implements it
 

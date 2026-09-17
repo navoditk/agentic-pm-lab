@@ -8,17 +8,77 @@ fixtures, and agent output. For a glossary spanning a full PM/FICC curriculum �
 and reference pages behind each term — see
 [pm-mechanics](https://github.com/navoditk/pm-mechanics) (`reference/glossary.md`).
 
-## Accrued interest
+Scope is deliberately narrow. A term gets a full entry here only when it
+carries something specific to *this* repository's tools, fixtures, or agent
+output. General PM/FICC vocabulary is pm-mechanics' responsibility, and
+appears below as one-line orientation with a link rather than being defined
+twice in two places that can drift apart.
 
-**Plain-language definition:** Accrued interest is interest that has
-accumulated on a bond since its last coupon payment but has not yet been paid
-to the holder. It is what separates a bond's quoted "clean" price from the
-"dirty" price a buyer actually pays at settlement (see *Clean price and dirty
-price*).
+## General vocabulary
 
-**Introduced:** Day 20
+Enough to keep reading a trace without leaving the page. The derivation,
+worked example, and tested code for each live in pm-mechanics.
 
-**Public source:** [Investor.gov: Accrued Interest](https://www.investor.gov/introduction-investing/investing-basics/glossary/accrued-interest)
+### Accrued interest
+
+Interest earned by the seller since the last coupon, added to the quoted price at settlement. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/accrued_interest_and_settlement/)
+
+### Clean price and dirty price
+
+The quoted price, versus what a buyer actually pays once accrued interest is added. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/accrued_interest_and_settlement/)
+
+### Day-count convention
+
+The rule converting dates into a year-fraction for accrual. Part of the bond's terms, not a formatting choice. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/accrued_interest_and_settlement/)
+
+### Settlement date
+
+When cash and bond change hands, and the date accrued interest is measured to. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/accrued_interest_and_settlement/)
+
+### Duration
+
+Approximate percentage price change for a one-percentage-point yield move, assuming a parallel shift. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/duration/)
+
+### Spread duration
+
+Sensitivity to the bond's own credit spread, independent of the risk-free curve. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/spread_duration/)
+
+### Yield curve
+
+The yields available on similar debt across maturities; where nearly every other calculation starts. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/curve_construction/)
+
+### Repo (repurchase agreement)
+
+Secured short-term borrowing against collateral — the financing leg of carry. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/repo_and_financing/)
+
+### Spread
+
+Yield pickup over a risk-free benchmark: the compensation demanded for credit risk. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/z_spread/)
+
+### Factor beta
+
+A portfolio's sensitivity to one factor, holding the others fixed. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/factor_risk/)
+
+### Sharpe ratio
+
+Excess return per unit of total volatility. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/sharpe_ratio/)
+
+### Maximum drawdown
+
+The largest peak-to-trough fall over the measured period. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/drawdown/)
+
+### Point-in-time data and vintage
+
+A value exactly as it stood on a past date. Using a later revision in an earlier decision is look-ahead bias. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/backtesting_biases/)
+
+### SOFR (Secured Overnight Financing Rate)
+
+The overnight secured USD benchmark that replaced USD LIBOR. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/repo_and_financing/)
+
+## Terms with repository-specific meaning
+
+Each of these says something about this repository's code or fixtures that a
+general definition would not.
 
 ## Basis point
 
@@ -63,43 +123,6 @@ alongside the Day 12 scenario engine; not yet a separate deterministic tool)
 
 **Public source:** [Corporate Finance Institute: Rolling Down the Yield Curve](https://corporatefinanceinstitute.com/learn/resources/fixed-income/rolling-down-the-yield-curve)
 
-## Clean price and dirty price
-
-**Plain-language definition:** The clean price is a bond's quoted price
-excluding accrued interest. The dirty price (also called the "full" or
-"invoice" price) is what a buyer actually pays at settlement: clean price plus
-accrued interest. Quoting conventions almost always show the clean price, so
-accrued interest has to be added back explicitly before a cash settlement
-amount is correct.
-
-**Introduced:** Day 20
-
-**Public source:** [Wikipedia: Clean price](https://en.wikipedia.org/wiki/Clean_price)
-
-## Day-count convention
-
-**Plain-language definition:** A day-count convention (for example
-Actual/365 or 30/360) is the rule used to convert the calendar time between
-two dates into a fraction of a year for computing accrued interest and coupon
-amounts. The same nominal coupon rate produces different accrued-interest
-figures under different conventions, so a bond's day-count convention must
-always be stated explicitly rather than assumed.
-
-**Introduced:** Day 15
-
-**Public source:** [Wikipedia: Day count convention](https://en.wikipedia.org/wiki/Day_count_convention)
-
-## Duration
-
-**Plain-language definition:** Duration measures how sensitive a bond's price is
-to a change in interest rates. Modified duration is commonly read as the
-approximate percentage price change for a one-percentage-point change in yield,
-with price generally moving in the opposite direction from yield.
-
-**Introduced:** Day 2
-
-**Public source:** [FINRA: Duration - What an Interest Rate Hike Could Do to Your Bond Portfolio](https://www.finra.org/investors/insights/duration-what-interest-rate-hike-could-do-your-bond-portfolio)
-
 ## DV01 (dollar value of a basis point)
 
 **Plain-language definition:** DV01 is the estimated dollar change in a bond
@@ -114,18 +137,6 @@ the current `src/analytics/scenario.py` engine estimates portfolio impact from
 a shock directly rather than reporting a standalone DV01 figure yet)
 
 **Public source:** [WallStreetMojo: DV01](https://www.wallstreetmojo.com/dv01/)
-
-## Factor beta
-
-**Plain-language definition:** A factor beta estimates how much a portfolio's
-returns tend to move when a chosen market factor moves by one unit, after
-accounting for the other factors in the regression. A beta of 2 to an equity
-proxy means the fitted portfolio move is twice the proxy's move, not that every
-future observation will follow that relationship.
-
-**Introduced:** Day 3
-
-**Public source:** [Investor.gov: Beta](https://www.investor.gov/introduction-investing/investing-basics/glossary/beta)
 
 ## Key-rate duration
 
@@ -142,17 +153,6 @@ as the next layer beyond the current parallel-shock `scenario_analysis` tool)
 
 **Public source:** [Corporate Finance Institute: Key Rate Duration](https://corporatefinanceinstitute.com/resources/fixed-income/key-rate-duration)
 
-## Maximum drawdown
-
-**Plain-language definition:** Maximum drawdown is the largest percentage fall
-from a portfolio's previous peak to a later trough during the measured period.
-It describes the worst observed loss path, not the probability of a future
-loss.
-
-**Introduced:** Day 3
-
-**Public source:** [Investopedia: Maximum Drawdown](https://www.investopedia.com/terms/m/maximum-drawdown-mdd.asp)
-
 ## N-PORT (SEC Form N-PORT)
 
 **Plain-language definition:** Form N-PORT is a monthly, structured-data
@@ -166,93 +166,6 @@ as a mock fixture rather than a live connector.
 
 **Public source:** [SEC.gov: Form N-PORT Reporting](https://www.sec.gov/investment/new-form-n-port)
 
-## Point-in-time data and vintage
-
-**Plain-language definition:** Point-in-time data preserves the value of an
-observation exactly as it was known and published on a specific past date,
-distinct from a later-revised value of that same observation. A "vintage" is
-one such dated snapshot of a series. Using a later vintage in an earlier
-historical decision or backtest silently introduces look-ahead bias -- the
-project's ALFRED connector exists specifically to avoid this.
-
-**Introduced:** Day 15
-
-**Public source:** [FRED: API Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html)
-
-## Repo (repurchase agreement)
-
-**Plain-language definition:** A repo is a short-term, typically overnight
-loan collateralized by securities (often Treasuries): one party sells a
-security and agrees to repurchase it the next day at a slightly higher price,
-with the price difference acting as interest. Repo rates are a core
-funding-market signal, and SOFR is derived from tri-party and bilateral
-Treasury repo transactions.
-
-**Introduced:** post-Day-20 public-data expansion
-
-**Public source:** [New York Fed: Secured Overnight Financing Rate Data](https://www.newyorkfed.org/markets/reference-rates/sofr)
-
-## Settlement date
-
-**Plain-language definition:** The settlement date is when a securities
-transaction is actually completed and ownership and cash change hands, as
-distinct from the trade date, when the transaction was agreed. Most U.S.
-securities have settled T+1 (one business day after the trade date) since May
-2024, down from the prior T+2 standard.
-
-**Introduced:** Day 15
-
-**Public source:** [Investor.gov: New "T+1" Settlement Cycle -- What Investors Need to Know](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/new-t1-settlement-cycle-what-investors-need-know-investor-bulletin)
-
-## Sharpe ratio
-
-**Plain-language definition:** The Sharpe ratio compares return above a
-risk-free rate with the volatility taken to earn it. A larger value indicates
-more excess return per unit of measured volatility, but it does not capture
-every kind of risk.
-
-**Introduced:** Day 3
-
-**Public source:** [Investopedia: Sharpe Ratio](https://www.investopedia.com/terms/s/sharperatio.asp)
-
-## SOFR (Secured Overnight Financing Rate)
-
-**Plain-language definition:** SOFR is a broad measure of the cost of
-borrowing cash overnight collateralized by Treasury securities, published
-daily by the New York Fed as a volume-weighted median of repo transactions. It
-succeeded LIBOR as the primary U.S. dollar reference rate and is a key input
-for assessing overnight funding conditions.
-
-**Introduced:** post-Day-20 public-data expansion
-
-**Public source:** [New York Fed: Secured Overnight Financing Rate Data](https://www.newyorkfed.org/markets/reference-rates/sofr)
-
-## Spread
-
-**Plain-language definition:** A spread is the difference between two yields,
-usually quoted in basis points. For example, a corporate bond's spread over a
-Treasury yield helps separate compensation for credit and liquidity risk from
-the underlying government interest rate.
-
-**Introduced:** Day 2
-
-**Public source:** [Federal Reserve Bank of St. Louis: ICE BofA Corporate Bond Index Option-Adjusted Spread](https://fred.stlouisfed.org/series/BAMLC0A0CM)
-
-## Spread duration
-
-**Plain-language definition:** Spread duration measures a bond's price
-sensitivity to a change in its own credit spread, as opposed to the
-underlying risk-free rate -- expressed the same way ordinary duration is: a
-spread duration of 3 implies roughly a 3% price move for a 100bp change in
-spread. Lower-rated, fixed-coupon bonds tend to have higher spread duration
-than higher-rated or floating-rate ones. This project's `scenario_analysis`
-tool takes `spread_duration` as an explicit, caller-supplied position field
-for its credit-shock calculation.
-
-**Introduced:** Day 12
-
-**Public source:** [Finance Strategists: Spread Duration](https://www.financestrategists.com/wealth-management/bonds/spread-duration/)
-
 ## TRACE (Trade Reporting and Compliance Engine)
 
 **Plain-language definition:** TRACE is FINRA's system for mandatory
@@ -265,13 +178,3 @@ mock fixture pending a licensing decision.
 **Introduced:** post-Day-20 public-data expansion
 
 **Public source:** [FINRA: What Is TRACE and How Can It Help Me?](https://www.finra.org/investors/insights/what-is-TRACE)
-
-## Yield curve
-
-**Plain-language definition:** A yield curve compares the yields available on
-similar debt at different times to maturity. This project builds a Treasury
-curve from FRED observations ranging from one month to thirty years.
-
-**Introduced:** Day 2
-
-**Public source:** [U.S. Department of the Treasury: Interest Rate Statistics](https://home.treasury.gov/resource-center/data-chart-center/interest-rates)

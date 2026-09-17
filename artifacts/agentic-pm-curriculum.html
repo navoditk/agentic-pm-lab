@@ -10,7 +10,7 @@ main{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}h1{font-size:clamp(2r
 <header><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
 <p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Read the full course material and take browser-local quizzes without downloading the repository.</p>
 </header><main>
-<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>cdd16dc8ca71</code>.</div>
+<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>f20e96181f1a</code>.</div>
 <h2>Start a path</h2><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
 <p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>pmexpert</code>. For durable offline quiz records, use <code>scripts/tutor.py</code> after cloning.</p>
 <details><summary>How to use this curriculum</summary><article><h1>Tutor courses: learner guide</h1>
@@ -242,33 +242,33 @@ uv run python scripts/check_learner_progress.py</code></pre>
 <p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/.github/agents/portfolio-construction-tutor.agent.md"><code>.github/agents/portfolio-construction-tutor.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py portfolio-construction-tutor --quiz</code>.*</p>
 <blockquote><strong>Scope note.</strong> This page covers portfolio construction as far as this repository's optimizer exercises it — enough to reason about what the agent proposes and where it can go wrong. For the underlying theory derived and tested from scratch — efficient frontier, tangency portfolio, mean-variance optimization, covariance shrinkage, Black-Litterman, risk parity, tracking error, and factor risk decomposition — see <a href="https://github.com/navoditk/pm-mechanics">pm-mechanics</a>.</blockquote>
 <h2>What this actually is</h2>
-<p>Portfolio construction is the discipline of turning a view (expected returns, risk estimates, constraints) into a set of portfolio weights — and, just as importantly, into an honest account of what that set of weights assumes, costs to implement, and might get wrong. It is not the same discipline as trading: construction produces a *proposal* for a human to review; execution is a separate, later, and in this repository explicitly out-of-scope step.</p>
-<p>Three classical approaches dominate the field, and this repository implements all three as one function with a <code>method</code> switch:</p>
+<p>Portfolio construction turns a view — expected returns, risk estimates, constraints — into a set of weights, and into an honest account of what those weights assume, cost to implement, and might get wrong. It is not trading: construction produces a *proposal* for a human to review; execution is a separate step and explicitly out of scope here. That boundary is the reason this course exists in an agent repository at all.</p>
+<p>Three classical methods dominate, and this repository exposes all three behind one <code>method</code> switch. The theory belongs to pm-mechanics; what belongs here is that the optimiser's output is only as trustworthy as its inputs, and that an institutional process needs the turnover, cost, and feasibility of getting there — not just the weights.</p>
 <ul>
-<li><strong>Maximum Sharpe</strong> picks the weights that maximize expected return per unit</li>
-<p>of volatility — the textbook "optimal" portfolio on the efficient frontier, and also the most sensitive to estimation error in the inputs.</p>
-<li><strong>Minimum volatility</strong> ignores expected return entirely and picks the</li>
-<p>lowest-risk point on the frontier — more robust to bad return estimates, at the cost of potentially leaving return on the table.</p>
-<li><strong>Risk parity</strong> allocates so that each asset contributes roughly equal risk</li>
-<p>to the portfolio, rather than equal capital — a response to the observation that a naive equal-weight portfolio is usually dominated by its riskiest asset's risk contribution, not its capital weight.</p>
+<li><strong>Maximum Sharpe</strong> — best return per unit of volatility, and the most</li>
+<p>sensitive to estimation error. <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/efficient_frontier/">Derive it →</a></p>
+<li><strong>Minimum volatility</strong> — ignores expected return entirely; more robust when</li>
+<p>return estimates are poor. <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/mean_variance_optimization/">Derive it →</a></p>
+<li><strong>Risk parity</strong> — equalises each asset's risk contribution rather than its</li>
+<p>capital weight. <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/risk_parity/">Derive it →</a></p>
 </ul>
-<p>The recurring theme across all three, and across this whole topic, is that an optimizer's output is only as trustworthy as its inputs, and a real institutional process needs to know not just the proposed weights but the turnover, cost, and constraint feasibility of getting there.</p>
 <h2>Core concepts</h2>
+<p>The first three are pm-mechanics' subject — orientation only, follow the links. The rest are this repository's own, because they describe how a proposal is checked before a human sees it.</p>
 <ul>
-<li><strong>Expected return and covariance.</strong> The two required inputs to every</li>
-<p>classical mean-variance method. This repository treats them as explicit, caller-supplied, auditable numbers — never inferred or hidden inside the optimizer.</p>
-<li><strong>The efficient frontier.</strong> The set of portfolios that offer the best</li>
-<p>possible expected return for each level of risk. Max-Sharpe and min-volatility are both single points on this frontier.</p>
-<li><strong>Risk parity / equal risk contribution.</strong> An allocation where each asset's</li>
-<p>marginal contribution to total portfolio variance is equal, computed here via hierarchical risk parity (HRP) rather than a naive inverse-variance split.</p>
-<li><strong>Turnover.</strong> How much of the portfolio has to change hands to move from</li>
-<p>the current weights to the proposed ones — computed here as one-way turnover, half the sum of absolute weight deltas.</p>
+<li><strong>Expected return and covariance</strong> — the two required inputs to every</li>
+<p>classical method. Here they are explicit, caller-supplied and auditable, never inferred inside the optimiser. <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/mean_variance_optimization/">Derive it →</a></p>
+<li><strong>The efficient frontier</strong> — the best achievable return at each risk level;</li>
+<p>max-Sharpe and min-volatility are both single points on it. <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/efficient_frontier/">Derive it →</a></p>
+<li><strong>Risk contribution</strong> — each asset's marginal contribution to portfolio</li>
+<p>variance, the quantity risk parity equalises. <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/risk_contribution/">Derive it →</a></p>
+<li><strong>Turnover.</strong> How much of the portfolio changes hands to reach the proposed</li>
+<p>weights — one-way turnover here, half the sum of absolute weight deltas.</p>
 <li><strong>Concentration.</strong> The largest single-asset weight in a proposal; an</li>
-<p>institutional constraint, not just a diversification preference.</p>
+<p>institutional constraint, not a diversification preference.</p>
 <li><strong>Feasibility.</strong> Whether a proposal satisfies its stated turnover and</li>
-<p>concentration limits. An infeasible proposal is not silently adjusted to fit — it fails loudly, so a human decides whether to relax a constraint or accept the current allocation.</p>
-<li><strong>The next institutional layer (not yet built).</strong> Tracking error and</li>
-<p>active risk versus a benchmark, group/factor constraints, downside/CVaR risk, shrinkage and Black-Litterman inputs, liquidity/market-impact costs, walk-forward out-of-sample validation, and robust/uncertainty-aware allocations — all named explicitly in <code>README.md</code>'s "Portfolio optimization depth" section as roadmap, not implemented.</p>
+<p>concentration limits. An infeasible proposal is not silently adjusted to fit — it fails loudly, so a human decides whether to relax a constraint or keep the current allocation.</p>
+<li><strong>The next institutional layer (not yet built).</strong> Benchmark-relative</li>
+<p>tracking error and active risk, group/factor constraints, downside/CVaR risk, shrinkage and Black-Litterman inputs, liquidity and market-impact costs, walk-forward validation, and uncertainty-aware allocation — named in <code>README.md</code>'s "Portfolio optimization depth" section as roadmap, not implemented. Several already have derivations in pm-mechanics (<a href="https://navoditk.github.io/pm-mechanics/reference/concepts/covariance_shrinkage/">shrinkage</a>, <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/black_litterman/">Black-Litterman</a>, <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/tracking_error/">tracking error</a>) that would inform building them here.</p>
 </ul>
 <h2>How this repository implements it</h2>
 <p>Everything lives in <code>src/analytics/optimizer.py</code>'s <code>optimize_portfolio()</code>, which is long-only (no shorting) and takes an explicit <code>method</code> of <code>"max_sharpe"</code>, <code>"min_volatility"</code>, or <code>"risk_parity"</code>.</p>
@@ -1243,29 +1243,29 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p>*Companion to <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/agent-templates/ficc-tutor-agent.agent.md"><code>docs/agent-templates/ficc-tutor-agent.agent.md</code></a>. Read that first for the fast orientation; this document goes further. Self-check with <code>uv run python scripts/tutor.py ficc-tutor-agent --quiz</code>.*</p>
 <blockquote><strong>Scope note.</strong> This page covers the fixed-income concepts needed to understand this repository's tools — enough to reason about what the agent is calling and whether its answer is sane. It is not a fixed-income curriculum. For the derive-it-yourself treatment — bond pricing, duration, DV01, convexity, key-rate duration, Z-spread, OAS, CDS, and MBS prepayment, each with tested code, a notebook, and a worked example — see <a href="https://github.com/navoditk/pm-mechanics">pm-mechanics</a>, whose fixed-income track runs to 37 reference pages. Every term this page introduces in passing is treated in full there, including the settlement mechanics below (accrued interest, clean versus dirty price, day-count conventions) and the point-in-time and look-ahead discipline, which pm-mechanics covers as <a href="https://github.com/navoditk/pm-mechanics/blob/main/reference/concepts/backtesting_biases.md">backtesting biases</a>.</blockquote>
 <h2>What this actually is</h2>
-<p>FICC stands for fixed income, currencies, and commodities — the trading-desk umbrella term for everything that isn't equities. This repository's FICC track narrows that scope to fixed income specifically: bonds, the interest-rate curves that price them, and the funding and credit markets around them.</p>
-<p>A bond is, at its core, a promise to pay a series of known cash flows (coupons, plus principal at maturity) on known dates. Pricing a bond means discounting those future cash flows back to today using an interest-rate curve. Everything else in fixed-income analytics — duration, DV01, spread duration, carry, rolldown — is a way of answering "how does that price change if rates, credit spreads, or time itself move?" The discipline that separates fixed-income analysis from a spreadsheet guess is precision about *which* rate, *whose* credit spread, *what* day-count convention, and *as of which date* — get any of those wrong and the number is confidently wrong, not just imprecise.</p>
+<p>FICC stands for fixed income, currencies, and commodities — the trading-desk umbrella term for everything that isn't equities. This repository's FICC track narrows that to fixed income: bonds, the interest-rate curves that price them, and the funding and credit markets around them.</p>
+<p>A bond is a promise to pay known cash flows on known dates, and pricing one means discounting those cash flows on a curve. Everything else — duration, DV01, spread duration, carry — answers "how does that price move when rates, spreads, or time move?" What separates the analysis from a spreadsheet guess is precision about *which* rate, *whose* spread, *what* day-count convention, and *as of which date*: get one wrong and the number is confidently wrong rather than obviously broken.</p>
 <h2>Core concepts</h2>
+<p>Orientation only. These are pm-mechanics' subject, where each has a reference page, tested code, and a notebook that derives it — follow the link rather than learning it from this page.</p>
 <ul>
-<li><strong>Yield curve.</strong> The set of yields available on similar debt (usually</li>
-<p>Treasuries) at different maturities. Almost every other fixed-income calculation starts by reading a rate off this curve at the relevant tenor.</p>
-<li><strong>Duration.</strong> The approximate percentage price change of a bond for a</li>
-<p>1-percentage-point change in yield. It is the single most-used risk summary in fixed income, and also the most commonly overinterpreted — it assumes a small, parallel shift in yield, not a large or curve-reshaping one.</p>
-<li><strong>DV01.</strong> The same idea as duration, but expressed in dollars instead of</li>
-<p>percent, for a one-basis-point (not one-percentage-point) move. Useful for directly sizing a hedge across differently-sized positions.</p>
-<li><strong>Key-rate duration.</strong> Duration measured separately at specific points on</li>
-<p>the curve (2y, 5y, 10y, 30y, ...) instead of assuming the whole curve moves together. Shows *where* on the curve a position's risk actually sits.</p>
-<li><strong>Spread duration.</strong> Duration's analogue for credit risk: price sensitivity</li>
-<p>to the bond's own credit spread widening or narrowing, independent of the risk-free curve.</p>
-<li><strong>Clean price / dirty price / accrued interest.</strong> The quoted ("clean")</li>
-<p>price excludes interest that has built up since the last coupon; the price actually paid at settlement ("dirty") adds that accrued interest back in.</p>
-<li><strong>Day-count convention.</strong> The rule for turning calendar days into a</li>
-<p>year-fraction, used to compute that accrued-interest figure. Different conventions give different answers from the same coupon rate and dates — this is a frequent source of "why don't our numbers match" errors between two systems.</p>
-<li><strong>Carry and rolldown.</strong> What a bond position earns just from time passing,</li>
-<p>assuming nothing else moves: carry from the coupon net of financing cost, rolldown from the bond's yield falling (price rising) as it moves down an upward-sloping curve toward maturity.</p>
-<li><strong>Point-in-time data / vintage.</strong> A data value exactly as it was known and</li>
-<p>published on a specific past date. Using a later, revised vintage inside an earlier decision or backtest is look-ahead bias — a subtle, easy-to-miss error that overstates how good a strategy would actually have looked at the time.</p>
+<li><strong>Yield curve</strong> — yields on similar debt across maturities; nearly every</li>
+<p>other calculation starts by reading a rate off it. <a href="https://navoditk.github.io/pm-mechanics/reference/fixed_income/curve_construction/">Derive it →</a></p>
+<li><strong>Duration</strong> — approximate % price change per 1pp yield move; assumes a</li>
+<p>small *parallel* shift. <a href="https://navoditk.github.io/pm-mechanics/reference/fixed_income/duration/">Derive it →</a></p>
+<li><strong>DV01</strong> — the same sensitivity in dollars, per basis point; what you size</li>
+<p>a hedge with. <a href="https://navoditk.github.io/pm-mechanics/reference/fixed_income/dv01/">Derive it →</a></p>
+<li><strong>Key-rate duration</strong> — duration measured at individual curve points, so</li>
+<p>you can see *where* the risk sits. <a href="https://navoditk.github.io/pm-mechanics/reference/fixed_income/key_rate_duration/">Derive it →</a></p>
+<li><strong>Spread duration</strong> — the credit analogue: sensitivity to the bond's own</li>
+<p>spread, independent of the risk-free curve. <a href="https://navoditk.github.io/pm-mechanics/reference/fixed_income/spread_duration/">Derive it →</a></p>
+<li><strong>Clean / dirty price, accrued interest, day-count</strong> — the quote versus</li>
+<p>what the buyer actually pays, and the convention that decides the difference. <a href="https://navoditk.github.io/pm-mechanics/reference/fixed_income/accrued_interest_and_settlement/">Derive it →</a></p>
+<li><strong>Carry and rolldown</strong> — what a position earns from time passing alone, if</li>
+<p>nothing moves. <a href="https://navoditk.github.io/pm-mechanics/reference/fixed_income/carry_and_rolldown/">Derive it →</a></p>
+<li><strong>Point-in-time data / vintage</strong> — a value as it was known on a past date;</li>
+<p>using a later revision in an earlier decision is look-ahead bias. <a href="https://navoditk.github.io/pm-mechanics/reference/concepts/backtesting_biases/">Derive it →</a></p>
 </ul>
+<p>Point-in-time is the one concept above that is also squarely this repository's own subject: pm-mechanics covers it as backtesting discipline, while the provenance envelope, vintage-aware connectors, and replay machinery that enforce it live here.</p>
 <h2>How this repository implements it</h2>
 <p>The bond math lives in <code>src/analytics/pricers.py</code>. <code>price_bond()</code> takes explicit cash flows (<code>time_years</code>, <code>amount</code>), a curve (<code>curve_tenors_years</code>/<code>curve_rates_pct</code>), and a <code>compounding_frequency</code>, then discounts each cash flow at the curve rate for its maturity (via <code>interpolate_curve()</code> in <code>src/analytics/curves.py</code>) and sums the present values. <code>src/analytics/fixed_income.py</code> builds on that primitive with <code>bond_duration_dv01()</code>, node-level <code>key_rate_dv01()</code>, and <code>reconcile_bond_price()</code> for clean price, accrued interest, and dirty price. These are learning-scale calculations: settlement calendars, day-count conventions, callable features, and spread curves remain explicit inputs or deferred production concerns.</p>
 <p>Scenario-level risk lives in <code>src/analytics/scenario.py</code>. <code>scenario_analysis()</code> takes a list of positions, a <code>scenario_type</code> (<code>"rates"</code> or <code>"credit"</code>), and a <code>shock_bps</code>, and computes each position's impact as <code>-weight * sensitivity * shock_bps / 10_000</code>, where <code>sensitivity</code> is read from the position's <code>duration</code> field for a rates shock or <code>spread_duration</code> field for a credit shock. This is a genuine, if first-order (no convexity), implementation of the duration/spread-duration concepts above — it is real code, not illustrative planning text, and it is the concrete answer to "how would this repository actually compute that" for both a rates and a credit question.</p>

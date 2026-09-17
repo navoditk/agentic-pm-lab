@@ -4,7 +4,7 @@ description: Add consistent plain-language FICC glossary entries with a public s
 license: MIT
 covers:
   - docs/learning/ficc-glossary.md
-last_verified_commit: b74aceb
+last_verified_commit: e9e1dae
 ---
 
 # ficc-glossary-maintainer
@@ -12,7 +12,22 @@ last_verified_commit: b74aceb
 Use this skill whenever a fixed income, currencies, or commodities term first
 appears in code, tests, architecture, or learning notes.
 
-## Entry format
+## Which tier does the term belong in?
+
+The glossary has two sections, and this is the first decision to make.
+
+**Ask: does the term carry something specific to *this* repository's code,
+fixtures, or agent output that a dictionary definition would miss?**
+
+- **Yes** → a full entry under `## Terms with repository-specific meaning`.
+  Callable bond qualifies because the entry documents a real gap in
+  `src/ingestion/fixed_income.py`'s validator; basis point qualifies because
+  it explains the scenario tool's `shock_bps` argument.
+- **No** → a one-line entry under `## General vocabulary`, linking to
+  pm-mechanics. General PM/FICC vocabulary is that repository's
+  responsibility; defining it fully in both places lets the two drift.
+
+## Entry format — repository-specific terms
 
 Keep entries alphabetical and use this exact shape:
 
@@ -26,6 +41,23 @@ without assuming specialist knowledge.
 
 **Public source:** [Descriptive source name](https://public.example/source)
 ```
+
+## Entry format — general vocabulary
+
+A heading, one sentence, and a link. The heading stays a heading rather than
+becoming a bullet: quiz banks cite `#anchor` fragments into this file, and
+anchors derive from heading text, so removing the heading breaks the
+citation silently.
+
+```markdown
+### Term
+
+One sentence of orientation. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/<section>/<page>/)
+```
+
+Verify the link resolves before committing — a dead link here is worse than
+no link, because the reader has already been told not to expect the
+definition locally.
 
 ## Rules
 
