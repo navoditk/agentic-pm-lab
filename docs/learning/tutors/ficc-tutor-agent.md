@@ -8,54 +8,46 @@
 
 FICC stands for fixed income, currencies, and commodities — the trading-desk
 umbrella term for everything that isn't equities. This repository's FICC track
-narrows that scope to fixed income specifically: bonds, the interest-rate
-curves that price them, and the funding and credit markets around them.
+narrows that to fixed income: bonds, the interest-rate curves that price them,
+and the funding and credit markets around them.
 
-A bond is, at its core, a promise to pay a series of known cash flows (coupons,
-plus principal at maturity) on known dates. Pricing a bond means discounting
-those future cash flows back to today using an interest-rate curve. Everything
-else in fixed-income analytics — duration, DV01, spread duration, carry,
-rolldown — is a way of answering "how does that price change if rates, credit
-spreads, or time itself move?" The discipline that separates fixed-income
-analysis from a spreadsheet guess is precision about *which* rate, *whose*
-credit spread, *what* day-count convention, and *as of which date* — get any
-of those wrong and the number is confidently wrong, not just imprecise.
+A bond is a promise to pay known cash flows on known dates, and pricing one
+means discounting those cash flows on a curve. Everything else — duration,
+DV01, spread duration, carry — answers "how does that price move when rates,
+spreads, or time move?" What separates the analysis from a spreadsheet guess
+is precision about *which* rate, *whose* spread, *what* day-count convention,
+and *as of which date*: get one wrong and the number is confidently wrong
+rather than obviously broken.
 
 ## Core concepts
 
-- **Yield curve.** The set of yields available on similar debt (usually
-  Treasuries) at different maturities. Almost every other fixed-income
-  calculation starts by reading a rate off this curve at the relevant tenor.
-- **Duration.** The approximate percentage price change of a bond for a
-  1-percentage-point change in yield. It is the single most-used risk summary
-  in fixed income, and also the most commonly overinterpreted — it assumes a
-  small, parallel shift in yield, not a large or curve-reshaping one.
-- **DV01.** The same idea as duration, but expressed in dollars instead of
-  percent, for a one-basis-point (not one-percentage-point) move. Useful for
-  directly sizing a hedge across differently-sized positions.
-- **Key-rate duration.** Duration measured separately at specific points on
-  the curve (2y, 5y, 10y, 30y, ...) instead of assuming the whole curve moves
-  together. Shows *where* on the curve a position's risk actually sits.
-- **Spread duration.** Duration's analogue for credit risk: price sensitivity
-  to the bond's own credit spread widening or narrowing, independent of the
-  risk-free curve.
-- **Clean price / dirty price / accrued interest.** The quoted ("clean")
-  price excludes interest that has built up since the last coupon; the price
-  actually paid at settlement ("dirty") adds that accrued interest back in.
-- **Day-count convention.** The rule for turning calendar days into a
-  year-fraction, used to compute that accrued-interest figure. Different
-  conventions give different answers from the same coupon rate and dates —
-  this is a frequent source of "why don't our numbers match" errors between
-  two systems.
-- **Carry and rolldown.** What a bond position earns just from time passing,
-  assuming nothing else moves: carry from the coupon net of financing cost,
-  rolldown from the bond's yield falling (price rising) as it moves down an
-  upward-sloping curve toward maturity.
-- **Point-in-time data / vintage.** A data value exactly as it was known and
-  published on a specific past date. Using a later, revised vintage inside an
-  earlier decision or backtest is look-ahead bias — a subtle, easy-to-miss
-  error that overstates how good a strategy would actually have looked at the
-  time.
+Orientation only. These are pm-mechanics' subject, where each has a reference
+page, tested code, and a notebook that derives it — follow the link rather
+than learning it from this page.
+
+- **Yield curve** — yields on similar debt across maturities; nearly every
+  other calculation starts by reading a rate off it. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/curve_construction/)
+- **Duration** — approximate % price change per 1pp yield move; assumes a
+  small *parallel* shift. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/duration/)
+- **DV01** — the same sensitivity in dollars, per basis point; what you size
+  a hedge with. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/dv01/)
+- **Key-rate duration** — duration measured at individual curve points, so
+  you can see *where* the risk sits. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/key_rate_duration/)
+- **Spread duration** — the credit analogue: sensitivity to the bond's own
+  spread, independent of the risk-free curve. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/spread_duration/)
+- **Clean / dirty price, accrued interest, day-count** — the quote versus
+  what the buyer actually pays, and the convention that decides the
+  difference. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/accrued_interest_and_settlement/)
+- **Carry and rolldown** — what a position earns from time passing alone, if
+  nothing moves. [Derive it →](https://navoditk.github.io/pm-mechanics/reference/fixed_income/carry_and_rolldown/)
+- **Point-in-time data / vintage** — a value as it was known on a past date;
+  using a later revision in an earlier decision is look-ahead bias.
+  [Derive it →](https://navoditk.github.io/pm-mechanics/reference/concepts/backtesting_biases/)
+
+Point-in-time is the one concept above that is also squarely this
+repository's own subject: pm-mechanics covers it as backtesting discipline,
+while the provenance envelope, vintage-aware connectors, and replay
+machinery that enforce it live here.
 
 ## How this repository implements it
 
