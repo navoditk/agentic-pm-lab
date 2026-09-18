@@ -3,7 +3,12 @@ name: skill-creator
 description: Scaffold a complete repository skill package with synchronized frontmatter, contract, example, and tests.
 license: MIT
 covers:
-  - skills
+  # This skill describes the package shape that validate_skill.py enforces,
+  # so it goes stale when that script's requirements change -- not when any
+  # individual skill's content changes. It previously covered `skills`
+  # wholesale, which forced a bump on every skill edit anywhere and eroded
+  # what last_verified_commit certified.
+  - scripts/validate_skill.py
 last_verified_commit: 909640d
 ---
 

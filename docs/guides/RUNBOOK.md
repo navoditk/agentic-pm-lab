@@ -262,7 +262,7 @@ the AWS teardown checklist immediately after the learning exercise:
 - **MCP identity error:** supply identity metadata and, for resource-scoped tools, `portfolio_id`; do not put entitlements in prompt text.
 - **Canvas state appears stale:** reload the extension and inspect the domain/session state; durable Canvas state is separate from MCP authorization.
 - **LangSmith evaluation refuses to run:** check `LANGSMITH_API_KEY`; do not replace the failure with a fabricated success.
-- **Freshness check fails:** update the affected skill and contract/frontmatter, then run `scripts/check_skill_contracts.py`; use a documented `skills-unaffected` review exception only when the change truly does not alter skill behavior.
+- **Freshness check fails:** re-read the flagged skill against its covered paths, update its content if the change made it wrong, bump `last_verified_commit`, then run `scripts/check_skill_contracts.py`. There is no bypass. Note the check compares `base...HEAD`, so it passes vacuously against uncommitted work — commit first, or a clean result means nothing.
 - **Scheduled issue is missing:** inspect Actions permissions, the workflow run, and the repository `issues: write` setting.
 
 ## Teardown

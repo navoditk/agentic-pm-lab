@@ -57,7 +57,8 @@ def audit_skills(
         skill_relative = skill_path.relative_to(skills_root.parent).as_posix()
         if skill_relative not in changed:
             errors.append(
-                f"{skill_path}: stale for changed paths {', '.join(affected)}; update SKILL.md/contract or justify with skills-unaffected"
+                f"{skill_path}: stale for changed paths {', '.join(affected)}; "
+                f"bump last_verified_commit after re-checking the skill against them"
             )
         if require_existing_commit:
             commit = metadata.get("last_verified_commit")
@@ -88,7 +89,8 @@ def main() -> int:
     if errors:
         print("\n".join(f"ERROR: {error}" for error in errors))
         print(
-            "Use a synchronized skill update or document a skills-unaffected justification."
+            "Re-read each stale skill against its covered paths, then bump its "
+            "last_verified_commit in the same change."
         )
         return 1
     print("Skills freshness check passed.")

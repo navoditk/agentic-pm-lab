@@ -192,9 +192,9 @@ This pull-request gate compares the base and head commits and runs
 `scripts/check_skills_freshness.py`. It detects when implementation changes may
 have made a skill's documented coverage or `last_verified_commit` stale.
 
-When it fails, inspect the changed code and either update the affected skill or
-record the repository's explicit `skills-unaffected` decision according to the
-project rules. Use the read-only
+When it fails, inspect the changed code, re-read the flagged skill against its
+covered paths, and bump `last_verified_commit` — updating the skill's content
+too if the change made it wrong. There is no label-based bypass. Use the read-only
 [`skills-auditor-agent`](../../.github/agents/skills-auditor-agent.agent.md) for
 investigation and drafting.
 
