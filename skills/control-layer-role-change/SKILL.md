@@ -7,13 +7,22 @@ covers:
   - governance/policies
   - src/control
   - src/agents
-last_verified_commit: faf45b9
+last_verified_commit: cc43836
 ---
 
 # control-layer-role-change
 
 Use this skill when adding an identity, changing an identity's role, or
 changing access to a tool or portfolio.
+
+## One module under `src/agents/` is deliberately outside this
+
+`src/agents/handbuilt_graph.py` is a model-free teaching contrast to the Deep
+Agents path, and its specialists call analytics directly rather than through
+`tools_for_identity()`. It runs on fixture data, is never invoked by the API
+or MCP surfaces, and is not a template. When auditing whether a role change
+reached every agent, skip it -- and if it ever gains a real caller, it needs
+the entitlement filter first.
 
 ## Checklist
 
