@@ -44,6 +44,13 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    # Test-time only -- never imported by shipped code. tests/agreement/ asserts
+    # that this repo's analytics agree numerically with pm-mechanics, which is
+    # the reference implementation for the shared maths. Pinned to a tag so the
+    # comparison cannot drift underneath us. Costs no new transitive packages:
+    # numpy, scipy, pandas and cvxpy are already installed here, cvxpy via
+    # pyportfolioopt.
+    "pm-mechanics @ git+https://github.com/navoditk/pm-mechanics.git@v0.2.0",
     "detect-secrets>=1.5.0",
     "pre-commit>=4.6.1",
     "pytest>=9.1.1",
