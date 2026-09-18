@@ -40,14 +40,29 @@ purpose-built instrumentation pass.
 - **Exporter.** The component that ships finished spans somewhere — to the
   console, to a collector, or (as here) via OTLP HTTP directly to a backend
   like LangSmith.
+- **Metrics, the second signal.** A trace answers "what happened in this one
+  request"; a metric answers "what is happening across all of them". They are
+  not interchangeable, and span attributes cannot substitute: you cannot
+  aggregate over spans you never exported, and at any sampling rate below 1.0
+  you are aggregating over a subset without knowing which. A single slow
+  trace is an anecdote; a latency histogram is an SLO.
+- **Counter vs histogram.** A counter is monotonic and answers "how many" —
+  runs, tool calls, tokens, denials. A histogram records a distribution and
+  answers "how long, and how long for the slow ones" — the p95 that a mean
+  hides. Choosing the wrong instrument is the most common metrics mistake:
+  averaging latency throws away exactly the tail you needed.
 - **Context propagation.** How a trace ID and span context travel from one
-  function call to the next (and, in distributed systems, across network
-  calls) so that nested spans land in the same trace instead of starting new,
-  disconnected ones.
-- **Sampling.** The decision about which traces to actually export, used at
-  scale to control volume/cost — not yet a concern in this project's local
-  and single-experiment scale, but relevant reading for the AgentCore
-  observability tutor material.
+  function call to the next and, across a process boundary, through
+  W3C `traceparent` headers — so a downstream service's spans join the
+  caller's trace instead of starting a disconnected one. Without it the
+  question "which agent request caused this tool call" stops being
+  answerable, which is most of the reason for tracing an agent system.
+- **Sampling, and why parent-based matters.** Sampling decides which traces
+  are exported, to control volume and cost. Naive per-span ratio sampling
+  produces traces with holes in the middle — a parent kept, a child dropped,
+  an incoherent tree. `ParentBased` fixes this by making a child follow the
+  decision already taken upstream: the ratio applies only at the root, and
+  once a trace is in, all of it is in.
 - **Privacy in telemetry.** Spans are a second place sensitive data can leak
   if you're not careful — the discipline this project applies is recording
   *counts and metadata*, never raw prompt text, portfolio holdings, or
@@ -98,6 +113,49 @@ function here maps to one of the concepts above:
   `MODEL_PRICES_PER_MILLION_USD` and multiplying by the measured token
   counts — cost tracking is a direct consequence of tokens already being span
   attributes, not a separate accounting system.
+
+### Metrics, propagation and sampling
+
+`src/observability/metrics.py` is the metrics half, deliberately a separate
+module from `telemetry.py` because it is a separate OTel signal.
+`configure_metrics()` mirrors `configure_telemetry()`'s contract — one
+provider, idempotent, yields to one already installed. Its `reader` argument
+is the testing seam: pass an `InMemoryMetricReader` and
+`tests/unit/observability/test_metrics.py` reads recorded points back out and
+asserts on them, rather than asserting a mock was called. That distinction
+matters here more than usual, because a mock passes even when the instrument
+was never registered with a meter — which is exactly the state this
+repository was in when it claimed "traces and metrics" while recording none.
+
+Eight instruments: counters for agent runs, tool calls, tokens, estimated
+cost, retries and authorization denials; histograms for agent and tool
+duration. Two details are worth copying rather than skimming. Model names are
+normalised (`anthropic:claude-x` and `claude-x` collapse to one series) so a
+provider prefix cannot silently split a metric in two. And authorization
+denials are counted separately from errors, because a denial is the control
+layer *working* — a denial rate that suddenly drops to zero is as interesting
+as one that spikes, and burying it in an error counter loses that signal.
+
+Recording is wired into the existing instrumentation points rather than
+bolted on: `traced_analytics` records a tool call and its duration,
+`observe_agent_run` records the run, its token split and its retries. Both
+call sites wrap the recording in a `try`/`except` that logs at debug level,
+on the principle that instrumentation must never be the reason a bond price
+fails to compute.
+
+`inject_trace_context()` and `extract_trace_context()` in `telemetry.py` are
+the propagation pair — inject before an outbound call, extract on the way in
+and pass the result as `context=` when starting the span. A carrier with no
+`traceparent` yields a context that simply starts a new trace, so an
+uninstrumented caller degrades quietly instead of raising.
+
+`configured_sampler()` reads `OTEL_TRACES_SAMPLER_ARG` and returns
+`ParentBased(TraceIdRatioBased(ratio))`. The default with the variable unset
+is `ALWAYS_ON`: a repository run locally or in CI keeps every trace, and
+sampling is something you opt into when volume makes keeping everything
+expensive. An out-of-range or non-numeric value raises rather than falling
+back to a default, because silently sampling at a rate you did not choose
+means losing traces you believed you had.
 
 ## Worked walkthrough
 

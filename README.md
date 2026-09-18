@@ -84,7 +84,7 @@ The local 21-day learning path is complete. The repository currently provides:
 | Agents | Single-agent and specialist-based Deep Agents; a separate research supervisor; local-model comparison path |
 | Governance | Local identities, Cedar tool/resource policy, guardrails, repeated enforcement at FastAPI/MCP boundaries, approval interrupts, audit records |
 | Evaluation | Golden, routing, policy, and guardrail cases; versioned baselines; deterministic evaluators; local regression gates |
-| Observability | OpenTelemetry traces and metrics with token, latency, retry, tool, and estimated-cost attributes; structured fixture execution envelopes |
+| Observability | OpenTelemetry traces *and* metrics as separate signals: spans carrying token, latency, retry, tool and estimated-cost attributes, plus counters and histograms for agent runs, tool calls, tokens, cost, retries and authorization denials; W3C context propagation across process boundaries; parent-based head sampling; structured fixture execution envelopes |
 | Interfaces | Four Canvas projects, MCP adapter, FastAPI API, Streamlit tutor UI, and approval-only scheduled review workflow |
 | AWS | AgentCore Runtime entrypoint and runbooks; live temporary Runtime, Memory, standalone Guardrails, and on-demand Evaluation evidence |
 | Learning | Fourteen tutor topics, deep-dive companions, 20–30-question quizzes, learner-progress tracking, source catalog, and no-cost exercises |

@@ -1,6 +1,7 @@
 """Shared OpenTelemetry instrumentation and operational agent metrics."""
 
 import json
+import logging
 import os
 import threading
 import time
@@ -12,16 +13,24 @@ from typing import Any, ParamSpec, TypeVar
 from fastapi import FastAPI
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.outputs import LLMResult
-from opentelemetry import trace
+from opentelemetry import propagate, trace
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.sdk.trace.sampling import (
+    ALWAYS_ON,
+    ParentBased,
+    Sampler,
+    TraceIdRatioBased,
+)
 from opentelemetry.trace import Span, Status, StatusCode
 
 P = ParamSpec("P")
 R = TypeVar("R")
+
+_logger = logging.getLogger(__name__)
 
 SERVICE_NAME = "agentic-pm-lab"
 MODEL_PRICES_PER_MILLION_USD = {
@@ -46,7 +55,10 @@ def configure_telemetry(service_name: str = SERVICE_NAME) -> TracerProvider:
         _provider = current
         _configure_langsmith_exporter(current)
         return current
-    _provider = TracerProvider(resource=Resource.create({"service.name": service_name}))
+    _provider = TracerProvider(
+        resource=Resource.create({"service.name": service_name}),
+        sampler=configured_sampler(),
+    )
     trace.set_tracer_provider(_provider)
     _configure_langsmith_exporter(_provider)
     return _provider
@@ -76,6 +88,55 @@ def _configure_langsmith_exporter(provider: TracerProvider) -> None:
         )
     )
     _langsmith_exporter_configured = True
+
+
+def configured_sampler() -> Sampler:
+    """Head sampler built from `OTEL_TRACES_SAMPLER_ARG`, default keep-everything.
+
+    Two things make this safe rather than a knob that silently loses data.
+    `ParentBased` means a child span follows the decision already made
+    upstream, so a sampled trace never arrives with holes in the middle --
+    the single most confusing failure mode of naive ratio sampling. And the
+    default is 1.0, so a repository run locally or in CI keeps every trace;
+    sampling is something you opt into when volume makes keeping everything
+    expensive, not a default that quietly hides the trace you needed.
+    """
+    raw = os.getenv("OTEL_TRACES_SAMPLER_ARG")
+    if raw is None:
+        return ALWAYS_ON
+    try:
+        ratio = float(raw)
+    except ValueError as error:
+        raise ValueError(
+            f"OTEL_TRACES_SAMPLER_ARG must be a number between 0 and 1, got {raw!r}"
+        ) from error
+    if not 0.0 <= ratio <= 1.0:
+        raise ValueError(f"OTEL_TRACES_SAMPLER_ARG must be within [0, 1], got {ratio}")
+    return ParentBased(root=TraceIdRatioBased(ratio))
+
+
+def inject_trace_context(carrier: dict[str, str] | None = None) -> dict[str, str]:
+    """Write the current span's context into a carrier for an outbound call.
+
+    This is what makes a trace survive a process boundary. Without it the MCP
+    server's spans become a second, unrelated trace, and the question "which
+    agent request caused this tool call" stops being answerable -- which is
+    most of the reason for tracing an agent system at all.
+    """
+    carrier = {} if carrier is None else carrier
+    propagate.inject(carrier)
+    return carrier
+
+
+def extract_trace_context(carrier: Mapping[str, str]) -> Any:
+    """Recover an upstream context from an inbound carrier.
+
+    Pass the result as `context=` when starting a span, so the new span
+    becomes a child of the caller's rather than a new root. A carrier with no
+    trace headers yields a context that simply starts a new trace, so an
+    uninstrumented caller degrades quietly instead of failing.
+    """
+    return propagate.extract(dict(carrier))
 
 
 def instrument_fastapi(app: FastAPI) -> None:
@@ -134,6 +195,66 @@ def _item_count(values: Sequence[Any]) -> int:
     return count
 
 
+def _record_tool_metric(name: str, elapsed: float, succeeded: bool) -> None:
+    """Mirror one tool span into the metrics signal.
+
+    Import is local and failures are swallowed on purpose: instrumentation
+    must never be the reason a deterministic analytics call fails. A dropped
+    metric point is an acceptable loss; a bond price that raises because a
+    meter was misconfigured is not.
+    """
+    try:
+        from src.observability.metrics import record_tool_call
+
+        record_tool_call(tool=name, duration_seconds=elapsed, success=succeeded)
+    except Exception:
+        _logger.debug("tool metric not recorded for %s", name, exc_info=True)
+
+
+def _record_agent_metrics(
+    *,
+    operation_name: str,
+    model_name: str,
+    elapsed: float,
+    handler: "OperationalMetricsHandler",
+    succeeded: bool,
+) -> None:
+    """Mirror one agent run and its token usage into the metrics signal."""
+    try:
+        from src.observability.metrics import (
+            record_agent_run,
+            record_retry,
+            record_token_usage,
+        )
+
+        normalized = model_name.rsplit(":", 1)[-1]
+        prices = MODEL_PRICES_PER_MILLION_USD.get(normalized)
+        estimated_cost = 0.0
+        if prices:
+            estimated_cost = (
+                handler.input_tokens * prices["input"]
+                + handler.output_tokens * prices["output"]
+            ) / 1_000_000
+        record_agent_run(
+            model=model_name,
+            duration_seconds=elapsed,
+            success=succeeded,
+            agent=operation_name,
+        )
+        record_token_usage(
+            model=model_name,
+            input_tokens=handler.input_tokens,
+            output_tokens=handler.output_tokens,
+            estimated_cost_usd=estimated_cost,
+        )
+        for _ in range(handler.retry_count):
+            record_retry(component=operation_name)
+    except Exception:
+        _logger.debug(
+            "agent metrics not recorded for %s", operation_name, exc_info=True
+        )
+
+
 def traced_analytics(name: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """Wrap one deterministic analytics function in a tool-level span."""
 
@@ -160,6 +281,7 @@ def traced_analytics(name: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
                     int(name == "get_research_summary"),
                 )
                 span.set_attribute("app.retry.count", 0)
+                succeeded = False
                 try:
                     result = function(*args, **kwargs)
                 except Exception as error:
@@ -168,14 +290,14 @@ def traced_analytics(name: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
                     span.set_status(Status(StatusCode.ERROR, type(error).__name__))
                     raise
                 else:
+                    succeeded = True
                     span.set_attribute("app.operation.success", True)
                     span.set_status(Status(StatusCode.OK))
                     return result
                 finally:
-                    span.set_attribute(
-                        "app.operation.duration_ms",
-                        (time.perf_counter() - started) * 1000,
-                    )
+                    elapsed = time.perf_counter() - started
+                    span.set_attribute("app.operation.duration_ms", elapsed * 1000)
+                    _record_tool_metric(name, elapsed, succeeded)
 
         return wrapped
 
@@ -276,6 +398,7 @@ def observe_agent_run(
     tracer = trace.get_tracer("agentic_pm_lab.agents")
     metrics = OperationalMetricsHandler()
     started = time.perf_counter()
+    succeeded = False
     with tracer.start_as_current_span(operation_name) as span:
         span.set_attribute("app.operation.type", "agent")
         span.set_attribute("langsmith.span.kind", "chain")
@@ -288,13 +411,22 @@ def observe_agent_run(
             span.set_status(Status(StatusCode.ERROR, type(error).__name__))
             raise
         else:
+            succeeded = True
             span.set_attribute("app.operation.success", True)
             span.set_status(Status(StatusCode.OK))
         finally:
             metrics.apply_to_span(span, model_name)
-            span.set_attribute(
-                "app.operation.duration_ms",
-                (time.perf_counter() - started) * 1000,
+            elapsed = time.perf_counter() - started
+            span.set_attribute("app.operation.duration_ms", elapsed * 1000)
+            # The same figures also go out as metrics: the span answers "what
+            # happened in this run", the instruments answer "what is happening
+            # across all of them". Neither substitutes for the other.
+            _record_agent_metrics(
+                operation_name=operation_name,
+                model_name=model_name,
+                elapsed=elapsed,
+                handler=metrics,
+                succeeded=succeeded,
             )
 
 
