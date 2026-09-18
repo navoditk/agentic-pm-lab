@@ -9,7 +9,7 @@ covers:
   - docs/learning/tutor-courses.json
   - docs/learning/tutors
   - evals/tutor_quizzes
-last_verified_commit: ca217e32550cb98ad795bfab862ccea4fb36eb31
+last_verified_commit: f64fdf7570aacec879aa884ce99aab91b7252078
 ---
 
 # Agentic PM Lab Mastery
