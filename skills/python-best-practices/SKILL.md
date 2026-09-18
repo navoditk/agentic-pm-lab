@@ -5,7 +5,7 @@ license: MIT
 covers:
   - .pre-commit-config.yaml
   - pyproject.toml
-last_verified_commit: 909c2f2
+last_verified_commit: 8c7f07c
 ---
 
 # python-best-practices
@@ -32,6 +32,31 @@ Every unfinished endpoint or function that stands in for real logic carries a do
 - Test functions: `test_<behavior_being_verified>`, not `test_<function_name>` — name the test after what it proves, not what it calls.
 - Fixtures for shared setup (fixture role configs, fixture DuckDB connections, fixture test identities) live in `conftest.py` at the narrowest scope that needs them — a fixture used by only one test file's tests belongs in that directory, not the repo-wide `tests/conftest.py`.
 - No test under `tests/unit/` may hit a real network call, API, or cloud resource — mock external dependencies (`responses`, `unittest.mock`, or recorded fixtures). This is a hard rule, not a preference (AGENTS.md repo rules).
+
+### Agreement tests are the one exception to the layout
+
+`tests/agreement/` holds cross-repository comparisons and deliberately does
+*not* mirror `src/`, because what it tests is not a module here — it is that
+this repo and `pm-mechanics` compute the same maths. It is outside
+`tests/unit/` on purpose: it imports a real external package
+(`pm-mechanics`, a dev-group dependency pinned to a tag), which the
+`tests/unit/` rule above forbids.
+
+Two conventions specific to this directory:
+
+- **Guard the module with `pytest.importorskip`.** The reference package may
+  be absent in an environment installed without the dev group, and the
+  correct behaviour then is a clean skip with a reason, not a collection
+  error. Verify that by uninstalling the package and running, rather than
+  trusting the idiom.
+- **State a tolerance per assertion and say why.** A closed form
+  reimplemented in two places should agree to floating-point noise; two
+  different convex solvers should not be expected to. A single shared
+  tolerance hides which is which.
+
+Nothing in `src/` or `scripts/` may import the reference package. The
+dependency exists so tests can compare, never so shipped code can call
+across.
 
 ## Error-handling style for the Tool Layer
 
