@@ -42,6 +42,17 @@ supervisor-design side.
   supervisor's full conversation — only what the `task` call's description
   explicitly includes. This is why a task description has to restate any
   data the sub-agent needs, verbatim.
+- **State schema and reducers.** The graph's state is a `TypedDict`, and a
+  key may carry a *reducer* that decides what happens when more than one
+  node writes it. Without one, the last write wins and earlier values are
+  silently discarded — which is how a fan-out quietly keeps one branch and
+  loses the rest. `Annotated[list[str], operator.add]` makes the key
+  accumulate instead. Deep Agents manages its own message state, so you only
+  meet this when you build a graph yourself.
+- **Conditional edge.** An edge whose target is chosen at runtime by a path
+  function reading state. This is the routing decision Deep Agents performs
+  *inside* its `task` tool — same choice, made invisibly rather than by an
+  edge you declared.
 
 ## How this repository implements it
 
@@ -76,6 +87,39 @@ factories wrap tool calls at the graph-node level with retry/backoff
 an exhausted or malformed result into `dead_letter_payload()` rather than
 either crashing the graph or letting a node's output stand in for a real
 tool result.
+
+### Reading the abstraction: `handbuilt_graph.py`
+
+`create_deep_agent(...)` is one call that returns a compiled graph, which is
+excellent for building and unhelpful for learning — the graph is never
+visible. `src/agents/handbuilt_graph.py` builds the *same shape* from
+primitives so the two can be read side by side: classify, route to one of
+three specialists, collect findings, synthesise.
+
+It is deliberately model-free. Classification is keyword matching and the
+specialists call the real deterministic analytics, so the whole graph runs in
+a unit test with no network and no API key. An LLM in the loop would make the
+graph mechanics the least interesting thing on screen. Nothing in it is on
+the production path.
+
+Line up the two and the abstraction becomes concrete:
+
+| Explicit in `handbuilt_graph.py` | Who does it in `multi_agent.py` |
+|---|---|
+| `StateGraph(ResearchState)` and a `TypedDict` schema | Deep Agents, over its own message state |
+| `graph.add_node(...)` for each specialist | the `subagents=` list |
+| `add_conditional_edges` plus a path function | the orchestrator calling `task` with a `subagent_type` |
+| `graph.add_edge(specialist, "synthesise")` | the supervisor resuming after a `task` returns |
+| `graph.compile(checkpointer=...)` | `create_checkpointed_multi_agent()` |
+
+The reducer is the part worth dwelling on, because it is the one that bites.
+`findings` is annotated `Annotated[list[str], operator.add]`. Drop that
+annotation and a second node writing `findings` replaces the first node's
+value rather than appending — a fan-out that looks like it worked and
+returned one branch's results.
+`tests/unit/agents/test_handbuilt_graph.py` asserts both behaviours against
+two real graphs rather than describing the difference, so the failure mode is
+executable rather than a warning you have to take on trust.
 
 ## Worked walkthrough
 
