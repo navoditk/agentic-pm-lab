@@ -68,9 +68,10 @@ copy-paste errors, not staleness itself.
 
 `.github/workflows/skills-freshness.yml` runs this on every pull request,
 diffing the PR's base and head SHAs. A PR that changes covered code without
-touching the corresponding `SKILL.md` fails this check — unless it carries a
-documented `skills-unaffected` label, the escape hatch for changes that
-genuinely don't affect the skill's accuracy.
+touching the corresponding `SKILL.md` fails this check. There is no escape
+hatch: the only way past it is to re-read the skill against its covered paths
+and bump `last_verified_commit`, which is the point — the bump is a claim that
+someone actually looked.
 
 `skills/portfolio-optimization-narration/SKILL.md`
 (`covers: [src/analytics/optimizer.py, contracts/tools/optimize_portfolio.schema.json]`)

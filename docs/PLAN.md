@@ -395,9 +395,7 @@ The first four stages are fast and deterministic enough for pre-commit (§11); b
 On every pull request:
 1. For each `skills/*/SKILL.md`, read `covers` and `last_verified_commit` from frontmatter.
 2. Run `git diff <last_verified_commit>..HEAD -- <covers paths>`.
-3. If the diff is non-empty, fail the check with a message pointing at the stale skill, and require one of:
-   - the PR updates the skill's content and bumps `last_verified_commit` to the new merge commit, or
-   - the PR carries a `skills-unaffected` label with a one-line justification in the PR description.
+3. If the diff is non-empty, fail the check with a message pointing at the stale skill. The PR must then re-read that skill against its covered paths and bump `last_verified_commit` — updating the skill's content too, if the change made it inaccurate. There is deliberately no label-based escape hatch: an earlier draft of this section described one, but nothing was ever built to honour it, and a gate that names an option nobody can take is worse than a gate with one honest path.
 4. Optional, once comfortable with Copilot coding agent (Day 11): let a failing check auto-open a follow-up issue assigned to the skills-auditor custom agent (§10) proposing the skill update as a draft PR, which you review like any other change rather than merge blindly.
 
 ### 8.5 What stays outside `skills/`
