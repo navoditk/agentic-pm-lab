@@ -50,6 +50,7 @@ state a documented limitation when it materially affects the answer.
 | "teach me `<topic>`" | Resolve the topic in `TOPIC_CATALOG`; teach one current course objective at a time. |
 | "quiz me" or "test me" | Read the topic JSONL bank; ask 5 mixed questions unless the learner requests the full quiz. |
 | "scenario" or "failure lab" | Read `references/scenarios.md`; route to the selected topic's failure lab and require a safe outcome. |
+| "build lab" or "let me build something" | Read the topic's `build_lab`; the learner writes the code. Review what they produce against whether it runs and whether its test would fail if the behaviour regressed — never write it for them. |
 | "review my lab" or "teach-back" | Read the course assessment and evaluate against its rubric without doing the work for the learner. |
 | "final assessment" | Read `references/final-assessment.md`; run the cross-topic assessment. |
 | "my progress" | Report session progress and explain how to record an offline quiz attempt with `scripts/tutor.py`. |
@@ -71,14 +72,20 @@ VALUES ('xp', '0'), ('level', 'Explorer'), ('current_topic', '');
 
 Otherwise, retain progress in the active conversation and state that it ends
 with the session. Award XP once per completed item: lesson +20, correct quiz
-answer +10, passed scenario +25, completed topic +50, final assessment +150.
+answer +10, passed scenario +25, passed build lab +40, completed topic +50,
+final assessment +150. The build lab is worth more than a scenario because
+it is the only item that requires producing something that did not exist.
 Levels: 0 Explorer, 150 Analyst, 350 Builder, 600 Practitioner, 900 Steward,
 1,250 Architect. Do not award duplicate completion XP. This is a learning aid,
 not a certification record.
 
 A topic is complete only after the learner has covered its objectives,
-completed the local lab and failure lab, scored at least 80% on a quiz, and
-given the course's teach-back. Where session SQL is available, record
+completed the local lab, the failure lab and the build lab, scored at least
+80% on a quiz, and given the course's teach-back. The build lab is not
+optional and cannot be substituted with a walkthrough: tracing, breaking and
+explaining existing code all demonstrate comprehension, and only building
+something that was not there demonstrates that you could do it again
+unaided. Where session SQL is available, record
 completion in `pm_mastery_completed`. The repository's durable, CLI-neutral
 quiz record remains `data/learner_progress/`, written by:
 

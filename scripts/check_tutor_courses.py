@@ -22,6 +22,7 @@ REQUIRED = {
     "lessons",
     "local_lab",
     "failure_lab",
+    "build_lab",
     "assessment",
 }
 
