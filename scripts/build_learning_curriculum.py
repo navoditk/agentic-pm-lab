@@ -288,6 +288,7 @@ def build_html() -> str:
 <h3>Lessons</h3><ol>{"".join(f"<li>{inline_markdown(item, ROOT / 'docs/learning/tutor-courses.json')}</li>" for item in course["lessons"])}</ol>
 <div class="labs"><p><strong>Local lab (run after cloning):</strong> {inline_markdown(course["local_lab"], ROOT / "docs/learning/tutor-courses.json")}</p>
 <p><strong>Failure lab (run after cloning):</strong> {inline_markdown(course["failure_lab"], ROOT / "docs/learning/tutor-courses.json")}</p>
+<p><strong>Build lab (run after cloning):</strong> {inline_markdown(course["build_lab"], ROOT / "docs/learning/tutor-courses.json")}</p>
 <p><strong>Teach-back:</strong> {inline_markdown(course["assessment"], ROOT / "docs/learning/tutor-courses.json")}</p></div>
 <details><summary>Read the deep dive</summary><article>{topic["deep_dive_html"]}</article></details>
 <button class="quiz-button" data-topic="{topic_id}">Start this topic's quiz</button>

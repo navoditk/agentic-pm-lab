@@ -111,6 +111,64 @@ is the trace layer underneath both: agent spans carry `gen_ai.usage.input_tokens
 `app.cost.estimated_usd` attributes, so a slow or expensive run can be
 diagnosed from its trace rather than guessed at.
 
+### The judgement the harness cannot encode
+
+Everything above is machinery. This section is the part that stays your job,
+and it is where most evaluation setups quietly go wrong.
+
+**This repository scores answers by substring matching.** Read
+`final_answer_evaluator` in `scripts/run_eval.py`: it lowercases the answer
+and checks that each `required_facts` entry appears in it. That is
+deterministic, free, and reproducible — genuine virtues, and the reason it is
+the default here. It is also wrong in both directions. An answer saying
+"duration is 8.2 years" fails a required fact written as "8.2 years
+duration". An answer that states the right number and then draws the opposite
+conclusion passes, because the substring is present. Knowing *which* kind of
+wrong your evaluator is, is more useful than its score.
+
+**LLM-as-a-judge** is the usual answer to that, and it brings its own
+failure modes rather than removing them:
+
+- *Position bias* — a judge comparing two answers tends to favour the one it
+  sees first. Randomise order, or score each answer alone.
+- *Verbosity bias* — longer answers score higher for the same content, so a
+  judge rewards padding unless the rubric penalises it explicitly.
+- *Self-preference* — a judge scores text from its own model family more
+  generously, which matters when the judge and the system share a provider.
+- *Non-reproducibility* — the judge is itself a model. Your baseline moves
+  when the judge version changes, and nothing in the diff will say so. Pin
+  the judge model in the baseline alongside the system model, the way
+  `config/eval-baseline.json` already pins `model`.
+
+If you adopt one, **the rubric is the artifact**, not the prompt. A rubric
+that says "rate helpfulness 1-5" produces confident noise. One that says
+"score 0 unless the answer states the assumption, the units, and one
+limitation" produces something two people would agree on — which is the only
+useful test of a rubric.
+
+**Sample size, arithmetically.** `config/eval-baseline.json` sets
+`allowed_score_drop` to 0.1, and the subsets hold 22 active cases (`full`)
+and 7 (`fast`). So:
+
+| Subset | Cases | One case is worth | Trips the 10% tolerance? |
+|---|---|---|---|
+| `full` | 22 | 4.5% | no — it takes 3 flipping (13.6%) |
+| `fast` | 7 | 14.3% | **yes — a single case** |
+
+That is worth sitting with. On the fast subset, one case changing behaviour
+is indistinguishable from a real regression, because it exceeds the
+tolerance on its own. On the full subset, two cases can flip without anything
+being reported. Neither is a bug — it is what those numbers mean, and you
+cannot reason about a red or green run without doing this arithmetic first.
+
+**So when is a move noise?** With a deterministic evaluator and a fixed
+model, it usually is not: the same inputs give the same score, and a change
+means something actually changed. The moment any non-determinism enters —
+a real model call, a judge, a live data source — a single-case move on a
+small subset tells you almost nothing on its own. Re-run before believing it,
+and treat "the score moved" and "the system got worse" as two different
+claims until you have evidence for the second.
+
 ## Worked walkthrough
 
 Trace how one authorization case gets scored without a model call:
