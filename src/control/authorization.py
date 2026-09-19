@@ -101,6 +101,14 @@ def enforce_source_access(identity: str, sources: Mapping[str, Any]) -> None:
     if not isinstance(portfolio_id, str):
         raise TypeError("sources.portfolio_state.portfolio_id must be a string")
     if not check_portfolio_access(identity, portfolio_id):
+        # Imported here, not at module scope, so the control layer never takes
+        # an import-time dependency on observability. Same pattern as
+        # `telemetry.py`'s tool-metric hook.
+        from src.observability.metrics import record_authorization_denial
+
+        record_authorization_denial(
+            reason="source_not_entitled", role=role_for_identity(identity) or "unknown"
+        )
         raise PermissionError(
             f"{identity} is not authorized for portfolio {portfolio_id}"
         )

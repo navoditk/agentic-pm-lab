@@ -44,11 +44,16 @@ supervisor-design side.
   data the sub-agent needs, verbatim.
 - **State schema and reducers.** The graph's state is a `TypedDict`, and a
   key may carry a *reducer* that decides what happens when more than one
-  node writes it. Without one, the last write wins and earlier values are
-  silently discarded — which is how a fan-out quietly keeps one branch and
-  loses the rest. `Annotated[list[str], operator.add]` makes the key
-  accumulate instead. Deep Agents manages its own message state, so you only
-  meet this when you build a graph yourself.
+  node writes it. Without one you get two different failures depending on
+  *when* the writes happen. Sequentially — one node after another — the last
+  write wins and earlier values are silently discarded. Concurrently, where a
+  fan-out has two branches writing the same key in one step, LangGraph does
+  not pick a winner at all: it raises `InvalidUpdateError` ("can receive only
+  one value per step"). The silent case is the one that costs you a
+  debugging session; the loud case is the one people expect to be silent and
+  are surprised by. `Annotated[list[str], operator.add]` resolves both by
+  telling the graph how to combine writes. Deep Agents manages its own
+  message state, so you only meet this when you build a graph yourself.
 - **Conditional edge.** An edge whose target is chosen at runtime by a path
   function reading state. This is the routing decision Deep Agents performs
   *inside* its `task` tool — same choice, made invisibly rather than by an

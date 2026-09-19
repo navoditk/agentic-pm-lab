@@ -7,7 +7,7 @@ covers:
   - governance/policies
   - src/control
   - src/agents
-last_verified_commit: cc43836
+last_verified_commit: f391fe9
 ---
 
 # control-layer-role-change
@@ -47,9 +47,17 @@ the entitlement filter first.
    same tool against both an allowed and denied portfolio.
 7. Add or update `tests/unit/agents/test_role_gating.py` so the bound tool names
    match the policy decision for every identity.
-8. Run `uv run python scripts/check_cedar_policies.py`, then
+8. If the change introduces a *new* way to be refused, count it: call
+   `record_authorization_denial` at the branch that raises, with its own
+   `reason` and the resolved role, and assert the point appears by driving
+   the real refusal path. An uncounted denied path makes the denial rate
+   undercount, and a denial rate that reads zero is indistinguishable from
+   nothing having been refused. Import the recorder inside the function, not
+   at module scope, so the control layer keeps no import-time dependency on
+   observability.
+9. Run `uv run python scripts/check_cedar_policies.py`, then
    `uv run pytest governance/tests tests/unit/control tests/unit/agents -q`.
-9. Update the Security Model in `docs/architecture/ARCHITECTURE.md` when the effective
+10. Update the Security Model in `docs/architecture/ARCHITECTURE.md` when the effective
    identity, permission, approval, or trust-boundary model changes.
 
 ## Completion criteria

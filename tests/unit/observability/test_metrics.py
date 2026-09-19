@@ -136,6 +136,76 @@ def test_configure_metrics_is_idempotent(reader):
     assert m.configure_metrics() is m.configure_metrics()
 
 
+# --- the instruments are actually wired to the code that should emit them ----
+#
+# An instrument nothing calls is the exact failure this module was built to
+# fix: the repository claimed metrics it never recorded. Asserting that
+# `record_*` works is not enough -- these assert that real refusal paths
+# reach it, so deleting the call site fails a test rather than silently
+# returning the counter to a permanent zero.
+
+
+def test_an_unknown_identity_at_the_mcp_boundary_increments_the_denial_counter(reader):
+    from src.mcp_server.server import invoke_tool
+
+    with pytest.raises(PermissionError):
+        invoke_tool(
+            "risk_metrics",
+            {"returns": [0.01, 0.02], "portfolio_values": [100, 101]},
+            identity="UNKNOWN",
+            portfolio_id="PORT_A",
+        )
+
+    denials = points(reader, "app.authorization.denials")
+    assert len(denials) == 1
+    assert denials[0].attributes["reason"] == "unknown_identity"
+
+
+def test_a_cross_portfolio_refusal_is_counted_with_its_own_reason(reader):
+    from src.mcp_server.server import invoke_tool
+
+    with pytest.raises(PermissionError):
+        invoke_tool(
+            "risk_metrics",
+            {"returns": [0.01, 0.02], "portfolio_values": [100, 101]},
+            identity="PM_USER",
+            portfolio_id="PORT_B",
+        )
+
+    denials = points(reader, "app.authorization.denials")
+    assert len(denials) == 1
+    assert denials[0].attributes["reason"] == "portfolio_not_entitled"
+    assert denials[0].attributes["role"] != "unknown", (
+        "the role should be resolved, so denials can be broken down by who was refused"
+    )
+
+
+def test_source_access_refusal_is_counted_at_the_control_layer(reader):
+    from src.control.authorization import enforce_source_access
+
+    with pytest.raises(PermissionError):
+        enforce_source_access(
+            "PM_USER", {"portfolio_state": {"portfolio_id": "PORT_B"}}
+        )
+
+    denials = points(reader, "app.authorization.denials")
+    assert len(denials) == 1
+    assert denials[0].attributes["reason"] == "source_not_entitled"
+
+
+def test_an_authorized_call_does_not_increment_the_denial_counter(reader):
+    """Otherwise the metric measures traffic, not refusals."""
+    from src.mcp_server.server import invoke_tool
+
+    invoke_tool(
+        "risk_metrics",
+        {"returns": [0.01, 0.02], "portfolio_values": [100, 101]},
+        identity="PM_USER",
+        portfolio_id="PORT_A",
+    )
+    assert points(reader, "app.authorization.denials") == []
+
+
 # --- propagation -------------------------------------------------------------
 
 

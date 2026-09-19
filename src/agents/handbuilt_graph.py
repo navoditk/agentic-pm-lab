@@ -55,12 +55,22 @@ Specialist = Literal["macro", "quant", "fundamental"]
 class ResearchState(TypedDict):
     """The graph's state schema.
 
-    `findings` carries `operator.add` as its reducer. Without it, a second
-    node writing `findings` would *replace* the first node's value rather
-    than appending to it — the single most common LangGraph surprise, and the
-    reason a fan-out pattern silently loses all but one branch. With it, the
-    key accumulates. Keys with no reducer (`question`, `route`, `answer`)
-    use last-write-wins, which is what you want for a scalar.
+    `findings` carries `operator.add` as its reducer, which matters in two
+    different ways depending on when the writes happen.
+
+    *Sequentially*, without a reducer a second node writing `findings` would
+    *replace* the first node's value rather than appending to it — silently,
+    which is the single most common LangGraph surprise.
+
+    *Concurrently* — a fan-out where two branches write the same key in one
+    step — LangGraph does not silently keep one branch. It raises
+    `InvalidUpdateError`, because with no reducer it has no rule for
+    combining the writes. Loud rather than silent, but still a bug you have
+    to fix at the schema.
+
+    With the reducer, both cases accumulate. Keys with no reducer
+    (`question`, `route`, `answer`) use last-write-wins, which is what you
+    want for a scalar only one node sets.
     """
 
     question: str
