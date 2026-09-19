@@ -56,11 +56,26 @@ class MCPToolSpec:
         return self.contract["properties"]["input"]
 
 
+def _count_denial(reason: str, role: str) -> None:
+    """Record a refusal as a metric before raising.
+
+    Imported inside the function, as `telemetry.py` does, so the observability
+    layer never becomes an import-time dependency of the control layer. A
+    denial is counted where it is actually enforced -- counting it anywhere
+    else would mean trusting that the caller reached this branch.
+    """
+    from src.observability.metrics import record_authorization_denial
+
+    record_authorization_denial(reason=reason, role=role)
+
+
 def _identity_allowed(identity: str, permission_name: str) -> str:
     role = role_for_identity(identity)
     if role is None:
+        _count_denial("unknown_identity", "unknown")
         raise PermissionError(f"Unknown identity: {identity}")
     if not check_tool_permission(role, permission_name):
+        _count_denial("tool_not_permitted", role)
         raise PermissionError(f"{identity} is not authorized for {permission_name}")
     return role
 
@@ -69,6 +84,9 @@ def _enforce_resource(identity: str, portfolio_id: str | None) -> None:
     if portfolio_id is None:
         return
     if not check_portfolio_access(identity, portfolio_id):
+        _count_denial(
+            "portfolio_not_entitled", role_for_identity(identity) or "unknown"
+        )
         raise PermissionError(
             f"{identity} is not authorized for portfolio {portfolio_id}"
         )

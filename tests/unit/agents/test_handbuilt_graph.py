@@ -111,8 +111,12 @@ def test_findings_reducer_appends_rather_than_replaces():
 def test_without_a_reducer_the_second_write_wins_and_the_first_is_lost():
     """The failure the annotation prevents, demonstrated rather than asserted.
 
-    This is the most common LangGraph surprise: a fan-out that silently keeps
-    only one branch. Same graph, no reducer.
+    This is the most common LangGraph surprise, and it is the *sequential*
+    case: two nodes running one after another, so the second write simply
+    overwrites the first with no warning. Same graph as above, no reducer.
+
+    The concurrent case behaves differently and is pinned separately below --
+    conflating the two is easy and wrong.
     """
 
     class Overwriting(TypedDict):
@@ -127,6 +131,59 @@ def test_without_a_reducer_the_second_write_wins_and_the_first_is_lost():
 
     result = graph.compile().invoke({"findings": []})
     assert result["findings"] == ["b"], "no reducer means last write wins"
+
+
+def test_a_concurrent_fan_out_without_a_reducer_raises_rather_than_dropping():
+    """The other half of the lesson, and the half that is easy to get wrong.
+
+    A sequential overwrite is silent. A *concurrent* one is not: when two
+    branches write the same unreduced key in a single step, LangGraph has no
+    rule for combining them and refuses rather than picking a winner. Pinned
+    as a test because the intuitive guess -- that a fan-out quietly keeps one
+    branch -- is wrong, and prose saying so has drifted before.
+    """
+    from langgraph.errors import InvalidUpdateError
+
+    class Overwriting(TypedDict):
+        findings: list[str]
+
+    graph = StateGraph(Overwriting)
+    graph.add_node("start", lambda s: {})
+    graph.add_node("first", lambda s: {"findings": ["a"]})
+    graph.add_node("second", lambda s: {"findings": ["b"]})
+    graph.add_node("join", lambda s: {})
+    graph.add_edge(START, "start")
+    graph.add_conditional_edges(
+        "start", lambda s: ["first", "second"], {"first": "first", "second": "second"}
+    )
+    graph.add_edge("first", "join")
+    graph.add_edge("second", "join")
+    graph.add_edge("join", END)
+
+    with pytest.raises(InvalidUpdateError, match="one value per step"):
+        graph.compile().invoke({"findings": []})
+
+
+def test_the_same_fan_out_with_a_reducer_keeps_both_branches():
+    """And the fix: the annotation is what makes the fan-out legal at all."""
+
+    class Accumulating(TypedDict):
+        findings: Annotated[list[str], operator.add]
+
+    graph = StateGraph(Accumulating)
+    graph.add_node("start", lambda s: {})
+    graph.add_node("first", lambda s: {"findings": ["a"]})
+    graph.add_node("second", lambda s: {"findings": ["b"]})
+    graph.add_node("join", lambda s: {})
+    graph.add_edge(START, "start")
+    graph.add_conditional_edges(
+        "start", lambda s: ["first", "second"], {"first": "first", "second": "second"}
+    )
+    graph.add_edge("first", "join")
+    graph.add_edge("second", "join")
+    graph.add_edge("join", END)
+
+    assert sorted(graph.compile().invoke({"findings": []})["findings"]) == ["a", "b"]
 
 
 # --- synthesis and checkpointing ---------------------------------------------

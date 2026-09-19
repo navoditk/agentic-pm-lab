@@ -143,6 +143,22 @@ call sites wrap the recording in a `try`/`except` that logs at debug level,
 on the principle that instrumentation must never be the reason a bond price
 fails to compute.
 
+Denials are wired separately, at the places that actually refuse — the MCP
+boundary's identity and portfolio checks, and `enforce_source_access` in the
+control layer — each with its own `reason` label, and the role resolved so a
+denial rate can be broken down by who was refused. Both import
+`record_authorization_denial` *inside* the function rather than at module
+scope, so the control layer never takes an import-time dependency on
+observability.
+
+Note what that wiring costs to get wrong, because this repository got it
+wrong: the counter existed, was tested, and was described in this document
+for a while before anything called it. A tested instrument with no call site
+reports zero forever, and zero is indistinguishable from "nothing was
+refused" — a false all-clear on the control layer. That is why the tests
+assert the *call sites* reach the instrument, not merely that the instrument
+works when called.
+
 `inject_trace_context()` and `extract_trace_context()` in `telemetry.py` are
 the propagation pair — inject before an outbound call, extract on the way in
 and pass the result as `context=` when starting the span. A carrier with no
