@@ -2,7 +2,7 @@
 
 This file is read automatically by Claude Code, by GitHub Copilot (coding agent, CLI, and the Copilot app), and by OpenAI Codex CLI at the start of a session in this repo. Its only job is to route: point each tool at the right document for the right question, so the project doesn't need re-explaining every session regardless of which tool picked it up.
 
-`.github/copilot-instructions.md` exists only as a thin pointer back to this file, for Copilot surfaces that specifically look in `.github/` first.
+`.github/copilot-instructions.md` and the root `CLAUDE.md` exist only as thin pointers back to this file, for surfaces that look elsewhere first. `CLAUDE.md` matters more than it looks: Claude Code reads this file directly in most sessions, but falls back to `CLAUDE.md` alone on Amazon Bedrock or another third-party provider, with telemetry disabled, when `disableAllHooks`/`allowManagedHooksOnly` is set, before v2.1.277, and on the first session after an upgrade — several of which are routine in a corporate environment. The `@AGENTS.md` import in `CLAUDE.md` is what keeps the rules below loaded in those sessions instead of silently absent. Keep both pointers thin; rules live here.
 
 ## The documents, and when to read which
 
@@ -26,7 +26,7 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 
 ## Repo rules (non-negotiable, apply regardless of which day or tool)
 
-- No company-sensitive information, internal system names, or proprietary data anywhere — in code, commits, docs, comments, or generated output. Public and mock data only (docs/architecture/PRD.md §1 and §3, principle 3).
+- No company-sensitive information, internal system names, or proprietary data anywhere — in code, commits, docs, comments, or generated output. Public and mock data only (docs/architecture/PRD.md §1 and §3, principle 3). Enforced twice, from one list (`config/security/banned-terms.txt`): `scripts/check_no_sensitive_data.py` blocks the commit for every tool and in CI, and `.claude/hooks/block_sensitive_writes.py` blocks the *write* for Claude Code sessions so the term never reaches the file. The pre-commit check is the portable floor — Codex and Copilot do not read Claude Code hooks — so never treat the hook as the only guard.
 - Every unfinished endpoint carries a `# MOCK — replace on Day X` docstring.
 - No test in `tests/unit/` may hit a real network call, API, or cloud resource — mock external dependencies (docs/PLAN.md §4).
 - Every skill's frontmatter (`covers`, `last_verified_commit`) must stay in sync with the code it documents. When the freshness gate flags a skill, re-read it against its covered paths and bump `last_verified_commit` in the same change; there is no label-based bypass (docs/PLAN.md §8.4).
