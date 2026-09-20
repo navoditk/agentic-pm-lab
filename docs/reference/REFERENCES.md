@@ -26,7 +26,7 @@ simplified, or deferred.
 | Agent architecture and harnesses | [Agent harnesses, skills, prompts, and custom agents](#agent-harnesses-skills-prompts-and-custom-agents) |
 | Tracing and evaluation | [LangSmith](#langsmith-tracing-datasets-experiments-evaluation) and [OpenTelemetry](#opentelemetry-python) |
 | Tools and context | [Model Context Protocol](#model-context-protocol-mcp) and [Context engineering](#context-engineering-day-4-planmd-13) |
-| Authorization and safety | [Security](#security-authnauthz-policy-as-code-prompt-injection-day-7-planmd-15) |
+| Authorization and safety | [Security](#security-authnauthz-policy-as-code-prompt-injection) |
 | AWS runtime operations | [AWS Bedrock & AgentCore](#aws-bedrock-agentcore) and [AWS IAM](#aws-iam-account-basics-day-12-account-setup) |
 | Investment data and FICC | [Public data APIs](#public-data-apis), [Public-data primers](#public-data-terminology-and-decision-use-primers), and [FICC fundamentals](#ficc-fixed-income-fundamentals) |
 
@@ -141,7 +141,10 @@ Not a "read before Day N" entry like the sections below — this is the source o
 - [IAM users, groups, and policies overview](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html)
 - [AWS Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html)
 
-### Security: AuthN/AuthZ, policy-as-code, prompt injection (Day 7, [`PLAN.md`](../PLAN.md) §15)
+### Security: AuthN/AuthZ, policy-as-code, prompt injection
+Day 7 — see [`PLAN.md`](../PLAN.md) §15. Kept out of the heading so the
+section's anchor stays stable; three tutor-side links point at it.
+
 - Cedar [policy language](https://www.cedarpolicy.com/) and [documentation](https://docs.cedarpolicy.com/)
 - OWASP [Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
 - AWS [Verified Permissions](https://docs.aws.amazon.com/verifiedpermissions/) — the managed Cedar production analog
