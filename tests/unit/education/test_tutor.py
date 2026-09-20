@@ -34,6 +34,50 @@ def test_teach_topic_is_read_only_and_grounded_in_the_agent_file():
         )
 
 
+def _github_heading_slugs(markdown: str) -> set[str]:
+    """Slugify every heading the way GitHub does, to resolve `#fragment` links.
+
+    Two details are what make this match the real renderer, and getting either
+    wrong turns the test below into one that passes on broken anchors:
+    inline markdown renders first (a link becomes its text, a code span its
+    contents), and each space becomes one hyphen rather than runs collapsing,
+    which is why a heading containing `&` yields a doubled hyphen.
+    """
+    import re
+
+    slugs = set()
+    for line in markdown.splitlines():
+        if not line.startswith("#"):
+            continue
+        heading = line.lstrip("#").strip()
+        heading = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", heading).replace("`", "")
+        slugs.add(re.sub(r"[^\w\s-]", "", heading.lower()).replace(" ", "-"))
+    return slugs
+
+
+def test_every_reference_anchor_resolves_to_a_real_heading():
+    """A learner clicking the reference must land on the section, not page top.
+
+    The prior assertion only checked the anchor was *present*, which a
+    truncated fragment passes: `governance-delivery-tutor` pointed at
+    `#security-authnauthz-policy-as-code-prompt-injection` while the heading
+    carried a `(Day 7, ... §15)` suffix that GitHub folds into the slug, so
+    three learner-facing links silently landed at the top of a long file.
+    """
+    from pathlib import Path
+
+    repo_root = Path(__file__).resolve().parents[3]
+    references = repo_root / "docs/reference/REFERENCES.md"
+    slugs = _github_heading_slugs(references.read_text(encoding="utf-8"))
+
+    for topic_id in TOPIC_CATALOG:
+        fragment = teach_topic(topic_id)["reference"].split("#", 1)[1]
+        assert fragment in slugs, (
+            f"{topic_id}'s reference anchor #{fragment} matches no heading in "
+            f"REFERENCES.md; a learner following it lands at the top of the file"
+        )
+
+
 def test_teach_topic_rejects_unknown_topic():
     with pytest.raises(ValueError, match="unknown topic"):
         teach_topic("not-a-real-topic")
