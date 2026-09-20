@@ -30,3 +30,9 @@ artifacts/*
 # Editors
 .vscode/
 .idea/
+
+# Agent tooling -- per-developer state, never shared.
+# `.claude/settings.json` IS tracked: it carries the team's shared permission
+# baseline and hook wiring. Only the `.local.` variants are personal.
+.claude/settings.local.json
+.claude/*.local.json
