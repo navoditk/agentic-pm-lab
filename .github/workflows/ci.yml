@@ -35,5 +35,8 @@ jobs:
       - name: Generated learning curriculum
         run: uv run python scripts/build_learning_curriculum.py --check
 
+      - name: Document line-range index
+        run: uv run python scripts/build_plan_index.py --check
+
       - name: Test (pytest)
         run: uv run pytest
