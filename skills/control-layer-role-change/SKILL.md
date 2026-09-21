@@ -7,7 +7,7 @@ covers:
   - governance/policies
   - src/control
   - src/agents
-last_verified_commit: f391fe9
+last_verified_commit: 6874615
 ---
 
 # control-layer-role-change
