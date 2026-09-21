@@ -36,19 +36,19 @@ Then work through these steps in order:
    [`TUTOR_COURSE_GUIDE.md`](TUTOR_COURSE_GUIDE.md) to understand the complete
    sequence: prerequisites, lessons, labs, failure practice, quiz, and
    teach-back.
-6. **List the tutors.** `uv run python scripts/tutor.py` — no arguments —
+6. **List the tutors.** `uv run agentic-pm-lab learn` — no arguments —
    prints all 14 domain tutor topics. This works in a plain terminal; it does
    not require Claude Code, Copilot, or Codex.
 7. **Inspect one course.** Pick a topic and run
-   `uv run python scripts/tutor.py <topic-id> --course`.
+   `uv run agentic-pm-lab course <topic-id>`.
    This prints its objectives, lessons, labs, assessment, and repository paths.
-8. **Read and trace the topic.** Run `uv run python scripts/tutor.py <topic-id>`
+8. **Read and trace the topic.** Run `uv run agentic-pm-lab learn <topic-id>`
    for the tutor scope, read its linked deep dive and references, then trace
    the implementation and tests named by the course outline.
 9. **Complete the labs before the quiz.** Run the local lab, then deliberately
    perform the failure lab and record the safe expected outcome. Both are
    fixture-based and require no paid services.
-10. **Take that topic's quiz.** `uv run python scripts/tutor.py <topic-id> --quiz`.
+10. **Take that topic's quiz.** `uv run agentic-pm-lab quiz <topic-id>`.
    It is a 20–30 question multiple-choice assessment, graded immediately, with
    repository citations. Your result is logged locally.
 11. **Check your own comprehension record.** Run

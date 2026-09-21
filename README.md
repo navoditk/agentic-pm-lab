@@ -10,6 +10,46 @@ It is deliberately company-agnostic and uses only public or clearly labelled
 mock data. It is not an investment adviser, trading system, autonomous order
 executor, or production deployment.
 
+## Start here
+
+Three routes in, depending on what you have. All three teach the same
+fourteen courses from the same canonical sources.
+
+**1. Nothing installed, or you cannot clone the repository.** Read the full
+interactive curriculum in a browser — every course, quiz, and reference,
+with no download:
+
+> **[Open the curriculum on GitHub Pages](https://navoditk.github.io/agentic-pm-lab/)**
+
+**2. You have a coding agent.** Open this checkout in **Claude Code, GitHub
+Copilot, or Codex** and say:
+
+```
+agentexpert
+```
+
+That loads the [Agentic PM Lab Mastery skill](docs/learning/MASTERY_SKILL.md)
+— a source-grounded tutor that runs lessons, quizzes, failure scenarios,
+build labs, teach-backs, and a cross-topic assessment, tracking XP and level
+as you go. It is read-only and offline by default: no credentials, no live
+providers, no investment actions. The same skill is wired for all three
+agents, so the experience does not depend on which one you use.
+
+**3. You prefer a terminal.** One command is the front door:
+
+```bash
+uv sync
+uv run agentic-pm-lab            # all commands, grouped by audience
+uv run agentic-pm-lab learn      # the fourteen courses
+uv run agentic-pm-lab quiz opentelemetry-tutor
+```
+
+No model, network, or API key is needed for any of the learning commands.
+
+New to fixed income or portfolio theory? Start with
+[pm-mechanics](https://github.com/navoditk/pm-mechanics) instead — this repo
+assumes the math and teaches how to govern it.
+
 ## Related repositories
 
 This repo is the **agent layer**: how to put deterministic financial analytics
@@ -89,12 +129,11 @@ The local 21-day learning path is complete. The repository currently provides:
 | AWS | AgentCore Runtime entrypoint and runbooks; live temporary Runtime, Memory, standalone Guardrails, and on-demand Evaluation evidence |
 | Learning | Fourteen tutor topics, deep-dive companions, 20–30-question quizzes, learner-progress tracking, source catalog, and no-cost exercises |
 
-Run the local verification yourself:
+Run the local verification yourself — this is the same gate set CI runs, so a
+green result here means a green pull request:
 
 ```bash
-UV_CACHE_DIR=/tmp/agentic-pm-lab-uv-cache uv run pytest -q
-UV_CACHE_DIR=/tmp/agentic-pm-lab-uv-cache uv run python scripts/check_progress.py
-UV_CACHE_DIR=/tmp/agentic-pm-lab-uv-cache uv run python scripts/check_skill_contracts.py
+uv run agentic-pm-lab check
 ```
 
 The test result is local verification evidence, not proof of a successful
@@ -107,7 +146,7 @@ platform. The remaining boundaries are intentional and documented:
 
 - portfolio positions, security-master classifications, and the research
   endpoint remain mock or fixture-backed;
-- the 23-question PM catalog is broader than the active 15-case golden dataset;
+- the 23-question PM catalog is broader than the active 22-case golden dataset;
   deferred questions include production liquidity, benchmark-relative risk,
   mortgage analytics, sentiment, and multi-period optimization;
 - AgentCore Gateway live evidence and Copilot-hosted browser evidence remain
@@ -138,66 +177,35 @@ See [EVIDENCE](docs/evidence/EVIDENCE.md) for local versus live proof and
 The important pattern is not any single vendor. It is the separation of
 calculation, reasoning, policy, evidence, and human decision-making.
 
-## Start learning
+## What the fourteen courses cover
 
-**No download required:** read the complete interactive curriculum on
-[GitHub Pages](https://navoditk.github.io/agentic-pm-lab/) or open the
-[standalone HTML artifact](artifacts/agentic-pm-curriculum.html) directly in
-the repository. Both are generated from the same canonical course sources on
-every merge to `main`; the publication workflow enables and deploys GitHub
-Pages automatically.
+FICC, portfolio construction, agent architecture, LangGraph/Deep Agents, AWS
+AgentCore, data and provenance, evaluation and AgentOps, OpenTelemetry,
+investment committees, Canvas/MCP, development lifecycle, governance and
+delivery, document-to-skill workflows, and public investment data.
 
-For the fastest guided route, open this checkout in **Copilot, Claude Code, or
-Codex** and say **`agentexpert`**. The
-[Agentic PM Lab Mastery skill](docs/learning/MASTERY_SKILL.md) routes you
-through source-grounded lessons, quizzes, failure scenarios, labs, teach-backs,
-and a cross-topic assessment. It is read-only and offline by default; it never
-uses credentials, live providers, or investment actions.
+Every course carries the same structure, whichever route you took above:
 
-For a terminal-only route, start at [START_HERE](docs/learning/START_HERE.md),
-then use the [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) and
-the [Depth Path](docs/learning/DEPTH_PATH.md). Each tutor has a
-machine-readable course outline with prerequisites, objectives, lessons, a
-local lab, a failure lab, and a teach-back assessment.
+| Element | What it is |
+|---|---|
+| Persona and deep dive | A compact orientation, then a repository-grounded walkthrough of the real code |
+| Objectives and lessons | What you should be able to do, and the sequence to get there |
+| Quiz | 20–30 deterministic questions, each citing a real repository file |
+| Local lab | Trace working code and perturb it |
+| Failure lab | Break it deliberately and explain the safe result |
+| Build lab | Write code yourself; the tutor reviews but never writes it for you |
+| Teach-back | Explain it back against a rubric |
 
-The fourteen tutor topics cover FICC, portfolio construction, agent
-architecture, LangGraph/Deep Agents, AWS AgentCore, data/provenance, evaluation
-and AgentOps, OpenTelemetry, investment committees, Canvas/MCP, development
-lifecycle, governance/delivery, document-to-skill workflows, and public
-investment data. Each course has a compact persona, a repository-grounded
-deep dive, explicit lessons and objectives, worked and adversarial examples,
-a deterministic 20–30-question quiz, a local lab, a failure lab, and a teach-back
-assessment. This supports complete self-paced learning courses, but does not
-claim production certification or expert mastery.
+This supports complete self-paced courses. It does not claim production
+certification or expert mastery.
 
-Use the [Tutor Runbook](docs/guides/TUTOR_RUNBOOK.md) to invoke a tutor from a
-CLI or compatible coding-agent surface. Understanding is recorded separately
-from implementation status in `docs/learning/LEARNER_PROGRESS.md`.
-
-## No-cost ways to make the platform more comprehensive
-
-The next improvements do not require live model or AWS spending:
-
-- expand the golden dataset from 15 cases to cover every currently supported
-  business question, with explicit `deferred` cases for unsupported questions;
-- add deterministic synthetic fixed-income fixtures for key-rate DV01,
-  spread duration, carry/rolldown, benchmark-relative risk, liquidity, and
-  mortgage-style negative convexity;
-- add walk-forward, look-ahead, stale-price, survivorship, corporate-action,
-  slippage, and infeasible-constraint tests;
-- add synthetic multi-session Memory fixtures and local Gateway contract tests
-  without deploying AWS resources;
-- add citation completeness, grounding, abstention, uncertainty, and
-  contradiction evaluators over authored fixtures;
-- add local fault-injection scenarios for stale, unavailable, duplicated,
-  conflicting, unlicensed, and prompt-injected evidence;
-- extend CI-enforced link validation beyond the generated curriculum artifact;
-  and
-- add a fully local browser/Canvas replay harness that checks state transitions
-  and evidence presentation without claiming Copilot-hosted behavior.
-
-These improvements increase coverage and teaching value while preserving the
-repo's evidence boundary.
+Deeper references: [START_HERE](docs/learning/START_HERE.md) for a zero-context
+on-ramp, the [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) for the
+course structure, the [Depth Path](docs/learning/DEPTH_PATH.md) for a
+recommended order, and the [Tutor Runbook](docs/guides/TUTOR_RUNBOOK.md) for
+invoking a tutor from any agent surface. Understanding is tracked separately
+from implementation status in
+[LEARNER_PROGRESS](docs/learning/LEARNER_PROGRESS.md).
 
 ## Repository map
 
@@ -212,42 +220,28 @@ repo's evidence boundary.
 | AWS AgentCore path | [AWS AgentCore setup](docs/guides/AWS_AGENTCORE_SETUP.md), [Gateway exercise](docs/guides/AGENTCORE_GATEWAY_SETUP.md) |
 | Guided learning | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/), [standalone artifact](artifacts/agentic-pm-curriculum.html), or say **`agentexpert`** in a Copilot, Claude Code, or Codex checkout |
 | Curriculum maintenance | [Freshness plan](docs/learning/CURRICULUM_FRESHNESS_PLAN.md), [Mastery skill](docs/learning/MASTERY_SKILL.md), [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) |
+| What to build next, at no cost | [No-cost roadmap](docs/learning/NO_COST_ROADMAP.md) |
 | References | [REFERENCES.md](docs/reference/REFERENCES.md) |
 | Experiments and comparisons | [experiments README](experiments/README.md), [benchmark report](docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md) |
 | Public-data catalog | [data README](data/README.md), [sample pack](data/samples/public_investment/README.md) |
 
-## Getting started
+## Building on it
 
-```bash
-uv sync
-uv run agentic-pm-lab          # every command, grouped by learner vs developer
-```
-
-One command is the front door. The learning path needs no model, network, or
-API key:
-
-```bash
-uv run agentic-pm-lab learn                      # the 14 courses
-uv run agentic-pm-lab course opentelemetry-tutor # objectives, lessons, labs
-uv run agentic-pm-lab quiz langgraph-deep-agents-tutor
-uv run agentic-pm-lab progress
-```
-
-Two developer commands sit beside it. `check` runs the same gates CI runs, so
-a green local run means a green PR. `plan` prints one day's implementation
-steps — about 1,800 tokens against roughly 51,000 for the whole plan, which
-matters when you are pasting context into an agent that cannot read your
-filesystem:
+The learning commands are above. Two developer commands sit beside them.
+`check` runs the same gates CI runs, so a green local run means a green pull
+request. `plan` prints one day's implementation steps — roughly 1,800 tokens
+against 51,000 for the whole plan, which matters when you are pasting context
+into an agent that cannot read your filesystem:
 
 ```bash
 uv run agentic-pm-lab check --fast
 uv run agentic-pm-lab plan 7 --quiet | pbcopy
 ```
 
-Then follow [START_HERE](docs/learning/START_HERE.md). All unit tests mock
-external dependencies. Never add credentials, proprietary data, or claims of
-live evidence without recording the corresponding experiment and cleanup
-state.
+Setup is in [INSTALL.md](INSTALL.md); the day-by-day path is in
+[PLAN.md](docs/PLAN.md). All unit tests mock external dependencies. Never add
+credentials, proprietary data, or claims of live evidence without recording
+the corresponding experiment and cleanup state.
 
 ## Influences and durable takeaways
 

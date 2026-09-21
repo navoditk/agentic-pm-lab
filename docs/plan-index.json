@@ -915,7 +915,7 @@
     },
     "docs/reference/REFERENCES.md": {
       "total_lines": 560,
-      "approx_tokens": 12712,
+      "approx_tokens": 12709,
       "sections": [
         {
           "id": "how-to-use-this-file",
@@ -924,7 +924,7 @@
           "file": "docs/reference/REFERENCES.md",
           "start_line": 17,
           "end_line": 560,
-          "approx_tokens": 12423
+          "approx_tokens": 12420
         },
         {
           "id": "origins-inspiration",
@@ -1086,7 +1086,7 @@
           "file": "docs/reference/REFERENCES.md",
           "start_line": 238,
           "end_line": 276,
-          "approx_tokens": 612
+          "approx_tokens": 610
         },
         {
           "id": "document-ingestion-and-document-to-skill-design",

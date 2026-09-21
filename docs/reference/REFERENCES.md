@@ -271,7 +271,7 @@ the maintained audio starting points for this bibliography.
 
 Every tutor above also has a deep-dive companion under
 [`docs/learning/tutors/`](../learning/tutors/) and a 20-30 question
-self-check quiz (`uv run python scripts/tutor.py <topic-id> --quiz`) — see
+self-check quiz (`uv run agentic-pm-lab quiz <topic-id>`) — see
 [`docs/guides/TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md#standalone-cli-quizzes-and-comprehension-tracking).
 
 ### Document ingestion and document-to-skill design

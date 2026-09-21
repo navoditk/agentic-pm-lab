@@ -71,7 +71,7 @@ def render_status_block(topics: list[str], log_dir: Path) -> str:
 
 **Tracks comprehension, not implementation.** A topic shows ✅ here only
 after the learner has taken and passed its quiz with
-`uv run python scripts/tutor.py <topic> --quiz`; nothing here is inferred
+`uv run agentic-pm-lab quiz <topic>`; nothing here is inferred
 from what code exists. Compare with `PROGRESS.md`, which tracks whether the
 day's code was built.
 
