@@ -95,6 +95,7 @@ investment-committee judgment; it's a floor, not a replacement.
 2. Construct a minimal thesis with one claim and no linked evidence:
    ```python
    from src.agents.devils_advocate import challenge_thesis
+
    thesis = {
        "thesis_id": "T-1",
        "claims": [{"claim_id": "C-1", "evidence_ids": []}],

@@ -220,9 +220,28 @@ repo's evidence boundary.
 
 ```bash
 uv sync
-uv run pytest -q
-uv run python scripts/tutor.py
-uv run python scripts/tutor.py langgraph-deep-agents-tutor --quiz
+uv run agentic-pm-lab          # every command, grouped by learner vs developer
+```
+
+One command is the front door. The learning path needs no model, network, or
+API key:
+
+```bash
+uv run agentic-pm-lab learn                      # the 14 courses
+uv run agentic-pm-lab course opentelemetry-tutor # objectives, lessons, labs
+uv run agentic-pm-lab quiz langgraph-deep-agents-tutor
+uv run agentic-pm-lab progress
+```
+
+Two developer commands sit beside it. `check` runs the same gates CI runs, so
+a green local run means a green PR. `plan` prints one day's implementation
+steps — about 1,800 tokens against roughly 51,000 for the whole plan, which
+matters when you are pasting context into an agent that cannot read your
+filesystem:
+
+```bash
+uv run agentic-pm-lab check --fast
+uv run agentic-pm-lab plan 7 --quiet | pbcopy
 ```
 
 Then follow [START_HERE](docs/learning/START_HERE.md). All unit tests mock
