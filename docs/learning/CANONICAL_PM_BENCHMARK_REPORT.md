@@ -135,7 +135,7 @@ The Day 6 OpenAI baseline provides the current deepest evaluation implementation
 
 ### Evidence links
 
-- [OpenAI OTel/LangSmith baseline](../learning/observability-evaluation.md#baseline-runs)
+- [OpenAI OTel/LangSmith baseline](../learning/observability-evaluation.md#accepted-experiments)
 - [OpenAI exact canonical rerun](../../experiments/runs/openai-direct-canonical-20260817-031116/)
 - [Direct Anthropic canonical rerun](../../experiments/runs/anthropic-direct-canonical-20260817-030257/)
 - [AWS Claude exact canonical rerun](../../experiments/runs/canonical-claude-20260817-022944-34585c43/)

@@ -27,8 +27,8 @@ simplified, or deferred.
 | Tracing and evaluation | [LangSmith](#langsmith-tracing-datasets-experiments-evaluation) and [OpenTelemetry](#opentelemetry-python) |
 | Tools and context | [Model Context Protocol](#model-context-protocol-mcp) and [Context engineering](#context-engineering-day-4-planmd-13) |
 | Authorization and safety | [Security](#security-authnauthz-policy-as-code-prompt-injection) |
-| AWS runtime operations | [AWS Bedrock & AgentCore](#aws-bedrock-agentcore) and [AWS IAM](#aws-iam-account-basics-day-12-account-setup) |
-| Investment data and FICC | [Public data APIs](#public-data-apis), [Public-data primers](#public-data-terminology-and-decision-use-primers), and [FICC fundamentals](#ficc-fixed-income-fundamentals) |
+| AWS runtime operations | [AWS Bedrock & AgentCore](#aws-bedrock--agentcore) and [AWS IAM](#aws-iam--account-basics-day-12-account-setup) |
+| Investment data and FICC | [Public data APIs](#public-data-apis), [Public-data primers](#public-data-terminology-and-decision-use-primers), and [FICC fundamentals](#ficc--fixed-income-fundamentals) |
 
 > **Evidence boundary:** a reference explains a concept or provider. It does
 > not prove that this repository implements the capability or that a live
