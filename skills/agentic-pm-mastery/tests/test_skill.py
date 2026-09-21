@@ -17,7 +17,10 @@ def test_skill_is_tool_neutral_and_preserves_offline_learning():
 
     assert "CLI's structured question/choice tool" in skill_text
     assert "Otherwise, retain progress in the active conversation" in skill_text
-    assert "scripts/tutor.py <topic-id> --quiz" in skill_text
+    # The documented entry point, not the module behind it. This asserts the
+    # exact string a learner is told to type, so the skill cannot drift from
+    # the CLI the rest of the documentation now routes through.
+    assert "agentic-pm-lab quiz <topic-id>" in skill_text
 
 
 def test_contract_prohibits_live_and_investment_actions():

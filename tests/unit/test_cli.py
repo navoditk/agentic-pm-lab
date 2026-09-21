@@ -117,14 +117,31 @@ def test_plan_list_shows_every_day_with_its_cost(capsys):
 
 
 def test_check_runs_the_same_gates_as_ci():
-    """Drift between local `check` and CI is how "it passed locally" happens."""
+    """Drift between local `check` and CI is how "it passed locally" happens.
+
+    Scans every workflow rather than ci.yml alone. The narrower version of
+    this test passed while `check` was missing the skill and governance
+    suites entirely -- root pytest is scoped to `tests/` by `testpaths`, so
+    those run only in contract-tests.yml and authorization-tests.yml, and
+    `check` reported green on a PR that CI failed.
+    """
     from pathlib import Path
 
-    workflow = Path(".github/workflows/ci.yml").read_text(encoding="utf-8")
+    workflows = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in Path(".github/workflows").glob("*.yml")
+    )
     for _, command in CHECKS:
         script = next((part for part in command if part.startswith("scripts/")), None)
         if script:
-            assert script in workflow, f"{script} runs locally but not in CI"
+            assert script in workflows, f"{script} runs locally but not in CI"
+
+
+def test_check_covers_the_suites_root_pytest_excludes():
+    """`pytest -q` alone does not reach skills/ or governance/tests."""
+    commands = [" ".join(command) for _, command in CHECKS]
+    assert any("pytest skills" in command for command in commands)
+    assert any("pytest governance/tests" in command for command in commands)
 
 
 def test_fast_is_a_strict_subset_of_the_full_gate_set():
