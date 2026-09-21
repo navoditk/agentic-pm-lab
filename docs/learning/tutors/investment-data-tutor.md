@@ -100,7 +100,6 @@ Look at three entries closely, since they illustrate three different kinds of
 3. Confirm the vintage discipline yourself:
    ```python
    from src.education.investment_data_tutor import read_sample
-
    record = read_sample("alfred")[0]
    print(record["observation_date"], record["vintage"])
    ```

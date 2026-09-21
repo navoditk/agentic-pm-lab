@@ -89,7 +89,6 @@ Trace one credit-shock scenario end to end:
 2. Run it directly:
    ```python
    from src.analytics.scenario import scenario_analysis
-
    scenario_analysis(
        [{"security_id": "A", "weight": 1.0, "spread_duration": 4.0}],
        "credit",

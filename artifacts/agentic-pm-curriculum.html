@@ -10,7 +10,7 @@ main{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}h1{font-size:clamp(2r
 <header><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
 <p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Read the full course material and take browser-local quizzes without downloading the repository.</p>
 </header><main>
-<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>74223195f999</code>.</div>
+<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>09c569569771</code>.</div>
 <h2>Start a path</h2><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
 <p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, use <code>scripts/tutor.py</code> after cloning.</p>
 <details><summary>How to use this curriculum</summary><article><h1>Tutor courses: learner guide</h1>
@@ -275,7 +275,6 @@ uv run python scripts/check_learner_progress.py</code></pre>
 <p>Everything lives in <code>src/analytics/optimizer.py</code>'s <code>optimize_portfolio()</code>, which is long-only (no shorting) and takes an explicit <code>method</code> of <code>"max_sharpe"</code>, <code>"min_volatility"</code>, or <code>"risk_parity"</code>.</p>
 <p><strong>Validation comes first.</strong> <code>_validate_inputs()</code> rejects, before any optimization runs: fewer than two assets; mismatched asset sets across <code>expected_returns</code>, <code>covariance</code>, and <code>current_weights</code>; weight bounds outside <code>[0, 1]</code> or out of order; <code>current_weights</code> that don't sum to 1 or contain a negative value; and a covariance matrix that isn't symmetric positive-semidefinite (checked via <code>np.allclose(matrix, matrix.T)</code> and <code>np.linalg.eigvalsh(matrix) &gt;= -1e-10</code>). Verified directly:</p>
 <pre><code>from src.analytics.optimizer import _validate_inputs
-
 _validate_inputs(
     {&quot;A&quot;: 0.1, &quot;B&quot;: 0.1},
     {&quot;A&quot;: {&quot;A&quot;: 1, &quot;B&quot;: 0.5}, &quot;B&quot;: {&quot;A&quot;: 0.9, &quot;B&quot;: 1}},  # not symmetric
@@ -288,7 +287,6 @@ _validate_inputs(
 <p><strong>Every method's raw weights get clipped to zero and renormalized</strong> (<code>weights = {asset: max(0.0, ...) for ...}</code> then divided by their sum) before turnover and concentration are checked — a tiny negative weight PyPortfolioOpt sometimes returns due to floating-point noise doesn't count as a short position or an infeasibility.</p>
 <p><strong><code>compare_to_current()</code> computes per-asset deltas and one-way turnover:</strong> <code>0.5 * sum(abs(delta) for delta in deltas.values())</code>. Verified:</p>
 <pre><code>from src.analytics.optimizer import compare_to_current
-
 compare_to_current({&quot;A&quot;: 0.3, &quot;B&quot;: 0.7}, {&quot;A&quot;: 0.5, &quot;B&quot;: 0.5})
 # ({&#x27;A&#x27;: -0.2, &#x27;B&#x27;: 0.19999999999999996}, 0.19999999999999998)</code></pre>
 <p><strong>Feasibility is enforced by raising, not clipping:</strong> if the computed turnover exceeds <code>max_turnover</code>, <code>optimize_portfolio()</code> raises <code>ValueError</code> with the actual computed figure in the message (<code>f"optimization exceeds max_turnover: {turnover:.6f}"</code>). A <code>max_concentration</code> breach also raises, but its message does *not* include the computed figure (<code>"optimization exceeds max_concentration"</code>, no number) — worth knowing if you're debugging from the exception text alone. Either way, this is the concrete mechanism behind "infeasible means a human decides" — there is no silent constraint-relaxation path in this code.</p>
@@ -316,10 +314,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <p>Now run the same inputs through <code>"min_volatility"</code> and <code>"risk_parity"</code> and compare — the ordering is not what intuition might predict. <code>min_volatility</code> gives A the least weight of the three (<code>{"A": 0.1, "B": 0.9}</code>, volatility 0.0949 versus max-Sharpe's 0.1019), which fits the "minimize variance" objective given A's variance (0.09) is 9x B's (0.01). <code>risk_parity</code>'s inverse-volatility fallback lands at <code>{"A": 0.25, "B": 0.75}</code> — a 1:3 weight ratio, from weighting each asset inversely to its own standard deviation (<code>1/sqrt(0.09) : 1/sqrt(0.01)</code> normalized). That 0.25 is actually *larger* than max-Sharpe's 0.21739, not "between" min-volatility and max-Sharpe as the numbers might suggest at a glance: risk parity's inverse-volatility heuristic never looks at expected return at all, only the volatility ratio, while max-Sharpe's 0.21739 is the result of a genuine risk/return trade-off that partially — but not fully — offsets A's higher volatility against its much higher expected return (0.10 vs. B's 0.04). In this particular example that trade-off happens to land max-Sharpe's weight on A *below* risk parity's, which is a useful reminder that "which method is more aggressive toward a given asset" depends on the specific numbers, not on a general ranking between the three methods.</p>
 <p>Then try tightening the constraint until it breaks:</p>
 <pre><code>optimize_portfolio(
-    &quot;max_sharpe&quot;,
-    expected_returns,
-    covariance,
-    current_weights,
+    &quot;max_sharpe&quot;, expected_returns, covariance, current_weights,
     max_turnover=0.01,
 )
 # ValueError: optimization exceeds max_turnover: 0.282610</code></pre>
@@ -926,10 +921,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <li>Read <code>challenge_thesis()</code>'s signature and the <code>CHALLENGE_CATEGORIES</code> tuple</li>
 <p>in <code>src/agents/devils_advocate.py</code>.</p>
 <li>Construct a minimal thesis with one claim and no linked evidence:</li>
-<p>```python from src.agents.devils_advocate import challenge_thesis</p>
-</ol>
-<p>thesis = { "thesis_id": "T-1", "claims": [{"claim_id": "C-1", "evidence_ids": []}], "evidence": [], "allocation": [{"security_id": "A", "weight": 0.4, "liquidity_status": "illiquid"}], "invalidation_conditions": [], } result = challenge_thesis(thesis, decision_date="2026-01-15") ```</p>
-<ol>
+<p>``<code>python from src.agents.devils_advocate import challenge_thesis thesis = { "thesis_id": "T-1", "claims": [{"claim_id": "C-1", "evidence_ids": []}], "evidence": [], "allocation": [{"security_id": "A", "weight": 0.4, "liquidity_status": "illiquid"}], "invalidation_conditions": [], } result = challenge_thesis(thesis, decision_date="2026-01-15") </code>``</p>
 <li>Inspect <code>result["findings"]</code> — you should see four findings:</li>
 <p><code>missing_evidence</code> (claim C-1 has no evidence), <code>concentration_risk</code> (0.4 &gt; the default 0.25 max), <code>liquidity_risk</code> (illiquid), and <code>invalidation_conditions</code> (the list is empty). Confirm <code>result["coverage"]</code> lists <code>contradictory_data</code>, <code>stale_sources</code>, and <code>unsupported_causality</code> as <code>uncovered</code> — this thesis simply didn't give those checks anything to examine, which is different from passing them.</p>
 <li>Now call <code>run_committee_challenge(thesis, decision_date="2026-01-15")</code></li>
@@ -1303,10 +1295,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <li>List every source: <code>uv run python scripts/investment_data_tutor.py</code>.</li>
 <li>Teach one source with its sample: <code>uv run python scripts/investment_data_tutor.py alfred --browse</code>.</li>
 <li>Confirm the vintage discipline yourself:</li>
-<p>```python from src.education.investment_data_tutor import read_sample</p>
-</ol>
-<p>record = read_sample("alfred")[0] print(record["observation_date"], record["vintage"]) ``` The two dates differ — that gap is the entire reason ALFRED exists separately from a plain current-value macro feed.</p>
-<ol>
+<p>``<code>python from src.education.investment_data_tutor import read_sample record = read_sample("alfred")[0] print(record["observation_date"], record["vintage"]) </code>`` The two dates differ — that gap is the entire reason ALFRED exists separately from a plain current-value macro feed.</p>
 <li>Compare that against a mock, licensing-blocked source:</li>
 <p><code>uv run python scripts/investment_data_tutor.py finra-trace --browse</code>, and read its <code>status</code> field closely.</p>
 <li>Run the real test that pins this catalog's shape:</li>
@@ -1382,10 +1371,7 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 <li>Read <code>src/analytics/scenario.py</code>'s <code>scenario_analysis()</code> docstring and</li>
 <p><code>ScenarioPosition</code> TypedDict.</p>
 <li>Run it directly:</li>
-<p>```python from src.analytics.scenario import scenario_analysis</p>
-</ol>
-<p>scenario_analysis( [{"security_id": "A", "weight": 1.0, "spread_duration": 4.0}], "credit", 50, ) ```</p>
-<ol>
+<p>``<code>python from src.analytics.scenario import scenario_analysis scenario_analysis( [{"security_id": "A", "weight": 1.0, "spread_duration": 4.0}], "credit", 50, ) </code>``</p>
 <li>Confirm the result: <code>portfolio_return_impact</code> should be</li>
 <p><code>-1.0 * 4.0 * 50 / 10_000 = -0.02</code> (a 2% loss for a 50bp spread widening on a fully-weighted, spread-duration-4 position).</p>
 <li>Compare that against the <code>quant-optimize-max-sharpe</code> and</li>

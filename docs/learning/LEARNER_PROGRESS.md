@@ -12,7 +12,7 @@ order to work through them in.
 
 <!-- LEARNER_PROGRESS:START -->
 
-## Status: 1 of 14 tutor topics passed (≥80% quiz score)
+## Status: 0 of 14 tutor topics passed (≥80% quiz score)
 
 **Tracks comprehension, not implementation.** A topic shows ✅ here only
 after the learner has taken and passed its quiz with
@@ -34,7 +34,7 @@ day's code was built.
 | investment-committee-tutor | 0 | - | ⬜ Not attempted |
 | investment-data-tutor | 0 | - | ⬜ Not attempted |
 | langgraph-deep-agents-tutor | 0 | - | ⬜ Not attempted |
-| opentelemetry-tutor | 1 | 30/30 | ✅ Passed |
+| opentelemetry-tutor | 0 | - | ⬜ Not attempted |
 | portfolio-construction-tutor | 0 | - | ⬜ Not attempted |
 
 <!-- LEARNER_PROGRESS:END -->
