@@ -1,6 +1,6 @@
 # Governance and delivery — deep dive
 
-*Companion to [`.github/agents/governance-delivery-tutor.agent.md`](../../../.github/agents/governance-delivery-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run python scripts/tutor.py governance-delivery-tutor --quiz`.*
+*Companion to [`.github/agents/governance-delivery-tutor.agent.md`](../../../.github/agents/governance-delivery-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz governance-delivery-tutor`.*
 
 ## What this actually is
 

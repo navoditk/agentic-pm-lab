@@ -27,8 +27,8 @@ simplified, or deferred.
 | Tracing and evaluation | [LangSmith](#langsmith-tracing-datasets-experiments-evaluation) and [OpenTelemetry](#opentelemetry-python) |
 | Tools and context | [Model Context Protocol](#model-context-protocol-mcp) and [Context engineering](#context-engineering-day-4-planmd-13) |
 | Authorization and safety | [Security](#security-authnauthz-policy-as-code-prompt-injection) |
-| AWS runtime operations | [AWS Bedrock & AgentCore](#aws-bedrock-agentcore) and [AWS IAM](#aws-iam-account-basics-day-12-account-setup) |
-| Investment data and FICC | [Public data APIs](#public-data-apis), [Public-data primers](#public-data-terminology-and-decision-use-primers), and [FICC fundamentals](#ficc-fixed-income-fundamentals) |
+| AWS runtime operations | [AWS Bedrock & AgentCore](#aws-bedrock--agentcore) and [AWS IAM](#aws-iam--account-basics-day-12-account-setup) |
+| Investment data and FICC | [Public data APIs](#public-data-apis), [Public-data primers](#public-data-terminology-and-decision-use-primers), and [FICC fundamentals](#ficc--fixed-income-fundamentals) |
 
 > **Evidence boundary:** a reference explains a concept or provider. It does
 > not prove that this repository implements the capability or that a live
@@ -271,7 +271,7 @@ the maintained audio starting points for this bibliography.
 
 Every tutor above also has a deep-dive companion under
 [`docs/learning/tutors/`](../learning/tutors/) and a 20-30 question
-self-check quiz (`uv run python scripts/tutor.py <topic-id> --quiz`) — see
+self-check quiz (`uv run agentic-pm-lab quiz <topic-id>`) — see
 [`docs/guides/TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md#standalone-cli-quizzes-and-comprehension-tracking).
 
 ### Document ingestion and document-to-skill design

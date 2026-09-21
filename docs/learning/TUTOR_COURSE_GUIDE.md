@@ -23,13 +23,13 @@ records and works without a Copilot surface.
 1. List topics:
 
    ```bash
-   uv run python scripts/tutor.py
+   uv run agentic-pm-lab learn
    ```
 
 2. Inspect the course outline:
 
    ```bash
-   uv run python scripts/tutor.py aws-agentcore-tutor --course
+   uv run agentic-pm-lab course aws-agentcore-tutor
    ```
 
 3. Read the linked deep dive and official references. Write down the
@@ -42,7 +42,7 @@ records and works without a Copilot surface.
 7. Take the quiz:
 
    ```bash
-   uv run python scripts/tutor.py aws-agentcore-tutor --quiz
+   uv run agentic-pm-lab quiz aws-agentcore-tutor
    ```
 
 8. Run `uv run python scripts/check_learner_progress.py` to record the quiz

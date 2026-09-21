@@ -1,6 +1,6 @@
 # Evaluations and AgentOps — deep dive
 
-*Companion to [`.github/agents/evaluation-agentops-tutor.agent.md`](../../../.github/agents/evaluation-agentops-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run python scripts/tutor.py evaluation-agentops-tutor --quiz`.*
+*Companion to [`.github/agents/evaluation-agentops-tutor.agent.md`](../../../.github/agents/evaluation-agentops-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz evaluation-agentops-tutor`.*
 
 ## What this actually is
 

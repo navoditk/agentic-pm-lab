@@ -47,7 +47,15 @@ CHECKS: tuple[tuple[str, list[str]], ...] = (
         ["python", "scripts/build_learning_curriculum.py", "--check"],
     ),
     ("document index", ["python", "scripts/build_plan_index.py", "--check"]),
+    ("doc links", ["python", "scripts/check_doc_links.py"]),
     ("tests", ["pytest", "-q"]),
+    # Root pytest is scoped to tests/ (see pyproject testpaths), so the skill
+    # and governance suites run only in their own workflows. Without these two
+    # lines `check` would report green while contract-tests.yml failed -- which
+    # it did, on a skill test asserting a command string this CLI had changed.
+    ("skill contracts", ["python", "scripts/check_skill_contracts.py"]),
+    ("skill tests", ["pytest", "skills", "-q"]),
+    ("authorization tests", ["pytest", "governance/tests", "-q"]),
 )
 
 OVERVIEW = """\

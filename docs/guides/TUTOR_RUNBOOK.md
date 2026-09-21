@@ -51,9 +51,9 @@ state which inputs are supplied or mock, and finish with one local exercise.
 The CLI exposes the full course outline as well as the compact tutor scope:
 
 ```bash
-uv run python scripts/tutor.py portfolio-construction-tutor --course
-uv run python scripts/tutor.py portfolio-construction-tutor
-uv run python scripts/tutor.py portfolio-construction-tutor --quiz
+uv run agentic-pm-lab course portfolio-construction-tutor
+uv run agentic-pm-lab learn portfolio-construction-tutor
+uv run agentic-pm-lab quiz portfolio-construction-tutor
 ```
 
 Follow the [Tutor Course Guide](../learning/TUTOR_COURSE_GUIDE.md) in order.
@@ -70,9 +70,9 @@ the same 14 topic ids as `tests/unit/scripts/test_tutor_agents.py`'s
 `ficc-tutor-agent` under `docs/agent-templates/`):
 
 ```bash
-uv run python scripts/tutor.py                              # list all 14 topics
-uv run python scripts/tutor.py agent-architecture-tutor      # print that topic's scope
-uv run python scripts/tutor.py agent-architecture-tutor --quiz   # take its 20-30 question quiz
+uv run agentic-pm-lab learn                              # list all 14 topics
+uv run agentic-pm-lab learn agent-architecture-tutor      # print that topic's scope
+uv run agentic-pm-lab quiz agent-architecture-tutor   # take its 20-30 question quiz
 ```
 
 `scripts/tutor.py` and its logic module `src/education/tutor.py` are a thin

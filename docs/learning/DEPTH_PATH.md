@@ -6,7 +6,7 @@ teach it to someone else.” It complements the 21-day build plan; it does not
 claim that a tutor or a quiz creates production expertise.
 
 Use [`TUTOR_COURSE_GUIDE.md`](TUTOR_COURSE_GUIDE.md) for the complete course
-sequence and `uv run python scripts/tutor.py <topic-id> --course` for the
+sequence and `uv run agentic-pm-lab course <topic-id>` for the
 topic-specific syllabus.
 
 ## The four-pass method

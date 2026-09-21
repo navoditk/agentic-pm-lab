@@ -1,6 +1,6 @@
 # Copilot Canvas and MCP — deep dive
 
-*Companion to [`.github/agents/copilot-canvas-mcp-tutor.agent.md`](../../../.github/agents/copilot-canvas-mcp-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run python scripts/tutor.py copilot-canvas-mcp-tutor --quiz`.*
+*Companion to [`.github/agents/copilot-canvas-mcp-tutor.agent.md`](../../../.github/agents/copilot-canvas-mcp-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz copilot-canvas-mcp-tutor`.*
 
 ## What this actually is
 

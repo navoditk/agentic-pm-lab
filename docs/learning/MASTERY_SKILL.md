@@ -47,8 +47,8 @@ Progress is session-only when the chosen CLI has no durable session store. For
 a durable, CLI-neutral quiz record, use the companion CLI:
 
 ```bash
-uv run python scripts/tutor.py <topic-id> --course
-uv run python scripts/tutor.py <topic-id> --quiz
+uv run agentic-pm-lab course <topic-id>
+uv run agentic-pm-lab quiz <topic-id>
 uv run python scripts/check_learner_progress.py
 ```
 

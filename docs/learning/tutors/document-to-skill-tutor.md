@@ -1,6 +1,6 @@
 # Document-to-skill pipeline — deep dive
 
-*Companion to [`.github/agents/document-to-skill-tutor.agent.md`](../../../.github/agents/document-to-skill-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run python scripts/tutor.py document-to-skill-tutor --quiz`.*
+*Companion to [`.github/agents/document-to-skill-tutor.agent.md`](../../../.github/agents/document-to-skill-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz document-to-skill-tutor`.*
 
 ## What this actually is
 

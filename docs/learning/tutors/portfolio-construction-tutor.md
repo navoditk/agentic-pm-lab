@@ -1,6 +1,6 @@
 # Portfolio construction — deep dive
 
-*Companion to [`.github/agents/portfolio-construction-tutor.agent.md`](../../../.github/agents/portfolio-construction-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run python scripts/tutor.py portfolio-construction-tutor --quiz`.*
+*Companion to [`.github/agents/portfolio-construction-tutor.agent.md`](../../../.github/agents/portfolio-construction-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz portfolio-construction-tutor`.*
 
 > **Scope note.** This page covers portfolio construction as far as this repository's optimizer exercises it — enough to reason about what the agent proposes and where it can go wrong. For the underlying theory derived and tested from scratch — efficient frontier, tangency portfolio, mean-variance optimization, covariance shrinkage, Black-Litterman, risk parity, tracking error, and factor risk decomposition — see [pm-mechanics](https://github.com/navoditk/pm-mechanics).
 

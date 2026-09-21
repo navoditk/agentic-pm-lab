@@ -2,7 +2,7 @@
 
 This file is **generated**. It tracks quiz-verified comprehension of the 14
 tutor topics, not build status — that's `PROGRESS.md`. Take a topic's quiz
-with `uv run python scripts/tutor.py <topic> --quiz`, then run
+with `uv run agentic-pm-lab quiz <topic>`, then run
 `uv run python scripts/check_learner_progress.py` and commit the regenerated
 table. Don't hand-edit inside the markers.
 
@@ -16,7 +16,7 @@ order to work through them in.
 
 **Tracks comprehension, not implementation.** A topic shows ✅ here only
 after the learner has taken and passed its quiz with
-`uv run python scripts/tutor.py <topic> --quiz`; nothing here is inferred
+`uv run agentic-pm-lab quiz <topic>`; nothing here is inferred
 from what code exists. Compare with `PROGRESS.md`, which tracks whether the
 day's code was built.
 

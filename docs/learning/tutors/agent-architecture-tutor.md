@@ -1,6 +1,6 @@
 # Agent architecture — deep dive
 
-*Companion to [`.github/agents/agent-architecture-tutor.agent.md`](../../../.github/agents/agent-architecture-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run python scripts/tutor.py agent-architecture-tutor --quiz`.*
+*Companion to [`.github/agents/agent-architecture-tutor.agent.md`](../../../.github/agents/agent-architecture-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz agent-architecture-tutor`.*
 
 ## What this actually is
 
