@@ -9,7 +9,7 @@ covers:
   - docs/learning/tutor-courses.json
   - docs/learning/tutors
   - evals/tutor_quizzes
-last_verified_commit: 66b5c15e5561f9ae7dd81ab79028d08334003583
+last_verified_commit: b92c4c50e008f66f69a327814aca6947bf850d14
 ---
 
 # Agentic PM Lab Mastery
@@ -53,7 +53,7 @@ state a documented limitation when it materially affects the answer.
 | "build lab" or "let me build something" | Read the topic's `build_lab`; the learner writes the code. Review what they produce against whether it runs and whether its test would fail if the behaviour regressed — never write it for them. |
 | "review my lab" or "teach-back" | Read the course assessment and evaluate against its rubric without doing the work for the learner. |
 | "final assessment" | Read `references/final-assessment.md`; run the cross-topic assessment. |
-| "my progress" | Report session progress and explain how to record an offline quiz attempt with `scripts/tutor.py`. |
+| "my progress" | Report session progress and explain how to record an offline quiz attempt with `uv run agentic-pm-lab quiz <topic-id>`. |
 
 For a focused factual question, answer directly from the current source and do
 not force the learner through a lesson.
@@ -90,7 +90,7 @@ completion in `pm_mastery_completed`. The repository's durable, CLI-neutral
 quiz record remains `data/learner_progress/`, written by:
 
 ```bash
-uv run python scripts/tutor.py <topic-id> --quiz
+uv run agentic-pm-lab quiz <topic-id>
 ```
 
 ## Teaching protocol
