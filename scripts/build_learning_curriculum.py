@@ -47,6 +47,82 @@ def repository_link(href: str, source_path: Path | None) -> str:
     )
 
 
+# Top-level directories whose contents are worth linking to. Anchored, so a
+# path only matches from a real repository root rather than mid-string.
+_LINKABLE_ROOTS = (
+    "src",
+    "tests",
+    "scripts",
+    "docs",
+    "skills",
+    "config",
+    "governance",
+    "evals",
+    "data",
+    "experiments",
+    ".github",
+)
+_PATH_IN_CODE = re.compile(
+    r"<code>((?:"
+    + "|".join(re.escape(d) for d in _LINKABLE_ROOTS)
+    + r")/[\w./-]+)</code>"
+)
+_ANCHOR_SPAN = re.compile(r"(<a\b[^>]*>.*?</a>)", re.DOTALL)
+
+
+def linkify_repository_paths(rendered: str) -> str:
+    """Turn `<code>src/foo.py</code>` into a link to that file on GitHub.
+
+    The curriculum cites repository files constantly -- 205 such references --
+    but only the handful already written as Markdown links were clickable. For
+    the reader this page is built for, someone in an environment where cloning
+    is not allowed, an unlinked path is a dead end: they can see that
+    `src/observability/telemetry.py` matters and have no way to look at it.
+
+    Two guards keep this from creating noise. A path is linked only if it
+    **exists in the repository**, so a renamed or illustrative path stays
+    plain text rather than becoming a 404. And anchor spans are held out of
+    the substitution, so a path already inside a Markdown link is not wrapped
+    a second time into nested anchors.
+
+    Fenced blocks never reach this function -- `render_markdown` escapes them
+    directly into `<pre>` -- so sample code is left alone.
+    """
+
+    def link_one(match: re.Match[str]) -> str:
+        path = match.group(1)
+        if not (ROOT / path).exists():
+            return match.group(0)
+        location = "tree" if (ROOT / path).is_dir() else "blob"
+        return (
+            f'<a class="src" href="{REPOSITORY_URL}/{location}/main/{path}">'
+            f"<code>{path}</code></a>"
+        )
+
+    return "".join(
+        part if _ANCHOR_SPAN.fullmatch(part) else _PATH_IN_CODE.sub(link_one, part)
+        for part in _ANCHOR_SPAN.split(rendered)
+    )
+
+
+def source_file_link(path: str) -> str:
+    """Render one repository path as a clickable `<code>` link.
+
+    For the places that build HTML directly rather than going through
+    `inline_markdown` -- the per-course "Source:" line and the footer. Those
+    are the citations a reader is most likely to want to open, and they were
+    the ones left as dead text.
+    """
+    safe = html.escape(path)
+    if not (ROOT / path).exists():
+        return f"<code>{safe}</code>"
+    location = "tree" if (ROOT / path).is_dir() else "blob"
+    return (
+        f'<a class="src" href="{REPOSITORY_URL}/{location}/main/{safe}">'
+        f"<code>{safe}</code></a>"
+    )
+
+
 def inline_markdown(text: str, source_path: Path | None = None) -> str:
     """Render the small Markdown subset used by curriculum source documents."""
     escaped = html.escape(text, quote=False)
@@ -60,7 +136,7 @@ def inline_markdown(text: str, source_path: Path | None = None) -> str:
         ),
         escaped,
     )
-    return escaped
+    return linkify_repository_paths(escaped)
 
 
 def render_markdown(markdown: str, source_path: Path | None = None) -> str:
@@ -84,7 +160,12 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
 
     for raw_line in markdown.splitlines():
         line = raw_line.rstrip()
-        if line.startswith("```"):
+        # Indented fences count. A ```python opening a block inside a numbered
+        # list is indented by three spaces, and matching only at column zero
+        # left fourteen such blocks in the tutor docs rendering as literal
+        # backticks inside a paragraph -- the reader saw ``` and a squashed
+        # one-line version of what should have been a code sample.
+        if line.lstrip().startswith("```"):
             flush_paragraph()
             close_list()
             if in_code:
@@ -279,7 +360,7 @@ def build_html() -> str:
             f"""<section id="{topic_id}" class="topic">
 <p class="eyebrow">Course {list(catalog).index(topic_id) + 1:02}</p>
 <h2>{html.escape(topic["label"])}</h2>
-<p class="source">Source: <code>{html.escape(topic["deep_dive"])}</code> · {len(topic["quiz"])} quiz questions</p>
+<p class="source">Source: {source_file_link(topic["deep_dive"])} · {len(topic["quiz"])} quiz questions</p>
 <div class="freshness" data-freshness="{freshness["status"]}"><strong>External-source review:</strong> {source_links}. {freshness_message}</div>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul>{"".join(f"<li>{inline_markdown(item, ROOT / 'docs/learning/tutor-courses.json')}</li>" for item in course["prerequisites"])}</ul></div>
@@ -301,7 +382,7 @@ def build_html() -> str:
 <style>
 :root{{color-scheme:light dark;--ink:#18212f;--muted:#536174;--accent:#13599a;--card:#fff;--line:#d8e0ea;--soft:#eef5fc;--warning:#8b5200;--warning-bg:#fff1d6}}
 *{{box-sizing:border-box}} body{{margin:0;font:16px/1.58 system-ui,-apple-system,sans-serif;color:var(--ink);background:#f7fafc}}
-a{{color:var(--accent)}}header{{background:#0e263e;color:#fff;padding:4rem max(1.5rem,calc((100% - 1120px)/2)) 3rem}}header p{{max-width:850px;font-size:1.12rem}}
+a{{color:var(--accent)}}.src{{text-decoration:none;border-bottom:1px dotted currentColor}}.src:hover{{border-bottom-style:solid}}header{{background:#0e263e;color:#fff;padding:4rem max(1.5rem,calc((100% - 1120px)/2)) 3rem}}header p{{max-width:850px;font-size:1.12rem}}
 main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}}h2{{font-size:1.8rem;line-height:1.2}}h3{{margin-bottom:.25rem}}.eyebrow,.source{{color:var(--muted);font-size:.9rem}}.notice,.labs{{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}}.freshness{{background:var(--soft);border-radius:.35rem;font-size:.9rem;margin:1rem 0;padding:.7rem}}.freshness[data-freshness="enrollment-pending"],.freshness[data-freshness="upstream-review-required"],.freshness[data-freshness="source-check-unavailable"],.freshness.overdue{{background:var(--warning-bg);color:var(--warning)}}.topic-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}}.topic-card{{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}}.topic-card span{{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}}.topic{{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}}.course-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}}details{{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}}summary{{cursor:pointer;font-weight:700}}article{{max-width:82ch}}pre{{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}}code{{font:.9em ui-monospace,SFMono-Regular,monospace}}table{{border-collapse:collapse;width:100%;overflow-x:auto;display:block}}td,th{{border:1px solid var(--line);padding:.55rem;text-align:left}}button{{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}}dialog{{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}}dialog::backdrop{{background:#0008}}.choice{{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}}.result{{font-weight:700}}footer{{color:var(--muted);font-size:.9rem;margin-top:3rem}}@media(prefers-color-scheme:dark){{:root{{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548;--warning:#ffd48c;--warning-bg:#4d350f}}body{{background:#101720}}}}
 </style></head><body>
 <header><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
@@ -309,13 +390,13 @@ main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp
 </header><main>
 <div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>{metadata["fingerprint"]}</code>.</div>
 <h2>Start a path</h2><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
-<p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, use <code>scripts/tutor.py</code> after cloning.</p>
+<p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, run <code>uv run agentic-pm-lab quiz &lt;topic-id&gt;</code> after cloning.</p>
 <details><summary>How to use this curriculum</summary><article>{metadata["shared_html"]["Course guide"]}</article></details>
 <details><summary>Mastery-skill guide</summary><article>{metadata["shared_html"]["Mastery skill"]}</article></details>
 <details><summary>Depth path</summary><article>{metadata["shared_html"]["Depth path"]}</article></details>
 <h2>Courses</h2><nav class="topic-grid">{cards}</nav>
 {"".join(sections)}
-<footer>Generated by <code>scripts/build_learning_curriculum.py</code> from the checked-in curriculum sources. External framework behavior should be checked against the official references maintained in the repository.</footer>
+<footer>Generated by {source_file_link("scripts/build_learning_curriculum.py")} from the checked-in curriculum sources. External framework behavior should be checked against the official references maintained in the repository.</footer>
 </main><dialog id="quiz"><button id="close">Close</button><div id="quiz-body"></div></dialog>
 <script>
 const quizzes={quiz_json}; const dialog=document.querySelector('#quiz'), body=document.querySelector('#quiz-body');
@@ -323,7 +404,7 @@ let questions=[], position=0, correct=0;
 document.querySelectorAll('.quiz-button').forEach(button=>button.onclick=()=>{{questions=quizzes[button.dataset.topic];position=0;correct=0;render();dialog.showModal();}});
 document.querySelector('#close').onclick=()=>dialog.close();
 function render(){{if(position===questions.length){{body.innerHTML=`<h2>Quiz complete</h2><p class="result">Score: ${{correct}} / ${{questions.length}} (${{Math.round(correct/questions.length*100)}}%)</p><p>Review the cited sources and repeat the local/failure labs before treating a score as course completion.</p>`;return;}}const q=questions[position];body.innerHTML=`<p class="eyebrow">Question ${{position+1}} of ${{questions.length}}</p><h2>${{q.question}}</h2>${{q.choices.map((choice,index)=>`<button class="choice" data-index="${{index}}">${{String.fromCharCode(65+index)}}. ${{choice}}</button>`).join('')}}<p id="feedback"></p>`;body.querySelectorAll('.choice').forEach(button=>button.onclick=()=>answer(Number(button.dataset.index),q));}}
-function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;body.querySelector('#feedback').innerHTML=`<span class="result">${{ok?'Correct.':'Not quite.'}}</span> Source: <code>${{q.citation}}</code>. <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>button.disabled=true);body.querySelector('#next').onclick=()=>{{position++;render();}};}}
+function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;body.querySelector('#feedback').innerHTML=`<span class="result">${{ok?'Correct.':'Not quite.'}}</span> Source: <a class="src" href="{REPOSITORY_URL}/blob/main/${{q.citation}}"><code>${{q.citation}}</code></a>. <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>button.disabled=true);body.querySelector('#next').onclick=()=>{{position++;render();}};}}
 for(const panel of document.querySelectorAll('.freshness')){{const dates=[...panel.textContent.matchAll(/next review (\\d{{4}}-\\d{{2}}-\\d{{2}})/g)].map(match=>match[1]);if(dates.some(value=>new Date(`${{value}}T00:00:00Z`)<new Date())){{panel.classList.add('overdue');panel.insertAdjacentHTML('beforeend',' <strong>Review overdue.</strong>');}}}}
 </script></body></html>"""
 
