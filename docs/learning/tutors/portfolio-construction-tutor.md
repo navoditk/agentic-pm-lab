@@ -75,6 +75,7 @@ positive-semidefinite (checked via `np.allclose(matrix, matrix.T)` and
 
 ```python
 from src.analytics.optimizer import _validate_inputs
+
 _validate_inputs(
     {"A": 0.1, "B": 0.1},
     {"A": {"A": 1, "B": 0.5}, "B": {"A": 0.9, "B": 1}},  # not symmetric
@@ -111,6 +112,7 @@ position or an infeasibility.
 
 ```python
 from src.analytics.optimizer import compare_to_current
+
 compare_to_current({"A": 0.3, "B": 0.7}, {"A": 0.5, "B": 0.5})
 # ({'A': -0.2, 'B': 0.19999999999999996}, 0.19999999999999998)
 ```
@@ -180,7 +182,10 @@ Then try tightening the constraint until it breaks:
 
 ```python
 optimize_portfolio(
-    "max_sharpe", expected_returns, covariance, current_weights,
+    "max_sharpe",
+    expected_returns,
+    covariance,
+    current_weights,
     max_turnover=0.01,
 )
 # ValueError: optimization exceeds max_turnover: 0.282610
