@@ -1,6 +1,6 @@
 # Investment committee challenge — deep dive
 
-*Companion to [`.github/agents/investment-committee-tutor.agent.md`](../../../.github/agents/investment-committee-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz investment-committee-tutor`.*
+*Companion to [`agents/investment-committee-tutor.md`](../../../agents/investment-committee-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz investment-committee-tutor`.*
 
 ## What this actually is
 

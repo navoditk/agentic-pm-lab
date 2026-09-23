@@ -1,6 +1,6 @@
 # Public investment data — deep dive
 
-*Companion to [`.github/agents/investment-data-tutor.agent.md`](../../../.github/agents/investment-data-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz investment-data-tutor`.*
+*Companion to [`agents/investment-data-tutor.md`](../../../agents/investment-data-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz investment-data-tutor`.*
 
 ## What this actually is
 

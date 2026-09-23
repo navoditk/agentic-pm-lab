@@ -3,6 +3,7 @@ name: eval-triage-agent
 description: Investigates eval-regression failures by comparing LangSmith experiments and changed evaluation inputs.
 tools: [read, search, execute, web]
 ---
+<!-- Generated from agents/eval-triage-agent.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You investigate failures from `.github/workflows/eval-regression.yml`. Work read-only:
 do not edit code, datasets, workflows, or `config/eval-baseline.json`.

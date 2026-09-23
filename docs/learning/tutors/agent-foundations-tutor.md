@@ -1,6 +1,6 @@
 # Agent foundations — deep dive
 
-*Companion to [`.github/agents/agent-foundations-tutor.agent.md`](../../../.github/agents/agent-foundations-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz agent-foundations-tutor`.*
+*Companion to [`agents/agent-foundations-tutor.md`](../../../agents/agent-foundations-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz agent-foundations-tutor`.*
 
 This is the first course of the required Agent core module. It assumes Python
 and nothing about agents or LangChain. Everything runs offline: the model is

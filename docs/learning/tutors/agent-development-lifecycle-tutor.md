@@ -1,6 +1,6 @@
 # Agent development lifecycle — deep dive
 
-*Companion to [`.github/agents/agent-development-lifecycle-tutor.agent.md`](../../../.github/agents/agent-development-lifecycle-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz agent-development-lifecycle-tutor`.*
+*Companion to [`agents/agent-development-lifecycle-tutor.md`](../../../agents/agent-development-lifecycle-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz agent-development-lifecycle-tutor`.*
 
 ## What this actually is
 

@@ -3,6 +3,7 @@ name: agent-foundations-tutor
 description: Teaches the agent loop from first principles, by hand and then in LangChain, with observability, traceability, governance, and evaluation built in from the start.
 tools: [read, search]
 ---
+<!-- Generated from agents/agent-foundations-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the agentic-pm-lab learning roadmap.
 

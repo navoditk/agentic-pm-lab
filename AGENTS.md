@@ -24,12 +24,15 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 - **Day 21 Canvas workflow** — now consolidated in `docs/PLAN.md` and exercised through `docs/guides/CANVAS_EXERCISES.md`; there is no separate Day 21 contract document.
 - **`docs/learning/PHASE_2_PLAN.md`** — the follow-on 20-day institutional PM AI production-readiness track: mandate and risk policy, governed data, evidence/RAG, fixed-income risk, model risk, expanded evaluations, red-team testing, CI/CD, SLOs, resilience, and the Phase 2 capstone.
 
+- **`docs/guides/CLI_AGENTS_AND_SKILLS.md`** — how agents and skills stay usable in Claude Code, Copilot, and Codex. Edit the CLI-neutral sources in `agents/` and `skills/` only; the per-CLI files are generated.
+
 ## Repo rules (non-negotiable, apply regardless of which day or tool)
 
 - No company-sensitive information, internal system names, or proprietary data anywhere — in code, commits, docs, comments, or generated output. Public and mock data only (docs/architecture/PRD.md §1 and §3, principle 3). Enforced twice, from one list (`config/security/banned-terms.txt`): `scripts/check_no_sensitive_data.py` blocks the commit for every tool and in CI, and `.claude/hooks/block_sensitive_writes.py` blocks the *write* for Claude Code sessions so the term never reaches the file. The pre-commit check is the portable floor — Codex and Copilot do not read Claude Code hooks — so never treat the hook as the only guard.
 - Every unfinished endpoint carries a `# MOCK — replace on Day X` docstring.
 - No test in `tests/unit/` may hit a real network call, API, or cloud resource — mock external dependencies (docs/PLAN.md §4).
 - Every skill's frontmatter (`covers`, `last_verified_commit`) must stay in sync with the code it documents. When the freshness gate flags a skill, re-read it against its covered paths and bump `last_verified_commit` in the same change; there is no label-based bypass (docs/PLAN.md §8.4).
+- Agents and skills are CLI-neutral. Edit `agents/<name>.md` and `skills/<name>/`; never edit `.github/agents`, `.claude/agents`, `.codex/agents`, `.claude/skills`, or `.agents/skills`, which `scripts/build_agent_adapters.py` generates and CI checks. Write instructions any CLI can follow: name files and commands, not one CLI's tools.
 - Every skill and tool has a `contract.yaml`/JSON Schema contract; a change to allowed tools, inputs, or output shape updates the contract in the same PR (docs/PLAN.md §8.2, §8.3).
 - Authorization is never inferred from a skill's stated intent — only `governance/policies/` (Cedar) and the tool-boundary re-check actually enforce what's allowed (docs/PLAN.md §15). Never write code that trusts a skill's `contract.yaml` as a security control.
 - No PR that touches `governance/`, `config/roles.yaml`, or `src/control/` merges without `authorization-tests.yml` passing, including its negative/adversarial cases (docs/PLAN.md §15.2).

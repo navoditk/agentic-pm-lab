@@ -41,6 +41,7 @@ CHECKS: tuple[tuple[str, list[str]], ...] = (
     ("format", ["ruff", "format", "--check", "."]),
     ("docs consistency", ["python", "scripts/check_docs_consistency.py"]),
     ("tutor courses", ["python", "scripts/check_tutor_courses.py"]),
+    ("agent adapters", ["python", "scripts/build_agent_adapters.py", "--check"]),
     ("quiz banks", ["python", "scripts/check_quiz_banks.py"]),
     ("learning path", ["python", "scripts/build_learning_path.py", "--check"]),
     ("curriculum sources", ["python", "scripts/check_curriculum_sources.py"]),

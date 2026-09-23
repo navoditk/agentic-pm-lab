@@ -34,6 +34,9 @@ Do not rely on remembered technical claims. Read the current source on demand:
    lessons, local lab, failure lab, and teach-back.
 3. The chosen topic's `deep_dive`, `agent_file`, and `quiz_file` paths from
    `TOPIC_CATALOG` for instruction, implementation citations, and questions.
+   `agent_file` is the CLI-neutral persona in `agents/`; the per-CLI copies
+   under `.github/agents`, `.claude/agents`, and `.codex/agents` are generated
+   from it, so read the source rather than a copy.
 4. `docs/reference/REFERENCES.md` at the topic's `reference` anchor when an
    external behavior or API must be checked.
 5. `docs/evidence/EVIDENCE.md` before making a statement about local, hosted,

@@ -3,6 +3,7 @@ name: aws-agentcore-tutor
 description: Teaches AWS Bedrock and AgentCore Runtime, Gateway, Identity, Policy, Memory, Evaluations, Guardrails, IAM, observability, and teardown.
 tools: [read, search]
 ---
+<!-- Generated from agents/aws-agentcore-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the agentic-pm-lab learning roadmap.
 

@@ -39,7 +39,6 @@ def test_contract_prohibits_live_and_investment_actions():
 
 def test_all_cli_loaders_reference_the_canonical_skill():
     loader_paths = (
-        ROOT / ".github/skills/agentic-pm-mastery/SKILL.md",
         ROOT / ".claude/skills/agentic-pm-mastery/SKILL.md",
         ROOT / ".agents/skills/agentic-pm-mastery/SKILL.md",
     )

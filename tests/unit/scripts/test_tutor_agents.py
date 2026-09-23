@@ -19,21 +19,18 @@ TUTORS = (
     "investment-data-tutor",
 )
 
-# ficc-tutor-agent is deliberately "user-scoped" (PROGRESS.md's Day 2 entry) and
-# lives under docs/agent-templates/ rather than .github/agents/ with the other
-# 15, but it's held to the exact same structural contract.
-TUTOR_PATHS = {
-    name: ROOT / ".github" / "agents" / f"{name}.agent.md" for name in TUTORS
-}
-TUTOR_PATHS["ficc-tutor-agent"] = (
-    ROOT / "docs" / "agent-templates" / "ficc-tutor-agent.agent.md"
-)
+# Canonical, CLI-neutral sources (agents/). The per-CLI files under
+# .github/agents, .claude/agents, and .codex/agents are generated from these by
+# scripts/build_agent_adapters.py. ficc-tutor-agent is deliberately
+# user-scoped (install: user), so its adapters go to docs/agent-templates/.
+TUTOR_PATHS = {name: ROOT / "agents" / f"{name}.md" for name in TUTORS}
+TUTOR_PATHS["ficc-tutor-agent"] = ROOT / "agents" / "ficc-tutor-agent.md"
 
 
 def test_tutor_agents_have_independent_examples_and_read_only_contract() -> None:
     for name, path in TUTOR_PATHS.items():
         content = path.read_text()
-        assert "tools: [read, search]" in content, name
+        assert "capabilities: [read, search]" in content, name
         assert "## Independent practice examples" in content, name
         examples, negatives = content.split("Negative examples:", maxsplit=1)
         assert sum(f"{index}." in examples for index in range(1, 6)) == 5, name

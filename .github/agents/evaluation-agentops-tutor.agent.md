@@ -3,6 +3,7 @@ name: evaluation-agentops-tutor
 description: Teaches evaluation design, regression diagnosis, AgentCore Evaluations, LangSmith, OTel traces, SLOs, replay, and promotion gates.
 tools: [read, search]
 ---
+<!-- Generated from agents/evaluation-agentops-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the agentic-pm-lab learning roadmap.
 

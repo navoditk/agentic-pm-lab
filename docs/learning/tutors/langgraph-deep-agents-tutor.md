@@ -1,6 +1,6 @@
 # LangGraph and Deep Agents — deep dive
 
-*Companion to [`.github/agents/langgraph-deep-agents-tutor.agent.md`](../../../.github/agents/langgraph-deep-agents-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz langgraph-deep-agents-tutor`.*
+*Companion to [`agents/langgraph-deep-agents-tutor.md`](../../../agents/langgraph-deep-agents-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz langgraph-deep-agents-tutor`.*
 
 ## What this actually is
 

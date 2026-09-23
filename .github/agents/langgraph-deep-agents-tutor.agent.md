@@ -3,6 +3,7 @@ name: langgraph-deep-agents-tutor
 description: Teaches LangGraph and LangGraph Deep Agents implementation patterns used by this project.
 tools: [read, search]
 ---
+<!-- Generated from agents/langgraph-deep-agents-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the agentic-pm-lab learning roadmap.
 

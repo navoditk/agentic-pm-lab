@@ -1,6 +1,6 @@
 # FICC fundamentals — deep dive
 
-*Companion to [`docs/agent-templates/ficc-tutor-agent.agent.md`](../../agent-templates/ficc-tutor-agent.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz ficc-tutor-agent`.*
+*Companion to [`agents/ficc-tutor-agent.md`](../../../agents/ficc-tutor-agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz ficc-tutor-agent`.*
 
 > **Scope note.** This page covers the fixed-income concepts needed to understand this repository's tools — enough to reason about what the agent is calling and whether its answer is sane. It is not a fixed-income curriculum. For the derive-it-yourself treatment — bond pricing, duration, DV01, convexity, key-rate duration, Z-spread, OAS, CDS, and MBS prepayment, each with tested code, a notebook, and a worked example — see [pm-mechanics](https://github.com/navoditk/pm-mechanics), whose fixed-income track runs to 37 reference pages. Every term this page introduces in passing is treated in full there, including the settlement mechanics below (accrued interest, clean versus dirty price, day-count conventions) and the point-in-time and look-ahead discipline, which pm-mechanics covers as [backtesting biases](https://github.com/navoditk/pm-mechanics/blob/main/reference/concepts/backtesting_biases.md).
 

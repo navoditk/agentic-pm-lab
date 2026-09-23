@@ -43,9 +43,11 @@ by default.
 To select an individual tutor directly, use the route below. This is useful
 when you already know the topic you want to study.
 
-Select the project-scoped agent in GitHub Copilot, Copilot CLI, Claude Code, or
-another compatible agent surface that reads `.github/agents/`. The same prompt
-works across tools:
+Every tutor is available as a project agent in each CLI, generated from its
+CLI-neutral source in `agents/` (see
+[Agents and skills across CLIs](CLI_AGENTS_AND_SKILLS.md)): GitHub Copilot reads
+`.github/agents/`, Claude Code reads `.claude/agents/`, and Codex reads
+`.codex/agents/`. The same prompt works in all three:
 
 ```text
 Use portfolio-construction-tutor. Explain minimum volatility versus maximum
@@ -63,8 +65,8 @@ uv run agentic-pm-lab quiz portfolio-construction-tutor
 
 Follow the [Tutor Course Guide](../learning/TUTOR_COURSE_GUIDE.md) in order.
 The course outline is the source for prerequisites, objectives, lessons, local
-lab, failure lab, and teach-back assessment. The `.agent.md` persona is the
-interactive teaching interface; the deep-dive companion is the lesson text;
+lab, failure lab, and teach-back assessment. The tutor persona (`agents/<topic-id>.md`) is
+the interactive teaching interface; the deep-dive companion is the lesson text;
 the quiz is only one assessment component.
 
 ## Standalone CLI, quizzes, and comprehension tracking

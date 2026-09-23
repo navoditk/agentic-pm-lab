@@ -35,6 +35,9 @@ jobs:
       - name: Tutor course completeness
         run: uv run python scripts/check_tutor_courses.py
 
+      - name: CLI agent and skill adapters
+        run: uv run python scripts/build_agent_adapters.py --check
+
       - name: Quiz bank integrity
         run: uv run python scripts/check_quiz_banks.py
 
