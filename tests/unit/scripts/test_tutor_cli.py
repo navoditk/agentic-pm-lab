@@ -72,3 +72,35 @@ def test_whitespace_around_answers_is_tolerated():
     questions = load_quiz(TOPIC)
     spaced = ", ".join(str(answer) for answer in correct_answers())
     assert parse_answers(spaced, questions) == correct_answers()
+
+
+# --- tiers ------------------------------------------------------------------
+
+
+def test_a_recorded_attempt_carries_its_tier_breakdown(isolated_log):
+    result = record_answers(TOPIC, as_raw(correct_answers()))
+    assert result["tiers"] == {
+        "implementation": {"score": result["total"], "total": result["total"]}
+    }
+    line = (isolated_log / f"{TOPIC}.jsonl").read_text().splitlines()[0]
+    assert json.loads(line)["tiers"] == result["tiers"]
+
+
+def test_tier_practice_is_scored_but_never_recorded(isolated_log, monkeypatch, capsys):
+    from scripts import tutor as runner
+
+    answers = iter(str(a) for a in correct_answers())
+    monkeypatch.setattr("builtins.input", lambda _prompt: next(answers))
+    runner._run_quiz(TOPIC, "implementation")
+    assert "not recorded" in capsys.readouterr().out
+    assert not (isolated_log / f"{TOPIC}.jsonl").exists()
+
+
+def test_recording_refuses_a_tier_filter(monkeypatch):
+    from scripts import tutor as runner
+
+    monkeypatch.setattr(
+        "sys.argv", ["tutor.py", TOPIC, "--quiz", "--tier", "concept", "--answers", "0"]
+    )
+    with pytest.raises(SystemExit):
+        runner.main()

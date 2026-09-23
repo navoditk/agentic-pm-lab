@@ -12,7 +12,7 @@ for the recommended order; the table below follows it.
 
 <!-- LEARNER_PROGRESS:START -->
 
-## Status: 0 of 14 tutor topics passed (≥80% quiz score)
+## Status: 0 of 14 tutor topics passed (≥80% overall, ≥70% per question tier)
 
 **Tracks comprehension, not implementation.** A topic shows ✅ here only
 after the learner has taken and passed its quiz with

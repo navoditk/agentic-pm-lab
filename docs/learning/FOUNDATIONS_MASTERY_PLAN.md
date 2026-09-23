@@ -37,6 +37,8 @@ Measured on `main`, 2026-09-22:
 | …worded around repo specifics (function names, paths, "per this tutor") | ~206 (56%) |
 | External sources tracked for freshness in `docs/reference/source-registry.yaml` | 17 |
 | Links in `docs/reference/REFERENCES.md` | 191, none of them assessed |
+| Correct answers in position B (always picking B scored 87%, passing 12 of 14 quizzes) | 317 (87%); rebalanced in Phase A2 with every answer preserved, and now checked in CI |
+| Questions repeated word for word across banks | 1; reworded in Phase A2 |
 
 The gaps by foundation:
 

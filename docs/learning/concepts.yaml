@@ -1,0 +1,107 @@
+# The foundations a learner should master, as stable ids for quiz questions.
+#
+# A question's `concept` field names one entry as "<domain>.<concept>", for
+# example `otel.context-propagation`. The id is what spaced review brings back
+# after a miss and what the mastery matrix counts, so rename one only with
+# every question that cites it. scripts/check_quiz_banks.py rejects a
+# question whose concept is not listed here.
+#
+# See docs/learning/FOUNDATIONS_MASTERY_PLAN.md section 4.
+version: 1
+domains:
+  agent:
+    title: Agent foundations
+    concepts:
+      loop: The model-call, tool-call, observe cycle and its stopping condition
+      tool-calling: How a model selects a tool and supplies arguments against a schema
+      structured-output: Constraining a response to a schema, and what enforces it
+      workflow-vs-agent: When fixed steps beat model-chosen steps
+      react: Interleaving reasoning with actions and observations
+      plan-and-execute: Planning up front, then executing and re-planning
+      context-engineering: Choosing what enters the context window, and why less is often better
+      memory: Short-term, long-term, and episodic memory, and where each lives
+  langchain:
+    title: LangChain core
+    concepts:
+      chat-models: The chat-model interface and provider abstraction
+      messages: Message roles and tool-call and tool-result messages
+      tools: Declaring tools and the JSON Schema generated from them
+      runnables: Runnable composition, invoke, batch, and stream
+      structured-output: with_structured_output and its tool-calling basis
+      callbacks: Callback handlers as the hook for tracing and accounting
+  langgraph:
+    title: LangGraph
+    concepts:
+      state-and-reducers: State schema and how reducers merge concurrent writes
+      nodes-and-edges: Nodes as state-update functions, and static edges
+      conditional-edges: Routing decided at run time from state
+      checkpointing: Persisted state per step, and resuming from it
+      interrupts: Pausing for a human and resuming with their input
+      subgraphs: Composing graphs, and how state crosses the boundary
+      streaming: Streaming modes for values, updates, and tokens
+      send-fanout: Dynamic fan-out with Send
+      time-travel: Inspecting and replaying from earlier checkpoints
+  mcp:
+    title: Model Context Protocol
+    concepts:
+      primitives: Tools, resources, and prompts, and who controls each
+      transports: stdio versus streamable HTTP
+      lifecycle: Initialization and capability negotiation
+      authorization: How a server authenticates and authorizes a client
+      tool-poisoning: Malicious tool descriptions and confused-deputy risks
+  otel:
+    title: OpenTelemetry
+    concepts:
+      signals: Traces, metrics, and logs, and the question each answers
+      spans-and-context: Spans, parent-child structure, and the active context
+      context-propagation: Carrying trace context across a process boundary
+      sampling: Head sampling, parent-based sampling, and complete traces
+      metrics-instruments: Counters, histograms, and gauges, and when to use each
+      genai-semconv: GenAI semantic conventions for model and agent spans
+      collector: The Collector's receivers, processors, and exporters
+  eval:
+    title: Evaluations
+    concepts:
+      dataset-design: Golden cases, coverage, and deferred cases
+      evaluator-types: Deterministic, model-graded, and human evaluation
+      llm-as-judge: Designing and calibrating a model grader, and its biases
+      trajectory: Evaluating the path taken, not just the final answer
+      regression-gates: Baselines, tolerances, and blocking a promotion
+      variance: Repeated trials and non-determinism
+      online-vs-offline: Pre-release evaluation versus production monitoring
+  security:
+    title: Agent security
+    concepts:
+      prompt-injection: Direct injection through user input
+      indirect-injection: Injection through retrieved content and tool results
+      excessive-agency: Tools and permissions beyond what the task needs
+      least-privilege: Scoping tools and data to the caller's entitlement
+      policy-as-code: Authorization decided by policy outside the prompt
+      guardrails: Input and output filtering, and what it cannot guarantee
+  bedrock:
+    title: AWS Bedrock
+    concepts:
+      converse: The Converse API request and response shape
+      model-access: Enabling model access, and regional availability
+      inference-profiles: Cross-region inference profiles
+      guardrails-api: Applying a guardrail as an API call
+      knowledge-bases: Managed retrieval for RAG
+      prompt-caching: Caching a stable prompt prefix, and what it saves
+      throttling: Throttling errors, quotas, and bounded retry
+  agentcore:
+    title: AWS Bedrock AgentCore
+    concepts:
+      runtime: Hosting an agent, sessions, and isolation
+      gateway: Turning APIs into governed MCP tools
+      identity: Inbound and outbound authentication for agents
+      memory: Short- and long-term memory strategies
+      policy: Enforcing tool-call policy outside the agent
+      observability: Agent telemetry and what the service emits
+      evaluations: Managed evaluation of agent behaviour
+  traceability:
+    title: Traceability
+    concepts:
+      trace-correlation: One trace id across request, policy, tool, audit, and evaluation
+      audit: What an audit event must record, and what it must not
+      provenance: Source, vintage, and point-in-time eligibility of evidence
+      replay: Reconstructing a decision from its records

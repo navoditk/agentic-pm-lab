@@ -362,7 +362,7 @@ SHARED_GUIDES: dict[str, tuple[str, str]] = {
 
 
 def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
-    from src.education.tutor import TOPIC_CATALOG
+    from src.education.tutor import TOPIC_CATALOG, load_quiz
 
     courses = json.loads((ROOT / "docs/learning/tutor-courses.json").read_text())
     registry = yaml.safe_load(
@@ -383,7 +383,7 @@ def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
         deep_dive_path = ROOT / source["deep_dive"]
         quiz_path = ROOT / source["quiz_file"]
         deep_dive = deep_dive_path.read_text()
-        quiz = [json.loads(line) for line in quiz_path.read_text().splitlines() if line]
+        quiz = load_quiz(topic_id)  # applies the default tier, like every surface
         topics[topic_id] = {
             **source,
             "course": courses[topic_id],
@@ -481,6 +481,8 @@ def build_html() -> str:
 </section>"""
         )
     quiz_json = json.dumps(quiz_data).replace("</", "<\\/")
+    from src.education.tutor import OVERALL_PASS, TIER_PASS
+
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Agentic PM Lab Learning Curriculum</title>
@@ -514,11 +516,13 @@ main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp
 </main><dialog id="quiz"><button id="close">Close</button><div id="quiz-body"></div></dialog>
 <script>
 const quizzes={quiz_json}; const dialog=document.querySelector('#quiz'), body=document.querySelector('#quiz-body');
-let questions=[], position=0, correct=0;
-document.querySelectorAll('.quiz-button').forEach(button=>button.onclick=()=>{{questions=quizzes[button.dataset.topic];position=0;correct=0;render();dialog.showModal();}});
+let questions=[], position=0, correct=0, tierScore={{}};
+const OVERALL_PASS={OVERALL_PASS}, TIER_PASS={TIER_PASS};
+const esc=text=>String(text).replace(/[&<>"]/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}})[c]);
+document.querySelectorAll('.quiz-button').forEach(button=>button.onclick=()=>{{questions=quizzes[button.dataset.topic];position=0;correct=0;tierScore={{}};render();dialog.showModal();}});
 document.querySelector('#close').onclick=()=>dialog.close();
-function render(){{if(position===questions.length){{body.innerHTML=`<h2>Quiz complete</h2><p class="result">Score: ${{correct}} / ${{questions.length}} (${{Math.round(correct/questions.length*100)}}%)</p><p>Review the cited sources and repeat the local/failure labs before treating a score as course completion.</p>`;return;}}const q=questions[position];body.innerHTML=`<p class="eyebrow">Question ${{position+1}} of ${{questions.length}}</p><h2>${{q.question}}</h2>${{q.choices.map((choice,index)=>`<button class="choice" data-index="${{index}}">${{String.fromCharCode(65+index)}}. ${{choice}}</button>`).join('')}}<p id="feedback"></p>`;body.querySelectorAll('.choice').forEach(button=>button.onclick=()=>answer(Number(button.dataset.index),q));}}
-function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;body.querySelector('#feedback').innerHTML=`<span class="result">${{ok?'Correct.':'Not quite.'}}</span> Source: <a class="src" href="{REPOSITORY_URL}/blob/main/${{q.citation}}"><code>${{q.citation}}</code></a>. <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>button.disabled=true);body.querySelector('#next').onclick=()=>{{position++;render();}};}}
+function render(){{if(position===questions.length){{const tiers=Object.entries(tierScore);const passed=correct/questions.length>=OVERALL_PASS&&tiers.every(([,s])=>s[0]/s[1]>=TIER_PASS);body.innerHTML=`<h2>Quiz complete</h2><p class="result">Score: ${{correct}} / ${{questions.length}} (${{Math.round(correct/questions.length*100)}}%): ${{passed?'meets':'does not yet meet'}} the pass rule of ${{OVERALL_PASS*100}}% overall and ${{TIER_PASS*100}}% in each tier.</p><ul>${{tiers.map(([t,s])=>`<li>${{esc(t)}}: ${{s[0]}} / ${{s[1]}}</li>`).join('')}}</ul><p>This browser score is a learning check. To record it durably, clone the repository and run <code>uv run agentic-pm-lab quiz &lt;topic-id&gt;</code>. Review the cited sources and repeat the local/failure labs before treating a score as course completion.</p>`;return;}}const q=questions[position];body.innerHTML=`<p class="eyebrow">Question ${{position+1}} of ${{questions.length}} · ${{esc(q.tier)}}</p><h2>${{q.question}}</h2>${{q.choices.map((choice,index)=>`<button class="choice" data-index="${{index}}">${{String.fromCharCode(65+index)}}. ${{choice}}</button>`).join('')}}<p id="feedback"></p>`;body.querySelectorAll('.choice').forEach(button=>button.onclick=()=>answer(Number(button.dataset.index),q));}}
+function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;const s=tierScore[q.tier]=tierScore[q.tier]||[0,0];s[1]++;if(ok)s[0]++;body.querySelector('#feedback').innerHTML=`<span class="result">${{ok?'Correct.':'Not quite.'}}</span> Source: <a class="src" href="{REPOSITORY_URL}/blob/main/${{q.citation}}"><code>${{q.citation}}</code></a>.${{q.explanation?` <span class="explanation">${{esc(q.explanation)}}</span>`:''}} <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>button.disabled=true);body.querySelector('#next').onclick=()=>{{position++;render();}};}}
 function reveal(){{const id=decodeURIComponent(location.hash.slice(1));const target=id&&document.getElementById(id);if(!target)return;for(let d=target.closest('details');d;d=d.parentElement.closest('details'))d.open=true;target.scrollIntoView();}}
 addEventListener('hashchange',reveal);reveal();
 document.addEventListener('click',e=>{{const link=e.target.closest('a[href^="#"]');if(link&&link.getAttribute('href')===location.hash)setTimeout(reveal);}});

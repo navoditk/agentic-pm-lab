@@ -1,7 +1,12 @@
+import json
+
 import pytest
 
+from src.education import tutor as tutor_module
 from src.education.tutor import (
+    TIER_PASS,
     TOPIC_CATALOG,
+    attempt_passes,
     grade_answers,
     list_topics,
     load_quiz,
@@ -83,16 +88,18 @@ def test_teach_topic_rejects_unknown_topic():
         teach_topic("not-a-real-topic")
 
 
-def test_every_topic_has_a_twenty_to_thirty_question_quiz_with_valid_answer_keys():
+def test_every_topic_has_a_twenty_to_thirty_five_question_quiz_with_valid_keys():
+    # Up to 35 so a course can hold its 40/40/20 tier mix; the full format
+    # rules live in scripts/check_quiz_banks.py.
     for topic_id in TOPIC_CATALOG:
         questions = load_quiz(topic_id)
-        assert 20 <= len(questions) <= 30, (
-            f"{topic_id} quiz should have 20-30 questions, has {len(questions)}"
+        assert 20 <= len(questions) <= 35, (
+            f"{topic_id} quiz should have 20-35 questions, has {len(questions)}"
         )
         ids = [question["id"] for question in questions]
         assert len(ids) == len(set(ids)), f"{topic_id} quiz has duplicate ids"
         for question in questions:
-            assert len(question["choices"]) == 4
+            assert 3 <= len(question["choices"]) <= 5
             assert 0 <= question["correct_index"] < len(question["choices"])
             assert question["citation"]
 
@@ -134,3 +141,69 @@ def test_record_attempt_appends_across_calls(tmp_path):
     record_attempt("investment-data-tutor", 3, 5, log_dir=tmp_path)
     log_path = record_attempt("investment-data-tutor", 5, 5, log_dir=tmp_path)
     assert len(log_path.read_text().splitlines()) == 2
+
+
+# --- tiers and the pass rule --------------------------------------------------
+
+
+def test_a_question_without_a_tier_is_an_implementation_question():
+    assert {q["tier"] for q in load_quiz("investment-data-tutor")} == {"implementation"}
+
+
+@pytest.mark.parametrize(
+    ("score", "total", "tiers", "expected"),
+    [
+        (8, 10, None, True),  # a record from before tiers: overall only
+        (7, 10, None, False),
+        (9, 10, {"concept": {"score": 4, "total": 5}}, True),
+        # 90% overall cannot hide a weak tier
+        (18, 20, {"concept": {"score": 3, "total": 5}}, False),
+        (0, 0, None, False),
+    ],
+)
+def test_attempt_passes_applies_overall_and_per_tier_thresholds(
+    score, total, tiers, expected
+):
+    assert attempt_passes(score, total, tiers) is expected
+
+
+def test_grading_reports_each_tier_and_the_concepts_missed(monkeypatch):
+    bank = [
+        {
+            "id": f"q{i}",
+            "question": "?",
+            "choices": ["a", "b", "c", "d"],
+            "correct_index": 0,
+            "citation": "README.md",
+            "tier": tier,
+            "concept": concept,
+        }
+        for i, (tier, concept) in enumerate(
+            [("concept", "otel.sampling")] * 4 + [("implementation", None)] * 6
+        )
+    ]
+    monkeypatch.setattr(tutor_module, "load_quiz", lambda _topic: bank)
+    # All implementation right; 2 of 4 concept right: 80% overall, 50% concept.
+    answers = [0, 0, 1, 1] + [0] * 6
+    result = tutor_module.grade_answers("any", answers)
+    assert result["score"] == 8
+    assert result["tiers"] == {
+        "concept": {"score": 2, "total": 4},
+        "implementation": {"score": 6, "total": 6},
+    }
+    assert result["missed_concepts"] == ["otel.sampling"]
+    assert 2 / 4 < TIER_PASS and result["passed"] is False
+
+
+def test_record_attempt_keeps_tiers_so_the_rule_can_be_reapplied(tmp_path):
+    path = tutor_module.record_attempt(
+        "t",
+        8,
+        10,
+        tiers={"concept": {"score": 2, "total": 4}},
+        missed_concepts=["otel.sampling"],
+        log_dir=tmp_path,
+    )
+    record = json.loads(path.read_text())
+    assert record["tiers"] == {"concept": {"score": 2, "total": 4}}
+    assert record["missed_concepts"] == ["otel.sampling"]

@@ -5,7 +5,7 @@ license: MIT
 covers:
   - evals
   - scripts/run_eval.py
-last_verified_commit: 531a6df
+last_verified_commit: 9cfe1c8dafcd2f207214036b2f37eda15e4f1931
 ---
 
 # eval-dataset-authoring
@@ -14,14 +14,16 @@ Use this skill when adding or revising a case in `evals/`. Evaluation cases are
 executable product requirements, not example prompts without pass criteria.
 
 **Not in scope: `evals/tutor_quizzes/`.** Those are learner quiz banks with a
-different schema entirely — `id`, `topic`, `question`, `choices`,
-`correct_index`, `citation` — and none of the checklist below applies to them.
-This skill's `covers` names `evals` as a whole, so a quiz-bank edit will still
-flag it as stale; that is the freshness check being coarse, not a signal that
-this checklist was violated. For quiz banks the rules are simpler: four
-distinct choices, a `correct_index` within range, and a `citation` that
-resolves — preferring a source file or contract over a glossary entry, so the
-question tests this repository's behaviour rather than general vocabulary.
+different schema (`id`, `topic`, `question`, `choices`, `correct_index`,
+`citation`, and optionally `tier`, `concept`, `explanation`, `source_id`,
+`verified_by`), and none of the checklist below applies to them. This skill's
+`covers` names `evals` as a whole, so a quiz-bank edit will still flag it as
+stale; that is the freshness check being coarse, not a signal that this
+checklist was violated. The quiz-bank rules are enforced by
+`scripts/check_quiz_banks.py` and explained in
+`docs/learning/FOUNDATIONS_MASTERY_PLAN.md` section 4: balanced answer
+positions, no repeated questions, citations that resolve, and a registered
+source for every concept question.
 
 ## Golden-case checklist
 
