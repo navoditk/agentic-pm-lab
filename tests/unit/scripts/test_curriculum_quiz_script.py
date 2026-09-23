@@ -45,8 +45,10 @@ def run(bank, picks):
     page = DEFAULT_OUTPUT.read_text(encoding="utf-8")
     script = re.findall(r"<script>(.*?)</script>", page, re.DOTALL)[-1]
     program = STUB + script + HARNESS % (json.dumps(bank), json.dumps(picks))
+    # Through stdin, not `node -e`: the page script is ~400 KB, and Linux caps
+    # a single argument at 128 KB (macOS does not, so this only broke in CI).
     out = subprocess.run(
-        ["node", "-e", program], capture_output=True, text=True, check=True
+        ["node", "-"], input=program, capture_output=True, text=True, check=True
     ).stdout
     return json.loads(out.strip().splitlines()[-1])["done"]
 
