@@ -132,11 +132,16 @@ def cmd_course(args: argparse.Namespace) -> int:
 
 
 def cmd_quiz(args: argparse.Namespace) -> int:
-    """Delegates to the existing interactive runner rather than duplicating it."""
-    return subprocess.call(
-        [sys.executable, str(REPO_ROOT / "scripts/tutor.py"), args.topic, "--quiz"],
-        cwd=REPO_ROOT,
-    )
+    """Delegates to the existing runner rather than duplicating it."""
+    command = [
+        sys.executable,
+        str(REPO_ROOT / "scripts/tutor.py"),
+        args.topic,
+        "--quiz",
+    ]
+    if args.answers is not None:
+        command += ["--answers", args.answers]
+    return subprocess.call(command, cwd=REPO_ROOT)
 
 
 def cmd_progress(_: argparse.Namespace) -> int:
@@ -242,6 +247,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     quiz = sub.add_parser("quiz", help="take a topic's quiz interactively")
     quiz.add_argument("topic")
+    quiz.add_argument(
+        "--answers",
+        metavar="LIST",
+        help="grade and record comma-separated choice indices for every "
+        "question, in bank order, without prompting (used by agentexpert)",
+    )
     quiz.set_defaults(func=cmd_quiz)
 
     progress = sub.add_parser("progress", help="what you have completed")

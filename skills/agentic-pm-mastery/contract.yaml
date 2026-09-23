@@ -23,7 +23,14 @@ output_schema:
     - lesson_or_assessment
     - citations
     - limitations
-side_effects: none
+# The one write: on the learner's explicit request, a quiz they answered in the
+# conversation is appended to their own gitignored attempt log through the same
+# CLI a terminal learner uses. Nothing version-controlled is touched, which is
+# what repository_editing below forbids.
+side_effects: >-
+  On explicit learner request only, appends one quiz attempt to the gitignored
+  data/learner_progress/<topic-id>.jsonl via `agentic-pm-lab quiz --answers`.
+  No tracked file is modified.
 approval_required: false
 covers:
   - src/education/tutor.py

@@ -43,13 +43,16 @@ the selected topic's course outline, deep dive, tutor persona, quiz bank, and
 reference anchor on demand. Update those existing assets to change course
 content; do not create a second topic registry in the skill.
 
-Progress is session-only when the chosen CLI has no durable session store. For
-a durable, CLI-neutral quiz record, use the companion CLI:
+XP and levels are session-only when the chosen CLI has no durable session
+store. Quiz results do not have to be: ask the skill to "record my quiz", and
+it asks the full bank and records your answers with
+`agentic-pm-lab quiz <topic-id> --answers ...`, the same log a terminal
+attempt writes. From a terminal:
 
 ```bash
 uv run agentic-pm-lab course <topic-id>
 uv run agentic-pm-lab quiz <topic-id>
-uv run python scripts/check_learner_progress.py
+uv run agentic-pm-lab progress
 ```
 
 Use [TUTOR_COURSE_GUIDE.md](TUTOR_COURSE_GUIDE.md) for the completion rubric
