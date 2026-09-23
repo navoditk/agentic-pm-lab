@@ -6,6 +6,7 @@ TUTORS = (
     "portfolio-construction-tutor",
     "agent-architecture-tutor",
     "langgraph-deep-agents-tutor",
+    "mcp-tutor",
     "aws-agentcore-tutor",
     "data-provenance-research-tutor",
     "evaluation-agentops-tutor",
@@ -20,7 +21,7 @@ TUTORS = (
 
 # ficc-tutor-agent is deliberately "user-scoped" (PROGRESS.md's Day 2 entry) and
 # lives under docs/agent-templates/ rather than .github/agents/ with the other
-# 14, but it's held to the exact same structural contract.
+# 15, but it's held to the exact same structural contract.
 TUTOR_PATHS = {
     name: ROOT / ".github" / "agents" / f"{name}.agent.md" for name in TUTORS
 }

@@ -1,5 +1,7 @@
 # Copilot Canvas and MCP — deep dive
 
+*The protocol itself, including its errors, identity, and trace context, is taught in the [Model Context Protocol](mcp-tutor.md) course in Agent core. This course covers Canvas: shared handler state, approval and evidence UX, and a Canvas action carried through that MCP boundary.*
+
 *Companion to [`.github/agents/copilot-canvas-mcp-tutor.agent.md`](../../../.github/agents/copilot-canvas-mcp-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz copilot-canvas-mcp-tutor`.*
 
 ## What this actually is

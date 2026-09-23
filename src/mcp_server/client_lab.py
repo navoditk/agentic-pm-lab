@@ -1,0 +1,143 @@
+"""The client side of MCP, for the Model Context Protocol course.
+
+`server.py` is the repository's MCP server. This module is what talks to it:
+a real MCP session, in-process, so every lab runs offline with no subprocess
+or network and still exercises the SDK's request handling end to end.
+
+It also connects MCP to the agent loop from Agent foundations.
+`mcp_tools_for_loop()` discovers tools over MCP and wraps each as a
+`src.foundations.agent_loop.Tool`, so the same loop now governs a remote tool
+set. That makes the two layers of governance visible side by side:
+
+- **Client side** (the loop's `governed_call`): which tools this agent may use.
+- **Server side** (`server.py`): which caller may use a tool, and on which
+  portfolio, enforced by Cedar on every call whatever the client decided.
+
+Facts this module relies on were checked against the pinned SDK (mcp 2.0.0)
+and the MCP specification 2026-07-28, and each is pinned by a test in
+tests/unit/mcp_server/test_client_lab.py:
+
+- `Client(server, mode="auto")` negotiates protocol 2026-07-28, which is
+  stateless: no initialize handshake, version and capabilities on every
+  request. `mode="legacy"` forces the earlier initialize handshake (2025-11-25).
+- A tool execution error (bad arguments, an authorization refusal) returns a
+  result with `isError` set, which the model can see and act on.
+- W3C trace context crosses the boundary in `_meta` (`traceparent`), so the
+  server's spans join the caller's trace.
+- Identity here travels as caller-supplied `_meta`. The specification says
+  self-reported metadata should not be relied on for security decisions; see
+  `test_identity_in_request_metadata_is_asserted_not_authenticated`.
+"""
+
+from __future__ import annotations
+
+import asyncio
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+from dataclasses import dataclass
+from typing import Any, Literal
+
+from mcp.client import Client
+from mcp.server.mcpserver import MCPServer
+
+from src.foundations.agent_loop import Tool
+from src.mcp_server.server import create_mcp_server
+
+Mode = Literal["auto", "legacy"]
+
+
+class ToolExecutionError(RuntimeError):
+    """An MCP tool result with `isError` set, raised so the agent loop's
+    `governed_call` turns it into a tool message the model can see."""
+
+
+@dataclass(frozen=True)
+class ToolOutcome:
+    is_error: bool
+    text: str
+
+
+@asynccontextmanager
+async def connect(
+    server: MCPServer | None = None, *, mode: Mode = "auto"
+) -> AsyncIterator[Client]:
+    """Open an in-process MCP session to the repository's server."""
+    async with Client(server or create_mcp_server(), mode=mode) as client:
+        yield client
+
+
+def request_meta(identity: str, portfolio_id: str | None = None) -> dict[str, Any]:
+    """The metadata this repository's server reads identity from.
+
+    A local learning convention, not authentication: the caller asserts it.
+    """
+    meta: dict[str, Any] = {"identity": identity}
+    if portfolio_id is not None:
+        meta["portfolio_id"] = portfolio_id
+    return meta
+
+
+async def call(
+    client: Client,
+    tool: str,
+    arguments: dict[str, Any],
+    *,
+    identity: str,
+    portfolio_id: str | None = None,
+) -> ToolOutcome:
+    result = await client.call_tool(
+        tool, arguments, meta=request_meta(identity, portfolio_id)
+    )
+    text = "\n".join(getattr(item, "text", "") for item in result.content)
+    return ToolOutcome(bool(result.is_error), text)
+
+
+def mcp_tools_for_loop(
+    identity: str,
+    portfolio_id: str | None = None,
+    *,
+    server_factory: Any = create_mcp_server,
+    mode: Mode = "auto",
+) -> list[Tool]:
+    """Discover tools over MCP and wrap each for the Agent foundations loop.
+
+    The loop is synchronous, so each call opens its own short session. That
+    is safe precisely because the protocol is stateless: no call depends on a
+    previous one over the same connection.
+    """
+
+    async def discover() -> list[Any]:
+        async with connect(server_factory(), mode=mode) as client:
+            return list((await client.list_tools()).tools)
+
+    def make_function(name: str):
+        def invoke(**arguments: Any) -> str:
+            async def run() -> ToolOutcome:
+                async with connect(server_factory(), mode=mode) as client:
+                    return await call(
+                        client,
+                        name,
+                        arguments,
+                        identity=identity,
+                        portfolio_id=portfolio_id,
+                    )
+
+            outcome = asyncio.run(run())
+            if outcome.is_error:
+                raise ToolExecutionError(outcome.text)
+            return outcome.text
+
+        return invoke
+
+    return [
+        Tool(
+            name=tool.name,
+            # Descriptions come from the server. The specification treats tool
+            # descriptions and annotations as untrusted unless the server is
+            # trusted; the model reads them, but they grant nothing.
+            description=tool.description or "",
+            parameters=tool.input_schema,
+            function=make_function(tool.name),
+        )
+        for tool in asyncio.run(discover())
+    ]

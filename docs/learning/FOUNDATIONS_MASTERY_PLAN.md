@@ -1,6 +1,6 @@
 # Foundations Mastery Plan: quizzes and the mastery skill
 
-**Status:** Approved 2026-09-22 (decisions in §10). Phase A done; Phase B in review.
+**Status:** Approved 2026-09-22 (decisions in §10). Phase A done; Phases B and C in review.
 **Scope:** The quiz banks under `evals/tutor_quizzes/`, the course catalog in
 `docs/learning/tutor-courses.json`, the `agentic-pm-mastery` skill, and the
 learner CLI.

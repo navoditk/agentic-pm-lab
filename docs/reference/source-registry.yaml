@@ -73,6 +73,8 @@ sources:
     impacts:
       - topic: copilot-canvas-mcp-tutor
         assets: [docs/learning/tutors/copilot-canvas-mcp-tutor.md, .github/agents/copilot-canvas-mcp-tutor.agent.md, evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl]
+      - topic: mcp-tutor
+        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
   - id: aws-agentcore
     title: AWS Bedrock AgentCore
     url: https://docs.aws.amazon.com/bedrock-agentcore/
@@ -356,3 +358,65 @@ sources:
     impacts:
       - topic: agent-foundations-tutor
         assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+      - topic: mcp-tutor
+        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+  - id: mcp-spec
+    title: "MCP specification (overview)"
+    url: https://modelcontextprotocol.io/specification/latest
+    kind: url
+    version_or_fingerprint: spec-2026-07-28-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: mcp-tutor
+        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+  - id: mcp-spec-basic
+    title: "MCP specification: base protocol, statelessness, and _meta"
+    url: https://modelcontextprotocol.io/specification/latest/basic/index
+    kind: url
+    version_or_fingerprint: spec-2026-07-28-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: mcp-tutor
+        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+  - id: mcp-spec-tools
+    title: "MCP specification: tools"
+    url: https://modelcontextprotocol.io/specification/latest/server/tools
+    kind: url
+    version_or_fingerprint: spec-2026-07-28-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: mcp-tutor
+        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+  - id: mcp-spec-transports
+    title: "MCP specification: transports"
+    url: https://modelcontextprotocol.io/specification/latest/basic/transports
+    kind: url
+    version_or_fingerprint: spec-2026-07-28-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: mcp-tutor
+        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+  - id: mcp-spec-security
+    title: "MCP specification: security best practices"
+    url: https://modelcontextprotocol.io/specification/latest/basic/security_best_practices
+    kind: url
+    version_or_fingerprint: spec-2026-07-28-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: mcp-tutor
+        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]

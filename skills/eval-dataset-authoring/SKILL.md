@@ -3,7 +3,10 @@ name: eval-dataset-authoring
 description: Add consistent, executable evaluation cases with explicit routing, tool, argument, context, fact, safety, and answer expectations.
 license: MIT
 covers:
-  - evals
+  - evals/golden_dataset.jsonl
+  - evals/routing_cases.jsonl
+  - evals/authorization_cases.jsonl
+  - evals/guardrail_cases.jsonl
   - scripts/run_eval.py
 last_verified_commit: 134e003528b136c0aa390fa1187b3bfa8960d3e9
 ---
@@ -17,9 +20,8 @@ executable product requirements, not example prompts without pass criteria.
 different schema (`id`, `topic`, `question`, `choices`, `correct_index`,
 `citation`, and optionally `tier`, `concept`, `explanation`, `source_id`,
 `verified_by`), and none of the checklist below applies to them. This skill's
-`covers` names `evals` as a whole, so a quiz-bank edit will still flag it as
-stale; that is the freshness check being coarse, not a signal that this
-checklist was violated. The quiz-bank rules are enforced by
+`covers` names the four evaluation-case files, not `evals/` as a whole, so a
+quiz-bank edit no longer flags it as stale. The quiz-bank rules are enforced by
 `scripts/check_quiz_banks.py` and explained in
 `docs/learning/FOUNDATIONS_MASTERY_PLAN.md` section 4: balanced answer
 positions, answers that are not usually the longest choice, no repeated
