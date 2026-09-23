@@ -20,6 +20,7 @@ REQUIRED = {
     "step",
     "stage",
     "est_hours",
+    "required",
     "prerequisites",
     "objectives",
     "lessons",
@@ -56,6 +57,15 @@ def check_learning_order(catalog_order: list[str], courses: dict) -> list[str]:
             "TOPIC_CATALOG order does not match course steps; expected "
             + ", ".join(by_step)
         )
+    required_by_stage: dict = {}
+    for topic in by_step:
+        stage = courses[topic].get("stage")
+        required = courses[topic].get("required")
+        if required_by_stage.setdefault(stage, required) != required:
+            errors.append(
+                f"{topic}: every course in module {stage!r} must share one "
+                "required setting; a module is taken whole or skipped whole"
+            )
     seen_stages: list[str] = []
     for topic in by_step:
         stage = courses[topic].get("stage")
@@ -85,6 +95,8 @@ def check() -> list[str]:
                 errors.append(f"{topic}: {field} must be a non-empty list")
         if not isinstance(course.get("stage"), str) or not course["stage"]:
             errors.append(f"{topic}: stage must be a non-empty string")
+        if not isinstance(course.get("required"), bool):
+            errors.append(f"{topic}: required must be true or false")
         hours = course.get("est_hours")
         if not isinstance(hours, int) or isinstance(hours, bool) or hours <= 0:
             errors.append(f"{topic}: est_hours must be a positive integer")

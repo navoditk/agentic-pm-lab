@@ -37,11 +37,11 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
    than in the prompt.
 
 3. **Pick your first course.** The
-   [recommended order](TUTOR_COURSE_GUIDE.md#recommended-order) runs from
-   agent architecture to document-to-skill in four stages. If you already
-   know fixed income and portfolio theory, skip steps 3–4 of that order; if
-   you do not, [pm-mechanics](https://github.com/navoditk/pm-mechanics) teaches
-   the math those two courses assume.
+   [recommended order](TUTOR_COURSE_GUIDE.md#recommended-order) groups the
+   courses into three modules. Start with the required **Agent core**, step 1.
+   Add the optional **Finance domain** module to apply it to investing
+   ([pm-mechanics](https://github.com/navoditk/pm-mechanics) teaches the math
+   it assumes), and whichever **Platforms** courses match your tools.
 
 4. **Work through that course.** Follow the
    [one-course walkthrough](TUTOR_COURSE_GUIDE.md#use-one-course-from-start-to-finish):
@@ -62,7 +62,7 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
    lists all five conditions.
 
 7. **Repeat, then do the capstone.** Take the next course in order. When you
-   have worked through the stages you care about, run the
+   have finished Agent core and any optional modules you want, run the
    [no-cost capstone](DEPTH_PATH.md#a-no-cost-capstone), which exercises
    every layer on one synthetic rates-and-credit question.
 

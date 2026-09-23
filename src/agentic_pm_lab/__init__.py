@@ -102,14 +102,17 @@ def cmd_learn(args: argparse.Namespace) -> int:
         for entry in topics:
             if entry["stage"] != stage:
                 stage = entry["stage"]
-                print(f"\n  {stage}")
+                print(
+                    f"\n  {stage} ({'required' if entry['required'] else 'optional'})"
+                )
             print(
                 f"  {entry['step']:>3}. {entry['id']:<36} "
                 f"{entry['label']:<38} ~{entry['est_hours']}h"
             )
         total = sum(entry["est_hours"] for entry in topics)
+        core = sum(entry["est_hours"] for entry in topics if entry["required"])
         print(
-            f"\nAbout {total} hours in total; the order is a recommendation, not a gate."
+            f"\nThe required module is about {core} hours; everything is about {total}."
             "\nTeach one with:  agentic-pm-lab learn <topic>"
             "\nOutline one with: agentic-pm-lab course <topic>"
         )

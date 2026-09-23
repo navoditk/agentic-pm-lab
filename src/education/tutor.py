@@ -38,6 +38,27 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#langgraph--langgraph-deep-agents",
         "deep_dive": "docs/learning/tutors/langgraph-deep-agents-tutor.md",
     },
+    "opentelemetry-tutor": {
+        "label": "OpenTelemetry",
+        "agent_file": ".github/agents/opentelemetry-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/opentelemetry-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#opentelemetry-python",
+        "deep_dive": "docs/learning/tutors/opentelemetry-tutor.md",
+    },
+    "evaluation-agentops-tutor": {
+        "label": "Evaluations and AgentOps",
+        "agent_file": ".github/agents/evaluation-agentops-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/evaluation-agentops-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#langsmith-tracing-datasets-experiments-evaluation",
+        "deep_dive": "docs/learning/tutors/evaluation-agentops-tutor.md",
+    },
+    "governance-delivery-tutor": {
+        "label": "Governance and delivery",
+        "agent_file": ".github/agents/governance-delivery-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/governance-delivery-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#security-authnauthz-policy-as-code-prompt-injection",
+        "deep_dive": "docs/learning/tutors/governance-delivery-tutor.md",
+    },
     "ficc-tutor-agent": {
         "label": "FICC fundamentals",
         "agent_file": "docs/agent-templates/ficc-tutor-agent.agent.md",
@@ -66,26 +87,12 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#public-data-terminology-and-decision-use-primers",
         "deep_dive": "docs/learning/tutors/investment-data-tutor.md",
     },
-    "opentelemetry-tutor": {
-        "label": "OpenTelemetry",
-        "agent_file": ".github/agents/opentelemetry-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/opentelemetry-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#opentelemetry-python",
-        "deep_dive": "docs/learning/tutors/opentelemetry-tutor.md",
-    },
-    "evaluation-agentops-tutor": {
-        "label": "Evaluations and AgentOps",
-        "agent_file": ".github/agents/evaluation-agentops-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/evaluation-agentops-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#langsmith-tracing-datasets-experiments-evaluation",
-        "deep_dive": "docs/learning/tutors/evaluation-agentops-tutor.md",
-    },
-    "governance-delivery-tutor": {
-        "label": "Governance and delivery",
-        "agent_file": ".github/agents/governance-delivery-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/governance-delivery-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#security-authnauthz-policy-as-code-prompt-injection",
-        "deep_dive": "docs/learning/tutors/governance-delivery-tutor.md",
+    "investment-committee-tutor": {
+        "label": "Investment committee challenge",
+        "agent_file": ".github/agents/investment-committee-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/investment-committee-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#tutor-agent-study-map",
+        "deep_dive": "docs/learning/tutors/investment-committee-tutor.md",
     },
     "aws-agentcore-tutor": {
         "label": "AWS Bedrock AgentCore",
@@ -100,13 +107,6 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "quiz_file": "evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl",
         "reference": f"{REFERENCES_FILE}#github-copilot-app-canvas-prompts-skills-custom-agents",
         "deep_dive": "docs/learning/tutors/copilot-canvas-mcp-tutor.md",
-    },
-    "investment-committee-tutor": {
-        "label": "Investment committee challenge",
-        "agent_file": ".github/agents/investment-committee-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/investment-committee-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#tutor-agent-study-map",
-        "deep_dive": "docs/learning/tutors/investment-committee-tutor.md",
     },
     "agent-development-lifecycle-tutor": {
         "label": "Agent development lifecycle",
@@ -140,6 +140,7 @@ def list_topics() -> list[dict[str, Any]]:
             "step": COURSE_CATALOG[topic_id]["step"],
             "stage": COURSE_CATALOG[topic_id]["stage"],
             "est_hours": COURSE_CATALOG[topic_id]["est_hours"],
+            "required": COURSE_CATALOG[topic_id]["required"],
         }
         for topic_id, record in TOPIC_CATALOG.items()
     ]

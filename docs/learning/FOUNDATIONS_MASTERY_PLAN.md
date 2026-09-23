@@ -72,6 +72,13 @@ The gaps by foundation:
 5. **One order, one catalog.** New courses go into `tutor-courses.json` with a
    `step` and `stage`, so the generated tables, CLI, site, and XP calibration
    test all update automatically.
+6. **Parity across surfaces.** Everything a learner can do in the CLI must
+   also be available through the `agentexpert` skill and on the published
+   page, within what each can do: the page cannot run labs or keep durable
+   records, so it states that and links the CLI command instead. A parity
+   test (`tests/unit/education/test_learning_surface_parity.py`) fails when a
+   course, module, question field, or learner feature is missing from any
+   surface, and every phase below extends it.
 
 ## 4. Changes to the quiz format
 
