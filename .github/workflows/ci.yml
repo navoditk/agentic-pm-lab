@@ -35,6 +35,9 @@ jobs:
       - name: Tutor course completeness
         run: uv run python scripts/check_tutor_courses.py
 
+      - name: Quiz bank integrity
+        run: uv run python scripts/check_quiz_banks.py
+
       - name: Generated learning-path tables
         run: uv run python scripts/build_learning_path.py --check
 

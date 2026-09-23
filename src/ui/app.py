@@ -68,8 +68,17 @@ if st.button("Grade quiz", key=f"grade-{selected_id}"):
         st.error("Answer every question before grading.")
     else:
         _result = grade_answers(selected_id, _answers)
-        record_attempt(selected_id, _result["score"], _result["total"])
-        st.success(f"Score: {_result['score']}/{_result['total']}")
+        record_attempt(
+            selected_id,
+            _result["score"],
+            _result["total"],
+            tiers=_result["tiers"],
+            missed_concepts=_result["missed_concepts"],
+        )
+        _verdict = "passed" if _result["passed"] else "not passed yet"
+        st.success(f"Score: {_result['score']}/{_result['total']} ({_verdict})")
         for _item in _result["results"]:
             _mark = "correct" if _item["correct"] else "incorrect"
             st.write(f"`{_item['id']}`: {_mark} — cited: `{_item['citation']}`")
+            if not _item["correct"] and _item["explanation"]:
+                st.caption(_item["explanation"])

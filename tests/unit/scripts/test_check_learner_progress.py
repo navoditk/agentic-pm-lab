@@ -49,3 +49,24 @@ def test_update_learner_progress_md_writes_between_markers(tmp_path):
     assert "1 of 1 tutor topics passed" in updated
     assert "topic-a | 1 | 5/5 | ✅ Passed" in updated
     assert "placeholder" not in updated
+
+
+def test_a_strong_overall_score_with_a_weak_tier_is_not_a_pass(tmp_path):
+    tmp_path.mkdir(exist_ok=True)
+    (tmp_path / "topic-c.jsonl").write_text(
+        json.dumps(
+            {
+                "topic": "topic-c",
+                "score": 18,
+                "total": 20,
+                "tiers": {
+                    "concept": {"score": 3, "total": 5},
+                    "implementation": {"score": 15, "total": 15},
+                },
+            }
+        )
+        + "\n"
+    )
+    assert "| topic-c | 1 | 18/20 | 🟡 Attempted |" in build_table(
+        ["topic-c"], tmp_path
+    )

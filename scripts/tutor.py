@@ -16,8 +16,8 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from scripts.check_learner_progress import PASS_THRESHOLD
 from src.education.tutor import (
+    TIERS,
     TOPIC_CATALOG,
     course_outline,
     grade_answers,
@@ -36,22 +36,61 @@ def _prompt_index(prompt: str, upper_bound: int) -> int:
         print(f"Enter a number from 0 to {upper_bound - 1}.")
 
 
-def _run_quiz(topic: str) -> None:
-    questions = load_quiz(topic)
+def _ask(questions: list[dict]) -> list[int]:
     answers = []
     for position, question in enumerate(questions, start=1):
-        print(f"\nQ{position}. {question['question']}")
+        print(f"\nQ{position} [{question['tier']}]. {question['question']}")
         for choice_index, choice in enumerate(question["choices"]):
             print(f"  {choice_index}. {choice}")
         answers.append(
             _prompt_index("Your answer (number): ", len(question["choices"]))
         )
-    result = grade_answers(topic, answers)
-    record_attempt(topic, result["score"], result["total"])
-    print(f"\nScore: {result['score']}/{result['total']}")
-    for item in result["results"]:
+    return answers
+
+
+def _print_review(items: list[dict]) -> None:
+    for item in items:
         mark = "correct" if item["correct"] else "incorrect"
         print(f"  {item['id']}: {mark} (cited: {item['citation']})")
+        if not item["correct"] and item.get("explanation"):
+            print(f"      {item['explanation']}")
+
+
+def _run_quiz(topic: str, tier: str | None = None) -> None:
+    """Take the full bank and record it, or practise one tier unrecorded."""
+    questions = load_quiz(topic)
+    if tier is not None:
+        questions = [q for q in questions if q["tier"] == tier]
+        if not questions:
+            print(f"{topic} has no {tier} questions yet.")
+            return
+        answers = _ask(questions)
+        items = [
+            {
+                "id": q["id"],
+                "correct": answer == q["correct_index"],
+                "citation": q["citation"],
+                "explanation": q.get("explanation"),
+            }
+            for q, answer in zip(questions, answers, strict=True)
+        ]
+        score = sum(item["correct"] for item in items)
+        print(f"\nPractice score ({tier}): {score}/{len(items)} -- not recorded")
+        _print_review(items)
+        return
+    result = grade_answers(topic, _ask(questions))
+    record_attempt(
+        topic,
+        result["score"],
+        result["total"],
+        tiers=result["tiers"],
+        missed_concepts=result["missed_concepts"],
+    )
+    verdict = "passed" if result["passed"] else "not passed yet"
+    print(f"\nScore: {result['score']}/{result['total']} ({verdict})")
+    for name, tier_score in result["tiers"].items():
+        print(f"  {name}: {tier_score['score']}/{tier_score['total']}")
+    _print_review(result["results"])
 
 
 def parse_answers(raw: str, questions: list[dict]) -> list[int]:
@@ -82,19 +121,30 @@ def record_answers(topic: str, raw: str) -> dict:
     """Grade a full set of answers given elsewhere, and record the attempt."""
     answers = parse_answers(raw, load_quiz(topic))
     result = grade_answers(topic, answers)
-    log_path = record_attempt(topic, result["score"], result["total"])
+    log_path = record_attempt(
+        topic,
+        result["score"],
+        result["total"],
+        tiers=result["tiers"],
+        missed_concepts=result["missed_concepts"],
+    )
     return {
         "topic": topic,
         "score": result["score"],
         "total": result["total"],
-        "passed": result["score"] / result["total"] >= PASS_THRESHOLD,
+        "passed": result["passed"],
+        "tiers": result["tiers"],
         "recorded_to": str(
             log_path.relative_to(REPO_ROOT)
             if log_path.is_relative_to(REPO_ROOT)
             else log_path
         ),
         "missed": [
-            {"id": item["id"], "citation": item["citation"]}
+            {
+                "id": item["id"],
+                "citation": item["citation"],
+                "explanation": item["explanation"],
+            }
             for item in result["results"]
             if not item["correct"]
         ],
@@ -116,6 +166,11 @@ def main() -> None:
         "every question, in bank order, instead of asking interactively",
     )
     parser.add_argument(
+        "--tier",
+        choices=TIERS,
+        help="with --quiz: practise only this tier's questions; not recorded",
+    )
+    parser.add_argument(
         "--course",
         action="store_true",
         help="show the complete course outline for the topic",
@@ -130,6 +185,10 @@ def main() -> None:
         parser.error("--quiz and --course cannot be combined")
     if args.answers is not None and not args.quiz:
         parser.error("--answers requires --quiz")
+    if args.tier is not None and not args.quiz:
+        parser.error("--tier requires --quiz")
+    if args.tier is not None and args.answers is not None:
+        parser.error("recording needs the full bank; --tier is practice only")
     if args.quiz and args.topic not in TOPIC_CATALOG:
         parser.error(
             f"unknown topic {args.topic}; choose one of: {', '.join(TOPIC_CATALOG)}"
@@ -144,7 +203,7 @@ def main() -> None:
         print(json.dumps(course_outline(args.topic), indent=2, sort_keys=True))
         return
     if args.quiz:
-        _run_quiz(args.topic)
+        _run_quiz(args.topic, args.tier)
         return
     print(json.dumps(teach_topic(args.topic), indent=2, sort_keys=True))
 

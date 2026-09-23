@@ -99,7 +99,7 @@ doesn't have room for.
 Each attempt is logged locally to `data/learner_progress/<topic-id>.jsonl`.
 Run `uv run python scripts/check_learner_progress.py` afterward to regenerate
 [`docs/learning/LEARNER_PROGRESS.md`](../learning/LEARNER_PROGRESS.md) — a
-table of best score and pass/fail (≥80%) per topic. This tracks *comprehension*,
+table of best score and pass/fail (80% overall, 70% per question tier) per topic. This tracks *comprehension*,
 separate from `PROGRESS.md`, which tracks whether the underlying code was
 *built*. `uv run streamlit run src/ui/app.py` gives the same topic-browse and
 quiz flow a browser front end.

@@ -85,7 +85,7 @@ so a level means the same thing whichever courses a learner took:
 | Correct practice-quiz answer | +10, first 5 per topic | 50 |
 | Failure lab or scenario passed | +25 | 25 |
 | Build lab passed | +40 | 40 |
-| Full quiz recorded at 80% or more | +50 | 50 |
+| Full quiz recorded that meets the pass rule | +50 | 50 |
 | Topic complete | +50 | 50 |
 
 A course is worth 275 XP, and all 14 courses plus the final assessment (+150)
@@ -102,8 +102,8 @@ instead. Do not award
 duplicate XP. This is a learning aid, not a certification record.
 
 A topic is complete only after the learner has covered its objectives,
-completed the local lab, the failure lab and the build lab, scored at least
-80% on a quiz, and given the course's teach-back. The build lab is not
+completed the local lab, the failure lab and the build lab, passed a quiz
+under the pass rule, and given the course's teach-back. The build lab is not
 optional and cannot be substituted with a walkthrough: tracing, breaking and
 explaining existing code all demonstrate comprehension, and only building
 something that was not there demonstrates that you could do it again
@@ -140,13 +140,21 @@ A learner can write to it from a terminal with
 3. Ask whether the learner wants a short quiz, code trace, lab, or next
    objective. Use the CLI's structured question/choice tool when available;
    otherwise present numbered choices and wait for the learner's response.
-4. For each quiz answer, state whether it is correct, cite the source, explain
-   the distinction, and update XP. Never reveal answers before a learner
-   responds.
-5. For labs, use fixtures, mocks, local code, and existing test/runbook
+4. For each quiz answer, state whether it is correct, cite the source, and
+   explain the distinction, using the question's `explanation` when it has
+   one. Show each question's `tier` (concept, implementation, or transfer)
+   so the learner knows whether it tests the idea, this repository, or a new
+   situation; a question with no `tier` is an implementation question. Update
+   XP. Never reveal answers before a learner responds.
+5. The pass rule is 80% overall **and** 70% within every tier the bank
+   contains (`src/education/tutor.py::attempt_passes`), so say which tier
+   fell short when a learner misses it. For practice on one tier, offer
+   `uv run agentic-pm-lab quiz <topic-id> --tier <tier>`; practice is never
+   recorded.
+6. For labs, use fixtures, mocks, local code, and existing test/runbook
    commands only. Do not invoke paid services, AWS, market-data providers, or
    investment actions as part of teaching.
-6. Before marking a course complete, ask the learner to teach it back without
+7. Before marking a course complete, ask the learner to teach it back without
    notes and name one limitation and the evidence needed for a live claim.
 
 ## Safety and quality rules

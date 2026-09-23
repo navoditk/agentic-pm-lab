@@ -130,6 +130,30 @@ COURSE_CATALOG: dict[str, dict[str, Any]] = json.loads(
 
 SCOPE_HEADER = "## Independent practice examples"
 
+# Question tiers (docs/learning/FOUNDATIONS_MASTERY_PLAN.md section 4). A
+# question that declares no tier is an implementation question: every
+# question written before tiers existed tests how this repository works.
+TIERS = ("concept", "implementation", "transfer")
+DEFAULT_TIER = "implementation"
+# The pass rule, in one place for every surface: 80% overall, and 70% within
+# each tier the bank contains, so a learner cannot pass on repo trivia alone.
+OVERALL_PASS = 0.8
+TIER_PASS = 0.7
+
+
+def attempt_passes(
+    score: int, total: int, tiers: dict[str, dict[str, int]] | None = None
+) -> bool:
+    """Apply the pass rule. Attempts recorded before tiers carry no `tiers`
+    and are judged on the overall score alone."""
+    if not total or score / total < OVERALL_PASS:
+        return False
+    return all(
+        tier["score"] / tier["total"] >= TIER_PASS
+        for tier in (tiers or {}).values()
+        if tier["total"]
+    )
+
 
 def list_topics() -> list[dict[str, Any]]:
     """Return a compact catalog, in learning order, for a CLI or UI selector."""
@@ -197,7 +221,9 @@ def load_quiz(topic_id: str) -> list[dict[str, Any]]:
     for line in path.read_text().splitlines():
         line = line.strip()
         if line:
-            questions.append(json.loads(line))
+            question = json.loads(line)
+            question.setdefault("tier", DEFAULT_TIER)
+            questions.append(question)
     return questions
 
 
@@ -210,9 +236,16 @@ def grade_answers(topic_id: str, answers: list[int]) -> dict[str, Any]:
         )
     results = []
     score = 0
+    tiers: dict[str, dict[str, int]] = {}
+    missed_concepts: set[str] = set()
     for question, answer in zip(questions, answers, strict=True):
         correct = answer == question["correct_index"]
         score += int(correct)
+        tier = tiers.setdefault(question["tier"], {"score": 0, "total": 0})
+        tier["score"] += int(correct)
+        tier["total"] += 1
+        if not correct and question.get("concept"):
+            missed_concepts.add(question["concept"])
         results.append(
             {
                 "id": question["id"],
@@ -220,12 +253,17 @@ def grade_answers(topic_id: str, answers: list[int]) -> dict[str, Any]:
                 "correct_index": question["correct_index"],
                 "your_index": answer,
                 "citation": question["citation"],
+                "tier": question["tier"],
+                "explanation": question.get("explanation"),
             }
         )
     return {
         "topic": topic_id,
         "score": score,
         "total": len(questions),
+        "tiers": tiers,
+        "missed_concepts": sorted(missed_concepts),
+        "passed": attempt_passes(score, len(questions), tiers),
         "results": results,
     }
 
@@ -235,9 +273,15 @@ def record_attempt(
     score: int,
     total: int,
     *,
+    tiers: dict[str, dict[str, int]] | None = None,
+    missed_concepts: list[str] | None = None,
     log_dir: Path | None = None,
 ) -> Path:
-    """Append one attempt record to data/learner_progress/<topic_id>.jsonl."""
+    """Append one attempt record to data/learner_progress/<topic_id>.jsonl.
+
+    `tiers` lets the pass rule be re-applied later; `missed_concepts` feeds
+    spaced review. Both are optional so older callers keep working.
+    """
     log_dir = log_dir or LEARNER_PROGRESS_DIR
     log_dir.mkdir(parents=True, exist_ok=True)
     log_path = log_dir / f"{topic_id}.jsonl"
@@ -247,6 +291,10 @@ def record_attempt(
         "score": score,
         "total": total,
     }
+    if tiers is not None:
+        record["tiers"] = tiers
+    if missed_concepts:
+        record["missed_concepts"] = missed_concepts
     with log_path.open("a") as handle:
         handle.write(json.dumps(record, sort_keys=True) + "\n")
     return log_path

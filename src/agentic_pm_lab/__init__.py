@@ -41,6 +41,7 @@ CHECKS: tuple[tuple[str, list[str]], ...] = (
     ("format", ["ruff", "format", "--check", "."]),
     ("docs consistency", ["python", "scripts/check_docs_consistency.py"]),
     ("tutor courses", ["python", "scripts/check_tutor_courses.py"]),
+    ("quiz banks", ["python", "scripts/check_quiz_banks.py"]),
     ("learning path", ["python", "scripts/build_learning_path.py", "--check"]),
     ("curriculum sources", ["python", "scripts/check_curriculum_sources.py"]),
     (
@@ -144,6 +145,8 @@ def cmd_quiz(args: argparse.Namespace) -> int:
     ]
     if args.answers is not None:
         command += ["--answers", args.answers]
+    if args.tier is not None:
+        command += ["--tier", args.tier]
     return subprocess.call(command, cwd=REPO_ROOT)
 
 
@@ -255,6 +258,11 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="LIST",
         help="grade and record comma-separated choice indices for every "
         "question, in bank order, without prompting (used by agentexpert)",
+    )
+    quiz.add_argument(
+        "--tier",
+        choices=_tutor().TIERS,
+        help="practise only one question tier; practice is not recorded",
     )
     quiz.set_defaults(func=cmd_quiz)
 

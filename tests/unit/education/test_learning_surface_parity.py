@@ -42,3 +42,41 @@ def test_every_course_is_offered_on_every_surface(capsys):
     skill = (ROOT / "skills/agentic-pm-mastery/SKILL.md").read_text(encoding="utf-8")
     assert "docs/learning/tutor-courses.json" in skill
     assert "src/education/tutor.py" in skill
+
+
+# --- question fields ----------------------------------------------------------
+
+
+def _page_quiz_data():
+    import json
+    import re
+
+    page = DEFAULT_OUTPUT.read_text(encoding="utf-8")
+    return json.loads(re.search(r"const quizzes=(\{.*?\});", page).group(1))
+
+
+def test_the_page_quiz_carries_a_tier_for_every_question():
+    data = _page_quiz_data()
+    assert set(data) == set(TOPIC_CATALOG)
+    assert all(q.get("tier") for bank in data.values() for q in bank)
+
+
+def test_every_surface_presents_tiers_and_explanations():
+    page = DEFAULT_OUTPUT.read_text(encoding="utf-8")
+    assert "q.explanation" in page and "q.tier" in page, "page quiz"
+    assert "TIER_PASS" in page, "page applies the pass rule"
+    runner = (ROOT / "scripts/tutor.py").read_text(encoding="utf-8")
+    assert "explanation" in runner and "question['tier']" in runner, "CLI"
+    ui = (ROOT / "src/ui/app.py").read_text(encoding="utf-8")
+    assert "explanation" in ui and "tiers=" in ui, "Streamlit UI"
+    skill = (ROOT / "skills/agentic-pm-mastery/SKILL.md").read_text(encoding="utf-8")
+    for required in ("`explanation`", "`tier`", "attempt_passes", "--tier"):
+        assert required in skill, f"skill missing {required}"
+
+
+def test_the_cli_offers_exactly_the_defined_tiers():
+    from src.education.tutor import TIERS
+
+    quiz = build_parser()._subparsers._group_actions[0].choices["quiz"]
+    tier = next(a for a in quiz._actions if a.dest == "tier")
+    assert tuple(tier.choices) == TIERS

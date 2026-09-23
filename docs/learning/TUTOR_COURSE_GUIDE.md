@@ -46,7 +46,8 @@ records and works without a Copilot surface.
    ```
 
 8. Run `uv run python scripts/check_learner_progress.py` to record the quiz
-   result. A passing quiz is 80% or higher, but it is not the whole course.
+   result. A passing quiz scores 80% overall and 70% in each question tier
+   (concept, implementation, transfer), but it is not the whole course.
 9. Complete the teach-back in the course outline. Explain the topic without
    notes, cite two repository files, name one simplification, and state what
    evidence would be required for a production or live claim.

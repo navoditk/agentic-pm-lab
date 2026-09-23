@@ -22,8 +22,6 @@ LEARNER_PROGRESS_MD_PATH = REPO_ROOT / "docs" / "learning" / "LEARNER_PROGRESS.m
 START_MARKER = "<!-- LEARNER_PROGRESS:START -->"
 END_MARKER = "<!-- LEARNER_PROGRESS:END -->"
 
-PASS_THRESHOLD = 0.8
-
 
 def _load_attempts(topic: str, log_dir: Path) -> list[dict]:
     log_path = log_dir / f"{topic}.jsonl"
@@ -37,9 +35,10 @@ def _load_attempts(topic: str, log_dir: Path) -> list[dict]:
     return attempts
 
 
-def _best_ratio(attempts: list[dict]) -> float:
-    ratios = [a["score"] / a["total"] for a in attempts if a["total"]]
-    return max(ratios) if ratios else 0.0
+def _passed(attempts: list[dict]) -> bool:
+    from src.education.tutor import attempt_passes
+
+    return any(attempt_passes(a["score"], a["total"], a.get("tiers")) for a in attempts)
 
 
 def build_table(topics: list[str], log_dir: Path) -> str:
@@ -50,8 +49,7 @@ def build_table(topics: list[str], log_dir: Path) -> str:
             rows.append(f"| {topic} | 0 | - | ⬜ Not attempted |")
             continue
         best = max(attempts, key=lambda a: a["score"] / a["total"] if a["total"] else 0)
-        ratio = _best_ratio(attempts)
-        status = "✅ Passed" if ratio >= PASS_THRESHOLD else "🟡 Attempted"
+        status = "✅ Passed" if _passed(attempts) else "🟡 Attempted"
         rows.append(
             f"| {topic} | {len(attempts)} | {best['score']}/{best['total']} | {status} |"
         )
@@ -60,14 +58,10 @@ def build_table(topics: list[str], log_dir: Path) -> str:
 
 def render_status_block(topics: list[str], log_dir: Path) -> str:
     table = build_table(topics, log_dir)
-    passed = sum(
-        1
-        for topic in topics
-        if _best_ratio(_load_attempts(topic, log_dir)) >= PASS_THRESHOLD
-    )
+    passed = sum(1 for topic in topics if _passed(_load_attempts(topic, log_dir)))
     return f"""{START_MARKER}
 
-## Status: {passed} of {len(topics)} tutor topics passed (≥80% quiz score)
+## Status: {passed} of {len(topics)} tutor topics passed (≥80% overall, ≥70% per question tier)
 
 **Tracks comprehension, not implementation.** A topic shows ✅ here only
 after the learner has taken and passed its quiz with
