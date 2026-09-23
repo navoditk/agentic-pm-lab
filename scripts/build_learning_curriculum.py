@@ -412,9 +412,15 @@ def build_html() -> str:
     for topic_id in catalog:
         stages.setdefault(topics[topic_id]["course"]["stage"], []).append(topic_id)
     total_hours = sum(topic["course"]["est_hours"] for topic in topics.values())
+    core_hours = sum(
+        topic["course"]["est_hours"]
+        for topic in topics.values()
+        if topic["course"]["required"]
+    )
     cards = "\n".join(
         f'<h3 class="stage">{html.escape(stage)} '
-        f"<span>~{sum(topics[t]['course']['est_hours'] for t in ids)}h</span></h3>"
+        f"<span>{'required' if topics[ids[0]]['course']['required'] else 'optional'}"
+        f" · ~{sum(topics[t]['course']['est_hours'] for t in ids)}h</span></h3>"
         f'<nav class="topic-grid" aria-label="{html.escape(stage)} courses">'
         + "".join(
             f'<a class="topic-card" href="#{t}"><span>{topics[t]["course"]["step"]:02}'
@@ -492,7 +498,7 @@ main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp
 <main>
 <div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>{metadata["fingerprint"]}</code>.</div>
 <h2 id="start">Start a path</h2>
-<p>Take the courses in the recommended order below: four stages, about {total_hours} hours in all. Or follow one route:</p><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
+<p>The courses come in three modules. Only <strong>Agent core</strong> is required, about {core_hours} hours: it teaches agent architecture, LangGraph, OpenTelemetry, evaluations, and governance. <strong>Finance domain</strong> applies that core to investing. <strong>Platforms</strong> covers AWS AgentCore, Copilot Canvas, the agent development lifecycle, and document-to-skill; take the ones for your stack. Everything together is about {total_hours} hours.</p>
 <p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, run <code>uv run agentic-pm-lab quiz &lt;topic-id&gt;</code> after cloning.</p>
 <h2 id="roadmap">What was built</h2>
 <p>The courses teach a platform that was built over a 21-day plan: deterministic analytics, governed agents, evaluation, observability, MCP, Canvas, and an AWS AgentCore path. The recap below walks through it day by day, with a self-check list and the questions the build should let you answer. Every day is complete for local, fixture-based verification; live cloud and provider evidence is tracked separately.</p>

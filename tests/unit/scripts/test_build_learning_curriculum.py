@@ -197,7 +197,7 @@ def test_the_page_carries_the_roadmap_not_only_the_courses():
 
 def test_courses_are_grouped_by_stage_in_step_order():
     text = _artifact_text()
-    stages = ["Foundations", "Data and evidence", "Operate and govern"]
+    stages = ["Agent core", "Finance domain", "Platforms"]
     positions = [text.index(f'aria-label="{stage} courses"') for stage in stages]
     assert positions == sorted(positions)
 

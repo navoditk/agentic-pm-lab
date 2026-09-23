@@ -51,9 +51,10 @@ No model, network, or API key is needed for any of the learning commands.
 You do **not** need [INSTALL.md](INSTALL.md) to learn — that guide rebuilds
 the repository from an empty directory.
 
-New to fixed income or portfolio theory? Start with
-[pm-mechanics](https://github.com/navoditk/pm-mechanics) instead — this repo
-assumes the math and teaches how to govern it.
+The worked example throughout is a fixed-income portfolio manager, but you do
+not need finance to learn the agent core. Only the optional Finance domain
+module assumes fixed income and portfolio theory; for the math itself, see
+[pm-mechanics](https://github.com/navoditk/pm-mechanics).
 
 ## Related repositories
 
@@ -69,10 +70,11 @@ Its coverage of the finance domain is substantially deeper than this repo's:
 duration, DV01, convexity, Z-spread, CDS, MBS prepayment, Black-Scholes, and
 Black-Litterman, among others.
 
-If the fixed-income or portfolio-theory concepts here are unfamiliar, start
-there and come back. This repo assumes the math and focuses on governing it.
-The FICC and portfolio-construction tutors below are scoped to what these
-tools need, and point at pm-mechanics for the full treatment.
+If you take the optional Finance domain module and its fixed-income or
+portfolio-theory concepts are unfamiliar, learn them there first. This repo
+assumes the math and focuses on governing it; its FICC and
+portfolio-construction courses are scoped to what these tools need, and point
+at pm-mechanics for the full treatment.
 
 ## The gist in five minutes
 
@@ -189,34 +191,38 @@ calculation, reasoning, policy, evidence, and human decision-making.
 
 ## The learning path
 
-Fourteen courses in four stages, in the recommended order. `agentic-pm-lab
-learn` prints the same list.
+Fourteen courses in three modules. **Agent core** is the required path through
+agentic AI; **Finance domain** applies it to investing and is optional, as are
+the **Platforms** courses, which you pick by stack. `agentic-pm-lab learn`
+prints the same list.
 
 <!-- LEARNING_PATH:START -->
 <!-- Generated from docs/learning/tutor-courses.json by
      scripts/build_learning_path.py. Edit the JSON, not this table. -->
 
-| Step | Stage | Course | Topic id | Est. hours |
+| Step | Module | Course | Topic id | Est. hours |
 |---|---|---|---|---|
-| 1 | Foundations | [Agent architecture](docs/learning/tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
-| 2 | Foundations | [LangGraph and Deep Agents](docs/learning/tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
-| 3 | Foundations | [FICC fundamentals](docs/learning/tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
-| 4 | Foundations | [Portfolio construction](docs/learning/tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
-| 5 | Data and evidence | [Data provenance and research quality](docs/learning/tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
-| 6 | Data and evidence | [Public investment data](docs/learning/tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
-| 7 | Operate and govern | [OpenTelemetry](docs/learning/tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
-| 8 | Operate and govern | [Evaluations and AgentOps](docs/learning/tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
-| 9 | Operate and govern | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
-| 10 | Operate and govern | [AWS Bedrock AgentCore](docs/learning/tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
-| 11 | Integrate and extend | [Copilot Canvas and MCP](docs/learning/tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
-| 12 | Integrate and extend | [Investment committee challenge](docs/learning/tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
-| 13 | Integrate and extend | [Agent development lifecycle](docs/learning/tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
-| 14 | Integrate and extend | [Document-to-skill pipeline](docs/learning/tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
+| 1 | Agent core | [Agent architecture](docs/learning/tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
+| 2 | Agent core | [LangGraph and Deep Agents](docs/learning/tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
+| 3 | Agent core | [OpenTelemetry](docs/learning/tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
+| 4 | Agent core | [Evaluations and AgentOps](docs/learning/tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
+| 5 | Agent core | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
+| 6 | Finance domain (optional) | [FICC fundamentals](docs/learning/tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
+| 7 | Finance domain (optional) | [Portfolio construction](docs/learning/tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
+| 8 | Finance domain (optional) | [Data provenance and research quality](docs/learning/tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
+| 9 | Finance domain (optional) | [Public investment data](docs/learning/tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
+| 10 | Finance domain (optional) | [Investment committee challenge](docs/learning/tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
+| 11 | Platforms (optional) | [AWS Bedrock AgentCore](docs/learning/tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
+| 12 | Platforms (optional) | [Copilot Canvas and MCP](docs/learning/tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
+| 13 | Platforms (optional) | [Agent development lifecycle](docs/learning/tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
+| 14 | Platforms (optional) | [Document-to-skill pipeline](docs/learning/tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
 
-About 53 hours in total. Hours are rough estimates covering the deep dive,
-the three labs, the quiz, and the teach-back. The order is a recommendation,
-not a gate: each course lists its own prerequisites, so an experienced learner
-can start anywhere.
+Only the Agent core module is required: about 22 hours. The other
+modules are optional; take Finance domain to apply the core to investing, and
+the Platforms courses for the tools you use. About 53 hours for everything.
+Hours are rough estimates covering the deep dive, the three labs, the quiz,
+and the teach-back. Each course lists its own prerequisites, so an
+experienced learner can start anywhere.
 
 <!-- LEARNING_PATH:END -->
 

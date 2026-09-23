@@ -9,7 +9,7 @@ covers:
   - docs/learning/tutor-courses.json
   - docs/learning/tutors
   - evals/tutor_quizzes
-last_verified_commit: 70814942e77e30d0ec9f6c347fa4eac938a60aa1
+last_verified_commit: 9cfe1c8dafcd2f207214036b2f37eda15e4f1931
 ---
 
 # Agentic PM Lab Mastery
@@ -92,11 +92,13 @@ A course is worth 275 XP, and all 14 courses plus the final assessment (+150)
 is 4,000. The build lab is worth more than a scenario because it is the only
 item that requires producing something that did not exist.
 
-Levels: 0 Explorer, 275 Analyst, 1,100 Builder, 1,650 Practitioner, 2,750 Steward, 4,000 Architect.
+Levels: 0 Explorer, 275 Analyst, 1,375 Builder, 2,750 Practitioner, 4,000 Architect.
 
-Each threshold is the XP for a milestone in the recommended order: the first
-course, then the end of each stage (Foundations, Data and evidence, Operate
-and govern), then every course and the final assessment. Do not award
+Each threshold is the XP for a milestone: the first course, then the XP of
+the required Agent core module, then of two full modules, then every course
+and the final assessment. XP counts in any order, so a learner who skips the
+optional Finance domain module reaches Practitioner through Platforms courses
+instead. Do not award
 duplicate XP. This is a learning aid, not a certification record.
 
 A topic is complete only after the learner has covered its objectives,
