@@ -57,7 +57,7 @@ named file: JSON sources are parsed and validated to be a list of records;
 CSV sources are read with `csv.DictReader`, skipping blank lines and `#`
 comments. `scripts/investment_data_tutor.py` is a 36-line argparse shim over
 these three functions — `scripts/tutor.py`'s generalized CLI follows the
-exact same split for all 14 tutor topics.
+exact same split for every tutor topic.
 
 The catalog's 17 entries split roughly into two tiers. The **high-feasibility**
 tier — `sec-companyfacts`, `alfred`, `treasury-auctions`, `sofr`, `cftc-cot`,

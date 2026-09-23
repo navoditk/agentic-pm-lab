@@ -1,7 +1,7 @@
 # Agentic PM Lab mastery skill
 
 The **Agentic PM Lab Mastery** skill is the recommended conversational route
-through the repository. It turns the existing 14 tutor courses into a guided
+through the repository. It turns the tutor courses into a guided
 lesson, quiz, scenario, lab, teach-back, and cross-topic assessment flow across
 GitHub Copilot, Claude Code, and Codex.
 

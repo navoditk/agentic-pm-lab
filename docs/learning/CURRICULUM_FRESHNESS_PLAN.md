@@ -2,7 +2,7 @@
 
 This plan keeps the **learning curriculum** current without treating a vendor
 documentation edit as an automatically correct lesson update. It applies to
-the 14-topic course catalog, deep dives, tutor personas, quiz banks, and
+the tutor course catalog, deep dives, tutor personas, quiz banks, and
 mastery skill—not to production code claims or live-provider evidence.
 
 ## Operating principle

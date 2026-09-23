@@ -2,6 +2,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parents[3]
 TUTORS = (
+    "agent-foundations-tutor",
     "portfolio-construction-tutor",
     "agent-architecture-tutor",
     "langgraph-deep-agents-tutor",
@@ -19,7 +20,7 @@ TUTORS = (
 
 # ficc-tutor-agent is deliberately "user-scoped" (PROGRESS.md's Day 2 entry) and
 # lives under docs/agent-templates/ rather than .github/agents/ with the other
-# 13, but it's held to the exact same structural contract.
+# 14, but it's held to the exact same structural contract.
 TUTOR_PATHS = {
     name: ROOT / ".github" / "agents" / f"{name}.agent.md" for name in TUTORS
 }

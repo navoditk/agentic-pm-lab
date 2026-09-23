@@ -16,7 +16,9 @@ def test_curriculum_includes_every_topic_and_quiz():
     rendered = build_html()
 
     assert "Agentic PM Lab Learning Curriculum" in rendered
-    assert rendered.count("Start this topic's quiz") == 14
+    from src.education.tutor import TOPIC_CATALOG
+
+    assert rendered.count("Start this topic's quiz") == len(TOPIC_CATALOG)
     assert "portfolio-construction-tutor-q1" in rendered
     assert "ficc-tutor-agent-q1" in rendered
     assert "Browser quiz results stay in this browser" in rendered

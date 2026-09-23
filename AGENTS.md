@@ -15,7 +15,7 @@ This file is read automatically by Claude Code, by GitHub Copilot (coding agent,
 - **`docs/reference/REFERENCES.md`** — curated reading by topic, pre-written from Day 1 and updated in place as you learn. `docs/PLAN.md`'s day-by-day steps each point at a specific subsection of this file rather than repeating it.
 - **`docs/learning/PHASE_1_RECAP.md`** — completed Phase 1 recap, self-check questions, recommended learning path, tutor prompts, evidence checkpoints, and transition to Phase 2.
 - **`skills/agentic-pm-mastery/SKILL.md`** — the canonical read-only,
-  source-grounded learning router for all 14 tutor courses. When a learner
+  source-grounded learning router for every tutor course. When a learner
   says `agentexpert`, load it and follow its lesson, quiz, scenario, and
   assessment protocol. Copilot, Claude Code, and Codex discovery loaders all
   point to this package; its durable CLI-neutral companion is
