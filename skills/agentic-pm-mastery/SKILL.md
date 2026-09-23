@@ -49,12 +49,13 @@ state a documented limitation when it materially affects the answer.
 |---|---|
 | `agentexpert` or "start learning" | Read `references/learning-paths.md`; ask the learner to choose a path or topic. |
 | "teach me `<topic>`" | Resolve the topic in `TOPIC_CATALOG`; teach one current course objective at a time. |
-| "quiz me" or "test me" | Read the topic JSONL bank; ask 5 mixed questions unless the learner requests the full quiz. |
+| "quiz me" or "test me" | Read the topic JSONL bank; ask 5 mixed questions as practice unless the learner requests the full quiz. Practice rounds are never recorded. |
+| "record my quiz" or "full quiz" | Run a recorded quiz: see "Recording a quiz durably" below. |
 | "scenario" or "failure lab" | Read `references/scenarios.md`; route to the selected topic's failure lab and require a safe outcome. |
 | "build lab" or "let me build something" | Read the topic's `build_lab`; the learner writes the code. Review what they produce against whether it runs and whether its test would fail if the behaviour regressed — never write it for them. |
 | "review my lab" or "teach-back" | Read the course assessment and evaluate against its rubric without doing the work for the learner. |
 | "final assessment" | Read `references/final-assessment.md`; run the cross-topic assessment. |
-| "my progress" | Report session progress and explain how to record an offline quiz attempt with `uv run agentic-pm-lab quiz <topic-id>`. |
+| "my progress" | Report session progress, and tell the learner that `uv run agentic-pm-lab progress` shows every recorded quiz, from this conversation or the terminal. |
 
 For a focused factual question, answer directly from the current source and do
 not force the learner through a lesson.
@@ -72,13 +73,31 @@ VALUES ('xp', '0'), ('level', 'Explorer'), ('current_topic', '');
 ```
 
 Otherwise, retain progress in the active conversation and state that it ends
-with the session. Award XP once per completed item: lesson +20, correct quiz
-answer +10, passed scenario +25, passed build lab +40, completed topic +50,
-final assessment +150. The build lab is worth more than a scenario because
-it is the only item that requires producing something that did not exist.
-Levels: 0 Explorer, 150 Analyst, 350 Builder, 600 Practitioner, 900 Steward,
-1,250 Architect. Do not award duplicate completion XP. This is a learning aid,
-not a certification record.
+with the session. Quiz results need not end with it: see "Recording a quiz
+durably" below.
+
+Award XP once per item, per topic. The caps keep every course worth the same,
+so a level means the same thing whichever courses a learner took:
+
+| Item | XP | Most per topic |
+|---|---|---|
+| Lesson taught | +20 each | 60 |
+| Correct practice-quiz answer | +10, first 5 per topic | 50 |
+| Failure lab or scenario passed | +25 | 25 |
+| Build lab passed | +40 | 40 |
+| Full quiz recorded at 80% or more | +50 | 50 |
+| Topic complete | +50 | 50 |
+
+A course is worth 275 XP, and all 14 courses plus the final assessment (+150)
+is 4,000. The build lab is worth more than a scenario because it is the only
+item that requires producing something that did not exist.
+
+Levels: 0 Explorer, 275 Analyst, 1,100 Builder, 1,650 Practitioner, 2,750 Steward, 4,000 Architect.
+
+Each threshold is the XP for a milestone in the recommended order: the first
+course, then the end of each stage (Foundations, Data and evidence, Operate
+and govern), then every course and the final assessment. Do not award
+duplicate XP. This is a learning aid, not a certification record.
 
 A topic is complete only after the learner has covered its objectives,
 completed the local lab, the failure lab and the build lab, scored at least
@@ -87,12 +106,27 @@ optional and cannot be substituted with a walkthrough: tracing, breaking and
 explaining existing code all demonstrate comprehension, and only building
 something that was not there demonstrates that you could do it again
 unaided. Where session SQL is available, record
-completion in `pm_mastery_completed`. The repository's durable, CLI-neutral
-quiz record remains `data/learner_progress/`, written by:
+completion in `pm_mastery_completed`.
 
-```bash
-uv run agentic-pm-lab quiz <topic-id>
-```
+## Recording a quiz durably
+
+The repository's durable, CLI-neutral quiz record is `data/learner_progress/`.
+A learner can write to it from a terminal with
+`uv run agentic-pm-lab quiz <topic-id>`, or from this conversation:
+
+1. Only when the learner asks, ask **every** question in the topic's bank, in
+   file order, one at a time. The recorder refuses a partial set, so a
+   practice round cannot become a passed topic.
+2. Collect the learner's own choice index for each question. Never fill in,
+   correct, or infer an answer the learner did not give. Hold feedback until
+   every answer is in, so the record reflects a closed-book attempt.
+3. Run `uv run agentic-pm-lab quiz <topic-id> --answers <i1,i2,...>` with the
+   indices in order, then go through the score and each missed question's
+   citation.
+4. That command appends one line to the gitignored
+   `data/learner_progress/<topic-id>.jsonl` and changes nothing else. Do not
+   regenerate or edit `docs/learning/LEARNER_PROGRESS.md`; tell the learner
+   that `uv run agentic-pm-lab progress` updates it.
 
 ## Teaching protocol
 
