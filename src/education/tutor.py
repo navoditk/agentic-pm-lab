@@ -18,16 +18,12 @@ LEARNER_PROGRESS_DIR = REPO_ROOT / "data" / "learner_progress"
 # location rather than .github/agents/ -- see PROGRESS.md's Day 2 entry) --
 # this catalog is the canonical map from topic id to where its content, its
 # reference-anchor into REFERENCES.md, its deep-dive companion doc, and its
-# quiz all live.
+# quiz all live. Entries are listed in the recommended learning order -- the
+# `step` field in docs/learning/tutor-courses.json -- and
+# scripts/check_tutor_courses.py fails if the two disagree, so anything that
+# iterates this dict (the CLI, the curriculum artifact, the UI) teaches in order.
 REFERENCES_FILE = "docs/reference/REFERENCES.md"
 TOPIC_CATALOG: dict[str, dict[str, str]] = {
-    "portfolio-construction-tutor": {
-        "label": "Portfolio construction",
-        "agent_file": ".github/agents/portfolio-construction-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/portfolio-construction-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#portfolio-optimization-and-portfolio-construction",
-        "deep_dive": "docs/learning/tutors/portfolio-construction-tutor.md",
-    },
     "agent-architecture-tutor": {
         "label": "Agent architecture",
         "agent_file": ".github/agents/agent-architecture-tutor.agent.md",
@@ -42,12 +38,19 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#langgraph--langgraph-deep-agents",
         "deep_dive": "docs/learning/tutors/langgraph-deep-agents-tutor.md",
     },
-    "aws-agentcore-tutor": {
-        "label": "AWS Bedrock AgentCore",
-        "agent_file": ".github/agents/aws-agentcore-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/aws-agentcore-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#aws-bedrock--agentcore",
-        "deep_dive": "docs/learning/tutors/aws-agentcore-tutor.md",
+    "ficc-tutor-agent": {
+        "label": "FICC fundamentals",
+        "agent_file": "docs/agent-templates/ficc-tutor-agent.agent.md",
+        "quiz_file": "evals/tutor_quizzes/ficc-tutor-agent.jsonl",
+        "reference": f"{REFERENCES_FILE}#ficc--fixed-income-fundamentals",
+        "deep_dive": "docs/learning/tutors/ficc-tutor-agent.md",
+    },
+    "portfolio-construction-tutor": {
+        "label": "Portfolio construction",
+        "agent_file": ".github/agents/portfolio-construction-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/portfolio-construction-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#portfolio-optimization-and-portfolio-construction",
+        "deep_dive": "docs/learning/tutors/portfolio-construction-tutor.md",
     },
     "data-provenance-research-tutor": {
         "label": "Data provenance and research quality",
@@ -56,12 +59,12 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#data-engineering-provenance-and-research-correctness",
         "deep_dive": "docs/learning/tutors/data-provenance-research-tutor.md",
     },
-    "evaluation-agentops-tutor": {
-        "label": "Evaluations and AgentOps",
-        "agent_file": ".github/agents/evaluation-agentops-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/evaluation-agentops-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#langsmith-tracing-datasets-experiments-evaluation",
-        "deep_dive": "docs/learning/tutors/evaluation-agentops-tutor.md",
+    "investment-data-tutor": {
+        "label": "Public investment data",
+        "agent_file": ".github/agents/investment-data-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/investment-data-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#public-data-terminology-and-decision-use-primers",
+        "deep_dive": "docs/learning/tutors/investment-data-tutor.md",
     },
     "opentelemetry-tutor": {
         "label": "OpenTelemetry",
@@ -70,26 +73,12 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#opentelemetry-python",
         "deep_dive": "docs/learning/tutors/opentelemetry-tutor.md",
     },
-    "investment-committee-tutor": {
-        "label": "Investment committee challenge",
-        "agent_file": ".github/agents/investment-committee-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/investment-committee-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#tutor-agent-study-map",
-        "deep_dive": "docs/learning/tutors/investment-committee-tutor.md",
-    },
-    "copilot-canvas-mcp-tutor": {
-        "label": "Copilot Canvas and MCP",
-        "agent_file": ".github/agents/copilot-canvas-mcp-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#github-copilot-app-canvas-prompts-skills-custom-agents",
-        "deep_dive": "docs/learning/tutors/copilot-canvas-mcp-tutor.md",
-    },
-    "agent-development-lifecycle-tutor": {
-        "label": "Agent development lifecycle",
-        "agent_file": ".github/agents/agent-development-lifecycle-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#agent-harnesses-skills-prompts-and-custom-agents",
-        "deep_dive": "docs/learning/tutors/agent-development-lifecycle-tutor.md",
+    "evaluation-agentops-tutor": {
+        "label": "Evaluations and AgentOps",
+        "agent_file": ".github/agents/evaluation-agentops-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/evaluation-agentops-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#langsmith-tracing-datasets-experiments-evaluation",
+        "deep_dive": "docs/learning/tutors/evaluation-agentops-tutor.md",
     },
     "governance-delivery-tutor": {
         "label": "Governance and delivery",
@@ -98,26 +87,40 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#security-authnauthz-policy-as-code-prompt-injection",
         "deep_dive": "docs/learning/tutors/governance-delivery-tutor.md",
     },
+    "aws-agentcore-tutor": {
+        "label": "AWS Bedrock AgentCore",
+        "agent_file": ".github/agents/aws-agentcore-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/aws-agentcore-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#aws-bedrock--agentcore",
+        "deep_dive": "docs/learning/tutors/aws-agentcore-tutor.md",
+    },
+    "copilot-canvas-mcp-tutor": {
+        "label": "Copilot Canvas and MCP",
+        "agent_file": ".github/agents/copilot-canvas-mcp-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#github-copilot-app-canvas-prompts-skills-custom-agents",
+        "deep_dive": "docs/learning/tutors/copilot-canvas-mcp-tutor.md",
+    },
+    "investment-committee-tutor": {
+        "label": "Investment committee challenge",
+        "agent_file": ".github/agents/investment-committee-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/investment-committee-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#tutor-agent-study-map",
+        "deep_dive": "docs/learning/tutors/investment-committee-tutor.md",
+    },
+    "agent-development-lifecycle-tutor": {
+        "label": "Agent development lifecycle",
+        "agent_file": ".github/agents/agent-development-lifecycle-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#agent-harnesses-skills-prompts-and-custom-agents",
+        "deep_dive": "docs/learning/tutors/agent-development-lifecycle-tutor.md",
+    },
     "document-to-skill-tutor": {
         "label": "Document-to-skill pipeline",
         "agent_file": ".github/agents/document-to-skill-tutor.agent.md",
         "quiz_file": "evals/tutor_quizzes/document-to-skill-tutor.jsonl",
         "reference": f"{REFERENCES_FILE}#document-ingestion-and-document-to-skill-design",
         "deep_dive": "docs/learning/tutors/document-to-skill-tutor.md",
-    },
-    "investment-data-tutor": {
-        "label": "Public investment data",
-        "agent_file": ".github/agents/investment-data-tutor.agent.md",
-        "quiz_file": "evals/tutor_quizzes/investment-data-tutor.jsonl",
-        "reference": f"{REFERENCES_FILE}#public-data-terminology-and-decision-use-primers",
-        "deep_dive": "docs/learning/tutors/investment-data-tutor.md",
-    },
-    "ficc-tutor-agent": {
-        "label": "FICC fundamentals",
-        "agent_file": "docs/agent-templates/ficc-tutor-agent.agent.md",
-        "quiz_file": "evals/tutor_quizzes/ficc-tutor-agent.jsonl",
-        "reference": f"{REFERENCES_FILE}#ficc--fixed-income-fundamentals",
-        "deep_dive": "docs/learning/tutors/ficc-tutor-agent.md",
     },
 }
 
@@ -128,10 +131,16 @@ COURSE_CATALOG: dict[str, dict[str, Any]] = json.loads(
 SCOPE_HEADER = "## Independent practice examples"
 
 
-def list_topics() -> list[dict[str, str]]:
-    """Return a compact catalog suitable for a CLI or UI selector."""
+def list_topics() -> list[dict[str, Any]]:
+    """Return a compact catalog, in learning order, for a CLI or UI selector."""
     return [
-        {"id": topic_id, "label": record["label"]}
+        {
+            "id": topic_id,
+            "label": record["label"],
+            "step": COURSE_CATALOG[topic_id]["step"],
+            "stage": COURSE_CATALOG[topic_id]["stage"],
+            "est_hours": COURSE_CATALOG[topic_id]["est_hours"],
+        }
         for topic_id, record in TOPIC_CATALOG.items()
     ]
 

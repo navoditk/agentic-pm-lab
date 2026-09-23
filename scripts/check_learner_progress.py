@@ -105,7 +105,7 @@ def update_learner_progress_md(
 def main() -> int:
     from src.education.tutor import TOPIC_CATALOG
 
-    update_learner_progress_md(sorted(TOPIC_CATALOG))
+    update_learner_progress_md(list(TOPIC_CATALOG))  # recommended learning order
     print("LEARNER_PROGRESS.md updated.")
     return 0
 

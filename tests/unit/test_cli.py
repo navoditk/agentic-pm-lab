@@ -73,6 +73,17 @@ def test_learn_with_no_topic_lists_rather_than_erroring(capsys):
     assert "opentelemetry-tutor" in out
 
 
+def test_learn_lists_courses_in_step_order_under_stage_headings(capsys):
+    """The listing is the terminal copy of the recommended order, so it must
+    follow `step`, not dict insertion luck or the alphabet."""
+    cmd_learn(parse(["learn"]))
+    out = capsys.readouterr().out
+    assert out.index("agent-architecture-tutor") < out.index("document-to-skill-tutor")
+    assert out.index("Foundations") < out.index("agent-architecture-tutor")
+    assert out.count("Foundations") == 1
+    assert "hours in total" in out
+
+
 # --- plan ---------------------------------------------------------------------
 
 

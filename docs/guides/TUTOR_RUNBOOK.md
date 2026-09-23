@@ -9,6 +9,10 @@ access, run paid evaluations, place orders, or make investment recommendations.
 
 ## Tutor catalog
 
+This table maps each tutor to the build-plan days it supports. For the order
+to *learn* them in, use the
+[recommended order](../learning/TUTOR_COURSE_GUIDE.md#recommended-order).
+
 | Tutor | Best used for | Main roadmap days | Deep dive |
 |---|---|---|---|
 | `ficc-tutor-agent` | Rates, credit, curves, bond valuation, funding, liquidity, duration/DV01, convexity, hedging, and FICC vocabulary | 2–3, 15–20 | [→](../learning/tutors/ficc-tutor-agent.md) |

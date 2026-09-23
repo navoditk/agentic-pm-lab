@@ -35,16 +35,21 @@ as you go. It is read-only and offline by default: no credentials, no live
 providers, no investment actions. The same skill is wired for all three
 agents, so the experience does not depend on which one you use.
 
-**3. You prefer a terminal.** One command is the front door:
+**3. You prefer a terminal.** You need `git` and
+[`uv`](https://docs.astral.sh/uv/getting-started/installation/); `uv` fetches
+the right Python itself. One command is then the front door:
 
 ```bash
+git clone https://github.com/navoditk/agentic-pm-lab.git && cd agentic-pm-lab
 uv sync
 uv run agentic-pm-lab            # all commands, grouped by audience
-uv run agentic-pm-lab learn      # the fourteen courses
-uv run agentic-pm-lab quiz opentelemetry-tutor
+uv run agentic-pm-lab learn      # the fourteen courses, in order
+uv run agentic-pm-lab quiz agent-architecture-tutor
 ```
 
 No model, network, or API key is needed for any of the learning commands.
+You do **not** need [INSTALL.md](INSTALL.md) to learn — that guide rebuilds
+the repository from an empty directory.
 
 New to fixed income or portfolio theory? Start with
 [pm-mechanics](https://github.com/navoditk/pm-mechanics) instead — this repo
@@ -177,12 +182,38 @@ See [EVIDENCE](docs/evidence/EVIDENCE.md) for local versus live proof and
 The important pattern is not any single vendor. It is the separation of
 calculation, reasoning, policy, evidence, and human decision-making.
 
-## What the fourteen courses cover
+## The learning path
 
-FICC, portfolio construction, agent architecture, LangGraph/Deep Agents, AWS
-AgentCore, data and provenance, evaluation and AgentOps, OpenTelemetry,
-investment committees, Canvas/MCP, development lifecycle, governance and
-delivery, document-to-skill workflows, and public investment data.
+Fourteen courses in four stages, in the recommended order. `agentic-pm-lab
+learn` prints the same list.
+
+<!-- LEARNING_PATH:START -->
+<!-- Generated from docs/learning/tutor-courses.json by
+     scripts/build_learning_path.py. Edit the JSON, not this table. -->
+
+| Step | Stage | Course | Topic id | Est. hours |
+|---|---|---|---|---|
+| 1 | Foundations | [Agent architecture](docs/learning/tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
+| 2 | Foundations | [LangGraph and Deep Agents](docs/learning/tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
+| 3 | Foundations | [FICC fundamentals](docs/learning/tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
+| 4 | Foundations | [Portfolio construction](docs/learning/tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
+| 5 | Data and evidence | [Data provenance and research quality](docs/learning/tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
+| 6 | Data and evidence | [Public investment data](docs/learning/tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
+| 7 | Operate and govern | [OpenTelemetry](docs/learning/tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
+| 8 | Operate and govern | [Evaluations and AgentOps](docs/learning/tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
+| 9 | Operate and govern | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
+| 10 | Operate and govern | [AWS Bedrock AgentCore](docs/learning/tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
+| 11 | Integrate and extend | [Copilot Canvas and MCP](docs/learning/tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
+| 12 | Integrate and extend | [Investment committee challenge](docs/learning/tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
+| 13 | Integrate and extend | [Agent development lifecycle](docs/learning/tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
+| 14 | Integrate and extend | [Document-to-skill pipeline](docs/learning/tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
+
+About 53 hours in total. Hours are rough estimates covering the deep dive,
+the three labs, the quiz, and the teach-back. The order is a recommendation,
+not a gate: each course lists its own prerequisites, so an experienced learner
+can start anywhere.
+
+<!-- LEARNING_PATH:END -->
 
 Every course carries the same structure, whichever route you took above:
 
@@ -200,9 +231,10 @@ This supports complete self-paced courses. It does not claim production
 certification or expert mastery.
 
 Deeper references: [START_HERE](docs/learning/START_HERE.md) for a zero-context
-on-ramp, the [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) for the
-course structure, the [Depth Path](docs/learning/DEPTH_PATH.md) for a
-recommended order, and the [Tutor Runbook](docs/guides/TUTOR_RUNBOOK.md) for
+on-ramp, the [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) for
+working through one course and the completion rubric, the
+[Depth Path](docs/learning/DEPTH_PATH.md) for the four-pass study method, and
+the [Tutor Runbook](docs/guides/TUTOR_RUNBOOK.md) for
 invoking a tutor from any agent surface. Understanding is tracked separately
 from implementation status in
 [LEARNER_PROGRESS](docs/learning/LEARNER_PROGRESS.md).

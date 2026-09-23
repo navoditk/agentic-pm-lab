@@ -1694,16 +1694,16 @@
       ]
     },
     "INSTALL.md": {
-      "total_lines": 286,
-      "approx_tokens": 6638,
+      "total_lines": 302,
+      "approx_tokens": 6805,
       "sections": [
         {
           "id": "0-how-to-run-this-document-manual-vs-delegate-to-a-cli-tool",
           "title": "0. How to run this document: manual vs. delegate to a CLI tool",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 9,
-          "end_line": 34,
+          "start_line": 25,
+          "end_line": 50,
           "approx_tokens": 502
         },
         {
@@ -1711,8 +1711,8 @@
           "title": "1. Core development environment",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 35,
-          "end_line": 58,
+          "start_line": 51,
+          "end_line": 74,
           "approx_tokens": 869
         },
         {
@@ -1720,8 +1720,8 @@
           "title": "2. Bootstrap the repo",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 59,
-          "end_line": 104,
+          "start_line": 75,
+          "end_line": 120,
           "approx_tokens": 770
         },
         {
@@ -1729,8 +1729,8 @@
           "title": "3. Python environment & every package the plan needs",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 105,
-          "end_line": 168,
+          "start_line": 121,
+          "end_line": 184,
           "approx_tokens": 1384
         },
         {
@@ -1738,8 +1738,8 @@
           "title": "4. GitHub-specific setup",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 169,
-          "end_line": 182,
+          "start_line": 185,
+          "end_line": 198,
           "approx_tokens": 562
         },
         {
@@ -1747,8 +1747,8 @@
           "title": "5. Accounts you'll set up later, and why not now",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 183,
-          "end_line": 203,
+          "start_line": 199,
+          "end_line": 219,
           "approx_tokens": 514
         },
         {
@@ -1756,8 +1756,8 @@
           "title": "6. Optional: local-model variant (Ollama)",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 204,
-          "end_line": 214,
+          "start_line": 220,
+          "end_line": 230,
           "approx_tokens": 126
         },
         {
@@ -1765,8 +1765,8 @@
           "title": "7. What genuinely can't be done yet",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 215,
-          "end_line": 222,
+          "start_line": 231,
+          "end_line": 238,
           "approx_tokens": 126
         },
         {
@@ -1774,8 +1774,8 @@
           "title": "8. How to work with Claude Code, GitHub Copilot, and Codex CLI",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 223,
-          "end_line": 266,
+          "start_line": 239,
+          "end_line": 282,
           "approx_tokens": 955
         },
         {
@@ -1783,8 +1783,8 @@
           "title": "9. Verification checklist \u2014 confirm you're ready for Day 1",
           "level": 2,
           "file": "INSTALL.md",
-          "start_line": 267,
-          "end_line": 286,
+          "start_line": 283,
+          "end_line": 302,
           "approx_tokens": 644
         }
       ]

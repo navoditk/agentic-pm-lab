@@ -11,7 +11,7 @@ course, deep dive, persona, quiz bank, and reference anchor.
 | PM foundations | Learning financial reasoning before orchestration | FICC fundamentals -> Portfolio construction -> Public investment data -> Data provenance and research quality |
 | Governed agent builder | Designing a safe, observable agent workflow | Agent architecture -> LangGraph and Deep Agents -> Governance and delivery -> Evaluations and AgentOps -> OpenTelemetry |
 | Platform integrator | Connecting interfaces and hosted intent without overclaiming evidence | AWS Bedrock AgentCore -> Copilot Canvas and MCP -> Agent development lifecycle -> Document-to-skill pipeline -> Investment committee challenge |
-| Full curriculum | Building cross-topic fluency | Follow the order in `docs/learning/TUTOR_COURSE_GUIDE.md`, then take the final assessment |
+| Full curriculum | Building cross-topic fluency | Follow each course's `step` in `docs/learning/tutor-courses.json` (rendered in `docs/learning/TUTOR_COURSE_GUIDE.md#recommended-order`), then take the final assessment |
 
 All routes are offline by default. The learner may choose any topic after
 confirming its prerequisites. Refer to `docs/learning/DEPTH_PATH.md` for the
