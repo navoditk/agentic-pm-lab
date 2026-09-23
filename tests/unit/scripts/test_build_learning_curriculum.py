@@ -150,3 +150,68 @@ def test_the_artifact_has_no_unrendered_code_fences():
     from scripts.build_learning_curriculum import DEFAULT_OUTPUT
 
     assert "<p>```" not in DEFAULT_OUTPUT.read_text(encoding="utf-8")
+
+
+# --- navigation for a reader who only has the page ---------------------------
+
+
+def _artifact_text():
+    from scripts.build_learning_curriculum import DEFAULT_OUTPUT
+
+    return DEFAULT_OUTPUT.read_text(encoding="utf-8")
+
+
+def test_source_only_html_comments_never_reach_the_page():
+    """Generated-block markers rendered as literal text once, on the live site."""
+    assert "&lt;!--" not in _artifact_text()
+
+
+def test_every_in_page_link_lands_on_a_unique_id():
+    """A dead fragment is silent: the page just does not move."""
+    import collections
+    import re
+
+    text = _artifact_text()
+    ids = re.findall(r'\sid="([^"]+)"', text)
+    duplicated = [i for i, n in collections.Counter(ids).items() if n > 1]
+    assert not duplicated, f"duplicate ids: {duplicated}"
+    fragments = {href[1:] for href in re.findall(r'href="(#[^"]+)"', text)}
+    assert fragments, "the page should link within itself"
+    assert not sorted(fragments - set(ids)), "in-page links without a target"
+
+
+def test_links_to_documents_on_the_page_stay_on_the_page():
+    """The order table and the guides point at deep dives the page already
+    contains; sending a reader to GitHub for them is a detour at best."""
+    text = _artifact_text()
+    assert 'href="#agent-architecture-tutor"' in text
+    assert 'href="#guide-course--recommended-order"' in text
+    assert "/blob/main/docs/learning/TUTOR_COURSE_GUIDE.md" not in text
+
+
+def test_the_page_carries_the_roadmap_not_only_the_courses():
+    text = _artifact_text()
+    assert 'id="roadmap"' in text
+    assert 'id="roadmap-recap--day-by-day-recap"' in text
+
+
+def test_courses_are_grouped_by_stage_in_step_order():
+    text = _artifact_text()
+    stages = ["Foundations", "Data and evidence", "Operate and govern"]
+    positions = [text.index(f'aria-label="{stage} courses"') for stage in stages]
+    assert positions == sorted(positions)
+
+
+def test_slugs_follow_githubs_anchor_rule():
+    from scripts.build_learning_curriculum import slugify
+
+    assert slugify("Stage 1 — Orient") == "stage-1--orient"
+    assert slugify("Use `uv` [here](x.md) now") == "use-uv-here-now"
+    assert slugify("What “deep enough” means here") == "what-deep-enough-means-here"
+
+
+def test_an_unregistered_document_renders_without_heading_ids():
+    """A bare render keeps the old behaviour; ids are only for on-page docs."""
+    from scripts.build_learning_curriculum import render_markdown
+
+    assert render_markdown("## Heading") == "<h2>Heading</h2>"

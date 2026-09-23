@@ -77,5 +77,9 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
   It covers the same content as the CLI, just as a conversation.
 - **Canvas walkthrough:** [`CANVAS_EXERCISES.md`](../guides/CANVAS_EXERCISES.md)
   runs one PM question end to end, but needs GitHub Copilot Canvas.
+- **How it was built:** the [Phase 1 recap](PHASE_1_RECAP.md) walks through
+  the 21-day build day by day, with a self-check list. Its "Tour of the
+  build" reads the repository in build order; it complements the course
+  order rather than replacing it.
 - **Why it is built this way:** the [PRD](../architecture/PRD.md)'s business
   problems and non-goals, then [ARCHITECTURE](../architecture/ARCHITECTURE.md).

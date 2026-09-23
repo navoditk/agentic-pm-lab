@@ -118,9 +118,14 @@ The authoritative business questions, success tiers, and non-goals are in the
 in [ARCHITECTURE](docs/architecture/ARCHITECTURE.md), [PROGRESS](PROGRESS.md),
 and the [evidence ledger](docs/evidence/EVIDENCE.md).
 
-## What is complete today
+## What was built
 
-The local 21-day learning path is complete. The repository currently provides:
+The 21-day build plan is complete for local, fixture-based verification. For
+a guided tour, read the [Phase 1 recap](docs/learning/PHASE_1_RECAP.md): what
+each day delivered, a self-check list, and the questions the build should let
+you answer. It is also on the
+[curriculum site](https://navoditk.github.io/agentic-pm-lab/#roadmap). The
+repository currently provides:
 
 | Area | Current state |
 |---|---|
@@ -244,6 +249,7 @@ from implementation status in
 | Need | Start here |
 |---|---|
 | Install and verify | [INSTALL.md](INSTALL.md) |
+| What was built, day by day | [Phase 1 recap](docs/learning/PHASE_1_RECAP.md) |
 | Current status and evidence | [PROGRESS.md](PROGRESS.md), [EVIDENCE.md](docs/evidence/EVIDENCE.md) |
 | Goals and acceptance criteria | [PRD.md](docs/architecture/PRD.md) |
 | Current architecture and security | [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md), [DIAGRAMS.md](docs/architecture/DIAGRAMS.md) |
