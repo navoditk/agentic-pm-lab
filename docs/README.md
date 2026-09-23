@@ -47,6 +47,7 @@ The canonical product and architecture documents are:
 - [`learning/DEPTH_PATH.md`](learning/DEPTH_PATH.md)
 - [`learning/PHASE_1_RECAP.md`](learning/PHASE_1_RECAP.md)
 - [`learning/PHASE_2_PLAN.md`](learning/PHASE_2_PLAN.md)
+- [`learning/FOUNDATIONS_MASTERY_PLAN.md`](learning/FOUNDATIONS_MASTERY_PLAN.md)
 - [`learning/LEARNER_PROGRESS.md`](learning/LEARNER_PROGRESS.md)
 - [`learning/LEARNINGS.md`](learning/LEARNINGS.md)
 - [`learning/comparison-notes.md`](learning/comparison-notes.md)
