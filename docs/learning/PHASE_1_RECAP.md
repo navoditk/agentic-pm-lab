@@ -25,12 +25,12 @@ provider, or browser surface was exercised live.
 - [Day-by-day recap](#day-by-day-recap)
 - [Completion checklist](#completion-checklist)
 - [Questions Phase 1 should enable you to answer](#questions-phase-1-should-enable-you-to-answer)
-- [Recommended learning path](#recommended-learning-path)
+- [Tour of the build](#tour-of-the-build)
 - [Using references and experiments](#using-references-and-experiments)
 - [Transition to Phase 2](#transition-to-phase-2)
 
 > **How to use this guide:** read the outcome first, use the checklist as a
-> self-assessment, then follow the ten stages in order. Each stage names the
+> self-assessment, then follow the ten tour stages in order. Each stage names the
 > files to read, commands to run, and tutor questions to ask.
 
 ## Phase 1 outcome
@@ -174,7 +174,13 @@ Phase 1 delivered:
 33. What should be captured before a provider or model change?
 34. Why is live evidence tracked separately from local tests?
 
-## Recommended learning path
+## Tour of the build
+
+These ten stages read the repository in the order it was built, layer by
+layer. Use them to understand the platform as a whole. To learn and be
+assessed topic by topic, follow the course
+[recommended order](TUTOR_COURSE_GUIDE.md#recommended-order) instead; the two
+cover the same ground from different directions.
 
 Use progressive disclosure rather than reading every file linearly.
 

@@ -22,9 +22,39 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 
+# Documents whose full text is also rendered on the page, mapped to
+# (heading-id prefix, id of the element that holds the whole document). A link
+# to one of them stays on the page instead of sending a reader who may have
+# no other access off to GitHub. Filled by `load_curriculum`; empty for a bare
+# `render_markdown` call, which keeps the plain GitHub-link behaviour.
+IN_PAGE_DOCUMENTS: dict[str, tuple[str, str]] = {}
+
+
+def slugify(heading: str) -> str:
+    """GitHub's heading-anchor rule, so a `doc.md#section` link means the same
+    thing on the page as it does on GitHub."""
+    text = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", heading)
+    text = re.sub(r"[^\w\- ]", "", text.lower().replace("`", ""))
+    return text.replace(" ", "-")
+
+
+def in_page_link(relative_path: str, fragment: str) -> str | None:
+    document = IN_PAGE_DOCUMENTS.get(relative_path)
+    if document is None:
+        return None
+    prefix, container_id = document
+    return f"#{prefix}{fragment}" if fragment else f"#{container_id}"
+
+
 def repository_link(href: str, source_path: Path | None) -> str:
-    """Translate checkout-relative links into durable GitHub source links."""
+    """Keep links to on-page documents on the page; send the rest to GitHub."""
     parsed = urlsplit(href)
+    if href.startswith("#") and source_path is not None:
+        try:
+            source = source_path.resolve().relative_to(ROOT).as_posix()
+        except ValueError:
+            return href
+        return in_page_link(source, parsed.fragment) or href
     if parsed.scheme or parsed.netloc or href.startswith(("#", "/", "mailto:")):
         return href
     if source_path is None:
@@ -35,6 +65,9 @@ def repository_link(href: str, source_path: Path | None) -> str:
         relative_target = target.relative_to(ROOT)
     except ValueError:
         return href
+    on_page = in_page_link(relative_target.as_posix(), parsed.fragment)
+    if on_page:
+        return on_page
     location = "tree" if target.is_dir() else "blob"
     return urlunsplit(
         (
@@ -93,6 +126,9 @@ def linkify_repository_paths(rendered: str) -> str:
         path = match.group(1)
         if not (ROOT / path).exists():
             return match.group(0)
+        on_page = in_page_link(path, "")
+        if on_page:
+            return f'<a href="{on_page}"><code>{path}</code></a>'
         location = "tree" if (ROOT / path).is_dir() else "blob"
         return (
             f'<a class="src" href="{REPOSITORY_URL}/{location}/main/{path}">'
@@ -140,12 +176,28 @@ def inline_markdown(text: str, source_path: Path | None = None) -> str:
 
 
 def render_markdown(markdown: str, source_path: Path | None = None) -> str:
-    """Render headings, lists, code blocks, tables, links, and paragraphs."""
+    """Render headings, lists, code blocks, tables, links, and paragraphs.
+
+    Headings get ids only for documents registered in IN_PAGE_DOCUMENTS, with
+    that document's prefix, so fourteen deep dives can each have a "Core
+    concepts" section without colliding ids.
+    """
     output: list[str] = []
     paragraph: list[str] = []
     list_tag: str | None = None
     in_code = False
+    in_comment = False
     code: list[str] = []
+    prefix = None
+    if source_path is not None:
+        try:
+            document = IN_PAGE_DOCUMENTS.get(
+                source_path.resolve().relative_to(ROOT).as_posix()
+            )
+        except ValueError:
+            document = None
+        prefix = document[0] if document else None
+    seen_slugs: dict[str, int] = {}
 
     def flush_paragraph() -> None:
         if paragraph:
@@ -178,6 +230,11 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
         if in_code:
             code.append(raw_line)
             continue
+        # HTML comments are source-only notes, such as generated-block
+        # markers; escaped, they rendered as literal "<!-- ... -->" text.
+        if in_comment or line.lstrip().startswith("<!--"):
+            in_comment = "-->" not in line
+            continue
         if not line:
             flush_paragraph()
             close_list()
@@ -186,8 +243,16 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
             flush_paragraph()
             close_list()
             level = min(len(line) - len(line.lstrip("#")), 4)
+            text = line[len(line) - len(line.lstrip("#")) :].strip()
+            id_attr = ""
+            if prefix is not None:
+                slug = slugify(text)
+                count = seen_slugs.get(slug, 0)
+                seen_slugs[slug] = count + 1
+                anchor = f"{slug}-{count}" if count else slug
+                id_attr = f' id="{html.escape(prefix + anchor)}"'
             output.append(
-                f"<h{level}>{inline_markdown(line[level:].strip(), source_path)}</h{level}>"
+                f"<h{level}{id_attr}>{inline_markdown(text, source_path)}</h{level}>"
             )
             continue
         if line.startswith("> "):
@@ -286,6 +351,16 @@ def topic_freshness(
     return freshness
 
 
+# Whole documents rendered on the page besides the deep dives: title ->
+# (repository path, id of the <details> that holds it).
+SHARED_GUIDES: dict[str, tuple[str, str]] = {
+    "Mastery skill": ("docs/learning/MASTERY_SKILL.md", "guide-mastery"),
+    "Course guide": ("docs/learning/TUTOR_COURSE_GUIDE.md", "guide-course"),
+    "Depth path": ("docs/learning/DEPTH_PATH.md", "guide-depth"),
+    "Phase 1 recap": ("docs/learning/PHASE_1_RECAP.md", "roadmap-recap"),
+}
+
+
 def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     from src.education.tutor import TOPIC_CATALOG
 
@@ -297,11 +372,12 @@ def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
         raise TypeError("source registry must be a mapping")
     freshness = topic_freshness(TOPIC_CATALOG, registry)
     topics: dict[str, Any] = {}
-    shared_guides = {
-        "Mastery skill": ROOT / "docs/learning/MASTERY_SKILL.md",
-        "Course guide": ROOT / "docs/learning/TUTOR_COURSE_GUIDE.md",
-        "Depth path": ROOT / "docs/learning/DEPTH_PATH.md",
-    }
+    shared_guides = {title: ROOT / path for title, (path, _) in SHARED_GUIDES.items()}
+    IN_PAGE_DOCUMENTS.clear()
+    for topic_id, source in TOPIC_CATALOG.items():
+        IN_PAGE_DOCUMENTS[source["deep_dive"]] = (f"{topic_id}--", topic_id)
+    for path, container_id in SHARED_GUIDES.values():
+        IN_PAGE_DOCUMENTS[path] = (f"{container_id}--", container_id)
     fingerprint_parts: list[str] = []
     for topic_id, source in TOPIC_CATALOG.items():
         deep_dive_path = ROOT / source["deep_dive"]
@@ -332,10 +408,32 @@ def load_curriculum() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
 
 def build_html() -> str:
     catalog, topics, metadata = load_curriculum()
+    stages: dict[str, list[str]] = {}
+    for topic_id in catalog:
+        stages.setdefault(topics[topic_id]["course"]["stage"], []).append(topic_id)
+    total_hours = sum(topic["course"]["est_hours"] for topic in topics.values())
     cards = "\n".join(
-        f'<a class="topic-card" href="#{topic_id}"><span>{index:02}</span>'
-        f"<strong>{html.escape(source['label'])}</strong></a>"
-        for index, (topic_id, source) in enumerate(catalog.items(), start=1)
+        f'<h3 class="stage">{html.escape(stage)} '
+        f"<span>~{sum(topics[t]['course']['est_hours'] for t in ids)}h</span></h3>"
+        f'<nav class="topic-grid" aria-label="{html.escape(stage)} courses">'
+        + "".join(
+            f'<a class="topic-card" href="#{t}"><span>{topics[t]["course"]["step"]:02}'
+            f" · ~{topics[t]['course']['est_hours']}h</span>"
+            f"<strong>{html.escape(catalog[t]['label'])}</strong></a>"
+            for t in ids
+        )
+        + "</nav>"
+        for stage, ids in stages.items()
+    )
+    status_links = " · ".join(
+        f'<a href="{REPOSITORY_URL}/blob/main/{path}">{label}</a>'
+        for label, path in (
+            ("Day-by-day status", "PROGRESS.md"),
+            ("Local vs live evidence", "docs/evidence/EVIDENCE.md"),
+            ("Architecture", "docs/architecture/ARCHITECTURE.md"),
+            ("Completion audit", "docs/learning/PLAN_REVIEW.md"),
+            ("Full build plan", "docs/PLAN.md"),
+        )
     )
     sections = []
     quiz_data: dict[str, list[dict[str, Any]]] = {}
@@ -358,7 +456,7 @@ def build_html() -> str:
         quiz_data[topic_id] = topic["quiz"]
         sections.append(
             f"""<section id="{topic_id}" class="topic">
-<p class="eyebrow">Course {list(catalog).index(topic_id) + 1:02}</p>
+<p class="eyebrow">Course {course["step"]:02} · {html.escape(course["stage"])} · ~{course["est_hours"]}h</p>
 <h2>{html.escape(topic["label"])}</h2>
 <p class="source">Source: {source_file_link(topic["deep_dive"])} · {len(topic["quiz"])} quiz questions</p>
 <div class="freshness" data-freshness="{freshness["status"]}"><strong>External-source review:</strong> {source_links}. {freshness_message}</div>
@@ -373,6 +471,7 @@ def build_html() -> str:
 <p><strong>Teach-back:</strong> {inline_markdown(course["assessment"], ROOT / "docs/learning/tutor-courses.json")}</p></div>
 <details><summary>Read the deep dive</summary><article>{topic["deep_dive_html"]}</article></details>
 <button class="quiz-button" data-topic="{topic_id}">Start this topic's quiz</button>
+<p class="to-top"><a href="#courses">All courses</a> · <a href="#top">Back to top ↑</a></p>
 </section>"""
         )
     quiz_json = json.dumps(quiz_data).replace("</", "<\\/")
@@ -384,17 +483,26 @@ def build_html() -> str:
 *{{box-sizing:border-box}} body{{margin:0;font:16px/1.58 system-ui,-apple-system,sans-serif;color:var(--ink);background:#f7fafc}}
 a{{color:var(--accent)}}.src{{text-decoration:none;border-bottom:1px dotted currentColor}}.src:hover{{border-bottom-style:solid}}header{{background:#0e263e;color:#fff;padding:4rem max(1.5rem,calc((100% - 1120px)/2)) 3rem}}header p{{max-width:850px;font-size:1.12rem}}
 main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}}h2{{font-size:1.8rem;line-height:1.2}}h3{{margin-bottom:.25rem}}.eyebrow,.source{{color:var(--muted);font-size:.9rem}}.notice,.labs{{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}}.freshness{{background:var(--soft);border-radius:.35rem;font-size:.9rem;margin:1rem 0;padding:.7rem}}.freshness[data-freshness="enrollment-pending"],.freshness[data-freshness="upstream-review-required"],.freshness[data-freshness="source-check-unavailable"],.freshness.overdue{{background:var(--warning-bg);color:var(--warning)}}.topic-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}}.topic-card{{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}}.topic-card span{{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}}.topic{{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}}.course-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}}details{{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}}summary{{cursor:pointer;font-weight:700}}article{{max-width:82ch}}pre{{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}}code{{font:.9em ui-monospace,SFMono-Regular,monospace}}table{{border-collapse:collapse;width:100%;overflow-x:auto;display:block}}td,th{{border:1px solid var(--line);padding:.55rem;text-align:left}}button{{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}}dialog{{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}}dialog::backdrop{{background:#0008}}.choice{{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}}.result{{font-weight:700}}footer{{color:var(--muted);font-size:.9rem;margin-top:3rem}}@media(prefers-color-scheme:dark){{:root{{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548;--warning:#ffd48c;--warning-bg:#4d350f}}body{{background:#101720}}}}
+.jump{{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:.3rem 1.2rem;padding:.6rem max(1.5rem,calc((100% - 1120px)/2));background:var(--card);border-bottom:1px solid var(--line);font-size:.95rem}}.jump a{{text-decoration:none;font-weight:600}}.stage{{margin-top:1.6rem}}.stage span{{color:var(--muted);font-weight:400;font-size:.9rem}}.to-top{{text-align:right;font-size:.9rem;margin:1rem 0 0}}section[id],h2[id],h3[id],h4[id],details[id]{{scroll-margin-top:3.2rem}}
 </style></head><body>
-<header><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
+<header id="top"><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
 <p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Read the full course material and take browser-local quizzes without downloading the repository.</p>
-</header><main>
+</header>
+<nav class="jump" aria-label="Page sections"><a href="#start">Start</a><a href="#roadmap">What was built</a><a href="#guides">Guides</a><a href="#courses">Courses</a><a href="#top">Top ↑</a></nav>
+<main>
 <div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>{metadata["fingerprint"]}</code>.</div>
-<h2>Start a path</h2><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
+<h2 id="start">Start a path</h2>
+<p>Take the courses in the recommended order below: four stages, about {total_hours} hours in all. Or follow one route:</p><ol><li><strong>PM foundations:</strong> FICC, portfolio construction, public data, provenance.</li><li><strong>Governed agent builder:</strong> architecture, Deep Agents, governance, evaluation, OpenTelemetry.</li><li><strong>Platform integrator:</strong> AgentCore, Canvas/MCP, lifecycle, document-to-skill, committee challenge.</li></ol>
 <p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, run <code>uv run agentic-pm-lab quiz &lt;topic-id&gt;</code> after cloning.</p>
-<details><summary>How to use this curriculum</summary><article>{metadata["shared_html"]["Course guide"]}</article></details>
-<details><summary>Mastery-skill guide</summary><article>{metadata["shared_html"]["Mastery skill"]}</article></details>
-<details><summary>Depth path</summary><article>{metadata["shared_html"]["Depth path"]}</article></details>
-<h2>Courses</h2><nav class="topic-grid">{cards}</nav>
+<h2 id="roadmap">What was built</h2>
+<p>The courses teach a platform that was built over a 21-day plan: deterministic analytics, governed agents, evaluation, observability, MCP, Canvas, and an AWS AgentCore path. The recap below walks through it day by day, with a self-check list and the questions the build should let you answer. Every day is complete for local, fixture-based verification; live cloud and provider evidence is tracked separately.</p>
+<details id="roadmap-recap"><summary>Phase 1 recap: the 21-day build, day by day</summary><article>{metadata["shared_html"]["Phase 1 recap"]}</article></details>
+<p class="source">Status and proof on GitHub: {status_links}</p>
+<h2 id="guides">Guides</h2>
+<details id="guide-course"><summary>How to use this curriculum, and the recommended order</summary><article>{metadata["shared_html"]["Course guide"]}</article></details>
+<details id="guide-mastery"><summary>Mastery-skill guide</summary><article>{metadata["shared_html"]["Mastery skill"]}</article></details>
+<details id="guide-depth"><summary>Depth path</summary><article>{metadata["shared_html"]["Depth path"]}</article></details>
+<h2 id="courses">Courses</h2>{cards}
 {"".join(sections)}
 <footer>Generated by {source_file_link("scripts/build_learning_curriculum.py")} from the checked-in curriculum sources. External framework behavior should be checked against the official references maintained in the repository.</footer>
 </main><dialog id="quiz"><button id="close">Close</button><div id="quiz-body"></div></dialog>
@@ -405,6 +513,9 @@ document.querySelectorAll('.quiz-button').forEach(button=>button.onclick=()=>{{q
 document.querySelector('#close').onclick=()=>dialog.close();
 function render(){{if(position===questions.length){{body.innerHTML=`<h2>Quiz complete</h2><p class="result">Score: ${{correct}} / ${{questions.length}} (${{Math.round(correct/questions.length*100)}}%)</p><p>Review the cited sources and repeat the local/failure labs before treating a score as course completion.</p>`;return;}}const q=questions[position];body.innerHTML=`<p class="eyebrow">Question ${{position+1}} of ${{questions.length}}</p><h2>${{q.question}}</h2>${{q.choices.map((choice,index)=>`<button class="choice" data-index="${{index}}">${{String.fromCharCode(65+index)}}. ${{choice}}</button>`).join('')}}<p id="feedback"></p>`;body.querySelectorAll('.choice').forEach(button=>button.onclick=()=>answer(Number(button.dataset.index),q));}}
 function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;body.querySelector('#feedback').innerHTML=`<span class="result">${{ok?'Correct.':'Not quite.'}}</span> Source: <a class="src" href="{REPOSITORY_URL}/blob/main/${{q.citation}}"><code>${{q.citation}}</code></a>. <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>button.disabled=true);body.querySelector('#next').onclick=()=>{{position++;render();}};}}
+function reveal(){{const id=decodeURIComponent(location.hash.slice(1));const target=id&&document.getElementById(id);if(!target)return;for(let d=target.closest('details');d;d=d.parentElement.closest('details'))d.open=true;target.scrollIntoView();}}
+addEventListener('hashchange',reveal);reveal();
+document.addEventListener('click',e=>{{const link=e.target.closest('a[href^="#"]');if(link&&link.getAttribute('href')===location.hash)setTimeout(reveal);}});
 for(const panel of document.querySelectorAll('.freshness')){{const dates=[...panel.textContent.matchAll(/next review (\\d{{4}}-\\d{{2}}-\\d{{2}})/g)].map(match=>match[1]);if(dates.some(value=>new Date(`${{value}}T00:00:00Z`)<new Date())){{panel.classList.add('overdue');panel.insertAdjacentHTML('beforeend',' <strong>Review overdue.</strong>');}}}}
 </script></body></html>"""
 
