@@ -1,6 +1,6 @@
 # Foundations Mastery Plan: quizzes and the mastery skill
 
-**Status:** Proposed. Nothing here is built yet.
+**Status:** Approved 2026-09-22 (decisions in §10). Not yet built.
 **Scope:** The quiz banks under `evals/tutor_quizzes/`, the course catalog in
 `docs/learning/tutor-courses.json`, the `agentic-pm-mastery` skill, and the
 learner CLI.
@@ -119,18 +119,53 @@ the missed `concept` ids.
 
 ## 5. Curriculum changes
 
-### New courses
+### Module structure
 
-| Proposed step | Course | Stage | Core concepts | Model-free labs |
-|---|---|---|---|---|
-| 1 | **Agent foundations** | Foundations | Agent loop; tool calling and schemas; structured output; workflow vs agent; ReAct and plan-and-execute; context windows and context engineering; memory types | Build a 60-line agent loop against a scripted fake model: parse a tool call, execute it, feed back the result, stop. Then break it with a malformed tool call. |
-| 2 | **LangChain core** | Foundations | Chat models and messages; `@tool` and generated JSON Schema; Runnables and composition; `with_structured_output`; callbacks and tracing hooks | Generate a tool schema from a typed function and assert it. Get structured output from a fake model: `GenericFakeChatModel` implements neither `bind_tools` nor `with_structured_output`, but a subclass whose `bind_tools` returns itself, scripted with an `AIMessage` carrying `tool_calls`, does (verified 2026-09-22). Attach a callback that counts tokens. |
-| before AgentCore | **AWS Bedrock foundations** | Operate and govern | Converse API request and response; model access and inference profiles; guardrails as an API; Knowledge Bases and RAG; prompt caching; throttling and retries; IAM for model invocation | Use `Stubber` to exercise a Converse call, a guardrail intervention, and a `ThrottlingException` with bounded retry, all offline. |
-| split from Canvas | **Model Context Protocol** | Integrate and extend | Tools, resources, prompts; stdio vs streamable HTTP; initialization and capability negotiation; authorization; tool poisoning and confused-deputy risks | In-process client and server over the pinned SDK's memory streams (`mcp.shared.memory.create_client_server_memory_streams`, mcp 2.0.0; wiring a full session over them is Phase C's first task): list tools, call one, and prove an unentitled identity is refused at the boundary. A poisoned tool description fixture. |
-| end of path | **Traceability end to end** | Integrate and extend | One `trace_id` across request, policy decision, tool call, audit, eval record, and provenance; lineage; replay; what model risk needs to reconstruct a decision | Given a trace id from a fixture run, reconstruct the full decision record. Then find the gap when one hop drops the context. |
+Courses are organised into three modules plus a capstone, replacing the
+current four stages. Today's first stage mixes agent concepts with finance
+(FICC and portfolio construction are steps 3–4), so someone who only wants
+agentic foundations has to skip past finance in the middle of the core path.
+Modules make that choice explicit and keep each course a self-contained unit.
 
-This takes the curriculum from 14 to 18 courses. Canvas keeps its own course,
-now focused on UX, shared state, and approval evidence.
+A topic gets its own course only when it is a separate architectural layer
+that other courses build on. Topics that run across every layer go into the
+capstone, and a framework's version of an idea sits next to the
+framework-free version of that idea.
+
+| Module | Courses, in order | Who takes it |
+|---|---|---|
+| **1. Agent core** (required) | Agent foundations\*, Agent architecture, LangGraph and Deep Agents, Model Context Protocol\*, OpenTelemetry and observability, Evaluations and AgentOps, Governance and agent security | Everyone. This module is the foundations curriculum. |
+| **2. Finance domain** (optional) | FICC fundamentals, Portfolio construction, Data provenance and research quality, Public investment data, Investment committee challenge | Anyone applying agents to investing; pair with pm-mechanics for the math |
+| **3. Platforms** (choose per stack) | AWS Bedrock\*, AWS Bedrock AgentCore, Copilot Canvas, Agent development lifecycle, Document-to-skill pipeline | Take the courses for the tools you use; each is independent |
+| **Capstone** | Traceability end to end, plus the final assessment | Everyone who finishes Module 1 |
+
+\* new, or newly split out
+
+That is **17 courses plus a capstone**. The existing order mechanics carry
+this with no code change: `stage` holds the module name and `step` the order,
+so the generated tables, CLI, site, and XP calibration all follow. XP
+milestones become module boundaries, such as finishing Agent core.
+
+Two consequences to handle in Phase A:
+- **Steps are renumbered.** Recorded quiz attempts are stored by course id,
+  not step, so no progress is lost, but the displayed order changes.
+- **Finance becomes optional.** The README describes the repository as
+  fixed-income-first; it must say plainly that the finance module applies
+  the agent core to that domain and is not a prerequisite for it.
+
+### New and changed courses
+
+| Course | Module | Core concepts | Model-free labs |
+|---|---|---|---|
+| **Agent foundations** (new; absorbs the proposed LangChain core course) | 1, first | Part 1, by hand: the agent loop; tool calling and schemas; structured output; workflow vs agent; ReAct and plan-and-execute; context windows and context engineering; memory types. Part 2, the same loop in LangChain: chat models and messages; `@tool` and generated JSON Schema; Runnables; `with_structured_output`; callbacks. | Build a 60-line agent loop against a scripted fake model: parse a tool call, execute it, feed back the result, stop; then break it with a malformed tool call. Rebuild it with LangChain primitives: generate and assert a tool schema, and get structured output from a fake model. `GenericFakeChatModel` implements neither `bind_tools` nor `with_structured_output`, but a subclass whose `bind_tools` returns itself, scripted with an `AIMessage` carrying `tool_calls`, does (verified 2026-09-22). Attach a callback that counts tokens. |
+| **Model Context Protocol** (split from Canvas) | 1 | Tools, resources, prompts; stdio vs streamable HTTP; initialization and capability negotiation; authorization; tool poisoning and confused-deputy risks | In-process client and server over the pinned SDK's memory streams (`mcp.shared.memory.create_client_server_memory_streams`, mcp 2.0.0; wiring a full session over them is Phase C's first task): list tools, call one, and prove an unentitled identity is refused at the boundary. A poisoned tool description fixture. |
+| **AWS Bedrock** (new) | 3, before AgentCore | Converse API request and response; model access and inference profiles; guardrails as an API; Knowledge Bases and RAG; prompt caching; throttling and retries; IAM for model invocation | Use `Stubber` to exercise a Converse call, a guardrail intervention, and a `ThrottlingException` with bounded retry, all offline. |
+| **Copilot Canvas** (re-scoped) | 3 | UX, shared handler state, approval and evidence presentation; MCP moves out | Existing Canvas labs, minus the MCP boundary work now in the MCP course |
+| **Capstone: Traceability end to end** (replaces the Depth Path's no-cost capstone) | Capstone | One `trace_id` across request, policy decision, tool call, audit, eval record, and provenance; lineage; replay; what model risk needs to reconstruct a decision | Given a trace id from a fixture run, reconstruct the full decision record, then find the gap when one hop drops the context. The final assessment asks one question at each hop. |
+
+If Agent foundations runs past about 6 hours in practice, split it at its
+natural seam into "The loop by hand" and "The loop in LangChain", both in
+Module 1.
 
 ### Deepened courses
 
@@ -155,7 +190,7 @@ reviewed before any question cites it:
   `REFERENCES.md` on context engineering, writing tools for agents, agent
   evals, and the multi-agent research system
 - Yao et al., *ReAct* (arXiv 2210.03629)
-- LangChain core concepts documentation
+- LangChain core concepts documentation (for Agent foundations, part 2)
 - LangGraph documentation on streaming, subgraphs, and persistence (the
   existing `langgraph` entry, extended)
 - AWS Bedrock User Guide: Converse API, inference profiles, Knowledge Bases,
@@ -172,12 +207,13 @@ reviewed before any question cites it:
 | Change | What it does |
 |---|---|
 | **Concept-first lessons** | Each objective is taught concept (vendor-neutral, cited) → this repo's implementation → one transfer question. The teaching protocol already has the slots; it gains the order and the transfer step. |
-| **Placement quiz** | `agentic-pm-lab placement`: 12 concept questions across the foundations. It recommends a starting step and which Foundations courses can be skipped. The skill offers it on first `agentexpert`. |
+| **Placement quiz** | `agentic-pm-lab placement`: 12 concept questions across the foundations. It recommends which modules and courses to skip. The skill offers it on first `agentexpert`. |
 | **Spaced review** | Missed `concept` ids from recorded attempts come back in `agentic-pm-lab review` and in the skill's "quiz me", weighted toward older misses. |
+| **Module view** | `agentic-pm-lab learn` and the site group courses by module and mark Modules 2 and 3 optional. |
 | **Mastery matrix** | `agentic-pm-lab progress` adds a foundations × tier grid (concept, implementation, transfer) next to the per-course table. XP stays a motivator; the matrix is the evidence. |
 | **Tier-filtered practice** | `agentic-pm-lab quiz <topic> --tier concept` for practice. Recording still requires the full bank. |
 | **Cross-foundation final assessment** | Rewrite `references/final-assessment.md` around one request traced through MCP → LangGraph → Bedrock → OTel → evaluation → audit, with a question at each hop. |
-| **XP recalibration** | Automatic. The skill's calibration test derives the level thresholds from the catalog, so adding four courses fails CI until the thresholds are recalculated. |
+| **XP recalibration** | Automatic. The skill's calibration test derives the level thresholds from the catalog, so the new courses and module boundaries fail CI until the thresholds are recalculated. |
 
 ## 7. Phased delivery
 
@@ -185,14 +221,16 @@ Each phase is one or two reviewable PRs and leaves `main` green.
 
 | Phase | Delivers | Acceptance |
 |---|---|---|
-| **A. Infrastructure** | Question fields and defaults, `concepts.yaml`, `check_quiz_banks.py`, per-tier pass rule and recording, `--tier`, explanations shown in CLI, site, and skill | CI enforces the format; existing 366 questions validate with `tier: implementation`; no score semantics change for existing attempts |
-| **B. Foundations courses** | Agent foundations, LangChain core; sources registered; about 60 questions; labs with tests | Both courses meet the tier mix; every concept question cites a registered source; labs run offline in CI |
-| **C. Platform foundations** | AWS Bedrock foundations; MCP split into its own course; about 60 questions | `Stubber` labs pass in CI (Converse and `ThrottlingException` stubbing verified offline 2026-09-22); in-process MCP session proven in a test before any lab depends on it; Canvas course re-scoped without losing coverage |
+| **A. Infrastructure and modules** | Question fields and defaults, `concepts.yaml`, `check_quiz_banks.py`, per-tier pass rule (80% overall, 70% per tier) and recording, `--tier`, explanations shown in CLI, site, and skill. Existing 14 courses regrouped into the three modules and renumbered; README reframes finance as an optional module | CI enforces the format; existing 366 questions validate with `tier: implementation`; existing recorded attempts still display; generated tables and XP levels follow the modules |
+| **B. Agent foundations** | The new course (both parts); its sources registered; about 30 questions; labs with tests | Meets the tier mix; every concept question cites a registered source; labs run offline in CI |
+| **C. Platform layer** | AWS Bedrock course; MCP split into its own course and Canvas re-scoped; about 55 questions | `Stubber` labs pass in CI (Converse and `ThrottlingException` stubbing verified offline 2026-09-22); in-process MCP session proven in a test before any lab depends on it; no Canvas coverage lost |
 | **D. Deepen existing courses** | About 90 new concept and transfer questions across LangGraph, OTel, Evals, AgentCore, Governance, and Architecture; implementation questions reviewed | Every course meets the tier mix; every behaviour claim has `verified_by` |
-| **E. Traceability and assessment** | Traceability course, placement quiz, spaced review, mastery matrix, new final assessment | A fixture run is reconstructable from a single trace id in a test; placement and review run offline |
+| **E. Capstone and assessment** | Traceability capstone, placement quiz, spaced review, mastery matrix, new final assessment | A fixture run is reconstructable from a single trace id in a test; placement and review run offline |
+| **F. Optional live labs** | Clearly labelled live variants, such as a real Bedrock Converse call, beside the offline labs | Never required for completion; never run in CI; each states its cost, credentials, and cleanup; the offline lab still teaches the full concept |
 
-Estimated growth: about 230 new questions (366 → about 600), 14 → 18
-courses, and roughly 53 → 72 learner hours.
+Estimated growth: about 190 new questions (366 → about 555) and 14 → 17
+courses plus a capstone. Time: roughly 35–40 hours for Module 1 plus the
+capstone, and about 75 hours for everything.
 
 ## 8. Quality control for new questions
 
@@ -214,18 +252,18 @@ courses, and roughly 53 → 72 learner hours.
 |---|---|
 | Vendor docs drift and answers go stale | Registry freshness per question via `source_id`; weekly monitor already runs |
 | Question volume lowers quality | Phase gates; human answer-key review; cold-take sampling |
-| The curriculum gets long | Placement quiz lets experienced learners skip; stages stay independent |
+| The curriculum gets long | Only Module 1 and the capstone are required; the placement quiz recommends what to skip; Module 3 courses are independent |
+| Renumbering confuses returning learners | Attempts are keyed by course id, so progress survives; the Phase A PR notes the new order in the README and CLI |
 | Behaviour taught wrong | `verified_by` tests, per `AGENTS.md` |
 | AWS content becomes vendor marketing | Every AWS concept is framed as "what this replaces in the local stack", with its failure modes |
 
-## 10. Decisions needed before Phase A
+## 10. Decisions (recorded 2026-09-22)
 
-1. **New courses vs folding into existing ones.** The plan proposes four new
-   courses plus a split. The alternative is fewer courses with larger quiz
-   banks, which gives a shorter path but less focused courses.
-2. **Split MCP from Canvas?** Recommended, because MCP is foundational and
-   Canvas is a product surface.
-3. **Per-tier pass threshold.** 70% is proposed.
-4. **Optional live labs** (for example a real Bedrock Converse call). They
-   would be labelled optional, never required for completion, and never run
-   in CI. Proposed: allowed, but not in the first phases.
+1. **Course structure:** a middle path. Add Agent foundations (absorbing
+   LangChain core) and AWS Bedrock; split MCP from Canvas; make traceability
+   the capstone rather than a course. Organise into three modules plus a
+   capstone, with finance optional. Result: 17 courses.
+2. **Split MCP from Canvas:** yes.
+3. **Per-tier pass threshold:** 70% in each tier, with 80% overall.
+4. **Optional live labs:** allowed, clearly labelled, never required, never in
+   CI. Scheduled as Phase F, after the offline curriculum is complete.
