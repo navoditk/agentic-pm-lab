@@ -9,7 +9,7 @@ covers:
   - docs/learning/tutor-courses.json
   - docs/learning/tutors
   - evals/tutor_quizzes
-last_verified_commit: b92c4c50e008f66f69a327814aca6947bf850d14
+last_verified_commit: 70814942e77e30d0ec9f6c347fa4eac938a60aa1
 ---
 
 # Agentic PM Lab Mastery
@@ -29,8 +29,9 @@ Do not rely on remembered technical claims. Read the current source on demand:
 
 1. `src/education/tutor.py` for `TOPIC_CATALOG` and source locations. It is the
    only topic registry.
-2. `docs/learning/tutor-courses.json` for the chosen course's prerequisites,
-   objectives, lessons, local lab, failure lab, and teach-back.
+2. `docs/learning/tutor-courses.json` for the chosen course's recommended
+   `step`, `stage`, and `est_hours`, and its prerequisites, objectives,
+   lessons, local lab, failure lab, and teach-back.
 3. The chosen topic's `deep_dive`, `agent_file`, and `quiz_file` paths from
    `TOPIC_CATALOG` for instruction, implementation citations, and questions.
 4. `docs/reference/REFERENCES.md` at the topic's `reference` anchor when an

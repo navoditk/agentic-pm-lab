@@ -41,6 +41,7 @@ CHECKS: tuple[tuple[str, list[str]], ...] = (
     ("format", ["ruff", "format", "--check", "."]),
     ("docs consistency", ["python", "scripts/check_docs_consistency.py"]),
     ("tutor courses", ["python", "scripts/check_tutor_courses.py"]),
+    ("learning path", ["python", "scripts/build_learning_path.py", "--check"]),
     ("curriculum sources", ["python", "scripts/check_curriculum_sources.py"]),
     (
         "curriculum artifact",
@@ -95,10 +96,23 @@ def _tutor():
 def cmd_learn(args: argparse.Namespace) -> int:
     tutor = _tutor()
     if not args.topic:
-        print("The 14 courses:\n")
-        for entry in tutor.list_topics():
-            print(f"  {entry['id']:<36} {entry.get('label', '')}")
-        print("\nTeach one with:  agentic-pm-lab learn <topic>")
+        topics = tutor.list_topics()
+        print(f"The {len(topics)} courses, in the recommended order:")
+        stage = None
+        for entry in topics:
+            if entry["stage"] != stage:
+                stage = entry["stage"]
+                print(f"\n  {stage}")
+            print(
+                f"  {entry['step']:>3}. {entry['id']:<36} "
+                f"{entry['label']:<38} ~{entry['est_hours']}h"
+            )
+        total = sum(entry["est_hours"] for entry in topics)
+        print(
+            f"\nAbout {total} hours in total; the order is a recommendation, not a gate."
+            "\nTeach one with:  agentic-pm-lab learn <topic>"
+            "\nOutline one with: agentic-pm-lab course <topic>"
+        )
         return 0
     try:
         print(json.dumps(tutor.teach_topic(args.topic), indent=2, sort_keys=True))

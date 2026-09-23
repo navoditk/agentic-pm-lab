@@ -17,6 +17,9 @@ MASTERY_LOADERS = (
     ROOT / ".agents/skills/agentic-pm-mastery/SKILL.md",
 )
 REQUIRED = {
+    "step",
+    "stage",
+    "est_hours",
     "prerequisites",
     "objectives",
     "lessons",
@@ -25,6 +28,43 @@ REQUIRED = {
     "build_lab",
     "assessment",
 }
+
+
+def check_learning_order(catalog_order: list[str], courses: dict) -> list[str]:
+    """The recommended order lives in one place: each course's `step`.
+
+    Steps must run 1..N with no gaps, TOPIC_CATALOG must list topics in step
+    order (everything that iterates it -- CLI, curriculum, UI -- inherits the
+    order from there), and each stage must be one contiguous run of steps, so
+    a stage heading never appears twice.
+    """
+    errors = []
+    steps = {topic: courses.get(topic, {}).get("step") for topic in catalog_order}
+    if any(
+        not isinstance(step, int) or isinstance(step, bool) for step in steps.values()
+    ):
+        return [
+            f"{topic}: step must be an integer"
+            for topic, step in steps.items()
+            if not isinstance(step, int) or isinstance(step, bool)
+        ]
+    if sorted(steps.values()) != list(range(1, len(catalog_order) + 1)):
+        errors.append(f"steps must run 1..{len(catalog_order)} with no gaps or repeats")
+    by_step = sorted(catalog_order, key=steps.__getitem__)
+    if by_step != catalog_order:
+        errors.append(
+            "TOPIC_CATALOG order does not match course steps; expected "
+            + ", ".join(by_step)
+        )
+    seen_stages: list[str] = []
+    for topic in by_step:
+        stage = courses[topic].get("stage")
+        if seen_stages and stage == seen_stages[-1]:
+            continue
+        if stage in seen_stages:
+            errors.append(f"stage {stage!r} is split by another stage at {topic}")
+        seen_stages.append(stage)
+    return errors
 
 
 def check() -> list[str]:
@@ -43,6 +83,12 @@ def check() -> list[str]:
         for field in ("prerequisites", "objectives", "lessons"):
             if not isinstance(course.get(field), list) or not course[field]:
                 errors.append(f"{topic}: {field} must be a non-empty list")
+        if not isinstance(course.get("stage"), str) or not course["stage"]:
+            errors.append(f"{topic}: stage must be a non-empty string")
+        hours = course.get("est_hours")
+        if not isinstance(hours, int) or isinstance(hours, bool) or hours <= 0:
+            errors.append(f"{topic}: est_hours must be a positive integer")
+    errors.extend(check_learning_order(list(TOPIC_CATALOG), courses))
     required_skill_files = (
         MASTERY_SKILL,
         MASTERY_REFERENCES / "learning-paths.md",

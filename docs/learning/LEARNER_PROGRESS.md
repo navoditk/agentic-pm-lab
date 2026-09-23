@@ -7,8 +7,8 @@ with `uv run agentic-pm-lab quiz <topic>`, then run
 table. Don't hand-edit inside the markers.
 
 See [`docs/guides/TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md) for the tutor
-catalog and [`docs/learning/START_HERE.md`](START_HERE.md) for the recommended
-order to work through them in.
+catalog and [`TUTOR_COURSE_GUIDE.md`](TUTOR_COURSE_GUIDE.md#recommended-order)
+for the recommended order; the table below follows it.
 
 <!-- LEARNER_PROGRESS:START -->
 
@@ -23,18 +23,18 @@ day's code was built.
 | Topic | Attempts | Best score | Status |
 |---|---|---|---|
 | agent-architecture-tutor | 0 | - | ⬜ Not attempted |
-| agent-development-lifecycle-tutor | 0 | - | ⬜ Not attempted |
+| langgraph-deep-agents-tutor | 0 | - | ⬜ Not attempted |
+| ficc-tutor-agent | 0 | - | ⬜ Not attempted |
+| portfolio-construction-tutor | 0 | - | ⬜ Not attempted |
+| data-provenance-research-tutor | 0 | - | ⬜ Not attempted |
+| investment-data-tutor | 0 | - | ⬜ Not attempted |
+| opentelemetry-tutor | 0 | - | ⬜ Not attempted |
+| evaluation-agentops-tutor | 0 | - | ⬜ Not attempted |
+| governance-delivery-tutor | 0 | - | ⬜ Not attempted |
 | aws-agentcore-tutor | 0 | - | ⬜ Not attempted |
 | copilot-canvas-mcp-tutor | 0 | - | ⬜ Not attempted |
-| data-provenance-research-tutor | 0 | - | ⬜ Not attempted |
-| document-to-skill-tutor | 0 | - | ⬜ Not attempted |
-| evaluation-agentops-tutor | 0 | - | ⬜ Not attempted |
-| ficc-tutor-agent | 0 | - | ⬜ Not attempted |
-| governance-delivery-tutor | 0 | - | ⬜ Not attempted |
 | investment-committee-tutor | 0 | - | ⬜ Not attempted |
-| investment-data-tutor | 0 | - | ⬜ Not attempted |
-| langgraph-deep-agents-tutor | 0 | - | ⬜ Not attempted |
-| opentelemetry-tutor | 0 | - | ⬜ Not attempted |
-| portfolio-construction-tutor | 0 | - | ⬜ Not attempted |
+| agent-development-lifecycle-tutor | 0 | - | ⬜ Not attempted |
+| document-to-skill-tutor | 0 | - | ⬜ Not attempted |
 
 <!-- LEARNER_PROGRESS:END -->

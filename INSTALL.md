@@ -1,5 +1,21 @@
 # INSTALL: Environment & Repo Setup
 
+> **Here to learn, not to rebuild? You do not need this guide.** With `git`
+> and [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
+> installed, three commands give you every course, quiz, and lab:
+>
+> ```bash
+> git clone https://github.com/navoditk/agentic-pm-lab.git && cd agentic-pm-lab
+> uv sync
+> uv run agentic-pm-lab learn
+> ```
+>
+> Then follow [`docs/learning/START_HERE.md`](docs/learning/START_HERE.md).
+> The rest of this document rebuilds the repository from an empty directory
+> for the 21-day build plan: it creates a new GitHub repository, runs
+> `uv init`, and sets up Docker, Copilot, and Codex, none of which the
+> learning path uses.
+
 **Do this once, before Day 1.** This is every piece of software the whole plan needs, plus bootstrapping the repo — self-contained on purpose, so you (or a dev tool) can work through it start to finish without opening `docs/PLAN.md`'s day-by-day steps at all. Once every box in §9's checklist is ticked, go to `docs/PLAN.md` and start Day 1.
 
 **Nothing here requires a FRED, Anthropic, OpenAI, LangSmith, or AWS account.** Those are deliberately deferred to the specific day each is first used, not done now — §5 explains why and gives the summary; the actual step-by-step for each lives in `docs/PLAN.md` Appendix B on the day it's needed (Day 2, 4, 6, and 12 respectively).

@@ -5,9 +5,10 @@ explain its trade-offs, inspect its implementation, test its failure modes, and
 teach it to someone else.” It complements the 21-day build plan; it does not
 claim that a tutor or a quiz creates production expertise.
 
-Use [`TUTOR_COURSE_GUIDE.md`](TUTOR_COURSE_GUIDE.md) for the complete course
-sequence and `uv run agentic-pm-lab course <topic-id>` for the
-topic-specific syllabus.
+Use [`TUTOR_COURSE_GUIDE.md`](TUTOR_COURSE_GUIDE.md#recommended-order) for the
+recommended course order and `uv run agentic-pm-lab course <topic-id>` for the
+topic-specific syllabus. The study matrix below is a reference by topic, not
+an order.
 
 ## The four-pass method
 

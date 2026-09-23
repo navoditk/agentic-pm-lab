@@ -67,12 +67,39 @@ learning issue; do not put private data or credentials in either record.
 
 ## Recommended order
 
-Start with agent architecture, LangGraph/Deep Agents, FICC, and portfolio
-construction. Then study provenance and public investment data, followed by
-OpenTelemetry, evaluation/AgentOps, governance, and AgentCore. Finish with
-Canvas/MCP, investment committee review, document-to-skill, and the integrated
-fixture capstone. The courses are independent, so an experienced learner can
-start with any topic's prerequisites.
+This table is the single source for course order; the README carries the same
+generated copy, and `uv run agentic-pm-lab learn` prints it in a terminal.
+If you already know fixed income and portfolio theory, you can skip steps 3–4.
+After step 14, finish with the integrated fixture capstone in the
+[Depth Path](DEPTH_PATH.md#a-no-cost-capstone).
+
+<!-- LEARNING_PATH:START -->
+<!-- Generated from docs/learning/tutor-courses.json by
+     scripts/build_learning_path.py. Edit the JSON, not this table. -->
+
+| Step | Stage | Course | Topic id | Est. hours |
+|---|---|---|---|---|
+| 1 | Foundations | [Agent architecture](tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
+| 2 | Foundations | [LangGraph and Deep Agents](tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
+| 3 | Foundations | [FICC fundamentals](tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
+| 4 | Foundations | [Portfolio construction](tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
+| 5 | Data and evidence | [Data provenance and research quality](tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
+| 6 | Data and evidence | [Public investment data](tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
+| 7 | Operate and govern | [OpenTelemetry](tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
+| 8 | Operate and govern | [Evaluations and AgentOps](tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
+| 9 | Operate and govern | [Governance and delivery](tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
+| 10 | Operate and govern | [AWS Bedrock AgentCore](tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
+| 11 | Integrate and extend | [Copilot Canvas and MCP](tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
+| 12 | Integrate and extend | [Investment committee challenge](tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
+| 13 | Integrate and extend | [Agent development lifecycle](tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
+| 14 | Integrate and extend | [Document-to-skill pipeline](tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
+
+About 53 hours in total. Hours are rough estimates covering the deep dive,
+the three labs, the quiz, and the teach-back. The order is a recommendation,
+not a gate: each course lists its own prerequisites, so an experienced learner
+can start anywhere.
+
+<!-- LEARNING_PATH:END -->
 
 Every course is offline and provider-neutral. Current AWS, LangGraph, and
 OpenTelemetry behavior must still be checked against the official references;
