@@ -262,6 +262,8 @@ sources:
     impacts:
       - topic: agent-foundations-tutor
         assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+      - topic: agent-architecture-tutor
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, agents/agent-architecture-tutor.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
   - id: react-paper
     title: "ReAct: Synergizing Reasoning and Acting in Language Models"
     url: https://arxiv.org/abs/2210.03629
@@ -286,6 +288,8 @@ sources:
     impacts:
       - topic: agent-foundations-tutor
         assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+      - topic: agent-architecture-tutor
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, agents/agent-architecture-tutor.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
   - id: langchain-tools
     title: "LangChain: Tools"
     url: https://docs.langchain.com/oss/python/langchain/tools
@@ -642,6 +646,30 @@ sources:
     impacts:
       - topic: governance-delivery-tutor
         assets: [docs/learning/tutors/governance-delivery-tutor.md, agents/governance-delivery-tutor.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+  - id: anthropic-multi-agent-research
+    title: "Anthropic: How we built our multi-agent research system"
+    url: https://www.anthropic.com/engineering/multi-agent-research-system
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: agent-architecture-tutor
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, agents/agent-architecture-tutor.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
+  - id: cognition-dont-build-multi-agents
+    title: "Cognition: Don't build multi-agents"
+    url: https://cognition.com/blog/dont-build-multi-agents
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: agent-architecture-tutor
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, agents/agent-architecture-tutor.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
   - id: aws-bedrock-tool-use
     title: "Amazon Bedrock: client-side tool use"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html
