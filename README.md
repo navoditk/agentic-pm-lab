@@ -208,7 +208,7 @@ prints the same list.
 | 4 | Agent core | [Model Context Protocol](docs/learning/tutors/mcp-tutor.md) | `mcp-tutor` | ~4 |
 | 5 | Agent core | [OpenTelemetry](docs/learning/tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~6 |
 | 6 | Agent core | [Evaluations and AgentOps](docs/learning/tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~6 |
-| 7 | Agent core | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
+| 7 | Agent core | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~5 |
 | 8 | Finance domain (optional) | [FICC fundamentals](docs/learning/tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
 | 9 | Finance domain (optional) | [Portfolio construction](docs/learning/tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
 | 10 | Finance domain (optional) | [Data provenance and research quality](docs/learning/tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
@@ -220,9 +220,9 @@ prints the same list.
 | 16 | Platforms (optional) | [Agent development lifecycle](docs/learning/tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
 | 17 | Platforms (optional) | [Document-to-skill pipeline](docs/learning/tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
 
-Only the Agent core module is required: about 35 hours. The other
+Only the Agent core module is required: about 36 hours. The other
 modules are optional; take Finance domain to apply the core to investing, and
-the Platforms courses for the tools you use. About 70 hours for everything.
+the Platforms courses for the tools you use. About 71 hours for everything.
 Hours are rough estimates covering the deep dive, the three labs, the quiz,
 and the teach-back. Each course lists its own prerequisites, so an
 experienced learner can start anywhere.

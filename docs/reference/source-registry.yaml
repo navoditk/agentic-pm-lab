@@ -322,6 +322,8 @@ sources:
     impacts:
       - topic: agent-foundations-tutor
         assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+      - topic: governance-delivery-tutor
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, agents/governance-delivery-tutor.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
   - id: anthropic-agent-evals
     title: "Anthropic: Demystifying evals for AI agents"
     url: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
@@ -604,6 +606,42 @@ sources:
     impacts:
       - topic: evaluation-agentops-tutor
         assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
+  - id: owasp-llm-top-10
+    title: "OWASP Top 10 for LLM Applications 2025"
+    url: https://genai.owasp.org/llm-top-10/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: governance-delivery-tutor
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, agents/governance-delivery-tutor.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+  - id: owasp-llm01-prompt-injection
+    title: "OWASP LLM01:2025 Prompt Injection"
+    url: https://genai.owasp.org/llmrisk/llm01-prompt-injection/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: governance-delivery-tutor
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, agents/governance-delivery-tutor.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+  - id: cedar-authorization
+    title: "Cedar: authorization decisions (default deny, forbid overrides permit)"
+    url: https://docs.cedarpolicy.com/auth/authorization.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: governance-delivery-tutor
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, agents/governance-delivery-tutor.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
   - id: aws-bedrock-tool-use
     title: "Amazon Bedrock: client-side tool use"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html

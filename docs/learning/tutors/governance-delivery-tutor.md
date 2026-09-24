@@ -47,6 +47,48 @@ are a substitute if one is missing.
 - **Release gate.** A CI check that must pass before a change can merge or
   deploy — the mechanism that turns "we intend this to be true" into "this is
   actually enforced before anyone can bypass it by accident."
+- **Direct and indirect prompt injection.** OWASP's
+  [LLM01:2025](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
+  distinguishes injections that "occur when a user's prompt input directly
+  alters the behavior of the model" from indirect ones that "occur when an
+  LLM accepts input from external sources, such as websites or files". For an
+  agent, every tool result is an external source: a research note, a filing,
+  an MCP server's reply. OWASP is candid that "it is unclear if there are
+  fool-proof methods of prevention", so its mitigations are about limiting
+  what an injection can *do*: least privilege, human approval for privileged
+  operations, and separating and marking untrusted content.
+- **Excessive agency.** OWASP's
+  [LLM06:2025](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)
+  has three root causes, and each maps to a control here. *Excessive
+  functionality*, tools beyond what the task needs: the agent's allowlist
+  and `tools_for_identity()`. *Excessive permissions*, tools with more access
+  than the task needs: Cedar's portfolio policy, so a permitted tool still
+  cannot reach PORT_B. *Excessive autonomy*, high-impact actions without
+  independent approval: `run_backtest`'s `interrupt_on`. The prevention
+  OWASP calls "complete mediation" is enforcing authorization in the
+  downstream system rather than trusting the model, which is what the
+  tool-boundary re-check is.
+- **Detection is not the control.** A guardrail that pattern-matches
+  injected text is worth having and will miss a paraphrase. What makes an
+  injection harmless is that the action it asks for is not permitted.
+
+### The OWASP Top 10 for LLM Applications, against this repository
+
+The [2025 list](https://genai.owasp.org/llm-top-10/), with where each risk
+is addressed here, and where it is not:
+
+| Risk | Here |
+|---|---|
+| LLM01 Prompt Injection | Context and input guardrails for known phrasing; allowlist, Cedar, and the tool-boundary re-check for everything else (`src/foundations/injection_lab.py`) |
+| LLM02 Sensitive Information Disclosure | Output guardrail (`governance/tests/test_sensitive_output.py`); telemetry records counts, not content |
+| LLM03 Supply Chain | Dependencies pinned in `uv.lock`; no SBOM or model-provenance check |
+| LLM04 Data and Model Poisoning | No model is trained here; evidence provenance is the Data provenance course's subject |
+| LLM05 Improper Output Handling | Tool results validated against contracts (`ContractValidationMiddleware`); model output is never executed |
+| LLM06 Excessive Agency | Allowlist, `tools_for_identity()`, Cedar resource policy, `interrupt_on` |
+| LLM07 System Prompt Leakage | A guardrail pattern for prompt and credential exfiltration; no secrets are placed in prompts |
+| LLM08 Vector and Embedding Weaknesses | Not applicable to the local stack, which has no vector store |
+| LLM09 Misinformation | Numbers come from deterministic tools; `required_facts` evaluations |
+| LLM10 Unbounded Consumption | Step limits in the loops, `ToolCallLimitMiddleware`, bounded retries |
 
 ## How this repository implements it
 
@@ -100,6 +142,35 @@ are the same idea applied to infrastructure: a release checklist for anything
 touching AWS points at an explicit, documented teardown step, not "someone
 will remember to clean it up."
 
+### Indirect injection, run: `injection_lab.py`
+
+`src/foundations/injection_lab.py` gives the Agent foundations loop a research
+note that carries an instruction to trade, and a model scripted to obey it,
+the worst case. `tests/unit/foundations/test_injection_lab.py` shows the
+layers in order:
+
+| What happens | Test |
+|---|---|
+| The context guardrail catches the instruction in phrasing its pattern knows | `test_the_context_guardrail_catches_phrasing_it_knows` |
+| A paraphrase of the same instruction passes that guardrail | `test_a_paraphrased_injection_passes_the_same_guardrail` |
+| The model obeys, and the allowlist refuses the order; the run still answers | `test_an_obeyed_injection_is_refused_by_the_allowlist` |
+| Put the order tool on the allowlist and the same note places a trade | `test_with_the_order_tool_allowed_the_same_injection_trades` |
+
+The last test is the argument for least privilege in one assertion: nothing
+about the injection changed, only what the agent was allowed to do.
+
+## The four threads
+
+This course *is* the governance thread; the table shows the other three
+applied to it.
+
+| Thread | In governance | Evidence |
+|---|---|---|
+| **Observability** | Denials are counted on their own metric, so a denial rate that drops to zero is visible rather than silent. | `record_authorization_denial` call sites in `src/control/authorization.py` |
+| **Traceability** | Every allowed and denied decision is an audit record carrying the run's trace id, so a refused injection is on record, not just prevented. | `test_an_obeyed_injection_is_refused_by_the_allowlist` (the denial is in `result.audit`) |
+| **Governance** | Least privilege and complete mediation: the allowlist and Cedar decide, in code, on every call; guardrails reduce exposure but decide nothing. | `governance/tests/`, `test_with_the_order_tool_allowed_the_same_injection_trades` |
+| **Evaluation** | Adversarial cases are tests that gate a release: `authorization-tests.yml` must pass for any change to the control layer. | `.github/workflows/authorization-tests.yml` |
+
 ## Worked walkthrough
 
 Trace one denied request through all four layers:
@@ -121,6 +192,12 @@ Trace one denied request through all four layers:
 5. Confirm CI wiring: read `.github/workflows/authorization-tests.yml`'s
    `paths` filters and note exactly which changed files would trigger it —
    this is the difference between "we have tests" and "the tests are a gate."
+6. Run `uv run pytest tests/unit/foundations/test_injection_lab.py -q`.
+   Write a third phrasing of the injection and predict, before running it,
+   whether the guardrail catches it. Then explain why the answer does not
+   change whether a trade happens.
+7. Pick three rows of the OWASP table above and, for each, name the file
+   that implements the control and one way it could still fail.
 
 ## Common pitfalls
 
@@ -140,6 +217,15 @@ Trace one denied request through all four layers:
   judgment call the model or the caller gets to override based on how
   confident an answer looks. Confidence is not evidence of correctness, and
   the approval boundary doesn't have a confidence-based bypass.
+- **Treating a guardrail as the defence against injection.** It catches the
+  phrasings it knows. The defence is that the action an injection asks for
+  is not permitted to this agent.
+- **Trusting tool results as instructions.** A retrieved note, a filing, or
+  an MCP server's reply is data. Mark it as untrusted in the context, and
+  never let it widen what the agent may do.
+- **Granting a tool "in case it is useful".** Every tool on the allowlist is
+  something an injection can ask for. Excessive functionality is the easiest
+  of OWASP's three root causes to avoid.
 
 ## Further reading
 
