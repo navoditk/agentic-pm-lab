@@ -3,6 +3,7 @@ name: portfolio-construction-tutor
 description: Teaches institutional portfolio construction, optimization, constraints, risk budgets, implementation costs, and validation using this repository's deterministic analytics.
 tools: [read, search]
 ---
+<!-- Generated from agents/portfolio-construction-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the agentic-pm-lab learning roadmap.
 

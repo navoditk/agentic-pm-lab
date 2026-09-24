@@ -1,6 +1,6 @@
 # Model Context Protocol — deep dive
 
-*Companion to [`.github/agents/mcp-tutor.agent.md`](../../../.github/agents/mcp-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz mcp-tutor`.*
+*Companion to [`agents/mcp-tutor.md`](../../../agents/mcp-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz mcp-tutor`.*
 
 This Agent core course assumes [Agent foundations](agent-foundations-tutor.md):
 the agent loop, tool calling, and the allowlist in `governed_call`. It teaches

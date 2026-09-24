@@ -12,9 +12,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-architecture-tutor
-        assets: [docs/learning/tutors/agent-architecture-tutor.md, .github/agents/agent-architecture-tutor.agent.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, agents/agent-architecture-tutor.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
       - topic: langgraph-deep-agents-tutor
-        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, .github/agents/langgraph-deep-agents-tutor.agent.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
   - id: deepagents
     title: Deep Agents
     url: https://docs.langchain.com/oss/python/deepagents
@@ -28,9 +28,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-architecture-tutor
-        assets: [docs/learning/tutors/agent-architecture-tutor.md, .github/agents/agent-architecture-tutor.agent.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, agents/agent-architecture-tutor.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
       - topic: langgraph-deep-agents-tutor
-        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, .github/agents/langgraph-deep-agents-tutor.agent.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
   - id: langsmith
     title: LangSmith
     url: https://docs.langchain.com/langsmith/evaluation
@@ -43,7 +43,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: evaluation-agentops-tutor
-        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, .github/agents/evaluation-agentops-tutor.agent.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
   - id: opentelemetry-python
     title: OpenTelemetry Python
     url: https://opentelemetry.io/docs/languages/python/getting-started/
@@ -57,9 +57,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: opentelemetry-tutor
-        assets: [docs/learning/tutors/opentelemetry-tutor.md, .github/agents/opentelemetry-tutor.agent.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
       - topic: evaluation-agentops-tutor
-        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, .github/agents/evaluation-agentops-tutor.agent.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
   - id: mcp
     title: Model Context Protocol
     url: https://modelcontextprotocol.io/
@@ -72,9 +72,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: copilot-canvas-mcp-tutor
-        assets: [docs/learning/tutors/copilot-canvas-mcp-tutor.md, .github/agents/copilot-canvas-mcp-tutor.agent.md, evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/copilot-canvas-mcp-tutor.md, agents/copilot-canvas-mcp-tutor.md, evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl]
       - topic: mcp-tutor
-        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]
   - id: aws-agentcore
     title: AWS Bedrock AgentCore
     url: https://docs.aws.amazon.com/bedrock-agentcore/
@@ -87,9 +87,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: aws-agentcore-tutor
-        assets: [docs/learning/tutors/aws-agentcore-tutor.md, .github/agents/aws-agentcore-tutor.agent.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
       - topic: governance-delivery-tutor
-        assets: [docs/learning/tutors/governance-delivery-tutor.md, .github/agents/governance-delivery-tutor.agent.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, agents/governance-delivery-tutor.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
   - id: aws-bedrock-guardrails
     title: Amazon Bedrock Guardrails
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html
@@ -102,9 +102,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: aws-agentcore-tutor
-        assets: [docs/learning/tutors/aws-agentcore-tutor.md, .github/agents/aws-agentcore-tutor.agent.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
       - topic: governance-delivery-tutor
-        assets: [docs/learning/tutors/governance-delivery-tutor.md, .github/agents/governance-delivery-tutor.agent.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, agents/governance-delivery-tutor.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
   - id: github-copilot-skills
     title: GitHub Copilot Agent Skills
     url: https://docs.github.com/en/copilot/concepts/agents/about-agent-skills
@@ -117,9 +117,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: copilot-canvas-mcp-tutor
-        assets: [docs/learning/tutors/copilot-canvas-mcp-tutor.md, .github/agents/copilot-canvas-mcp-tutor.agent.md, evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/copilot-canvas-mcp-tutor.md, agents/copilot-canvas-mcp-tutor.md, evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl]
       - topic: agent-development-lifecycle-tutor
-        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, .github/agents/agent-development-lifecycle-tutor.agent.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, agents/agent-development-lifecycle-tutor.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
   - id: claude-code
     title: Claude Code
     url: https://docs.anthropic.com/en/docs/claude-code/overview
@@ -132,7 +132,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-development-lifecycle-tutor
-        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, .github/agents/agent-development-lifecycle-tutor.agent.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, agents/agent-development-lifecycle-tutor.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
   - id: openai-codex
     title: OpenAI Codex
     url: https://developers.openai.com/codex/
@@ -145,7 +145,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-development-lifecycle-tutor
-        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, .github/agents/agent-development-lifecycle-tutor.agent.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-development-lifecycle-tutor.md, agents/agent-development-lifecycle-tutor.md, evals/tutor_quizzes/agent-development-lifecycle-tutor.jsonl]
   - id: fastapi
     title: FastAPI
     url: https://fastapi.tiangolo.com/tutorial/
@@ -159,7 +159,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-architecture-tutor
-        assets: [docs/learning/tutors/agent-architecture-tutor.md, .github/agents/agent-architecture-tutor.agent.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-architecture-tutor.md, agents/agent-architecture-tutor.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
   - id: sec-edgar
     title: SEC EDGAR data APIs
     url: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
@@ -172,9 +172,9 @@ sources:
     severity_rules: [deprecated, removed, terms, security]
     impacts:
       - topic: investment-data-tutor
-        assets: [docs/learning/tutors/investment-data-tutor.md, .github/agents/investment-data-tutor.agent.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
+        assets: [docs/learning/tutors/investment-data-tutor.md, agents/investment-data-tutor.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
       - topic: data-provenance-research-tutor
-        assets: [docs/learning/tutors/data-provenance-research-tutor.md, .github/agents/data-provenance-research-tutor.agent.md, evals/tutor_quizzes/data-provenance-research-tutor.jsonl]
+        assets: [docs/learning/tutors/data-provenance-research-tutor.md, agents/data-provenance-research-tutor.md, evals/tutor_quizzes/data-provenance-research-tutor.jsonl]
   - id: fred-alfred
     title: FRED and ALFRED
     url: https://fred.stlouisfed.org/docs/api/fred/
@@ -187,9 +187,9 @@ sources:
     severity_rules: [deprecated, removed, terms, security]
     impacts:
       - topic: investment-data-tutor
-        assets: [docs/learning/tutors/investment-data-tutor.md, .github/agents/investment-data-tutor.agent.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
+        assets: [docs/learning/tutors/investment-data-tutor.md, agents/investment-data-tutor.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
       - topic: data-provenance-research-tutor
-        assets: [docs/learning/tutors/data-provenance-research-tutor.md, .github/agents/data-provenance-research-tutor.agent.md, evals/tutor_quizzes/data-provenance-research-tutor.jsonl]
+        assets: [docs/learning/tutors/data-provenance-research-tutor.md, agents/data-provenance-research-tutor.md, evals/tutor_quizzes/data-provenance-research-tutor.jsonl]
   - id: treasury-data
     title: U.S. Treasury Fiscal Data
     url: https://fiscaldata.treasury.gov/api-documentation/
@@ -202,9 +202,9 @@ sources:
     severity_rules: [deprecated, removed, terms, security]
     impacts:
       - topic: ficc-tutor-agent
-        assets: [docs/learning/tutors/ficc-tutor-agent.md, docs/agent-templates/ficc-tutor-agent.agent.md, evals/tutor_quizzes/ficc-tutor-agent.jsonl]
+        assets: [docs/learning/tutors/ficc-tutor-agent.md, agents/ficc-tutor-agent.md, evals/tutor_quizzes/ficc-tutor-agent.jsonl]
       - topic: investment-data-tutor
-        assets: [docs/learning/tutors/investment-data-tutor.md, .github/agents/investment-data-tutor.agent.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
+        assets: [docs/learning/tutors/investment-data-tutor.md, agents/investment-data-tutor.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
   - id: pyportfolioopt
     title: PyPortfolioOpt
     url: https://pyportfolioopt.readthedocs.io/
@@ -218,9 +218,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: portfolio-construction-tutor
-        assets: [docs/learning/tutors/portfolio-construction-tutor.md, .github/agents/portfolio-construction-tutor.agent.md, evals/tutor_quizzes/portfolio-construction-tutor.jsonl]
+        assets: [docs/learning/tutors/portfolio-construction-tutor.md, agents/portfolio-construction-tutor.md, evals/tutor_quizzes/portfolio-construction-tutor.jsonl]
       - topic: investment-committee-tutor
-        assets: [docs/learning/tutors/investment-committee-tutor.md, .github/agents/investment-committee-tutor.agent.md, evals/tutor_quizzes/investment-committee-tutor.jsonl]
+        assets: [docs/learning/tutors/investment-committee-tutor.md, agents/investment-committee-tutor.md, evals/tutor_quizzes/investment-committee-tutor.jsonl]
   - id: cedar
     title: Cedar Policy Language
     url: https://docs.cedarpolicy.com/
@@ -234,9 +234,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: governance-delivery-tutor
-        assets: [docs/learning/tutors/governance-delivery-tutor.md, .github/agents/governance-delivery-tutor.agent.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
+        assets: [docs/learning/tutors/governance-delivery-tutor.md, agents/governance-delivery-tutor.md, evals/tutor_quizzes/governance-delivery-tutor.jsonl]
       - topic: investment-committee-tutor
-        assets: [docs/learning/tutors/investment-committee-tutor.md, .github/agents/investment-committee-tutor.agent.md, evals/tutor_quizzes/investment-committee-tutor.jsonl]
+        assets: [docs/learning/tutors/investment-committee-tutor.md, agents/investment-committee-tutor.md, evals/tutor_quizzes/investment-committee-tutor.jsonl]
   - id: document-ingestion
     title: OpenAI document ingestion and skills guidance
     url: https://developers.openai.com/codex/skills/
@@ -249,7 +249,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: document-to-skill-tutor
-        assets: [docs/learning/tutors/document-to-skill-tutor.md, .github/agents/document-to-skill-tutor.agent.md, evals/tutor_quizzes/document-to-skill-tutor.jsonl]
+        assets: [docs/learning/tutors/document-to-skill-tutor.md, agents/document-to-skill-tutor.md, evals/tutor_quizzes/document-to-skill-tutor.jsonl]
   - id: anthropic-building-effective-agents
     title: "Anthropic: Building effective agents"
     url: https://www.anthropic.com/engineering/building-effective-agents
@@ -261,7 +261,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
   - id: react-paper
     title: "ReAct: Synergizing Reasoning and Acting in Language Models"
     url: https://arxiv.org/abs/2210.03629
@@ -273,7 +273,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
   - id: anthropic-context-engineering
     title: "Anthropic: Effective context engineering for AI agents"
     url: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
@@ -285,7 +285,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
   - id: langchain-tools
     title: "LangChain: Tools"
     url: https://docs.langchain.com/oss/python/langchain/tools
@@ -297,7 +297,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
   - id: langchain-structured-output
     title: "LangChain: Structured output"
     url: https://docs.langchain.com/oss/python/langchain/structured-output
@@ -309,7 +309,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
   - id: owasp-llm-excessive-agency
     title: "OWASP LLM06:2025 Excessive Agency"
     url: https://genai.owasp.org/llmrisk/llm062025-excessive-agency/
@@ -321,7 +321,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
   - id: anthropic-agent-evals
     title: "Anthropic: Demystifying evals for AI agents"
     url: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
@@ -333,7 +333,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
   - id: w3c-trace-context
     title: "W3C Trace Context"
     url: https://www.w3.org/TR/trace-context/
@@ -345,7 +345,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
   - id: otel-genai-semconv
     title: "OpenTelemetry GenAI span conventions"
     url: https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md
@@ -357,9 +357,9 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: agent-foundations-tutor
-        assets: [docs/learning/tutors/agent-foundations-tutor.md, .github/agents/agent-foundations-tutor.agent.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+        assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
       - topic: mcp-tutor
-        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]
   - id: mcp-spec
     title: "MCP specification (overview)"
     url: https://modelcontextprotocol.io/specification/latest
@@ -371,7 +371,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: mcp-tutor
-        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]
   - id: mcp-spec-basic
     title: "MCP specification: base protocol, statelessness, and _meta"
     url: https://modelcontextprotocol.io/specification/latest/basic/index
@@ -383,7 +383,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: mcp-tutor
-        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]
   - id: mcp-spec-tools
     title: "MCP specification: tools"
     url: https://modelcontextprotocol.io/specification/latest/server/tools
@@ -395,7 +395,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: mcp-tutor
-        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]
   - id: mcp-spec-transports
     title: "MCP specification: transports"
     url: https://modelcontextprotocol.io/specification/latest/basic/transports
@@ -407,7 +407,7 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: mcp-tutor
-        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]
   - id: mcp-spec-security
     title: "MCP specification: security best practices"
     url: https://modelcontextprotocol.io/specification/latest/basic/security_best_practices
@@ -419,4 +419,4 @@ sources:
     severity_rules: [breaking, deprecated, removed, security]
     impacts:
       - topic: mcp-tutor
-        assets: [docs/learning/tutors/mcp-tutor.md, .github/agents/mcp-tutor.agent.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+        assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]

@@ -3,6 +3,7 @@ name: investment-committee-tutor
 description: Teaches investment thesis construction, Devil's Advocate challenge, evidence grading, dissent, human review, and committee decision records.
 tools: [read, search]
 ---
+<!-- Generated from agents/investment-committee-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the agentic-pm-lab learning roadmap.
 

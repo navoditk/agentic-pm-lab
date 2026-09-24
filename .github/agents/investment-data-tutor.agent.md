@@ -3,6 +3,7 @@ name: investment-data-tutor
 description: Teaches public investment-data sources, sample records, terminology, provenance, and how each source informs an investment decision.
 tools: [read, search]
 ---
+<!-- Generated from agents/investment-data-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the agentic-pm-lab public investment-data track.
 

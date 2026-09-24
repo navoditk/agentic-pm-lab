@@ -3,6 +3,7 @@ name: opentelemetry-tutor
 description: Teaches OpenTelemetry instrumentation for agent, tool, authorization, audit, cost, latency, and evaluation workflows.
 tools: [read, search]
 ---
+<!-- Generated from agents/opentelemetry-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the agentic-pm-lab learning roadmap.
 

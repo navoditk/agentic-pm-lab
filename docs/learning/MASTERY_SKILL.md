@@ -28,9 +28,8 @@ tool-specific discovery loaders live at:
 
 | CLI | Loader |
 |---|---|
-| GitHub Copilot | [`.github/skills/agentic-pm-mastery/`](../../.github/skills/agentic-pm-mastery/) |
-| Claude Code | [`.claude/skills/agentic-pm-mastery/`](../../.claude/skills/agentic-pm-mastery/) |
-| Codex | [`.agents/skills/agentic-pm-mastery/`](../../.agents/skills/agentic-pm-mastery/) |
+| Claude Code (and Copilot) | [`.claude/skills/agentic-pm-mastery/`](../../.claude/skills/agentic-pm-mastery/) |
+| Codex (and Copilot) | [`.agents/skills/agentic-pm-mastery/`](../../.agents/skills/agentic-pm-mastery/) |
 
 The skill is read-only and offline by default. It uses local fixtures and
 canonical repository sources; it does not call live providers, access

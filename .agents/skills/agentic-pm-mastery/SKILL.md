@@ -1,11 +1,13 @@
 ---
 name: agentic-pm-mastery
-description: "Codex discovery loader for the shared Agentic PM Lab mastery skill. Say 'agentexpert' to start."
+description: "Interactive, source-grounded learning for the Agentic PM Lab. Lessons, quizzes, failure scenarios, and a cross-topic assessment. Say 'agentexpert' to start."
 ---
+<!-- Generated from skills/agentic-pm-mastery/SKILL.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
-# Agentic PM Lab Mastery loader
+# agentic-pm-mastery
 
-Load and follow the canonical, CLI-neutral skill at
-[`skills/agentic-pm-mastery/SKILL.md`](../../../skills/agentic-pm-mastery/SKILL.md).
-Its references and contract are in the same canonical package. Do not maintain
-learning content in this discovery loader.
+This is the Codex discovery loader for a CLI-neutral skill. Load and
+follow the canonical skill at
+[`skills/agentic-pm-mastery/SKILL.md`](../../../skills/agentic-pm-mastery/SKILL.md). Its
+contract, references, and tests are in the same package. Do not
+maintain skill content in this loader.

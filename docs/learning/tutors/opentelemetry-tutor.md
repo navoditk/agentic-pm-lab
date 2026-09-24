@@ -1,6 +1,6 @@
 # OpenTelemetry — deep dive
 
-*Companion to [`.github/agents/opentelemetry-tutor.agent.md`](../../../.github/agents/opentelemetry-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz opentelemetry-tutor`.*
+*Companion to [`agents/opentelemetry-tutor.md`](../../../agents/opentelemetry-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz opentelemetry-tutor`.*
 
 ## What this actually is
 

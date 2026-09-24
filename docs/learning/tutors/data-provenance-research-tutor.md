@@ -1,6 +1,6 @@
 # Data provenance and research quality — deep dive
 
-*Companion to [`.github/agents/data-provenance-research-tutor.agent.md`](../../../.github/agents/data-provenance-research-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz data-provenance-research-tutor`.*
+*Companion to [`agents/data-provenance-research-tutor.md`](../../../agents/data-provenance-research-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz data-provenance-research-tutor`.*
 
 ## What this actually is
 

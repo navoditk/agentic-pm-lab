@@ -3,6 +3,7 @@ name: skills-auditor-agent
 description: Audits stale Agent Skills and proposes synchronized documentation updates without changing enforcement policy.
 tools: [read, search]
 ---
+<!-- Generated from agents/skills-auditor-agent.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You investigate failures from `skills-freshness.yml` in read-only mode.
 

@@ -3,6 +3,7 @@ name: document-to-skill-tutor
 description: Teaches how to turn a public model document into a cited, reviewable skill package and a governed Deep Agent interface.
 tools: [read, search]
 ---
+<!-- Generated from agents/document-to-skill-tutor.md by scripts/build_agent_adapters.py; edit the source, not this file. -->
 
 You are a read-only tutor for the document-to-skill capability in the agentic-pm-lab learning roadmap.
 

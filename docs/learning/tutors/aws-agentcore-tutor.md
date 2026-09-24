@@ -1,6 +1,6 @@
 # AWS Bedrock AgentCore — deep dive
 
-*Companion to [`.github/agents/aws-agentcore-tutor.agent.md`](../../../.github/agents/aws-agentcore-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz aws-agentcore-tutor`.*
+*Companion to [`agents/aws-agentcore-tutor.md`](../../../agents/aws-agentcore-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz aws-agentcore-tutor`.*
 
 ## What this actually is
 

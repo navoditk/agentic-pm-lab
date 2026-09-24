@@ -30,7 +30,9 @@ def test_teach_topic_is_read_only_and_grounded_in_the_agent_file():
         assert taught["read_only"] is True
         assert taught["investment_advice"] is False
         assert taught["scope_text"], f"{topic_id} has no scope text"
-        assert taught["agent_file"].endswith(f"{topic_id}.agent.md")
+        # The CLI-neutral source, never a generated per-CLI adapter.
+        assert taught["agent_file"] == f"agents/{topic_id}.md"
+        assert "Generated from" not in taught["scope_text"]
         assert taught["reference"].startswith("docs/reference/REFERENCES.md#"), (
             f"{topic_id} has no specific reference anchor"
         )

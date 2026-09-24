@@ -12,7 +12,6 @@ if str(ROOT) not in sys.path:
 MASTERY_SKILL = ROOT / "skills/agentic-pm-mastery/SKILL.md"
 MASTERY_REFERENCES = ROOT / "skills/agentic-pm-mastery/references"
 MASTERY_LOADERS = (
-    ROOT / ".github/skills/agentic-pm-mastery/SKILL.md",
     ROOT / ".claude/skills/agentic-pm-mastery/SKILL.md",
     ROOT / ".agents/skills/agentic-pm-mastery/SKILL.md",
 )

@@ -1,6 +1,6 @@
 # Evaluations and AgentOps — deep dive
 
-*Companion to [`.github/agents/evaluation-agentops-tutor.agent.md`](../../../.github/agents/evaluation-agentops-tutor.agent.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz evaluation-agentops-tutor`.*
+*Companion to [`agents/evaluation-agentops-tutor.md`](../../../agents/evaluation-agentops-tutor.md). Read that first for the fast orientation; this document goes further. Self-check with `uv run agentic-pm-lab quiz evaluation-agentops-tutor`.*
 
 ## What this actually is
 
@@ -217,6 +217,6 @@ Trace how one authorization case gets scored without a model call:
   matching entry for the full guardrail-evaluator-fix story, including what
   was deliberately left undone (activating stub cases, regenerating a paid
   baseline run).
-- `.github/agents/eval-triage-agent.agent.md`, the sibling read-only persona
+- `agents/eval-triage-agent.md`, the sibling read-only persona
   for investigating one specific failing run rather than teaching the
   dimension model itself.
