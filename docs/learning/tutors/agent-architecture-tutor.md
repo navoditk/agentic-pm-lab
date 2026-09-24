@@ -218,7 +218,7 @@ for a real one.
 | Thread | In the architecture | Evidence |
 |---|---|---|
 | **Observability** | Every agent in a hierarchy emits spans into one provider, so a delegated specialist's work nests under the orchestrator's trace instead of starting its own. Multi-agent cost is visible only if tokens are recorded per agent. | `configure_telemetry()` in `src/observability/telemetry.py` |
-| **Traceability** | The orchestrator's `task` descriptions are the only channel into a specialist, which makes them the record of what each specialist was told. | `test_filtered_context_includes_only_explicit_sources` |
+| **Traceability** | The orchestrator's `task` descriptions are the only channel into a specialist, which makes them the record of what each specialist was told. | `create_multi_agent()` and `specialist_subagents()` in `src/agents/multi_agent.py` |
 | **Governance** | Each specialist gets its own narrow tool tuple and the orchestrator gets none, so splitting work never widens what any one agent may do. | `tests/unit/agents/test_multi_agent.py::test_specialists_have_domain_specific_tool_boundaries` |
 | **Evaluation** | An architecture choice is a claim about cost and quality, so it is settled by measurement: the full-versus-filtered context comparison, and pass rates over repeated trials, not a demo. | `docs/learning/comparison-notes.md` |
 
