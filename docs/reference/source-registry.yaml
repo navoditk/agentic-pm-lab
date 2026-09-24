@@ -434,6 +434,78 @@ sources:
     impacts:
       - topic: aws-bedrock-tutor
         assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: langgraph-graph-api
+    title: "LangGraph: graph API (state, reducers, super-steps, Send)"
+    url: https://docs.langchain.com/oss/python/langgraph/graph-api
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-streaming
+    title: "LangGraph: streaming modes"
+    url: https://docs.langchain.com/oss/python/langgraph/streaming
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-subgraphs
+    title: "LangGraph: subgraphs"
+    url: https://docs.langchain.com/oss/python/langgraph/use-subgraphs
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-time-travel
+    title: "LangGraph: time travel (replay and fork)"
+    url: https://docs.langchain.com/oss/python/langgraph/use-time-travel
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-checkpointers
+    title: "LangGraph: checkpointers, durability modes, and pending writes"
+    url: https://docs.langchain.com/oss/python/langgraph/checkpointers
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-interrupts
+    title: "LangGraph: interrupts"
+    url: https://docs.langchain.com/oss/python/langgraph/interrupts
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
   - id: aws-bedrock-tool-use
     title: "Amazon Bedrock: client-side tool use"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html
