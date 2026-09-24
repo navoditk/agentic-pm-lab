@@ -65,12 +65,14 @@ Cedar functions the FastAPI layer and the Deep Agent tool-filtering layer
 both use (see the `governance-delivery-tutor` and `agent-architecture-tutor`
 deep dives). If the spec declares a `portfolio_field`, `_enforce_resource()`
 also re-checks `check_portfolio_access()` before the analytics function is
-ever called. Note where identity comes from: `_metadata_from_context()` reads
-it out of the MCP request's metadata (or, as a fallback, an `x-identity`
-header) — never out of the arguments dict the caller supplies, and never out
-of anything a model could have written into a prompt. `dispatch()` explicitly
-raises `PermissionError("MCP request metadata must include identity")` if
-it's missing, rather than defaulting to some permissive identity.
+ever called. Note where identity comes from: the server is bound to one
+identity when it starts (`AGENTIC_PM_LAB_MCP_IDENTITY` for stdio), never
+from the arguments dict the caller supplies, never from anything a model
+could have written into a prompt, and never from request metadata. If a
+request's `_meta` claims a different identity, `dispatch()` refuses it, and a
+server started without an identity refuses every call rather than defaulting
+to a permissive one. The [MCP course](mcp-tutor.md) covers why: this server
+used to accept the claimed identity, which let any caller act as anyone.
 
 The Canvas side of this repository (`.github/extensions/`) follows the
 parallel discipline: `docs/architecture/ARCHITECTURE.md`'s "Interactive
@@ -92,8 +94,9 @@ one governed core, not two independently-trusted systems.
 2. Trace `invoke_tool()` line by line for that entry: `_identity_allowed()`
    first, then (because `portfolio_field` is set) `_enforce_resource()`,
    then finally `_call_analytics()`.
-3. Read `_metadata_from_context()` and confirm identity is read from request
-   metadata/headers, never from the tool arguments.
+3. Read `create_mcp_server()` and `dispatch()` and confirm identity is bound
+   when the server starts, never read from request metadata or tool
+   arguments; `_metadata_from_context()` now supplies only the portfolio.
 4. Compare this to `src/agents/multi_agent.py`'s `tools_for_identity()` call
    in `specialist_subagents()` — a Deep Agent never even gets an unauthorized
    tool bound to it in the first place, which is defense-in-depth *before*
@@ -116,9 +119,9 @@ one governed core, not two independently-trusted systems.
   simpler — it's less trustworthy, because the viewer can't tell if it's
   live, mock, stale, or pending review.
 - **Persisting credentials in Canvas state so "the agent can just reuse
-  them."** Identity should be acquired at runtime and propagated per-request
-  (as `_metadata_from_context()` does), never stored as long-lived state a
-  Canvas session carries around.
+  them."** Identity should come from an authenticated source when the
+  server or session starts (as `AGENTIC_PM_LAB_MCP_IDENTITY` does for the MCP
+  server), never from Canvas state a session carries around.
 
 ## Further reading
 

@@ -382,6 +382,21 @@ role. A caller-supplied role string is descriptive context and never an
 authorization input. Unknown identities receive no tools and HTTP callers
 receive 401.
 
+**The MCP server authenticates identity instead of accepting a claim.** It is
+bound to one identity when it starts (`AGENTIC_PM_LAB_MCP_IDENTITY` for the
+stdio entry point, `create_mcp_server(identity=...)` in process), as the MCP
+specification prescribes for stdio servers, and a request that claims a
+different identity in `_meta` is refused. An unbound server refuses every
+call. A hosted MCP deployment, including the AgentCore Gateway target, must
+supply that identity from the platform's authenticated context rather than
+from the request.
+
+**Known limitation.** FastAPI's `X-Identity` header and the `user_role` agent
+context are still asserted by the caller: authorization is enforced on them,
+but nothing authenticates them. That is a local learning simplification, not
+a production control; a deployment would put an authenticating gateway or
+token verification in front of them.
+
 The local identities and effective access are:
 
 | Identity | Role | Tool access | Portfolio access |
