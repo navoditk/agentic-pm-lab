@@ -14,6 +14,7 @@ from langgraph.types import Command
 
 from src.agents.graph_mechanics import (
     approval_graph,
+    book_graph,
     credit_review_graph,
     desk_graph,
     parallel_pricing_graph,
@@ -55,6 +56,12 @@ def test_subgraph_output_is_namespaced_only_when_asked():
     namespaces = [namespace for namespace, _ in nested]
     assert namespaces[0][0].startswith("limits:")  # from inside the subgraph
     assert namespaces[-1] == ()  # the parent graph
+
+
+def test_a_subgraph_with_a_different_schema_is_called_from_a_node():
+    """No shared keys, so the node maps state into the subgraph and back."""
+    result = book_graph().invoke({"position_mm": 250.0, "capped_mm": 0.0})
+    assert result == {"position_mm": 250.0, "capped_mm": 100.0}
 
 
 # --- Send fan-out and reducers -------------------------------------------------------
@@ -129,3 +136,21 @@ def test_exit_durability_keeps_no_intermediate_checkpoints(durability, checkpoin
     graph = pipeline_graph(Counter(), InMemorySaver())
     graph.invoke({"value": 1}, thread(durability), durability=durability)
     assert len(list(graph.get_state_history(thread(durability)))) == checkpoints
+
+
+def test_exit_durability_still_persists_at_an_interrupt_and_an_error():
+    """exit writes once, when the run exits, whether it finished, paused, or
+    failed. So an interrupted or failed run can still be resumed."""
+    effects: list[str] = []
+    graph = approval_graph(effects, InMemorySaver())
+    graph.invoke({"trade": "T1", "approved": False}, thread("i"), durability="exit")
+    resumed = graph.invoke(Command(resume=True), thread("i"), durability="exit")
+    assert resumed["approved"] is True
+
+    calls, failing = Counter(), {"credit"}
+    pricing = parallel_pricing_graph(calls, failing, InMemorySaver())
+    with pytest.raises(RuntimeError):
+        pricing.invoke({"results": []}, thread("e"), durability="exit")
+    assert pricing.get_state(thread("e")).next == ("credit",)
+    failing.clear()
+    assert sorted(pricing.invoke(None, thread("e"))["results"]) == ["credit", "rates"]

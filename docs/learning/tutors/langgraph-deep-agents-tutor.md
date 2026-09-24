@@ -88,9 +88,13 @@ supervisor-design side.
   When one node fails in a super-step, "LangGraph stores pending checkpoint
   writes from any other nodes that completed successfully", so resuming
   does not re-run them. And the `durability` setting decides when state is
-  written: `exit` "only when graph execution exits", `async` "while the next
+  written: `exit` "only when graph execution exits — successfully, with an
+  error, or due to a human-in-the-loop interrupt", `async` "while the next
   step executes", `sync` "before the next step starts"
   ([checkpointers](https://docs.langchain.com/oss/python/langgraph/checkpointers)).
+  So under `exit`, a node that raises or a run that pauses is still saved
+  and can be resumed. What `exit` loses is a process that dies mid-run,
+  killed or out of memory, because it never reaches the exit.
 - **Resuming an interrupt re-runs the node.** "The runtime restarts the
   entire node from the beginning—it does not resume from the exact line
   where interrupt was called", so side effects before `interrupt()` should
@@ -176,9 +180,10 @@ by a test in `tests/unit/agents/test_graph_mechanics.py`:
 | Mechanic | What the test shows |
 |---|---|
 | Streaming | `test_updates_mode_streams_each_write_and_values_mode_the_full_state`; `test_custom_mode_streams_what_a_node_emits_through_the_stream_writer`; `test_subgraph_output_is_namespaced_only_when_asked` |
+| Subgraphs | `test_subgraph_output_is_namespaced_only_when_asked` (shared keys: added directly as a node); `test_a_subgraph_with_a_different_schema_is_called_from_a_node` (different schemas: called from a node, state mapped in and out) |
 | `Send` fan-out | `test_send_fans_out_one_task_per_item_in_one_super_step`; `test_concurrent_writes_without_a_reducer_raise_rather_than_pick_one` |
 | Time travel | `test_replay_skips_nodes_before_the_checkpoint_and_reruns_those_after` (the pipeline's `load` runs once, `price` and `report` twice); `test_update_state_forks_instead_of_rewriting_history` |
-| Durable execution | `test_a_resumed_node_reruns_from_its_first_line` (the desk is notified twice); `test_a_failed_parallel_branch_resumes_without_rerunning_its_sibling`; `test_exit_durability_keeps_no_intermediate_checkpoints` (one checkpoint instead of five) |
+| Durable execution | `test_a_resumed_node_reruns_from_its_first_line` (the desk is notified twice); `test_a_failed_parallel_branch_resumes_without_rerunning_its_sibling`; `test_exit_durability_keeps_no_intermediate_checkpoints` (one checkpoint instead of five); `test_exit_durability_still_persists_at_an_interrupt_and_an_error` |
 
 The resumed-node test is the one to remember. Deep Agents' `interrupt_on`
 pauses inside a node too, so the same rule applies to the Portfolio
@@ -253,9 +258,10 @@ resume.
   make it idempotent.
 - **Expecting `update_state` to rewrite history.** It forks. The original
   checkpoints stay, and the next run continues from the fork.
-- **`exit` durability on a long run.** It is the fastest mode, and a crash
-  mid-run leaves nothing to resume from. Use it only where a rerun from the
-  start is acceptable.
+- **`exit` durability on a long run.** It is the fastest mode, and it still
+  saves a run that raises or pauses. But a process that is killed mid-run
+  never reaches the exit and leaves nothing to resume from. Use it only
+  where a rerun from the start is acceptable after that.
 - **A fan-out without a reducer.** Branches in one super-step that write the
   same key raise `InvalidUpdateError`. Give the key a reducer.
 

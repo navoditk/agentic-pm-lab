@@ -24,9 +24,10 @@ tests/unit/agents/test_graph_mechanics.py:
   anything before the interrupt must be idempotent.
 - When one parallel node fails, the writes of the nodes that succeeded in
   that super-step are kept, and resuming re-runs only the failed one.
-- Durability `exit` persists only when the run ends, so a crash mid-run
-  leaves no intermediate checkpoint to resume from; `sync` and `async`
-  persist every step.
+- Durability `exit` persists only when the run exits, which includes an
+  exception and an interrupt, so those runs still resume; it keeps no
+  intermediate checkpoints, so a process killed mid-run has nothing to
+  resume from. `sync` and `async` persist every step.
 """
 
 from __future__ import annotations
@@ -113,6 +114,34 @@ def desk_graph():
     desk.add_edge(START, "limits")
     desk.add_edge("limits", END)
     return desk.compile()
+
+
+class BookState(TypedDict):
+    position_mm: float
+    capped_mm: float
+
+
+def book_graph():
+    """The same limits subgraph under a parent with a different schema.
+
+    With no shared keys it cannot be added directly, so a node calls it and
+    maps state in (`position_mm` -> `exposure`) and back out.
+    """
+    limits = StateGraph(DeskState)
+    limits.add_node("cap", lambda s: {"exposure": min(s["exposure"], 100.0)})
+    limits.add_edge(START, "cap")
+    limits.add_edge("cap", END)
+    compiled = limits.compile()
+
+    def apply_limits(state: dict) -> dict:
+        result = compiled.invoke({"exposure": state["position_mm"]})
+        return {"capped_mm": result["exposure"]}
+
+    book = StateGraph(BookState)
+    book.add_node("apply_limits", apply_limits)
+    book.add_edge(START, "apply_limits")
+    book.add_edge("apply_limits", END)
+    return book.compile()
 
 
 # --- time travel ------------------------------------------------------------------
