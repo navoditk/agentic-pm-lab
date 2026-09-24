@@ -40,6 +40,7 @@ from typing import Any
 import boto3
 from botocore.exceptions import ClientError
 from opentelemetry import trace
+from opentelemetry.trace import SpanKind
 
 from src.foundations.agent_loop import ModelTurn, ToolCall
 
@@ -159,6 +160,10 @@ def with_retries[T](
 
 class ConverseModel:
     """A Bedrock model behind the Agent foundations loop's model interface."""
+
+    # A call to a model in another process: a CLIENT span, per the GenAI
+    # semantic conventions.
+    span_kind = SpanKind.CLIENT
 
     def __init__(
         self,

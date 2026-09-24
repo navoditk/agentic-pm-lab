@@ -506,6 +506,78 @@ sources:
     impacts:
       - topic: langgraph-deep-agents-tutor
         assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: otel-traces-concepts
+    title: "OpenTelemetry: traces, spans, and span events"
+    url: https://opentelemetry.io/docs/concepts/signals/traces/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-metrics-data-model
+    title: "OpenTelemetry specification: metrics data model and exemplars"
+    url: https://opentelemetry.io/docs/specs/otel/metrics/data-model/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-collector-configuration
+    title: "OpenTelemetry Collector: configuration and pipelines"
+    url: https://opentelemetry.io/docs/collector/configuration/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-genai-agent-spans
+    title: "OpenTelemetry GenAI semantic conventions: agent and tool spans"
+    url: https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-metrics-concepts
+    title: "OpenTelemetry: metrics and instruments"
+    url: https://opentelemetry.io/docs/concepts/signals/metrics/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-trace-sdk
+    title: "OpenTelemetry specification: trace SDK and samplers"
+    url: https://opentelemetry.io/docs/specs/otel/trace/sdk/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
   - id: aws-bedrock-tool-use
     title: "Amazon Bedrock: client-side tool use"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html
