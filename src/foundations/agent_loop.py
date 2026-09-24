@@ -42,6 +42,7 @@ from opentelemetry.trace import Status, StatusCode
 
 from src.analytics.curves import interpolate_curve
 from src.control.audit import current_trace_id, record_audit_event
+from src.observability.telemetry import configure_telemetry
 
 tracer = trace.get_tracer(__name__)
 AGENT_NAME = "foundations-agent"
@@ -144,8 +145,10 @@ def governed_call(
     """
     with tracer.start_as_current_span(f"execute_tool {name}") as span:
         span.set_attribute("gen_ai.operation.name", "execute_tool")
-        span.set_attribute("gen_ai.tool.name", name)
-        span.set_attribute("gen_ai.tool.call.id", call_id)
+        # str(): a malformed call can arrive without a name or id, and OTel
+        # silently drops a None attribute, which would hide it from the trace.
+        span.set_attribute("gen_ai.tool.name", str(name))
+        span.set_attribute("gen_ai.tool.call.id", str(call_id))
         span.set_attribute("gen_ai.tool.type", "function")
         if name not in known or name not in allowed:
             # Complete mediation: checked in code on every call, whatever the
@@ -194,6 +197,11 @@ def run_agent(
     role: str = "RESEARCH_USER",
 ) -> RunResult:
     """Run the loop until the model answers or `max_steps` model calls pass."""
+    # Install the tracer provider before the first span. Without this, a fresh
+    # process opens the run span on OpenTelemetry's no-op provider (no trace
+    # id), and the first audit call then configures telemetry and starts an
+    # unrelated trace, so the run and its audit records no longer share an id.
+    configure_telemetry()
     by_name = {tool.name: tool for tool in tools}
     # Least privilege in what the model is shown, not only in what runs.
     visible = [tool.spec() for tool in tools if tool.name in allowed_tools]

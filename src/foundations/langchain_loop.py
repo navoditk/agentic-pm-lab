@@ -43,6 +43,7 @@ from src.foundations.agent_loop import (
     governed_call,
     tracer,
 )
+from src.observability.telemetry import configure_telemetry
 
 
 @tool
@@ -118,6 +119,7 @@ def run_langchain_agent(
     identity: str = "learner",
     role: str = "RESEARCH_USER",
 ) -> RunResult:
+    configure_telemetry()  # before the first span; see run_agent()
     by_name = {t.name: t for t in tools}
     bound = model.bind_tools([t for t in tools if t.name in allowed_tools])
     messages: list[BaseMessage] = [HumanMessage(question)]

@@ -187,3 +187,82 @@ def test_every_audit_record_carries_the_runs_trace_id(audit_log):
     written = [json.loads(line) for line in audit_log.read_text().splitlines()]
     assert {r["trace_id"] for r in written} == {result.trace_id}
     assert [r["decision"] for r in written] == ["allowed", "denied"]
+    # Decisions only: no prompt, message, or argument content reaches the log.
+    for record in written:
+        assert not {"prompt", "messages", "arguments", "content"} & set(record)
+
+
+# --- regressions found in review ---------------------------------------------------
+
+
+@pytest.mark.parametrize("loop", ["agent_loop", "langchain_loop"])
+def test_a_fresh_process_run_shares_one_trace_id_with_its_audit(loop, tmp_path):
+    """Run in a new interpreter: in-process tests inherit telemetry that an
+    earlier test configured, which is exactly what hid this bug. The run's
+    trace id was None while its audit record carried an unrelated id."""
+    import subprocess
+    import sys
+
+    program = {
+        "agent_loop": (
+            "from src.foundations.agent_loop import *\n"
+            "r = run_agent('q', ScriptedModel([ModelTurn(tool_calls=(ToolCall("
+            "'c1', 'place_order', '{}'),)), ModelTurn(text='no')]), demo_tools(),"
+            " allowed_tools={'interpolate_yield'}, audit_log=LOG)\n"
+        ),
+        "langchain_loop": (
+            "from langchain_core.messages import AIMessage\n"
+            "from src.foundations.langchain_loop import *\n"
+            "m = ScriptedToolModel(messages=iter([AIMessage(content='', tool_calls="
+            "[{'name': 'place_order', 'args': {}, 'id': 'c1'}]), AIMessage(content='no')]))\n"
+            "r = run_langchain_agent('q', m, [interpolate_yield, place_order],"
+            " allowed_tools={'interpolate_yield'}, audit_log=LOG)\n"
+        ),
+    }[loop]
+    script = (
+        "from pathlib import Path\n"
+        f"LOG = Path({str(tmp_path / 'audit.jsonl')!r})\n"
+        + program
+        + "print(r.trace_id, r.audit[0]['trace_id'])\n"
+    )
+    out = subprocess.run(
+        [sys.executable, "-c", script], capture_output=True, text=True, check=True
+    ).stdout.split()
+    run_id, audit_id = out[-2], out[-1]
+    assert run_id != "None" and len(run_id) == 32
+    assert audit_id == run_id
+
+
+def test_refused_and_failed_tool_calls_mark_their_spans_as_errors(spans, audit_log):
+    """What the failure lab asks the learner to predict: the span status."""
+    from opentelemetry.trace import StatusCode
+
+    spans.clear()
+    run(
+        [
+            call("place_order", '{"ticker": "X", "quantity": 1}', "c1"),
+            call("interpolate_yield", "{not json", "c2"),
+            call("interpolate_yield", '{"target_tenor_years": 3}', "c3"),
+            ModelTurn(text="done"),
+        ],
+        audit_log,
+    )
+    tool_spans = {
+        s.attributes["gen_ai.tool.call.id"]: s
+        for s in spans.get_finished_spans()
+        if s.name.startswith("execute_tool")
+    }
+    assert tool_spans["c1"].status.status_code is StatusCode.ERROR  # refused
+    assert tool_spans["c1"].status.description == "not permitted"
+    assert tool_spans["c2"].status.status_code is StatusCode.ERROR  # malformed
+    assert tool_spans["c2"].status.description == "JSONDecodeError"
+    assert tool_spans["c3"].status.status_code is not StatusCode.ERROR  # succeeded
+
+
+def test_a_tool_call_without_a_name_is_still_visible_on_its_span(spans, audit_log):
+    spans.clear()
+    run([call(None, "{}", "c1"), ModelTurn(text="ok")], audit_log)
+    tool = next(
+        s for s in spans.get_finished_spans() if s.name.startswith("execute_tool")
+    )
+    assert tool.attributes["gen_ai.tool.name"] == "None"

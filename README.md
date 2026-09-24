@@ -13,7 +13,7 @@ executor, or production deployment.
 ## Start here
 
 Three routes in, depending on what you have. All three teach the same
-fifteen courses from the same canonical sources.
+courses from the same canonical sources.
 
 **1. Nothing installed, or you cannot clone the repository.** Read the full
 interactive curriculum in a browser — every course, quiz, and reference,
@@ -139,7 +139,7 @@ repository currently provides:
 | Observability | OpenTelemetry traces *and* metrics as separate signals: spans carrying token, latency, retry, tool and estimated-cost attributes, plus counters and histograms for agent runs, tool calls, tokens, cost, retries and authorization denials; W3C context propagation across process boundaries; parent-based head sampling; structured fixture execution envelopes |
 | Interfaces | Four Canvas projects, MCP adapter, FastAPI API, Streamlit tutor UI, and approval-only scheduled review workflow |
 | AWS | AgentCore Runtime entrypoint and runbooks; live temporary Runtime, Memory, standalone Guardrails, and on-demand Evaluation evidence |
-| Learning | Fourteen tutor topics, deep-dive companions, 20–30-question quizzes, learner-progress tracking, source catalog, and no-cost exercises |
+| Learning | Tutor courses in three modules, deep-dive companions, 20–35-question quizzes with concept, implementation, and transfer tiers, learner-progress tracking, source catalog, and no-cost exercises |
 
 Run the local verification yourself — this is the same gate set CI runs, so a
 green result here means a green pull request:
@@ -191,7 +191,7 @@ calculation, reasoning, policy, evidence, and human decision-making.
 
 ## The learning path
 
-Fifteen courses in three modules. **Agent core** is the required path through
+The courses come in three modules. **Agent core** is the required path through
 agentic AI; **Finance domain** applies it to investing and is optional, as are
 the **Platforms** courses, which you pick by stack. `agentic-pm-lab learn`
 prints the same list.
@@ -233,7 +233,7 @@ Every course carries the same structure, whichever route you took above:
 |---|---|
 | Persona and deep dive | A compact orientation, then a repository-grounded walkthrough of the real code |
 | Objectives and lessons | What you should be able to do, and the sequence to get there |
-| Quiz | 20–30 deterministic questions, each citing a real repository file |
+| Quiz | 20–35 deterministic questions, each citing a repository file or a registered external source |
 | Local lab | Trace working code and perturb it |
 | Failure lab | Break it deliberately and explain the safe result |
 | Build lab | Write code yourself; the tutor reviews but never writes it for you |

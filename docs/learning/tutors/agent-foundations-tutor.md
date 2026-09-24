@@ -64,7 +64,8 @@ and see exactly what the framework does for you.
 
 ### Part 1: the loop by hand
 
-`src/foundations/agent_loop.py` is about 150 lines of logic. `Tool` pairs a
+`src/foundations/agent_loop.py` is one file of about 250 lines, much of it
+explanation. `Tool` pairs a
 hand-written JSON Schema with a function, and `Tool.spec()` is all the model
 ever sees. `ScriptedModel` stands in for an LLM: it replays planned turns and
 records what it was shown, so tests can check the model's view.
@@ -111,7 +112,7 @@ line, and each has its own course later in Agent core.
 | Thread | In the loop | Evidence |
 |---|---|---|
 | **Observability** | One `invoke_agent` span per run, a `chat` span per model call, and an `execute_tool {name}` span per tool call, named by the [OpenTelemetry GenAI conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md) (status: Development). The real `interpolate_curve` tool's own span nests under the tool span. | `test_spans_follow_the_genai_conventions_and_nest_under_the_run` |
-| **Traceability** | Audit records are written inside the run's span, and `record_audit_event` stamps the active trace id, so one id links the run, its spans, and every decision. This is the [W3C Trace Context](https://www.w3.org/TR/trace-context/) idea: the trace-id identifies "the whole trace". | `test_every_audit_record_carries_the_runs_trace_id` |
+| **Traceability** | Audit records are written inside the run's span, and `record_audit_event` stamps the active trace id, so one id links the run, its spans, and every decision. This is the [W3C Trace Context](https://www.w3.org/TR/trace-context/) idea: the trace-id identifies "the whole trace". | `test_every_audit_record_carries_the_runs_trace_id`, and `test_a_fresh_process_run_shares_one_trace_id_with_its_audit` for a run in a new process |
 | **Governance** | Least privilege twice: the model is shown only allowed tools, and `governed_call()` checks the allowlist again on every call. That second check is OWASP's [complete mediation](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) against Excessive Agency: a hidden tool can still be requested, by a hallucination or an injected instruction. | `test_a_forbidden_tool_is_refused_in_code_even_when_requested` |
 | **Evaluation** | `src/foundations/grading.py` grades the outcome by default, as Anthropic's [agent evals guide](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) advises ("grade what the agent produced, not the path it took"), and checks the path only where it is a requirement: a forbidden tool never executed, a call budget, every record traceable. Grades are reported separately, never averaged. | `test_two_different_valid_paths_both_pass_the_outcome_grader` |
 

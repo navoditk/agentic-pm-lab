@@ -51,7 +51,7 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
    teach method behind those steps.
 
 5. **Take the quiz and record it.** `uv run agentic-pm-lab quiz <topic-id>`
-   asks 25–30 questions, each citing its source. Passing takes 80% overall
+   asks 20–35 questions, each citing its source. Passing takes 80% overall
    and 70% in each question tier (concept, implementation, transfer). Then
    `uv run agentic-pm-lab progress` updates
    [`LEARNER_PROGRESS.md`](LEARNER_PROGRESS.md), which tracks what *you*
