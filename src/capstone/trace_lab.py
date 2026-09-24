@@ -18,8 +18,11 @@ The pricing service stands in for a process boundary. It joins the trace
 only if the caller injects `traceparent` and the service extracts it. Run
 the decision with `propagate=False` and the service's span and audit record
 land in a different trace: they still exist, but nothing joins them to the
-decision, and `missing_hops()` names the gap. The acceptance test for the
-capstone is in tests/unit/capstone/test_trace_lab.py.
+decision, and `missing_hops()` names the gap. The tests in
+tests/unit/capstone/test_trace_lab.py are the capstone's acceptance test
+together: the full reconstruction shows every hop is found, and the gap test
+is what proves the search is by id, since a store that matched any id would
+find the orphaned pricing hop too.
 """
 
 from __future__ import annotations
@@ -158,6 +161,7 @@ def run_decision(stores: Stores, *, propagate: bool = True) -> str:
             {
                 "trace_id": current_trace_id(),
                 "grader": grade.name,
+                "must_contain": ["4.3%"],
                 "passed": grade.passed,
                 "versions": VERSIONS,
             },

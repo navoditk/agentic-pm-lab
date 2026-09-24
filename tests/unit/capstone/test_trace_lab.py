@@ -44,11 +44,19 @@ def test_a_fixture_decision_is_reconstructable_from_one_trace_id(stores):
     trace_id = run_decision(stores)
     record = reconstruct(trace_id, stores)
     assert missing_hops(record) == []
+    assert record["request"] == ["POST /decisions"]
+    assert record["agent"] == ["invoke_agent foundations-agent"]
     assert record["tool"] == ["execute_tool interpolate_yield"]
     assert [r["decision"] for r in record["policy"]] == ["allowed"]
     [evidence] = record["evidence"]
     assert evidence["series_id"] == "DGS5" and evidence["eligible"] is True
+    assert (evidence["vintage"], evidence["release_date"]) == (
+        "2026-08-31",
+        "2026-08-31",
+    )
     [evaluation] = record["evaluation"]
+    assert evaluation["grader"] == "outcome"
+    assert evaluation["must_contain"] == ["4.3%"]
     assert evaluation["passed"] is True
 
 

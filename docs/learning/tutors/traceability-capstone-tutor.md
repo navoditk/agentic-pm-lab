@@ -24,8 +24,26 @@ signals (traces, metrics, and logs) can be correlated with each other,
 regardless of where they are generated", and "the default propagator uses
 the headers specified by the W3C TraceContext specification"
 ([context propagation](https://opentelemetry.io/docs/concepts/context-propagation/)).
-W3C Trace Context defines the `traceparent` header whose trace-id identifies
-"the whole trace" ([Trace Context](https://www.w3.org/TR/trace-context/)).
+W3C Trace Context defines the `traceparent` header whose trace-id is "the
+ID of the whole trace forest" ([Trace Context](https://www.w3.org/TR/trace-context/)).
+
+### The traceparent header
+
+`traceparent` has four fields, and a reconstruction depends on two of them:
+
+- **trace-id** "uniquely identif[ies] a distributed trace through a system".
+  It is the id every store in this capstone is searched by.
+- **parent-id** is "the ID of this request as known by the caller (in some
+  tracing systems, this is known as the span-id)". It is how the receiving
+  service's span gets the caller's span as its parent.
+- **trace-flags** holds one flag in use, *sampled*: when set, "the caller
+  may have recorded trace data". It reports the caller's decision; a
+  `ParentBased` sampler chooses to follow it.
+- **version**, the format version.
+
+A second header, `tracestate`, lets vendors "extend traceparent with
+vendor-specific data represented by a set of name/value pairs". It is not a
+record of the trace and not an identity.
 
 ## Core concepts
 
@@ -42,8 +60,11 @@ W3C Trace Context defines the `traceparent` header whose trace-id identifies
   identity, on which resource, and under which trace id. Not the data
   itself: counts and identifiers, never holdings or prompts.
 - **Provenance.** Which source, which series, which vintage, released when,
-  and whether it was knowable at the decision date. A decision is only as
-  reconstructable as its evidence.
+  and whether it was knowable at the decision date. FRED's vintage dates are
+  "the dates in history when a series' data values were revised or new data
+  values were released" ([FRED API](https://fred.stlouisfed.org/docs/api/fred/)),
+  so a value re-fetched today may not be the value a decision saw. A
+  decision is only as reconstructable as its evidence.
 - **Lineage.** The chain from inputs through each transformation to the
   output. In an agent, the trace is the lineage of one decision: the tool
   calls are the transformations, and the evidence records are the inputs.
