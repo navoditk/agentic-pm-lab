@@ -70,7 +70,10 @@ when the tool has one.
 in-process session with the SDK's `Client`; `call()` returns whether the
 result had `isError`; and `mcp_tools_for_loop()` discovers the server's tools
 and wraps each as an Agent foundations `Tool`. Each wrapped call opens its own
-short session, which is safe precisely because the protocol is stateless.
+short session. That is safe because nothing carries over between calls:
+the stateless protocol forbids relying on earlier requests, and under the
+legacy handshake each new session initializes itself, so it works in both
+modes.
 
 The result is **two layers of governance on one call**:
 

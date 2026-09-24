@@ -53,6 +53,16 @@ def test_the_client_negotiates_the_stateless_or_the_handshake_protocol(mode, ver
     assert run(version_of()) == version
 
 
+@pytest.mark.parametrize("mode", ["auto", "legacy"])
+def test_a_fresh_session_per_call_works_in_either_protocol_mode(mode):
+    """mcp_tools_for_loop opens a new session for every call. Nothing carries
+    over between calls, so this works with the stateless protocol and with
+    the legacy handshake, where each new session initializes itself."""
+    tools = {t.name: t for t in mcp_tools_for_loop("PM_USER", mode=mode)}
+    curve = tools["interpolate_curve"].function
+    assert [curve(**CURVE_ARGS) for _ in range(2)] == ["4.5", "4.5"]
+
+
 def test_tools_list_returns_the_shared_contracts_as_input_schemas():
     async def listed():
         async with connect() as client:

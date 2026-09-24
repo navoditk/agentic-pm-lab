@@ -102,8 +102,10 @@ def mcp_tools_for_loop(
     """Discover tools over MCP and wrap each for the Agent foundations loop.
 
     The loop is synchronous, so each call opens its own short session. That
-    is safe precisely because the protocol is stateless: no call depends on a
-    previous one over the same connection.
+    is safe because nothing carries over between calls: under 2026-07-28 no
+    request may rely on earlier ones over the same connection, and under the
+    legacy handshake each new session initializes itself. It works in both
+    modes; see `test_a_fresh_session_per_call_works_in_either_protocol_mode`.
     """
 
     async def discover() -> list[Any]:
