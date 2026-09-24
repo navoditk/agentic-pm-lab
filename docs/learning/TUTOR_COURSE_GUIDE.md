@@ -93,14 +93,15 @@ After the last step, finish with the integrated fixture capstone in the
 | 10 | Finance domain (optional) | [Data provenance and research quality](tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
 | 11 | Finance domain (optional) | [Public investment data](tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
 | 12 | Finance domain (optional) | [Investment committee challenge](tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
-| 13 | Platforms (optional) | [AWS Bedrock AgentCore](tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
-| 14 | Platforms (optional) | [Copilot Canvas](tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
-| 15 | Platforms (optional) | [Agent development lifecycle](tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
-| 16 | Platforms (optional) | [Document-to-skill pipeline](tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
+| 13 | Platforms (optional) | [AWS Bedrock](tutors/aws-bedrock-tutor.md) | `aws-bedrock-tutor` | ~4 |
+| 14 | Platforms (optional) | [AWS Bedrock AgentCore](tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
+| 15 | Platforms (optional) | [Copilot Canvas](tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
+| 16 | Platforms (optional) | [Agent development lifecycle](tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
+| 17 | Platforms (optional) | [Document-to-skill pipeline](tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
 
 Only the Agent core module is required: about 32 hours. The other
 modules are optional; take Finance domain to apply the core to investing, and
-the Platforms courses for the tools you use. About 63 hours for everything.
+the Platforms courses for the tools you use. About 67 hours for everything.
 Hours are rough estimates covering the deep dive, the three labs, the quiz,
 and the teach-back. Each course lists its own prerequisites, so an
 experienced learner can start anywhere.

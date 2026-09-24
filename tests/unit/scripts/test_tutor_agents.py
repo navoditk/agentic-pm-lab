@@ -7,6 +7,7 @@ TUTORS = (
     "agent-architecture-tutor",
     "langgraph-deep-agents-tutor",
     "mcp-tutor",
+    "aws-bedrock-tutor",
     "aws-agentcore-tutor",
     "data-provenance-research-tutor",
     "evaluation-agentops-tutor",

@@ -124,6 +124,19 @@ version 2026-07-28, page by page. Each page is registered in
 - Anthropic, [MCP documentation](https://docs.anthropic.com/en/docs/mcp) — protocol concepts and how MCP connects models to tools and context
 
 ### AWS Bedrock & AgentCore
+
+The [AWS Bedrock course](../learning/tutors/aws-bedrock-tutor.md) cites these
+AWS user guide pages, each registered in
+[`source-registry.yaml`](source-registry.yaml):
+[Converse](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html),
+[client-side tool use](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html),
+[inference profiles](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles.html) and their
+[IAM prerequisites](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-prereq.html),
+[prompt caching](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html),
+[ApplyGuardrail](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-use-independent-api.html),
+[API error codes](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html), and
+[Knowledge Bases](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html).
+
 - Main [AgentCore documentation hub](https://docs.aws.amazon.com/bedrock-agentcore/)
 - [CLI quickstart](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-get-started-cli.html)
 - Runtime deployment methods — direct code deployment (Python) vs. container-based (Dockerfile → ECR), the choice made explicit in Day 12: [Runtime getting started](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-getting-started.html)

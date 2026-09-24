@@ -360,6 +360,8 @@ sources:
         assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
       - topic: mcp-tutor
         assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
   - id: mcp-spec
     title: "MCP specification (overview)"
     url: https://modelcontextprotocol.io/specification/latest
@@ -420,3 +422,111 @@ sources:
     impacts:
       - topic: mcp-tutor
         assets: [docs/learning/tutors/mcp-tutor.md, agents/mcp-tutor.md, evals/tutor_quizzes/mcp-tutor.jsonl]
+  - id: aws-bedrock-converse
+    title: "Amazon Bedrock: Converse API"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-tool-use
+    title: "Amazon Bedrock: client-side tool use"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-inference-profiles
+    title: "Amazon Bedrock: inference profiles"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-inference-profiles-prereq
+    title: "Amazon Bedrock: inference profile prerequisites and IAM"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-prereq.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-prompt-caching
+    title: "Amazon Bedrock: prompt caching"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-guardrails-api
+    title: "Amazon Bedrock: ApplyGuardrail API"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-use-independent-api.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-error-codes
+    title: "Amazon Bedrock: API error codes"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-tool-use-modes
+    title: "Amazon Bedrock: tool use modes (client-side and server-side)"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-knowledge-bases
+    title: "Amazon Bedrock: Knowledge Bases"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-23
+    last_reviewed: 2026-09-23
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]

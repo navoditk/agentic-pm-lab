@@ -108,6 +108,13 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#tutor-agent-study-map",
         "deep_dive": "docs/learning/tutors/investment-committee-tutor.md",
     },
+    "aws-bedrock-tutor": {
+        "label": "AWS Bedrock",
+        "agent_file": "agents/aws-bedrock-tutor.md",
+        "quiz_file": "evals/tutor_quizzes/aws-bedrock-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#aws-bedrock--agentcore",
+        "deep_dive": "docs/learning/tutors/aws-bedrock-tutor.md",
+    },
     "aws-agentcore-tutor": {
         "label": "AWS Bedrock AgentCore",
         "agent_file": "agents/aws-agentcore-tutor.md",
