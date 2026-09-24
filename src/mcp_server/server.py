@@ -327,7 +327,7 @@ def _mcp_handler(spec: MCPToolSpec, authenticated_identity: str | None):
     exec(source, namespace)  # noqa: S102 - names originate in checked-in JSON contracts.
     handler = namespace["handler"]
     handler.__name__ = spec.name
-    handler.__doc__ = f"Governed MCP capability for {spec.name}; identity comes from request metadata."
+    handler.__doc__ = f"Governed MCP capability for {spec.name}; identity is the one this server was started with."
     return handler
 
 
