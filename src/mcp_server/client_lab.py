@@ -24,9 +24,11 @@ tests/unit/mcp_server/test_client_lab.py:
   result with `isError` set, which the model can see and act on.
 - W3C trace context crosses the boundary in `_meta` (`traceparent`), so the
   server's spans join the caller's trace.
-- Identity here travels as caller-supplied `_meta`. The specification says
-  self-reported metadata should not be relied on for security decisions; see
-  `test_identity_in_request_metadata_is_asserted_not_authenticated`.
+- Identity is bound when the server is created, the way the specification
+  says a stdio server takes credentials from its environment. A request that
+  claims a different identity in `_meta` is refused, because self-reported
+  metadata should not be relied on for security decisions; see
+  `test_a_claimed_identity_cannot_override_the_authenticated_one`.
 """
 
 from __future__ import annotations
@@ -59,21 +61,34 @@ class ToolOutcome:
 
 @asynccontextmanager
 async def connect(
-    server: MCPServer | None = None, *, mode: Mode = "auto"
+    server: MCPServer | None = None,
+    *,
+    identity: str | None = None,
+    mode: Mode = "auto",
 ) -> AsyncIterator[Client]:
-    """Open an in-process MCP session to the repository's server."""
-    async with Client(server or create_mcp_server(), mode=mode) as client:
+    """Open an in-process MCP session to the repository's server.
+
+    `identity` is who the server runs as, fixed when it is created: the
+    in-process stand-in for starting a stdio server with its identity in the
+    environment. It is not something the client can change per request.
+    """
+    async with Client(server or create_mcp_server(identity), mode=mode) as client:
         yield client
 
 
-def request_meta(identity: str, portfolio_id: str | None = None) -> dict[str, Any]:
-    """The metadata this repository's server reads identity from.
+def request_meta(
+    portfolio_id: str | None = None, *, claimed_identity: str | None = None
+) -> dict[str, Any]:
+    """Request metadata: the portfolio, and optionally an identity claim.
 
-    A local learning convention, not authentication: the caller asserts it.
+    A claim grants nothing. The server compares it with the identity it was
+    started as and refuses a mismatch.
     """
-    meta: dict[str, Any] = {"identity": identity}
+    meta: dict[str, Any] = {}
     if portfolio_id is not None:
         meta["portfolio_id"] = portfolio_id
+    if claimed_identity is not None:
+        meta["identity"] = claimed_identity
     return meta
 
 
@@ -82,11 +97,13 @@ async def call(
     tool: str,
     arguments: dict[str, Any],
     *,
-    identity: str,
     portfolio_id: str | None = None,
+    claimed_identity: str | None = None,
 ) -> ToolOutcome:
     result = await client.call_tool(
-        tool, arguments, meta=request_meta(identity, portfolio_id)
+        tool,
+        arguments,
+        meta=request_meta(portfolio_id, claimed_identity=claimed_identity),
     )
     text = "\n".join(getattr(item, "text", "") for item in result.content)
     return ToolOutcome(bool(result.is_error), text)
@@ -101,27 +118,24 @@ def mcp_tools_for_loop(
 ) -> list[Tool]:
     """Discover tools over MCP and wrap each for the Agent foundations loop.
 
-    The loop is synchronous, so each call opens its own short session. That
-    is safe because nothing carries over between calls: under 2026-07-28 no
-    request may rely on earlier ones over the same connection, and under the
-    legacy handshake each new session initializes itself. It works in both
-    modes; see `test_a_fresh_session_per_call_works_in_either_protocol_mode`.
+    `server_factory(identity)` builds a server bound to `identity`. The loop
+    is synchronous, so each call opens its own short session. That is safe
+    because nothing carries over between calls: under 2026-07-28 no request
+    may rely on earlier ones over the same connection, and under the legacy
+    handshake each new session initializes itself. It works in both modes;
+    see `test_a_fresh_session_per_call_works_in_either_protocol_mode`.
     """
 
     async def discover() -> list[Any]:
-        async with connect(server_factory(), mode=mode) as client:
+        async with connect(server_factory(identity), mode=mode) as client:
             return list((await client.list_tools()).tools)
 
     def make_function(name: str):
         def invoke(**arguments: Any) -> str:
             async def run() -> ToolOutcome:
-                async with connect(server_factory(), mode=mode) as client:
+                async with connect(server_factory(identity), mode=mode) as client:
                     return await call(
-                        client,
-                        name,
-                        arguments,
-                        identity=identity,
-                        portfolio_id=portfolio_id,
+                        client, name, arguments, portfolio_id=portfolio_id
                     )
 
             outcome = asyncio.run(run())

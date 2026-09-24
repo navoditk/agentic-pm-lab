@@ -1544,8 +1544,8 @@
       ]
     },
     "docs/architecture/ARCHITECTURE.md": {
-      "total_lines": 457,
-      "approx_tokens": 7542,
+      "total_lines": 472,
+      "approx_tokens": 7764,
       "sections": [
         {
           "id": "reading-guide",
@@ -1643,8 +1643,8 @@
           "level": 2,
           "file": "docs/architecture/ARCHITECTURE.md",
           "start_line": 375,
-          "end_line": 454,
-          "approx_tokens": 1163
+          "end_line": 469,
+          "approx_tokens": 1385
         },
         {
           "id": "trust-boundaries-and-identity-propagation",
@@ -1652,16 +1652,16 @@
           "level": 3,
           "file": "docs/architecture/ARCHITECTURE.md",
           "start_line": 377,
-          "end_line": 396,
-          "approx_tokens": 263
+          "end_line": 411,
+          "approx_tokens": 486
         },
         {
           "id": "four-independently-enforced-concerns",
           "title": "Four independently enforced concerns",
           "level": 3,
           "file": "docs/architecture/ARCHITECTURE.md",
-          "start_line": 397,
-          "end_line": 411,
+          "start_line": 412,
+          "end_line": 426,
           "approx_tokens": 341
         },
         {
@@ -1669,8 +1669,8 @@
           "title": "Threat model and tested negative paths",
           "level": 3,
           "file": "docs/architecture/ARCHITECTURE.md",
-          "start_line": 412,
-          "end_line": 423,
+          "start_line": 427,
+          "end_line": 438,
           "approx_tokens": 170
         },
         {
@@ -1678,8 +1678,8 @@
           "title": "Human approval, audit, and secrets",
           "level": 3,
           "file": "docs/architecture/ARCHITECTURE.md",
-          "start_line": 424,
-          "end_line": 441,
+          "start_line": 439,
+          "end_line": 456,
           "approx_tokens": 226
         },
         {
@@ -1687,8 +1687,8 @@
           "title": "Local controls versus AgentCore",
           "level": 3,
           "file": "docs/architecture/ARCHITECTURE.md",
-          "start_line": 442,
-          "end_line": 454,
+          "start_line": 457,
+          "end_line": 469,
           "approx_tokens": 155
         },
         {
@@ -1696,8 +1696,8 @@
           "title": "Repository layout",
           "level": 2,
           "file": "docs/architecture/ARCHITECTURE.md",
-          "start_line": 455,
-          "end_line": 457,
+          "start_line": 470,
+          "end_line": 472,
           "approx_tokens": 121
         }
       ]

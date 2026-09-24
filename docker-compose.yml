@@ -17,6 +17,10 @@ services:
       dockerfile: Dockerfile
     command: uv run python -m src.mcp_server.server
     env_file: .env
+    environment:
+      # The identity the server runs as, fixed at start (stdio servers take
+      # credentials from the environment). No default: it must be chosen.
+      AGENTIC_PM_LAB_MCP_IDENTITY: ${AGENTIC_PM_LAB_MCP_IDENTITY:?set the identity the MCP server runs as, e.g. PM_USER}
     stdin_open: true
     volumes:
       - .:/workspace

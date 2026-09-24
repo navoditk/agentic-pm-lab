@@ -2,14 +2,25 @@
 
 The MCP server is an adapter, not a second analytics implementation. Every
 handler delegates to ``src.analytics`` and loads the corresponding input
-contract from ``contracts/tools``. Identity and portfolio metadata travel in
-the MCP request context so callers cannot bypass the Day 7 Cedar checks by
-calling the MCP server directly.
+contract from ``contracts/tools``, and every call is re-checked with Cedar,
+so callers cannot bypass the Day 7 checks by calling the MCP server directly.
+
+**Identity is authenticated, not claimed.** The MCP specification says
+self-reported request metadata should not be relied on for security
+decisions, and that stdio servers take credentials from the environment. So a
+server is bound to one identity when it is created (``create_mcp_server(
+identity=...)``, or ``AGENTIC_PM_LAB_MCP_IDENTITY`` for the stdio entry
+point); a request that claims a different identity in ``_meta`` is refused,
+and a server with no identity refuses every call. Earlier versions read the
+identity from ``_meta`` and honoured whatever the caller claimed. The
+portfolio still comes from the request: it selects a resource, it is not a
+credential, and Cedar decides whether this identity may use it.
 """
 
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -224,7 +235,34 @@ def invoke_tool(
     return _call_analytics(spec, arguments)
 
 
+IDENTITY_ENV = "AGENTIC_PM_LAB_MCP_IDENTITY"
+
+
+def identity_from_environment(environ: dict[str, str] | None = None) -> str:
+    """The identity a stdio server runs as, fixed when the process starts.
+
+    Per the MCP specification, stdio servers retrieve credentials from the
+    environment rather than trusting what arrives in each request. Fails
+    closed: no identity, or one with no role, means the server does not start.
+    """
+    environ = os.environ if environ is None else environ
+    identity = environ.get(IDENTITY_ENV, "").strip()
+    if not identity:
+        raise SystemExit(
+            f"{IDENTITY_ENV} is not set; the MCP server will not start without "
+            "an authenticated identity"
+        )
+    if role_for_identity(identity) is None:
+        raise SystemExit(f"{IDENTITY_ENV}={identity!r} is not a known identity")
+    return identity
+
+
 def _metadata_from_context(context: Any) -> dict[str, Any]:
+    """Request metadata, used for the portfolio and to detect identity claims.
+
+    There is deliberately no header fallback for identity: an ``x-identity``
+    header is as self-reported as a ``_meta`` field.
+    """
     request_context = getattr(context, "request_context", None)
     metadata = getattr(request_context, "meta", None)
     if isinstance(metadata, dict):
@@ -232,14 +270,11 @@ def _metadata_from_context(context: Any) -> dict[str, Any]:
     request = getattr(request_context, "request", None)
     headers = getattr(request, "headers", None)
     if headers is not None:
-        return {
-            "identity": headers.get("x-identity"),
-            "portfolio_id": headers.get("x-portfolio-id"),
-        }
+        return {"portfolio_id": headers.get("x-portfolio-id")}
     return {}
 
 
-def _mcp_handler(spec: MCPToolSpec):
+def _mcp_handler(spec: MCPToolSpec, authenticated_identity: str | None):
     """Build a typed MCP callable whose generated schema has the right fields.
 
     The SDK validates arguments against the callable before executing it. A
@@ -255,13 +290,25 @@ def _mcp_handler(spec: MCPToolSpec):
             key: value for key, value in arguments.items() if value is not None
         }
         metadata = _metadata_from_context(context)
-        identity = metadata.get("identity")
-        if not isinstance(identity, str):
-            raise PermissionError("MCP request metadata must include identity")
+        if authenticated_identity is None:
+            _count_denial("unauthenticated", "unknown")
+            raise PermissionError(
+                "This MCP server has no authenticated identity; create it with "
+                f"identity=... or start it with {IDENTITY_ENV} set"
+            )
+        claimed = metadata.get("identity")
+        if claimed is not None and claimed != authenticated_identity:
+            # A claim is not a credential. Refuse rather than ignore, so a
+            # caller that expected to act as someone else finds out.
+            _count_denial("identity_claim_mismatch", "unknown")
+            raise PermissionError(
+                f"Claimed identity {claimed!r} does not match the authenticated "
+                "identity for this server"
+            )
         return invoke_tool(
             spec.name,
             arguments,
-            identity=identity,
+            identity=authenticated_identity,
             portfolio_id=metadata.get("portfolio_id"),
         )
 
@@ -280,12 +327,18 @@ def _mcp_handler(spec: MCPToolSpec):
     exec(source, namespace)  # noqa: S102 - names originate in checked-in JSON contracts.
     handler = namespace["handler"]
     handler.__name__ = spec.name
-    handler.__doc__ = f"Governed MCP capability for {spec.name}; identity comes from request metadata."
+    handler.__doc__ = f"Governed MCP capability for {spec.name}; identity is the one this server was started with."
     return handler
 
 
-def create_mcp_server() -> MCPServer:
-    """Create the MCP server with contract-backed input schemas."""
+def create_mcp_server(identity: str | None = None) -> MCPServer:
+    """Create the MCP server with contract-backed input schemas.
+
+    `identity` is the authenticated identity every call runs as. Without one
+    the server still lists its tools, but refuses every call.
+    """
+    if identity is not None and role_for_identity(identity) is None:
+        raise ValueError(f"Unknown identity: {identity}")
 
     server = MCPServer(
         name="agentic-pm-lab-tool-layer",
@@ -293,7 +346,9 @@ def create_mcp_server() -> MCPServer:
         description="Governed MCP adapter for deterministic PM analytics.",
     )
     for spec in MCP_TOOL_SPECS:
-        server.add_tool(_mcp_handler(spec), name=spec.name, description=spec.name)
+        server.add_tool(
+            _mcp_handler(spec, identity), name=spec.name, description=spec.name
+        )
         # MCP SDK 2.x generates schemas from Python annotations. The project
         # contracts are stricter and already validated by FastAPI, so replace
         # the generated schema at registration with the exact shared contract.
@@ -305,9 +360,9 @@ def create_mcp_server() -> MCPServer:
 
 
 def main() -> None:
-    """Run the server over stdio for local MCP clients."""
+    """Run the server over stdio as the identity set in the environment."""
 
-    create_mcp_server().run(transport="stdio")
+    create_mcp_server(identity_from_environment()).run(transport="stdio")
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -108,7 +108,7 @@ If Docker is unavailable, start individual services:
 ```bash
 uv run uvicorn src.api.main:app --reload
 uv run python scripts/artifacts_host.py
-uv run python -m src.mcp_server.server
+AGENTIC_PM_LAB_MCP_IDENTITY=PM_USER uv run python -m src.mcp_server.server  # runs as one identity
 uv run streamlit run src/ui/app.py
 ```
 

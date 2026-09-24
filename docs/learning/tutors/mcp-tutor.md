@@ -62,9 +62,10 @@ stop.
 `src/mcp_server/server.py` is the server. `create_mcp_server()` registers each
 tool and replaces the schema the SDK generated from Python annotations with
 the shared contract from `contracts/tools/`, so FastAPI, MCP, and the tests
-agree on one wire schema. Every call goes through `invoke_tool()`, which maps
-the identity to a role, checks the tool with Cedar, and checks the portfolio
-when the tool has one.
+agree on one wire schema. The server is bound to one identity when it is
+created, and every call goes through `invoke_tool()` as that identity, which
+maps it to a role, checks the tool with Cedar, and checks the portfolio when
+the tool has one.
 
 `src/mcp_server/client_lab.py` is the client. `connect()` opens a real,
 in-process session with the SDK's `Client`; `call()` returns whether the
@@ -96,16 +97,33 @@ The pinned SDK (mcp 2.0.0) returns a call to an unknown tool as a result with
 behaviour. The lesson generalises: read the specification, then test what
 your implementation does.
 
-### A limitation, taught rather than hidden
+### Authentication: from a claim to a bound identity
 
-This learning server reads the caller's identity from `_meta`, where the
-caller puts it. Cedar authorizes that identity correctly: `PM_USER` is refused
-`PORT_B`. But nothing verifies who the caller is, so a caller who *claims*
-`RISK_USER` can read `PORT_B`.
-`test_identity_in_request_metadata_is_asserted_not_authenticated` proves it.
-Authorization is enforced; authentication is only asserted. The build lab
-fixes it for stdio, the way the specification describes: take identity from
-the environment the server was started with.
+Earlier versions of this server read the caller's identity from `_meta`,
+where the caller puts it. Cedar authorized that identity correctly, but
+nothing verified who the caller was, so a caller who *claimed* `RISK_USER`
+could read `PORT_B`. Authorization was enforced; authentication was only
+asserted.
+
+The fix follows the specification. A stdio server takes credentials from the
+environment, so the server is now bound to one identity when it starts:
+`AGENTIC_PM_LAB_MCP_IDENTITY` for `python -m src.mcp_server.server`, or
+`create_mcp_server(identity=...)` in process. `identity_from_environment()`
+fails closed: no identity, or an unknown one, and the server does not start.
+A request whose `_meta` claims a *different* identity is refused rather than
+ignored, so a caller who expected to act as someone else finds out; an
+unbound server refuses every call. The portfolio still comes from the
+request, because it selects a resource rather than proving who is asking,
+and Cedar decides whether this identity may use it.
+
+`test_a_claimed_identity_cannot_override_the_authenticated_one` pins the
+refusal, and `test_authorization_follows_the_authenticated_identity` shows
+Cedar still deciding: bound to `RISK_USER`, the same request is allowed.
+
+For Streamable HTTP, the equivalent is the
+[Authorization framework](https://modelcontextprotocol.io/specification/latest/basic/authorization):
+a token issued for this server, validated on every request, never passed
+through. That is this course's build lab.
 
 ## The four threads across the boundary
 
@@ -113,7 +131,7 @@ the environment the server was started with.
 |---|---|---|
 | **Observability** | The SDK's server span, `tools/call {tool}`, carries `gen_ai.tool.name`, the same convention as the loop's `execute_tool` span. | `test_trace_context_crosses_the_mcp_boundary` |
 | **Traceability** | The SDK carries `traceparent` in `_meta`, so the server's authorization and analytics spans join the caller's trace; the client audit record carries the same id. | `test_trace_context_crosses_the_mcp_boundary`, `test_the_agent_loop_governs_mcp_tools_on_both_sides` |
-| **Governance** | Client allowlist and server Cedar check, independently; untrusted descriptions grant nothing; missing identity fails closed; claimed identity is not authentication. | `test_a_poisoned_tool_description_grants_nothing`, `test_a_request_with_no_identity_is_refused` |
+| **Governance** | Client allowlist and server Cedar check, independently; untrusted descriptions grant nothing; the server's identity is bound at start and a different claim is refused; an unbound server fails closed. | `test_a_poisoned_tool_description_grants_nothing`, `test_a_claimed_identity_cannot_override_the_authenticated_one`, `test_a_server_with_no_authenticated_identity_refuses_every_call` |
 | **Evaluation** | Grade the outcome of an MCP-backed run as in Agent foundations, and require the one path property that matters here: a refusal reached the model as an `isError` result. | `src/foundations/grading.py` |
 
 ## Worked walkthrough
@@ -126,8 +144,9 @@ the environment the server was started with.
    Explain what the server learns, and when, in each mode.
 3. Read the three error tests. For each, say whether the specification calls
    it a protocol error or a tool execution error, and what the model sees.
-4. Read `test_identity_in_request_metadata_is_asserted_not_authenticated`.
-   Write down the one line in `server.py` that makes the spoof possible.
+4. Read `test_a_claimed_identity_cannot_override_the_authenticated_one` and
+   `identity_from_environment()`. Explain why the server refuses a mismatched
+   claim instead of silently ignoring it.
 5. Read `test_the_agent_loop_governs_mcp_tools_on_both_sides` and draw both
    governance layers, marking which one refused each call.
 6. Read `test_a_poisoned_tool_description_grants_nothing`. Rewrite the
@@ -137,8 +156,9 @@ the environment the server was started with.
 ## Common pitfalls
 
 - **Trusting what the caller says about itself.** Identity in `_meta`,
-  `clientInfo`, or a role string is a claim. Authenticate it, or do not use it
-  for authorization.
+  `clientInfo`, a header, or a role string is a claim. This server used to
+  honour one; bind identity when the server starts, or verify a token, and
+  never authorize on a claim.
 - **Trusting what the server says about itself.** Tool descriptions and
   annotations are untrusted unless the server is trusted; they must never
   decide what is allowed.
