@@ -53,5 +53,10 @@ jobs:
       - name: Documentation links and anchors
         run: uv run python scripts/check_doc_links.py
 
+      - name: Set up Node (the page quiz test runs its script)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Test (pytest)
         run: uv run pytest

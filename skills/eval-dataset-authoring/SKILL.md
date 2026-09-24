@@ -5,7 +5,7 @@ license: MIT
 covers:
   - evals
   - scripts/run_eval.py
-last_verified_commit: 9cfe1c8dafcd2f207214036b2f37eda15e4f1931
+last_verified_commit: e0d5b3c406676b92ba11197dc3c80ea4a60b19e3
 ---
 
 # eval-dataset-authoring
@@ -22,7 +22,8 @@ stale; that is the freshness check being coarse, not a signal that this
 checklist was violated. The quiz-bank rules are enforced by
 `scripts/check_quiz_banks.py` and explained in
 `docs/learning/FOUNDATIONS_MASTERY_PLAN.md` section 4: balanced answer
-positions, no repeated questions, citations that resolve, and a registered
+positions, answers that are not usually the longest choice, no repeated
+questions, citations that resolve, and a registered
 source for every concept question.
 
 ## Golden-case checklist
