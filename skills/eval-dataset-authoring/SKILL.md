@@ -5,7 +5,7 @@ license: MIT
 covers:
   - evals
   - scripts/run_eval.py
-last_verified_commit: e0d5b3c406676b92ba11197dc3c80ea4a60b19e3
+last_verified_commit: 134e003528b136c0aa390fa1187b3bfa8960d3e9
 ---
 
 # eval-dataset-authoring
