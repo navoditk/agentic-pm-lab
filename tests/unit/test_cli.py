@@ -18,7 +18,9 @@ from src.agentic_pm_lab import (
     build_parser,
     cmd_course,
     cmd_learn,
+    cmd_placement,
     cmd_plan,
+    cmd_review,
 )
 from src.education.tutor import TOPIC_CATALOG
 
@@ -31,7 +33,8 @@ def parse(argv):
 
 
 @pytest.mark.parametrize(
-    "command", ["learn", "course", "quiz", "progress", "plan", "check"]
+    "command",
+    ["learn", "course", "placement", "quiz", "review", "progress", "plan", "check"],
 )
 def test_every_advertised_command_parses(command):
     """The overview text promises these; a promise with no parser is a 404."""
@@ -160,3 +163,34 @@ def test_check_covers_the_suites_root_pytest_excludes():
 def test_fast_is_a_strict_subset_of_the_full_gate_set():
     assert CHECKS[:3] != CHECKS
     assert all(check in CHECKS for check in CHECKS[:3])
+
+
+# --- placement and review record nothing ----------------------------------------
+
+
+def test_placement_recommends_courses_and_records_nothing(
+    capsys, tmp_path, monkeypatch
+):
+    from src.education import tutor
+    from src.education.study import placement_questions
+
+    monkeypatch.setattr(tutor, "LEARNER_PROGRESS_DIR", tmp_path)
+    answers = ",".join(str(q["correct_index"]) for q in placement_questions())
+    assert cmd_placement(parse(["placement", "--answers", answers])) == 0
+    out = capsys.readouterr().out
+    assert "12/12 -- not recorded" in out
+    assert "agentic-pm-lab quiz traceability-capstone-tutor" in out
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_placement_with_the_wrong_answer_count_reports_cleanly(capsys):
+    assert cmd_placement(parse(["placement", "--answers", "0,1"])) == 1
+    assert "expected 12" in capsys.readouterr().err
+
+
+def test_review_with_nothing_due_says_so(capsys, tmp_path, monkeypatch):
+    from src.education import study
+
+    monkeypatch.setattr(study, "LEARNER_PROGRESS_DIR", tmp_path)
+    assert cmd_review(parse(["review", "--list"])) == 0
+    assert "Nothing to review" in capsys.readouterr().out

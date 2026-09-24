@@ -9,7 +9,8 @@ already does the work, and none of them reimplement it.
 Commands are grouped by who they are for, because the two audiences want
 different things and mixing them is what made `scripts/` hard to read:
 
-- **Learner commands** (`learn`, `quiz`, `course`, `progress`) are the
+- **Learner commands** (`learn`, `placement`, `quiz`, `review`, `course`,
+  `progress`) are the
   offline, read-only path through the tutor courses. They need no model,
   no network and no API key.
 - **Developer commands** (`plan`, `check`) serve someone *building* the
@@ -67,8 +68,10 @@ agentic-pm-lab -- governed agent engineering for portfolio management
 Learning (offline, read-only; no model, network or API key needed)
   learn [TOPIC]       list the courses, or teach one
   course TOPIC        the full outline: objectives, lessons, and the three labs
+  placement           12 concept questions: which courses you can skip ahead
   quiz TOPIC          take the topic's quiz interactively
-  progress            what you have completed, from recorded attempts
+  review              practise the concepts your recorded attempts missed
+  progress            what you have completed, and a tier-by-course matrix
 
 Development
   plan DAY            print one day's implementation steps
@@ -151,11 +154,105 @@ def cmd_quiz(args: argparse.Namespace) -> int:
     return subprocess.call(command, cwd=REPO_ROOT)
 
 
+def _study():
+    _tutor()  # puts the repo root on the path
+    from src.education import study
+
+    return study
+
+
+def _ask(questions: list[dict], answers: str | None) -> list[int]:
+    """Collect one choice per question, from --answers or interactively."""
+    if answers is not None:
+        chosen = [int(part) for part in answers.replace(" ", "").split(",") if part]
+        if len(chosen) != len(questions):
+            raise ValueError(f"expected {len(questions)} answers, got {len(chosen)}")
+        return chosen
+    chosen = []
+    for number, question in enumerate(questions, start=1):
+        print(f"\nQ{number}. {question['question']}")
+        for index, choice in enumerate(question["choices"]):
+            print(f"  {index}. {choice}")
+        while True:
+            raw = input("Your answer (number): ").strip()
+            if raw.isdigit() and int(raw) < len(question["choices"]):
+                chosen.append(int(raw))
+                break
+            print(f"Enter a number from 0 to {len(question['choices']) - 1}.")
+    return chosen
+
+
+def cmd_placement(args: argparse.Namespace) -> int:
+    study = _study()
+    questions = study.placement_questions()
+    try:
+        result = study.grade_placement(_ask(questions, args.answers))
+    except ValueError as error:
+        print(error, file=sys.stderr)
+        return 1
+    print(f"\nPlacement: {result['score']}/{result['total']} -- not recorded")
+    if result["skip_ahead"]:
+        print("\nSkip ahead to the quiz (you still have to pass it):")
+        for topic in result["skip_ahead"]:
+            print(f"  agentic-pm-lab quiz {topic}")
+    if result["take"]:
+        print("\nTake these courses, in order:")
+        for topic in result["take"]:
+            print(f"  agentic-pm-lab learn {topic}")
+    print("\nFinance domain and Platforms courses are optional; pick them by goal.")
+    return 0
+
+
+def cmd_review(args: argparse.Namespace) -> int:
+    from datetime import UTC, datetime
+
+    study = _study()
+    queue = study.review_queue(limit=args.limit)
+    if not queue:
+        print("Nothing to review: no recorded attempt is still missing a concept.")
+        return 0
+    now = datetime.now(UTC)
+    questions = []
+    print("Due for review, oldest miss first:")
+    for item in queue:
+        days = study.age_in_days(item["since"], now)
+        print(f"  {item['concept']:<40} missed {days} day(s) ago")
+        questions += item["questions"]
+    if args.list:
+        return 0
+    try:
+        answers = _ask(questions, args.answers)
+    except ValueError as error:
+        print(error, file=sys.stderr)
+        return 1
+    score = sum(
+        a == q["correct_index"] for q, a in zip(questions, answers, strict=True)
+    )
+    print(f"\nReview: {score}/{len(questions)} -- practice, not recorded")
+    for question, answer in zip(questions, answers, strict=True):
+        if answer != question["correct_index"] and question.get("explanation"):
+            print(f"  {question['id']}: {question['explanation']}")
+    return 0
+
+
+def _matrix_cell(value: float | None) -> str:
+    return "  -  " if value is None else f"{value:>4.0%} "
+
+
 def cmd_progress(_: argparse.Namespace) -> int:
-    return subprocess.call(
+    status = subprocess.call(
         [sys.executable, str(REPO_ROOT / "scripts/check_learner_progress.py")],
         cwd=REPO_ROOT,
     )
+    study = _study()
+    print("\nMastery matrix: best recorded score per question tier")
+    print(f"  {'course':<36} concept  implem.  transfer")
+    for row in study.mastery_matrix(study.load_attempts()):
+        marker = "*" if row["required"] else " "
+        cells = "   ".join(_matrix_cell(row[tier]) for tier in study.TIERS)
+        print(f" {marker}{row['topic']:<36} {cells}")
+    print("  * required.  - means not yet measured, not zero.")
+    return status
 
 
 def _load_index() -> dict | None:
@@ -266,6 +363,26 @@ def build_parser() -> argparse.ArgumentParser:
         help="practise only one question tier; practice is not recorded",
     )
     quiz.set_defaults(func=cmd_quiz)
+
+    placement = sub.add_parser(
+        "placement", help="12 concept questions: which courses to skip ahead"
+    )
+    placement.add_argument(
+        "--answers", metavar="LIST", help="comma-separated choice indices, in order"
+    )
+    placement.set_defaults(func=cmd_placement)
+
+    review = sub.add_parser(
+        "review", help="practise the concepts your recorded attempts missed"
+    )
+    review.add_argument("--list", action="store_true", help="list what is due only")
+    review.add_argument(
+        "--limit", type=int, default=5, help="how many concepts (default 5)"
+    )
+    review.add_argument(
+        "--answers", metavar="LIST", help="comma-separated choice indices, in order"
+    )
+    review.set_defaults(func=cmd_review)
 
     progress = sub.add_parser("progress", help="what you have completed")
     progress.set_defaults(func=cmd_progress)

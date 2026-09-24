@@ -40,6 +40,9 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
    [recommended order](TUTOR_COURSE_GUIDE.md#recommended-order) groups the
    courses into three modules and a capstone. Start with the required
    **Agent core**, step 1, and finish it with the required **Capstone**.
+   Already know some of it? `uv run agentic-pm-lab placement` asks 12
+   concept questions and says which required courses you can skip ahead to
+   the quiz; it records nothing.
    Add the optional **Finance domain** module to apply it to investing
    ([pm-mechanics](https://github.com/navoditk/pm-mechanics) teaches the math
    it assumes), and whichever **Platforms** courses match your tools.
@@ -56,7 +59,10 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
    and 70% in each question tier (concept, implementation, transfer). Then
    `uv run agentic-pm-lab progress` updates
    [`LEARNER_PROGRESS.md`](LEARNER_PROGRESS.md), which tracks what *you*
-   understood (`PROGRESS.md` tracks what was built).
+   understood (`PROGRESS.md` tracks what was built), and prints a
+   course-by-tier mastery matrix. `uv run agentic-pm-lab review` brings back
+   the concepts your recorded attempts missed, oldest first, as unrecorded
+   practice.
 
 6. **Finish with the teach-back.** Explain the topic without notes, cite two
    files, name one simplification, and say what evidence a production claim
