@@ -76,6 +76,11 @@ quiz questions that cite it.
 - FastAPI official [tutorial](https://fastapi.tiangolo.com/tutorial/)
 - DuckDB [Python API guide](https://duckdb.org/docs/api/python/overview)
 
+### Traceability capstone
+- OpenTelemetry [context propagation](https://opentelemetry.io/docs/concepts/context-propagation/): how signals are correlated across services, and the W3C default propagator.
+- W3C [Trace Context](https://www.w3.org/TR/trace-context/): the `traceparent` header and the trace-id that identifies the whole trace.
+- `src/capstone/trace_lab.py` and `tests/unit/capstone/test_trace_lab.py`: one decision rebuilt from one trace id, and the gap when one hop drops the context.
+
 ### LangGraph & LangGraph Deep Agents
 - **Where this project's multi-agent pattern originally comes from**: OpenAI's [Multi-Agent Portfolio Collaboration](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration) cookbook. Day 5 reimplements the shape with LangGraph Deep Agents' native `subagents` support.
 - Deep Agents [overview and quickstart](https://docs.langchain.com/oss/python/deepagents)
