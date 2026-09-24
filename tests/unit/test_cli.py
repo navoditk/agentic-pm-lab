@@ -20,6 +20,7 @@ from src.agentic_pm_lab import (
     cmd_learn,
     cmd_plan,
 )
+from src.education.tutor import TOPIC_CATALOG
 
 
 def parse(argv):
@@ -69,7 +70,7 @@ def test_an_unknown_day_lists_the_days_that_do_exist(capsys):
 def test_learn_with_no_topic_lists_rather_than_erroring(capsys):
     assert cmd_learn(parse(["learn"])) == 0
     out = capsys.readouterr().out
-    assert "14 courses" in out
+    assert f"{len(TOPIC_CATALOG)} courses" in out
     assert "opentelemetry-tutor" in out
 
 

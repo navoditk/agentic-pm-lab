@@ -1,6 +1,6 @@
 # Foundations Mastery Plan: quizzes and the mastery skill
 
-**Status:** Approved 2026-09-22 (decisions in §10). Not yet built.
+**Status:** Approved 2026-09-22 (decisions in §10). Phase A done; Phase B in review.
 **Scope:** The quiz banks under `evals/tutor_quizzes/`, the course catalog in
 `docs/learning/tutor-courses.json`, the `agentic-pm-mastery` skill, and the
 learner CLI.
@@ -81,6 +81,13 @@ The gaps by foundation:
    test (`tests/unit/education/test_learning_surface_parity.py`) fails when a
    course, module, question field, or learner feature is missing from any
    surface, and every phase below extends it.
+7. **Four threads in every required course.** Observability, traceability,
+   governance, and evaluation each have a course, but none may wait for it.
+   From Agent foundations on, every Agent core course's labs exercise all
+   four, and `check_quiz_banks.py` fails a tiered bank in a required module
+   that has no question on any one of them (concept domains `otel`,
+   `traceability`, `security`, `eval`). Existing Agent core courses meet this
+   when Phase D tiers their banks.
 
 ## 4. Changes to the quiz format
 

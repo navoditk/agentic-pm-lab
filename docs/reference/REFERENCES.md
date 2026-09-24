@@ -54,6 +54,24 @@ Not a "read before Day N" entry like the sections below — this is the source o
 
 ---
 
+### Agent foundations
+
+The sources for the first Agent core course
+([deep dive](../learning/tutors/agent-foundations-tutor.md)). Each is registered
+in [`source-registry.yaml`](source-registry.yaml), so a change upstream flags the
+quiz questions that cite it.
+
+- Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) — workflows versus agents, the augmented LLM, stopping conditions, and tool design.
+- Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629) — interleaving reasoning with actions.
+- Anthropic, [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — context as a finite budget, context rot, and minimal tool sets.
+- LangChain, [Tools](https://docs.langchain.com/oss/python/langchain/tools) and [Structured output](https://docs.langchain.com/oss/python/langchain/structured-output) — what `@tool` generates, and the provider and tool-calling strategies.
+- OWASP, [LLM06:2025 Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) — excessive functionality, permissions, and autonomy, and complete mediation.
+- Anthropic, [Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) — tasks, trials, graders, and grading outcomes over paths.
+- W3C, [Trace Context](https://www.w3.org/TR/trace-context/) — the `traceparent` header and what a trace id identifies.
+- OpenTelemetry, [GenAI span conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md) — `chat`, `execute_tool`, and `invoke_agent` spans (status: Development).
+
+---
+
 ### FastAPI & DuckDB (Day 1 foundation)
 - FastAPI official [tutorial](https://fastapi.tiangolo.com/tutorial/)
 - DuckDB [Python API guide](https://duckdb.org/docs/api/python/overview)

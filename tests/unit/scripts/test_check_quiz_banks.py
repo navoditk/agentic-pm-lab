@@ -120,3 +120,14 @@ def test_a_bank_whose_answers_are_usually_the_longest_choice_is_rejected():
     assert any("uniquely longest in 10 of 10" in e for e in errors)
     balanced = [q(i, long_correct=i < 3) for i in range(10)]
     assert not any("longest" in e for e in check_bank("t", balanced))
+
+
+def test_a_required_tiered_course_must_assess_all_four_threads():
+    tiers = ["concept"] * 4 + ["implementation"] * 4 + ["transfer"] * 2
+    bank = [
+        question(i, correct=i % 4, tier=t, concept="agent.loop")
+        for i, t in enumerate(tiers)
+    ]
+    [error] = check_bank("t", bank, required=True)
+    assert "observability, traceability, governance, evaluation" in error
+    assert check_bank("t", bank, required=False) == []

@@ -72,7 +72,7 @@ This table is the single source for course order; the README carries the same
 generated copy, and `uv run agentic-pm-lab learn` prints it in a terminal.
 Only the Agent core module is required. Finance domain and Platforms are
 optional; within Platforms, take the courses for the tools you use.
-After step 14, finish with the integrated fixture capstone in the
+After the last step, finish with the integrated fixture capstone in the
 [Depth Path](DEPTH_PATH.md#a-no-cost-capstone).
 
 <!-- LEARNING_PATH:START -->
@@ -81,24 +81,25 @@ After step 14, finish with the integrated fixture capstone in the
 
 | Step | Module | Course | Topic id | Est. hours |
 |---|---|---|---|---|
-| 1 | Agent core | [Agent architecture](tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
-| 2 | Agent core | [LangGraph and Deep Agents](tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
-| 3 | Agent core | [OpenTelemetry](tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
-| 4 | Agent core | [Evaluations and AgentOps](tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
-| 5 | Agent core | [Governance and delivery](tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
-| 6 | Finance domain (optional) | [FICC fundamentals](tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
-| 7 | Finance domain (optional) | [Portfolio construction](tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
-| 8 | Finance domain (optional) | [Data provenance and research quality](tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
-| 9 | Finance domain (optional) | [Public investment data](tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
-| 10 | Finance domain (optional) | [Investment committee challenge](tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
-| 11 | Platforms (optional) | [AWS Bedrock AgentCore](tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
-| 12 | Platforms (optional) | [Copilot Canvas and MCP](tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
-| 13 | Platforms (optional) | [Agent development lifecycle](tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
-| 14 | Platforms (optional) | [Document-to-skill pipeline](tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
+| 1 | Agent core | [Agent foundations](tutors/agent-foundations-tutor.md) | `agent-foundations-tutor` | ~6 |
+| 2 | Agent core | [Agent architecture](tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
+| 3 | Agent core | [LangGraph and Deep Agents](tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
+| 4 | Agent core | [OpenTelemetry](tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
+| 5 | Agent core | [Evaluations and AgentOps](tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
+| 6 | Agent core | [Governance and delivery](tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
+| 7 | Finance domain (optional) | [FICC fundamentals](tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
+| 8 | Finance domain (optional) | [Portfolio construction](tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
+| 9 | Finance domain (optional) | [Data provenance and research quality](tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
+| 10 | Finance domain (optional) | [Public investment data](tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
+| 11 | Finance domain (optional) | [Investment committee challenge](tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
+| 12 | Platforms (optional) | [AWS Bedrock AgentCore](tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
+| 13 | Platforms (optional) | [Copilot Canvas and MCP](tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
+| 14 | Platforms (optional) | [Agent development lifecycle](tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
+| 15 | Platforms (optional) | [Document-to-skill pipeline](tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
 
-Only the Agent core module is required: about 22 hours. The other
+Only the Agent core module is required: about 28 hours. The other
 modules are optional; take Finance domain to apply the core to investing, and
-the Platforms courses for the tools you use. About 53 hours for everything.
+the Platforms courses for the tools you use. About 59 hours for everything.
 Hours are rough estimates covering the deep dive, the three labs, the quiz,
 and the teach-back. Each course lists its own prerequisites, so an
 experienced learner can start anywhere.

@@ -21,7 +21,10 @@ Rules, per docs/learning/FOUNDATIONS_MASTERY_PLAN.md section 4:
   docs/learning/concepts.yaml; concept questions cite a registered source
   and carry an explanation;
 - a bank is *tiered* once any question declares a tier, and then every
-  question must declare one and the mix must be near 40/40/20.
+  question must declare one and the mix must be near 40/40/20;
+- a tiered bank in a required module must assess each of the four threads
+  (observability, traceability, governance, evaluation) with at least one
+  question, so none of them is left to its own later course.
 
     uv run python scripts/check_quiz_banks.py
 """
@@ -44,6 +47,13 @@ MAX_LONGEST_SHARE = 0.4
 TIER_TARGETS = {"concept": 0.4, "implementation": 0.4, "transfer": 0.2}
 TIER_TOLERANCE = 0.1
 EXPLAINED_TIERS = {"concept", "transfer"}
+# The four threads every required course must assess, as concept domains.
+THREAD_DOMAINS = {
+    "otel": "observability",
+    "traceability": "traceability",
+    "security": "governance",
+    "eval": "evaluation",
+}
 
 
 def load_concepts(path: Path = ROOT / "docs/learning/concepts.yaml") -> set[str]:
@@ -125,7 +135,9 @@ def correct_is_uniquely_longest(question: dict) -> bool:
     )
 
 
-def check_bank(topic: str, questions: list[dict]) -> list[str]:
+def check_bank(
+    topic: str, questions: list[dict], *, required: bool = False
+) -> list[str]:
     errors = []
     positions = Counter(q.get("correct_index") for q in questions)
     top_position, top_count = positions.most_common(1)[0]
@@ -157,11 +169,21 @@ def check_bank(topic: str, questions: list[dict]) -> list[str]:
                     f"{topic}: {tier} questions are {share:.0%} of the bank; "
                     f"target is {target:.0%} ± {TIER_TOLERANCE:.0%}"
                 )
+        if required:
+            covered = {q.get("concept", "").split(".", 1)[0] for q in questions}
+            missing = [
+                name for domain, name in THREAD_DOMAINS.items() if domain not in covered
+            ]
+            if missing:
+                errors.append(
+                    f"{topic}: a required course must assess every thread; "
+                    f"no question covers {', '.join(missing)}"
+                )
     return errors
 
 
 def check(banks: dict[str, list[dict]] | None = None) -> list[str]:
-    from src.education.tutor import TOPIC_CATALOG
+    from src.education.tutor import COURSE_CATALOG, TOPIC_CATALOG
 
     if banks is None:
         banks = {
@@ -177,7 +199,8 @@ def check(banks: dict[str, list[dict]] | None = None) -> list[str]:
     ids: Counter[str] = Counter()
     texts: dict[str, str] = {}
     for topic, questions in banks.items():
-        errors.extend(check_bank(topic, questions))
+        required = COURSE_CATALOG.get(topic, {}).get("required", False)
+        errors.extend(check_bank(topic, questions, required=required))
         for question in questions:
             errors.extend(check_question(question, topic, concepts, sources))
             ids[question.get("id", "")] += 1

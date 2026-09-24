@@ -15,6 +15,7 @@ to *learn* them in, use the
 
 | Tutor | Best used for | Main roadmap days | Deep dive |
 |---|---|---|---|
+| `agent-foundations-tutor` | The agent loop by hand and in LangChain, with observability, traceability, governance, and evaluation built in | Course 1; before any build day | [→](../learning/tutors/agent-foundations-tutor.md) |
 | `ficc-tutor-agent` | Rates, credit, curves, bond valuation, funding, liquidity, duration/DV01, convexity, hedging, and FICC vocabulary | 2–3, 15–20 | [→](../learning/tutors/ficc-tutor-agent.md) |
 | `portfolio-construction-tutor` | Optimization, constraints, risk budgets, implementation, and validation | 3, 12, 15, 20 | [→](../learning/tutors/portfolio-construction-tutor.md) |
 | `agent-architecture-tutor` | Agent/workflow design, context, skills, tools, memory, recovery | 4–7, 11–20 | [→](../learning/tutors/agent-architecture-tutor.md) |
@@ -69,12 +70,12 @@ the quiz is only one assessment component.
 ## Standalone CLI, quizzes, and comprehension tracking
 
 Every tutor topic above is also reachable without an IDE agent surface, using
-the same 14 topic ids as `tests/unit/scripts/test_tutor_agents.py`'s
+the same topic ids as `tests/unit/scripts/test_tutor_agents.py`'s
 `TUTOR_PATHS` mapping (13 under `.github/agents/`, plus the "user-scoped"
 `ficc-tutor-agent` under `docs/agent-templates/`):
 
 ```bash
-uv run agentic-pm-lab learn                              # list all 14 topics
+uv run agentic-pm-lab learn                              # list every topic
 uv run agentic-pm-lab learn agent-architecture-tutor      # print that topic's scope
 uv run agentic-pm-lab quiz agent-architecture-tutor   # take its 20-30 question quiz
 ```

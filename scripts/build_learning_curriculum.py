@@ -443,6 +443,11 @@ def build_html() -> str:
     for topic_id in catalog:
         stages.setdefault(topics[topic_id]["course"]["stage"], []).append(topic_id)
     total_hours = sum(topic["course"]["est_hours"] for topic in topics.values())
+    core_labels = ", ".join(
+        html.escape(catalog[t]["label"])
+        for t in catalog
+        if topics[t]["course"]["required"]
+    )
     core_hours = sum(
         topic["course"]["est_hours"]
         for topic in topics.values()
@@ -525,13 +530,13 @@ main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp
 .jump{{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:.3rem 1.2rem;padding:.6rem max(1.5rem,calc((100% - 1120px)/2));background:var(--card);border-bottom:1px solid var(--line);font-size:.95rem}}.jump a{{text-decoration:none;font-weight:600}}.stage{{margin-top:1.6rem}}.stage span{{color:var(--muted);font-weight:400;font-size:.9rem}}.to-top{{text-align:right;font-size:.9rem;margin:1rem 0 0}}section[id],h2[id],h3[id],h4[id],details[id]{{scroll-margin-top:3.2rem}}
 </style></head><body>
 <header id="top"><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
-<p>Fourteen source-grounded courses for building and governing fixed-income-first PM AI workflows. Read the full course material and take browser-local quizzes without downloading the repository.</p>
+<p>{len(catalog)} source-grounded courses for building and governing fixed-income-first PM AI workflows. Read the full course material and take browser-local quizzes without downloading the repository.</p>
 </header>
 <nav class="jump" aria-label="Page sections"><a href="#start">Start</a><a href="#roadmap">What was built</a><a href="#guides">Guides</a><a href="#courses">Courses</a><a href="#top">Top ↑</a></nav>
 <main>
 <div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>{metadata["fingerprint"]}</code>.</div>
 <h2 id="start">Start a path</h2>
-<p>The courses come in three modules. Only <strong>Agent core</strong> is required, about {core_hours} hours: it teaches agent architecture, LangGraph, OpenTelemetry, evaluations, and governance. <strong>Finance domain</strong> applies that core to investing. <strong>Platforms</strong> covers AWS AgentCore, Copilot Canvas, the agent development lifecycle, and document-to-skill; take the ones for your stack. Everything together is about {total_hours} hours.</p>
+<p>The courses come in three modules. Only <strong>Agent core</strong> is required, about {core_hours} hours: it covers {core_labels}. <strong>Finance domain</strong> applies that core to investing. <strong>Platforms</strong> covers AWS AgentCore, Copilot Canvas, the agent development lifecycle, and document-to-skill; take the ones for your stack. Everything together is about {total_hours} hours.</p>
 <p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, run <code>uv run agentic-pm-lab quiz &lt;topic-id&gt;</code> after cloning.</p>
 <h2 id="roadmap">What was built</h2>
 <p>The courses teach a platform that was built over a 21-day plan: deterministic analytics, governed agents, evaluation, observability, MCP, Canvas, and an AWS AgentCore path. The recap below walks through it day by day, with a self-check list and the questions the build should let you answer. Every day is complete for local, fixture-based verification; live cloud and provider evidence is tracked separately.</p>

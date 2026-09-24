@@ -13,7 +13,7 @@ executor, or production deployment.
 ## Start here
 
 Three routes in, depending on what you have. All three teach the same
-fourteen courses from the same canonical sources.
+courses from the same canonical sources.
 
 **1. Nothing installed, or you cannot clone the repository.** Read the full
 interactive curriculum in a browser — every course, quiz, and reference,
@@ -43,7 +43,7 @@ the right Python itself. One command is then the front door:
 git clone https://github.com/navoditk/agentic-pm-lab.git && cd agentic-pm-lab
 uv sync
 uv run agentic-pm-lab            # all commands, grouped by audience
-uv run agentic-pm-lab learn      # the fourteen courses, in order
+uv run agentic-pm-lab learn      # every course, in order
 uv run agentic-pm-lab quiz agent-architecture-tutor
 ```
 
@@ -139,7 +139,7 @@ repository currently provides:
 | Observability | OpenTelemetry traces *and* metrics as separate signals: spans carrying token, latency, retry, tool and estimated-cost attributes, plus counters and histograms for agent runs, tool calls, tokens, cost, retries and authorization denials; W3C context propagation across process boundaries; parent-based head sampling; structured fixture execution envelopes |
 | Interfaces | Four Canvas projects, MCP adapter, FastAPI API, Streamlit tutor UI, and approval-only scheduled review workflow |
 | AWS | AgentCore Runtime entrypoint and runbooks; live temporary Runtime, Memory, standalone Guardrails, and on-demand Evaluation evidence |
-| Learning | Fourteen tutor topics, deep-dive companions, 20–30-question quizzes, learner-progress tracking, source catalog, and no-cost exercises |
+| Learning | Tutor courses in three modules, deep-dive companions, 20–35-question quizzes with concept, implementation, and transfer tiers, learner-progress tracking, source catalog, and no-cost exercises |
 
 Run the local verification yourself — this is the same gate set CI runs, so a
 green result here means a green pull request:
@@ -191,7 +191,7 @@ calculation, reasoning, policy, evidence, and human decision-making.
 
 ## The learning path
 
-Fourteen courses in three modules. **Agent core** is the required path through
+The courses come in three modules. **Agent core** is the required path through
 agentic AI; **Finance domain** applies it to investing and is optional, as are
 the **Platforms** courses, which you pick by stack. `agentic-pm-lab learn`
 prints the same list.
@@ -202,24 +202,25 @@ prints the same list.
 
 | Step | Module | Course | Topic id | Est. hours |
 |---|---|---|---|---|
-| 1 | Agent core | [Agent architecture](docs/learning/tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
-| 2 | Agent core | [LangGraph and Deep Agents](docs/learning/tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
-| 3 | Agent core | [OpenTelemetry](docs/learning/tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
-| 4 | Agent core | [Evaluations and AgentOps](docs/learning/tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
-| 5 | Agent core | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
-| 6 | Finance domain (optional) | [FICC fundamentals](docs/learning/tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
-| 7 | Finance domain (optional) | [Portfolio construction](docs/learning/tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
-| 8 | Finance domain (optional) | [Data provenance and research quality](docs/learning/tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
-| 9 | Finance domain (optional) | [Public investment data](docs/learning/tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
-| 10 | Finance domain (optional) | [Investment committee challenge](docs/learning/tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
-| 11 | Platforms (optional) | [AWS Bedrock AgentCore](docs/learning/tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
-| 12 | Platforms (optional) | [Copilot Canvas and MCP](docs/learning/tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
-| 13 | Platforms (optional) | [Agent development lifecycle](docs/learning/tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
-| 14 | Platforms (optional) | [Document-to-skill pipeline](docs/learning/tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
+| 1 | Agent core | [Agent foundations](docs/learning/tutors/agent-foundations-tutor.md) | `agent-foundations-tutor` | ~6 |
+| 2 | Agent core | [Agent architecture](docs/learning/tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
+| 3 | Agent core | [LangGraph and Deep Agents](docs/learning/tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
+| 4 | Agent core | [OpenTelemetry](docs/learning/tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
+| 5 | Agent core | [Evaluations and AgentOps](docs/learning/tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
+| 6 | Agent core | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
+| 7 | Finance domain (optional) | [FICC fundamentals](docs/learning/tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
+| 8 | Finance domain (optional) | [Portfolio construction](docs/learning/tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
+| 9 | Finance domain (optional) | [Data provenance and research quality](docs/learning/tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
+| 10 | Finance domain (optional) | [Public investment data](docs/learning/tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
+| 11 | Finance domain (optional) | [Investment committee challenge](docs/learning/tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
+| 12 | Platforms (optional) | [AWS Bedrock AgentCore](docs/learning/tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~4 |
+| 13 | Platforms (optional) | [Copilot Canvas and MCP](docs/learning/tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
+| 14 | Platforms (optional) | [Agent development lifecycle](docs/learning/tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
+| 15 | Platforms (optional) | [Document-to-skill pipeline](docs/learning/tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
 
-Only the Agent core module is required: about 22 hours. The other
+Only the Agent core module is required: about 28 hours. The other
 modules are optional; take Finance domain to apply the core to investing, and
-the Platforms courses for the tools you use. About 53 hours for everything.
+the Platforms courses for the tools you use. About 59 hours for everything.
 Hours are rough estimates covering the deep dive, the three labs, the quiz,
 and the teach-back. Each course lists its own prerequisites, so an
 experienced learner can start anywhere.
@@ -232,7 +233,7 @@ Every course carries the same structure, whichever route you took above:
 |---|---|
 | Persona and deep dive | A compact orientation, then a repository-grounded walkthrough of the real code |
 | Objectives and lessons | What you should be able to do, and the sequence to get there |
-| Quiz | 20–30 deterministic questions, each citing a real repository file |
+| Quiz | 20–35 deterministic questions, each citing a repository file or a registered external source |
 | Local lab | Trace working code and perturb it |
 | Failure lab | Break it deliberately and explain the safe result |
 | Build lab | Write code yourself; the tutor reviews but never writes it for you |

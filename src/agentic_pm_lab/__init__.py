@@ -10,7 +10,7 @@ Commands are grouped by who they are for, because the two audiences want
 different things and mixing them is what made `scripts/` hard to read:
 
 - **Learner commands** (`learn`, `quiz`, `course`, `progress`) are the
-  offline, read-only path through the 14 tutor courses. They need no model,
+  offline, read-only path through the tutor courses. They need no model,
   no network and no API key.
 - **Developer commands** (`plan`, `check`) serve someone *building* the
   repository rather than learning from it.
@@ -64,7 +64,7 @@ OVERVIEW = """\
 agentic-pm-lab -- governed agent engineering for portfolio management
 
 Learning (offline, read-only; no model, network or API key needed)
-  learn [TOPIC]       list the 14 courses, or teach one
+  learn [TOPIC]       list the courses, or teach one
   course TOPIC        the full outline: objectives, lessons, and the three labs
   quiz TOPIC          take the topic's quiz interactively
   progress            what you have completed, from recorded attempts

@@ -1,4 +1,4 @@
-"""Tool-agnostic access to the 14 domain tutor personas: browse a topic's
+"""Tool-agnostic access to the tutor personas: browse a topic's
 scope without an IDE agent surface, take its multiple-choice quiz, and record
 the attempt for the comprehension tracker in scripts/check_learner_progress.py.
 """
@@ -24,6 +24,13 @@ LEARNER_PROGRESS_DIR = REPO_ROOT / "data" / "learner_progress"
 # iterates this dict (the CLI, the curriculum artifact, the UI) teaches in order.
 REFERENCES_FILE = "docs/reference/REFERENCES.md"
 TOPIC_CATALOG: dict[str, dict[str, str]] = {
+    "agent-foundations-tutor": {
+        "label": "Agent foundations",
+        "agent_file": ".github/agents/agent-foundations-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/agent-foundations-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#agent-foundations",
+        "deep_dive": "docs/learning/tutors/agent-foundations-tutor.md",
+    },
     "agent-architecture-tutor": {
         "label": "Agent architecture",
         "agent_file": ".github/agents/agent-architecture-tutor.agent.md",

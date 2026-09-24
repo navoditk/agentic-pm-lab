@@ -15,9 +15,9 @@ from src.education.tutor import (
 )
 
 
-def test_list_topics_covers_all_fourteen_tutors():
+def test_list_topics_covers_every_tutor():
     topics = list_topics()
-    assert len(topics) == 14
+    assert len(topics) == len(TOPIC_CATALOG)
     assert {topic["id"] for topic in topics} == set(TOPIC_CATALOG)
 
 
