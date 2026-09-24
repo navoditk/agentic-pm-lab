@@ -7,7 +7,7 @@ covers:
   - governance/policies
   - src/control
   - src/agents
-last_verified_commit: 6874615
+last_verified_commit: ad306fd525bc1b2f6324b9f9b89475f7704c6070
 ---
 
 # control-layer-role-change
@@ -15,7 +15,7 @@ last_verified_commit: 6874615
 Use this skill when adding an identity, changing an identity's role, or
 changing access to a tool or portfolio.
 
-## One module under `src/agents/` is deliberately outside this
+## Two modules under `src/agents/` are deliberately outside this
 
 `src/agents/handbuilt_graph.py` is a model-free teaching contrast to the Deep
 Agents path, and its specialists call analytics directly rather than through
@@ -23,6 +23,12 @@ Agents path, and its specialists call analytics directly rather than through
 or MCP surfaces, and is not a template. When auditing whether a role change
 reached every agent, skip it -- and if it ever gains a real caller, it needs
 the entitlement filter first.
+
+`src/agents/graph_mechanics.py` is the same kind of module for the LangGraph
+course: small deterministic graphs that demonstrate streaming, `Send`, time
+travel, and durable execution. It binds no tools, reads no portfolio data,
+and has no caller outside its tests, so there is nothing for a role change
+to reach.
 
 ## Checklist
 
