@@ -506,6 +506,18 @@ sources:
     impacts:
       - topic: aws-bedrock-tutor
         assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: aws-bedrock-tool-use-modes
+    title: "Amazon Bedrock: tool use modes (client-side and server-side)"
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-bedrock-tutor
+        assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
   - id: aws-bedrock-knowledge-bases
     title: "Amazon Bedrock: Knowledge Bases"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html

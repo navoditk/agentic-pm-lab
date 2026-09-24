@@ -14,9 +14,12 @@ not assumed. What each part relies on, and where it comes from:
 - Converse is one API for all Bedrock models that support messages; it needs
   `bedrock:InvokeModel` (ConverseStream needs
   `bedrock:InvokeModelWithResponseStream`). AWS user guide.
-- The model does not run tools. It returns `stopReason: "tool_use"` with
-  `toolUse` blocks; your code runs them and returns `toolResult` blocks in a
-  `user` message, with `status: "error"` on failure. AWS tool-use example.
+- Through Converse, tool use is client-side: the model returns
+  `stopReason: "tool_use"` with `toolUse` blocks, and your code runs them and
+  returns `toolResult` blocks in a `user` message, with `status: "error"` on
+  failure. AWS tool-use guide. (Server-side tool use, where Bedrock invokes a
+  registered Lambda function or AgentCore Gateway itself, is a Responses API
+  mode, not Converse.)
 - With prompt caching, `inputTokens` counts only uncached input; the total is
   `inputTokens + cacheReadInputTokens + cacheWriteInputTokens`. AWS user guide.
 - Throttling (429) and service unavailability (503) are retried with
@@ -85,8 +88,10 @@ def to_converse_messages(
     """Translate the loop's transcript into Converse messages.
 
     Converse has two roles, user and assistant. Tool results are content
-    blocks in a user message, and consecutive results for one assistant turn
-    go into a single user message, so the roles keep alternating.
+    blocks in a user message. This lab puts all the results for one assistant
+    turn into a single user message, one block per `toolUseId`. That is a
+    choice: AWS's own single-tool example appends a user message per result,
+    and the API reference states no rule either way.
     """
     messages: list[dict[str, Any]] = []
     for entry in transcript:

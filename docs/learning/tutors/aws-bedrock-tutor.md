@@ -21,8 +21,11 @@ different models." Calling it needs the `bedrock:InvokeModel` permission;
 
 The central fact for an agent builder is in the
 [tool-use guide](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html):
-"the model doesn't directly call the tool." The model returns a request; your
-code runs the tool and sends the result back. So everything Agent foundations
+"the model doesn't directly call the tool." With Converse, tool use is
+client-side: "in your code, you call the tool on the model's behalf." The
+model returns a request; your code runs the tool and sends the result back.
+(Bedrock also has a server-side mode, in which it invokes a registered Lambda
+function or AgentCore Gateway itself, but only on the Responses API.) So everything Agent foundations
 put in the loop (the allowlist, the spans, the audit trail) stays in your
 code when the model moves to Bedrock.
 
@@ -31,8 +34,10 @@ code when the model moves to Bedrock.
 - **Tool use through Converse.** The model ends its turn with
   `stopReason: "tool_use"` and `toolUse` blocks (`toolUseId`, `name`,
   `input`). Your code returns `toolResult` blocks in a **user** message, with
-  `status: "error"` when the tool failed. Converse messages alternate between
-  user and assistant, so several results for one turn go in one message.
+  `status: "error"` when the tool failed. The lab sends all the results for
+  one turn as blocks in one user message; AWS's own single-tool example
+  appends a message per result, and the API reference sets no rule either
+  way.
 - **Inference profiles.** A [cross-Region inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles.html)
   is predefined by Bedrock and routes a model's requests across several
   Regions; you pass its ID as the `modelId`. Application inference profiles
@@ -96,7 +101,7 @@ tests can observe; it is not a reason to disable botocore's retries.
 |---|---|---|
 | **Observability** | The chat span records `aws.bedrock`, input and output tokens (cached tokens included), and the finish reason. | `test_the_chat_span_records_bedrock_usage_by_the_genai_conventions` |
 | **Traceability** | The Bedrock chat span and every audit record share the run's trace id. | same test |
-| **Governance** | Only allowed tools are offered in `toolConfig`; a forbidden `toolUse` is refused by `governed_call`, because Bedrock never runs tools. IAM is scoped to one model through one profile. A guardrail filters content; it does not replace the allowlist. | `test_a_failed_tool_goes_back_with_error_status_and_a_forbidden_one_is_refused`, `test_an_inference_profile_policy_also_names_each_regions_model` |
+| **Governance** | Only allowed tools are offered in `toolConfig`; a forbidden `toolUse` is refused by `governed_call`, because Converse never runs tools itself. IAM is scoped to one model through one profile. A guardrail filters content; it does not replace the allowlist. | `test_a_failed_tool_goes_back_with_error_status_and_a_forbidden_one_is_refused`, `test_an_inference_profile_policy_also_names_each_regions_model` |
 | **Evaluation** | Switching the model is a behaviour change: rerun the same eval cases through the unchanged loop, over repeated trials, with the graders from Agent foundations. | `src/foundations/grading.py` |
 
 ## Worked walkthrough
@@ -118,8 +123,10 @@ tests can observe; it is not a reason to disable botocore's retries.
 
 ## Common pitfalls
 
-- **Expecting Bedrock to run tools.** It returns requests. Your code runs
-  them, so your code must authorize them.
+- **Expecting Converse to run tools.** It returns requests. Your code runs
+  them, so your code must authorize them. Even Bedrock's server-side mode on
+  the Responses API only moves execution; deciding what may run is still
+  yours.
 - **Retrying everything.** Only throttling and transient service errors can
   succeed later, and retries need a bound.
 - **Summing `inputTokens` for cost or context.** It excludes cached tokens.

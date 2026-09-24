@@ -156,7 +156,7 @@ def test_a_failed_tool_goes_back_with_error_status_and_a_forbidden_one_is_refuse
     model = ConverseModel(client, MODEL)
     with stub:
         result = run(model, tmp_path)
-    # Both results go back in one user message, so the roles keep alternating.
+    # Both results go back as blocks in one user message.
     last_request = to_converse_messages(result.transcript[:-1])
     results = last_request[-1]["content"]
     assert last_request[-1]["role"] == "user" and len(results) == 2
@@ -363,15 +363,28 @@ def test_the_chat_span_records_bedrock_usage_by_the_genai_conventions(
 ):
     spans.clear()
     stub = Stubber(client)
+    stub.add_response(
+        "converse",
+        reply(
+            [tool_use("t1", "interpolate_yield", {"target_tenor_years": 3})], "tool_use"
+        ),
+    )
     stub.add_response("converse", reply([{"text": "ok"}], "end_turn"))
     with stub:
         result = run(ConverseModel(client, MODEL), tmp_path)
-    chat = next(s for s in spans.get_finished_spans() if s.name == f"chat {MODEL}")
-    assert chat.attributes["gen_ai.provider.name"] == "aws.bedrock"
-    assert chat.attributes["gen_ai.usage.input_tokens"] == 10
-    assert chat.attributes["gen_ai.usage.output_tokens"] == 5
-    assert tuple(chat.attributes["gen_ai.response.finish_reasons"]) == ("end_turn",)
-    assert f"{chat.context.trace_id:032x}" == result.trace_id
+    chats = [s for s in spans.get_finished_spans() if s.name == f"chat {MODEL}"]
+    assert [tuple(c.attributes["gen_ai.response.finish_reasons"]) for c in chats] == [
+        ("tool_use",),
+        ("end_turn",),
+    ]
+    for chat in chats:
+        assert chat.attributes["gen_ai.provider.name"] == "aws.bedrock"
+        assert chat.attributes["gen_ai.usage.input_tokens"] == 10
+        assert chat.attributes["gen_ai.usage.output_tokens"] == 5
+        assert f"{chat.context.trace_id:032x}" == result.trace_id
+    # The same id is on the run's audit records, so one id joins them all.
+    assert result.audit
+    assert {r["trace_id"] for r in result.audit} == {result.trace_id}
 
 
 def test_an_inference_profile_policy_also_names_each_regions_model():
