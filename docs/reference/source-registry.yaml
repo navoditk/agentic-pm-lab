@@ -334,6 +334,8 @@ sources:
     impacts:
       - topic: agent-foundations-tutor
         assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+      - topic: evaluation-agentops-tutor
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
   - id: w3c-trace-context
     title: "W3C Trace Context"
     url: https://www.w3.org/TR/trace-context/
@@ -578,6 +580,30 @@ sources:
     impacts:
       - topic: opentelemetry-tutor
         assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: judging-llm-as-a-judge
+    title: "Zheng et al., Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena (arXiv 2306.05685)"
+    url: https://arxiv.org/abs/2306.05685
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: evaluation-agentops-tutor
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
+  - id: cohens-kappa
+    title: "Cohen's kappa (inter-rater agreement beyond chance)"
+    url: https://en.wikipedia.org/wiki/Cohen%27s_kappa
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: evaluation-agentops-tutor
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
   - id: aws-bedrock-tool-use
     title: "Amazon Bedrock: client-side tool use"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html
