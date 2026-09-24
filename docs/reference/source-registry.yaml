@@ -670,6 +670,90 @@ sources:
     impacts:
       - topic: agent-architecture-tutor
         assets: [docs/learning/tutors/agent-architecture-tutor.md, agents/agent-architecture-tutor.md, evals/tutor_quizzes/agent-architecture-tutor.jsonl]
+  - id: aws-agentcore-gateway
+    title: "Amazon Bedrock AgentCore: Gateway"
+    url: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+  - id: aws-agentcore-identity
+    title: "Amazon Bedrock AgentCore: Identity features"
+    url: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/key-features-and-benefits.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+  - id: aws-agentcore-policy
+    title: "Amazon Bedrock AgentCore: Policy"
+    url: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+  - id: aws-agentcore-memory
+    title: "Amazon Bedrock AgentCore: Memory"
+    url: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+  - id: aws-agentcore-memory-strategies
+    title: "Amazon Bedrock AgentCore: built-in long-term memory strategies"
+    url: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/long-term-configuring-built-in-strategies.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+  - id: aws-agentcore-observability
+    title: "Amazon Bedrock AgentCore: Observability"
+    url: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/observability.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+  - id: aws-agentcore-evaluations
+    title: "Amazon Bedrock AgentCore: Evaluations"
+    url: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations.html
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: aws-agentcore-tutor
+        assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
   - id: aws-bedrock-tool-use
     title: "Amazon Bedrock: client-side tool use"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html
