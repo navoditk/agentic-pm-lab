@@ -47,6 +47,83 @@ each one earns its complexity.
   task needs, not everything available, so an over-broad context can't leak
   data the task never asked for.
 
+## When not to use an agent
+
+Anthropic's
+[Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)
+opens its guidance with restraint: "we recommend finding the simplest
+solution possible, and only increasing complexity when needed. This might
+mean not building agentic systems at all. Agentic systems often trade
+latency and cost for better task performance." And when more is warranted,
+"workflows offer predictability and consistency for well-defined tasks,
+whereas agents are the better option when flexibility and model-driven
+decision-making are needed at scale."
+
+Three questions settle most cases before any framework is chosen:
+
+1. **Are the steps known in advance?** Then write them as code. Pricing a
+   bond, computing a drawdown, and applying a policy are workflows, and
+   this repository keeps them in `src/analytics/` and `src/control/`.
+2. **Does one model call with the right context answer it?** Then a single
+   call, with retrieval, beats a loop.
+3. **Does the next step genuinely depend on what the last one found?** Only
+   then is an agent loop worth its latency, cost, and non-determinism.
+
+## Multi-agent: what the evidence says
+
+The case for several agents is real and conditional. Anthropic's
+[multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system)
+reports that a lead agent with subagents "outperformed single-agent Claude
+Opus 4 by 90.2%" on its research evaluation. It also reports the price:
+"agents typically use about 4× more tokens than chat interactions, and
+multi-agent systems use about 15× more tokens than chats", and on its
+browsing evaluation "token usage by itself explains 80% of the variance" in
+performance. So multi-agent systems "require tasks where the value of the
+task is high enough to pay for the increased performance", and they suit
+"heavy parallelization, information that exceeds single context windows,
+and interfacing with numerous complex tools". They fit poorly where tasks
+"require all agents to share the same context or involve many dependencies
+between agents", which includes "most coding tasks".
+
+Cognition's [Don't build multi-agents](https://cognition.com/blog/dont-build-multi-agents)
+makes the opposing case from the same facts. Its principles are "share
+context, and share full agent traces, not just individual messages" and
+"actions carry implicit decisions, and conflicting decisions carry bad
+results". Split a game clone between two subagents that cannot see each
+other's work, and one builds a background from the wrong game while the
+other builds a bird that matches neither.
+
+The two are compatible once you ask what the subtasks share. This
+repository's Portfolio Manager splits a question into macro, quant, and
+fundamental work that can be done independently, and the orchestrator
+alone makes the decisions that must be consistent: which specialists to
+ask, what data each needs (restated in the `task` description, because
+contexts are isolated), and the synthesis. Where the domains differ enough
+to blur tool boundaries, ADR 0018 adds a second supervisor rather than
+widening the first.
+
+## Context budget design
+
+Context is a budget, not a container. Anthropic's
+[context-engineering article](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
+describes an "attention budget" and sets the goal as the "smallest possible
+set of high-signal tokens that maximize the likelihood of some desired
+outcome". Its long-horizon techniques each spend the budget differently:
+
+- **Sub-agents** do focused work in their own context and "return only a
+  condensed, distilled summary of its work (often 1,000-2,000 tokens)", so
+  the coordinator's context grows by summaries, not transcripts.
+- **Compaction** summarises a conversation near its limit and continues from
+  the summary.
+- **Structured notes** move state out of the context into files the agent
+  reads back when it needs them.
+- **Just-in-time retrieval** keeps references in context and loads the data
+  through tools on demand, slower than pre-loading and far cheaper.
+
+This repository's version is `build_filtered_context()`: every call names the
+sources it needs, and `build_full_context()` survives only as the measured
+overload baseline.
+
 ## How this repository implements it
 
 `src/context/builder.py` is the single point where prompt context gets
@@ -125,6 +202,25 @@ for a real one.
   anyway. `ToolCallLimitMiddleware`'s per-run ceiling and the explicit
   `dead_letter` result exist so a failure surfaces quickly and legibly
   instead of hanging.
+- **Reaching for multi-agent because the task is important.** The published
+  gains come with about fifteen times the tokens of a chat, and they appear
+  on parallel, breadth-first work. For tightly coupled work, one agent with
+  good context is usually better.
+- **Splitting work whose parts make decisions for each other.** Two agents
+  that cannot see each other's choices produce parts that do not fit. Keep
+  those decisions in one place.
+- **Returning transcripts instead of summaries.** A specialist that hands
+  its whole working context back spends the coordinator's budget on detail
+  the coordinator does not need.
+
+## The four threads
+
+| Thread | In the architecture | Evidence |
+|---|---|---|
+| **Observability** | Every agent in a hierarchy emits spans into one provider, so a delegated specialist's work nests under the orchestrator's trace instead of starting its own. Multi-agent cost is visible only if tokens are recorded per agent. | `configure_telemetry()` in `src/observability/telemetry.py` |
+| **Traceability** | The orchestrator's `task` descriptions are the only channel into a specialist, which makes them the record of what each specialist was told. | `create_multi_agent()` and `specialist_subagents()` in `src/agents/multi_agent.py` |
+| **Governance** | Each specialist gets its own narrow tool tuple and the orchestrator gets none, so splitting work never widens what any one agent may do. | `tests/unit/agents/test_multi_agent.py::test_specialists_have_domain_specific_tool_boundaries` |
+| **Evaluation** | An architecture choice is a claim about cost and quality, so it is settled by measurement: the full-versus-filtered context comparison, and pass rates over repeated trials, not a demo. | `docs/learning/comparison-notes.md` |
 
 ## Further reading
 
