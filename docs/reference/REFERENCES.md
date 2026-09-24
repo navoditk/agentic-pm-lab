@@ -112,6 +112,12 @@ quiz questions that cite it.
 - OpenTelemetry [traces, metrics, and logs](https://opentelemetry.io/docs/concepts/signals/) — useful background for separating the Canvas execution envelope from provider/model spans.
 
 ### Model Context Protocol (MCP)
+
+The [MCP course](../learning/tutors/mcp-tutor.md) cites the specification,
+version 2026-07-28, page by page. Each page is registered in
+[`source-registry.yaml`](source-registry.yaml).
+
+- MCP specification: [overview](https://modelcontextprotocol.io/specification/latest) (primitives, security and trust principles), [base protocol](https://modelcontextprotocol.io/specification/latest/basic/index) (statelessness, `_meta`, trace context), [tools](https://modelcontextprotocol.io/specification/latest/server/tools) (error kinds, security considerations), [transports](https://modelcontextprotocol.io/specification/latest/basic/transports), and [security best practices](https://modelcontextprotocol.io/specification/latest/basic/security_best_practices) (token passthrough, confused deputy, state handles)
 - Official [MCP specification and docs](https://modelcontextprotocol.io/)
 - Official [MCP Python SDK](https://pypi.org/project/mcp/)
 - GitHub's [MCP context docs](https://docs.github.com/en/copilot/concepts/context/mcp)

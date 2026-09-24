@@ -88,11 +88,11 @@ so a level means the same thing whichever courses a learner took:
 | Full quiz recorded that meets the pass rule | +50 | 50 |
 | Topic complete | +50 | 50 |
 
-A course is worth 275 XP, and all 15 courses plus the final assessment (+150)
-is 4,275. The build lab is worth more than a scenario because it is the only
+A course is worth 275 XP, and all 16 courses plus the final assessment (+150)
+is 4,550. The build lab is worth more than a scenario because it is the only
 item that requires producing something that did not exist.
 
-Levels: 0 Explorer, 275 Analyst, 1,650 Builder, 3,025 Practitioner, 4,275 Architect.
+Levels: 0 Explorer, 275 Analyst, 1,925 Builder, 3,300 Practitioner, 4,550 Architect.
 
 Each threshold is the XP for a milestone: the first course, then the XP of
 the required Agent core module, then of two full modules, then every course

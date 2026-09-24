@@ -46,7 +46,8 @@ domains:
     concepts:
       primitives: Tools, resources, and prompts, and who controls each
       transports: stdio versus streamable HTTP
-      lifecycle: Initialization and capability negotiation
+      lifecycle: Version negotiation, from the initialize handshake to stateless per-request metadata
+      error-kinds: Protocol errors versus tool execution errors, and which the model sees
       authorization: How a server authenticates and authorizes a client
       tool-poisoning: Malicious tool descriptions and confused-deputy risks
   otel:

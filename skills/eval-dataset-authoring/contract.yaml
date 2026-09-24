@@ -22,6 +22,9 @@ output_schema:
 side_effects: Writes version-controlled JSONL evaluation cases under evals/.
 approval_required: false
 covers:
-  - evals
+  - evals/golden_dataset.jsonl
+  - evals/routing_cases.jsonl
+  - evals/authorization_cases.jsonl
+  - evals/guardrail_cases.jsonl
   - scripts/run_eval.py
 version: 1.0.0

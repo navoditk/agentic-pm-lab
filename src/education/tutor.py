@@ -45,6 +45,13 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#langgraph--langgraph-deep-agents",
         "deep_dive": "docs/learning/tutors/langgraph-deep-agents-tutor.md",
     },
+    "mcp-tutor": {
+        "label": "Model Context Protocol",
+        "agent_file": ".github/agents/mcp-tutor.agent.md",
+        "quiz_file": "evals/tutor_quizzes/mcp-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#model-context-protocol-mcp",
+        "deep_dive": "docs/learning/tutors/mcp-tutor.md",
+    },
     "opentelemetry-tutor": {
         "label": "OpenTelemetry",
         "agent_file": ".github/agents/opentelemetry-tutor.agent.md",
@@ -109,7 +116,7 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "deep_dive": "docs/learning/tutors/aws-agentcore-tutor.md",
     },
     "copilot-canvas-mcp-tutor": {
-        "label": "Copilot Canvas and MCP",
+        "label": "Copilot Canvas",
         "agent_file": ".github/agents/copilot-canvas-mcp-tutor.agent.md",
         "quiz_file": "evals/tutor_quizzes/copilot-canvas-mcp-tutor.jsonl",
         "reference": f"{REFERENCES_FILE}#github-copilot-app-canvas-prompts-skills-custom-agents",
