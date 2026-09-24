@@ -38,7 +38,7 @@ from typing import Any
 
 import jsonschema
 from opentelemetry import trace
-from opentelemetry.trace import Status, StatusCode
+from opentelemetry.trace import SpanKind, Status, StatusCode
 
 from src.analytics.curves import interpolate_curve
 from src.control.audit import current_trace_id, record_audit_event
@@ -212,7 +212,11 @@ def run_agent(
         run_span.set_attribute("gen_ai.agent.name", AGENT_NAME)
         trace_id = current_trace_id()
         for _ in range(max_steps):
-            with tracer.start_as_current_span(f"chat {model.name}") as span:
+            # The GenAI conventions: a model call SHOULD be a CLIENT span, and
+            # MAY be INTERNAL when the model runs in the same process, as the
+            # scripted model does. A remote model declares CLIENT.
+            kind = getattr(model, "span_kind", SpanKind.INTERNAL)
+            with tracer.start_as_current_span(f"chat {model.name}", kind=kind) as span:
                 span.set_attribute("gen_ai.operation.name", "chat")
                 span.set_attribute("gen_ai.request.model", model.name)
                 turn = model(messages, visible)

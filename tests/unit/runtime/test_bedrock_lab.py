@@ -16,6 +16,7 @@ from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
     InMemorySpanExporter,
 )
+from opentelemetry.trace import SpanKind
 
 from src.foundations.agent_loop import demo_tools, run_agent
 from src.observability.telemetry import configure_telemetry
@@ -378,6 +379,8 @@ def test_the_chat_span_records_bedrock_usage_by_the_genai_conventions(
         ("end_turn",),
     ]
     for chat in chats:
+        # A call to a model in another process is a CLIENT span.
+        assert chat.kind == SpanKind.CLIENT
         assert chat.attributes["gen_ai.provider.name"] == "aws.bedrock"
         assert chat.attributes["gen_ai.usage.input_tokens"] == 10
         assert chat.attributes["gen_ai.usage.output_tokens"] == 5

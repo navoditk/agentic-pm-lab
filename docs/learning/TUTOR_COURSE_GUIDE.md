@@ -83,10 +83,10 @@ After the last step, finish with the integrated fixture capstone in the
 |---|---|---|---|---|
 | 1 | Agent core | [Agent foundations](tutors/agent-foundations-tutor.md) | `agent-foundations-tutor` | ~6 |
 | 2 | Agent core | [Agent architecture](tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~3 |
-| 3 | Agent core | [LangGraph and Deep Agents](tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~5 |
+| 3 | Agent core | [LangGraph and Deep Agents](tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~6 |
 | 4 | Agent core | [Model Context Protocol](tutors/mcp-tutor.md) | `mcp-tutor` | ~4 |
-| 5 | Agent core | [OpenTelemetry](tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~5 |
-| 6 | Agent core | [Evaluations and AgentOps](tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~5 |
+| 5 | Agent core | [OpenTelemetry](tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~6 |
+| 6 | Agent core | [Evaluations and AgentOps](tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~6 |
 | 7 | Agent core | [Governance and delivery](tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~4 |
 | 8 | Finance domain (optional) | [FICC fundamentals](tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
 | 9 | Finance domain (optional) | [Portfolio construction](tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
@@ -99,9 +99,9 @@ After the last step, finish with the integrated fixture capstone in the
 | 16 | Platforms (optional) | [Agent development lifecycle](tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
 | 17 | Platforms (optional) | [Document-to-skill pipeline](tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
 
-Only the Agent core module is required: about 32 hours. The other
+Only the Agent core module is required: about 35 hours. The other
 modules are optional; take Finance domain to apply the core to investing, and
-the Platforms courses for the tools you use. About 67 hours for everything.
+the Platforms courses for the tools you use. About 70 hours for everything.
 Hours are rough estimates covering the deep dive, the three labs, the quiz,
 and the teach-back. Each course lists its own prerequisites, so an
 experienced learner can start anywhere.

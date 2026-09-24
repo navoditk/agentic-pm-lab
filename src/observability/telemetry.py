@@ -95,8 +95,10 @@ def configured_sampler() -> Sampler:
 
     Two things make this safe rather than a knob that silently loses data.
     `ParentBased` means a child span follows the decision already made
-    upstream, so a sampled trace never arrives with holes in the middle --
-    the single most confusing failure mode of naive ratio sampling. And the
+    upstream. A plain `TraceIdRatioBased` sampler decides from the trace id
+    alone and ignores the parent's sampled flag, so when two services sample
+    at different ratios, a trace kept upstream loses its spans downstream --
+    holes in the middle, the most confusing failure mode of ratio sampling. And the
     default is 1.0, so a repository run locally or in CI keeps every trace;
     sampling is something you opt into when volume makes keeping everything
     expensive, not a default that quietly hides the trace you needed.

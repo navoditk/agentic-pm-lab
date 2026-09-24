@@ -12,6 +12,7 @@ from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
     InMemorySpanExporter,
 )
+from opentelemetry.trace import SpanKind
 
 from src.foundations.agent_loop import (
     ModelTurn,
@@ -168,6 +169,9 @@ def test_spans_follow_the_genai_conventions_and_nest_under_the_run(spans, audit_
     assert chat.attributes["gen_ai.operation.name"] == "chat"
     for span in (chat, tool):
         assert span.parent.span_id == root.context.span_id
+    # In-process agent, model, and tool: all INTERNAL. A remote model
+    # declares CLIENT instead, as the Bedrock course's ConverseModel does.
+    assert {root.kind, chat.kind, tool.kind} == {SpanKind.INTERNAL}
     # The real analytics tool's own span nests under the tool span.
     assert (
         finished["analytics.interpolate_curve"].parent.span_id == tool.context.span_id

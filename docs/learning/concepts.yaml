@@ -41,6 +41,7 @@ domains:
       streaming: Streaming modes for values, updates, and tokens
       send-fanout: Dynamic fan-out with Send
       time-travel: Inspecting and replaying from earlier checkpoints
+      durable-execution: Durability modes, pending writes, and why a resumed node re-runs
   mcp:
     title: Model Context Protocol
     concepts:

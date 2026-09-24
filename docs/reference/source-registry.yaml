@@ -334,6 +334,8 @@ sources:
     impacts:
       - topic: agent-foundations-tutor
         assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+      - topic: evaluation-agentops-tutor
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
   - id: w3c-trace-context
     title: "W3C Trace Context"
     url: https://www.w3.org/TR/trace-context/
@@ -434,6 +436,174 @@ sources:
     impacts:
       - topic: aws-bedrock-tutor
         assets: [docs/learning/tutors/aws-bedrock-tutor.md, agents/aws-bedrock-tutor.md, evals/tutor_quizzes/aws-bedrock-tutor.jsonl]
+  - id: langgraph-graph-api
+    title: "LangGraph: graph API (state, reducers, super-steps, Send)"
+    url: https://docs.langchain.com/oss/python/langgraph/graph-api
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-streaming
+    title: "LangGraph: streaming modes"
+    url: https://docs.langchain.com/oss/python/langgraph/streaming
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-subgraphs
+    title: "LangGraph: subgraphs"
+    url: https://docs.langchain.com/oss/python/langgraph/use-subgraphs
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-time-travel
+    title: "LangGraph: time travel (replay and fork)"
+    url: https://docs.langchain.com/oss/python/langgraph/use-time-travel
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-checkpointers
+    title: "LangGraph: checkpointers, durability modes, and pending writes"
+    url: https://docs.langchain.com/oss/python/langgraph/checkpointers
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: langgraph-interrupts
+    title: "LangGraph: interrupts"
+    url: https://docs.langchain.com/oss/python/langgraph/interrupts
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: langgraph-deep-agents-tutor
+        assets: [docs/learning/tutors/langgraph-deep-agents-tutor.md, agents/langgraph-deep-agents-tutor.md, evals/tutor_quizzes/langgraph-deep-agents-tutor.jsonl]
+  - id: otel-traces-concepts
+    title: "OpenTelemetry: traces, spans, and span events"
+    url: https://opentelemetry.io/docs/concepts/signals/traces/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-metrics-data-model
+    title: "OpenTelemetry specification: metrics data model and exemplars"
+    url: https://opentelemetry.io/docs/specs/otel/metrics/data-model/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-collector-configuration
+    title: "OpenTelemetry Collector: configuration and pipelines"
+    url: https://opentelemetry.io/docs/collector/configuration/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-genai-agent-spans
+    title: "OpenTelemetry GenAI semantic conventions: agent and tool spans"
+    url: https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-metrics-concepts
+    title: "OpenTelemetry: metrics and instruments"
+    url: https://opentelemetry.io/docs/concepts/signals/metrics/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: otel-trace-sdk
+    title: "OpenTelemetry specification: trace SDK and samplers"
+    url: https://opentelemetry.io/docs/specs/otel/trace/sdk/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 60
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: opentelemetry-tutor
+        assets: [docs/learning/tutors/opentelemetry-tutor.md, agents/opentelemetry-tutor.md, evals/tutor_quizzes/opentelemetry-tutor.jsonl]
+  - id: judging-llm-as-a-judge
+    title: "Zheng et al., Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena (arXiv 2306.05685)"
+    url: https://arxiv.org/abs/2306.05685
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: evaluation-agentops-tutor
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
+  - id: cohens-kappa
+    title: "Cohen's kappa (inter-rater agreement beyond chance)"
+    url: https://en.wikipedia.org/wiki/Cohen%27s_kappa
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 180
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: evaluation-agentops-tutor
+        assets: [docs/learning/tutors/evaluation-agentops-tutor.md, agents/evaluation-agentops-tutor.md, evals/tutor_quizzes/evaluation-agentops-tutor.jsonl]
   - id: aws-bedrock-tool-use
     title: "Amazon Bedrock: client-side tool use"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html

@@ -8,6 +8,7 @@ wrong one, or a smoke test writing into the real learner log.
 """
 
 import json
+from collections import Counter
 
 import pytest
 
@@ -79,8 +80,9 @@ def test_whitespace_around_answers_is_tolerated():
 
 def test_a_recorded_attempt_carries_its_tier_breakdown(isolated_log):
     result = record_answers(TOPIC, as_raw(correct_answers()))
+    per_tier = Counter(q["tier"] for q in load_quiz(TOPIC))
     assert result["tiers"] == {
-        "implementation": {"score": result["total"], "total": result["total"]}
+        tier: {"score": count, "total": count} for tier, count in per_tier.items()
     }
     line = (isolated_log / f"{TOPIC}.jsonl").read_text().splitlines()[0]
     assert json.loads(line)["tiers"] == result["tiers"]

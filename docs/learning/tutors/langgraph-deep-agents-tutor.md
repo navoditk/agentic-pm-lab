@@ -58,6 +58,47 @@ supervisor-design side.
   function reading state. This is the routing decision Deep Agents performs
   *inside* its `task` tool — same choice, made invisibly rather than by an
   edge you declared.
+- **Super-step.** One round of the graph. "Nodes that run in parallel are
+  part of the same super-step, while nodes that run sequentially belong to
+  separate super-steps"
+  ([graph API](https://docs.langchain.com/oss/python/langgraph/graph-api)).
+  A checkpoint is saved per super-step, which is why reducers, fan-out, and
+  recovery are all described in terms of it.
+- **`Send` fan-out.** A path function can return a list of `Send(node,
+  input)` objects, starting one task per item with its own input: the map
+  half of map-reduce, for a number of branches known only at run time. The
+  branches run in one super-step, so a key they all write needs a reducer.
+- **Subgraphs.** A compiled graph can be a node. Add it directly when parent
+  and subgraph "share state keys"; call it from a node, mapping state in and
+  out, when they have "different state schemas"
+  ([subgraphs](https://docs.langchain.com/oss/python/langgraph/use-subgraphs)).
+- **Streaming modes.** `stream_mode` chooses what a run emits as it goes:
+  `values` is the "full state after each step", `updates` the "state updates
+  after each step", `custom` is data a node emits through
+  `get_stream_writer`, and `messages` streams LLM tokens. With
+  `subgraphs=True`, output arrives as `(namespace, data)` tuples naming the
+  subgraph ([streaming](https://docs.langchain.com/oss/python/langgraph/streaming)).
+- **Time travel.** Every checkpoint on a thread can be revisited. Replaying
+  from one means "nodes before the checkpoint are not re-executed" while
+  "nodes after the checkpoint re-execute, including any LLM calls, API
+  requests, and interrupts". `update_state` "does not roll back a thread. It
+  creates a new checkpoint that branches from the specified point"
+  ([time travel](https://docs.langchain.com/oss/python/langgraph/use-time-travel)).
+- **Durable execution.** A checkpointed run survives failure in two ways.
+  When one node fails in a super-step, "LangGraph stores pending checkpoint
+  writes from any other nodes that completed successfully", so resuming
+  does not re-run them. And the `durability` setting decides when state is
+  written: `exit` "only when graph execution exits — successfully, with an
+  error, or due to a human-in-the-loop interrupt", `async` "while the next
+  step executes", `sync` "before the next step starts"
+  ([checkpointers](https://docs.langchain.com/oss/python/langgraph/checkpointers)).
+  So under `exit`, a node that raises or a run that pauses is still saved
+  and can be resumed. What `exit` loses is a process that dies mid-run,
+  killed or out of memory, because it never reaches the exit.
+- **Resuming an interrupt re-runs the node.** "The runtime restarts the
+  entire node from the beginning—it does not resume from the exact line
+  where interrupt was called", so side effects before `interrupt()` should
+  be idempotent ([interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts)).
 
 ## How this repository implements it
 
@@ -119,12 +160,44 @@ Line up the two and the abstraction becomes concrete:
 
 The reducer is the part worth dwelling on, because it is the one that bites.
 `findings` is annotated `Annotated[list[str], operator.add]`. Drop that
-annotation and a second node writing `findings` replaces the first node's
-value rather than appending — a fan-out that looks like it worked and
-returned one branch's results.
-`tests/unit/agents/test_handbuilt_graph.py` asserts both behaviours against
-two real graphs rather than describing the difference, so the failure mode is
-executable rather than a warning you have to take on trust.
+annotation and a node that writes `findings` *after* another replaces its
+value rather than appending, silently. Two nodes writing it in the *same*
+super-step, as a fan-out does, fail loudly instead, with
+`InvalidUpdateError`. `tests/unit/agents/test_handbuilt_graph.py` and
+`test_concurrent_writes_without_a_reducer_raise_rather_than_pick_one` run
+both cases against real graphs, so neither is a warning you have to take on
+trust.
+
+### Beyond the supervisor: `graph_mechanics.py`
+
+`src/agents/graph_mechanics.py` holds five small, model-free graphs for the
+mechanics a production graph depends on and the supervisor hides: a credit
+review that fans out one `Send` per issuer, a desk graph with a limits
+subgraph, a three-step pricing pipeline for time travel, an approval node
+that interrupts, and two pricers that run in parallel. Each fact is pinned
+by a test in `tests/unit/agents/test_graph_mechanics.py`:
+
+| Mechanic | What the test shows |
+|---|---|
+| Streaming | `test_updates_mode_streams_each_write_and_values_mode_the_full_state`; `test_custom_mode_streams_what_a_node_emits_through_the_stream_writer`; `test_subgraph_output_is_namespaced_only_when_asked` |
+| Subgraphs | `test_subgraph_output_is_namespaced_only_when_asked` (shared keys: added directly as a node); `test_a_subgraph_with_a_different_schema_is_called_from_a_node` (different schemas: called from a node, state mapped in and out) |
+| `Send` fan-out | `test_send_fans_out_one_task_per_item_in_one_super_step`; `test_concurrent_writes_without_a_reducer_raise_rather_than_pick_one` |
+| Time travel | `test_replay_skips_nodes_before_the_checkpoint_and_reruns_those_after` (the pipeline's `load` runs once, `price` and `report` twice); `test_update_state_forks_instead_of_rewriting_history` |
+| Durable execution | `test_a_resumed_node_reruns_from_its_first_line` (the desk is notified twice); `test_a_failed_parallel_branch_resumes_without_rerunning_its_sibling`; `test_exit_durability_keeps_no_intermediate_checkpoints` (one checkpoint instead of five); `test_exit_durability_still_persists_at_an_interrupt_and_an_error` |
+
+The resumed-node test is the one to remember. Deep Agents' `interrupt_on`
+pauses inside a node too, so the same rule applies to the Portfolio
+Manager's approval step: whatever runs before the pause runs again on
+resume.
+
+## The four threads
+
+| Thread | In a LangGraph agent | Evidence |
+|---|---|---|
+| **Observability** | Streaming is a live feed for a caller: progress, partial state, tokens. It is not telemetry: it goes to whoever is iterating the stream and is gone afterwards. Latency, errors, and cost across runs still come from spans and metrics, as in the OpenTelemetry course. | `test_custom_mode_streams_what_a_node_emits_through_the_stream_writer` |
+| **Traceability** | A thread's checkpoint history records the state after every super-step, which makes a run inspectable and replayable. It is state storage, not an audit log: `InMemorySaver` loses it on restart, `exit` durability never writes it, and forks add branches beside the original. | `test_update_state_forks_instead_of_rewriting_history`, `test_exit_durability_keeps_no_intermediate_checkpoints` |
+| **Governance** | Approval is the checkpointed interrupt state resumed through `resume_multi_agent()`, never text in the model's context. And because a resumed node re-runs from its start, a notification or order placed before the pause would happen twice. | `test_a_resumed_node_reruns_from_its_first_line` |
+| **Evaluation** | Graph behaviour is testable without a model: count node invocations to prove completed work was not redone, as the crash-and-resume test does, and replay from a checkpoint to re-run only the step under test. | `tests/unit/agents/test_failure_recovery.py`, `test_replay_skips_nodes_before_the_checkpoint_and_reruns_those_after` |
 
 ## Worked walkthrough
 
@@ -151,6 +224,17 @@ executable rather than a warning you have to take on trust.
    which middleware in `src/agents/recovery.py` would catch a similarly
    silent failure today, and which parts (the model simply not calling
    `task`) no middleware can force.
+6. Run the mechanics tests:
+   ```bash
+   uv run pytest tests/unit/agents/test_graph_mechanics.py -q
+   ```
+   Before reading `test_replay_skips_nodes_before_the_checkpoint_and_reruns_those_after`,
+   predict the call counts for `load`, `price`, and `report`.
+7. Read `test_a_resumed_node_reruns_from_its_first_line`. Rewrite
+   `approval_graph`'s node so the desk is notified exactly once, and say
+   which of your two options survives a process restart.
+8. Read `test_exit_durability_keeps_no_intermediate_checkpoints`. For a
+   ten-minute backtest graph, choose a durability mode and defend it.
 
 ## Common pitfalls
 
@@ -168,6 +252,18 @@ executable rather than a warning you have to take on trust.
   `interrupt_on`/checkpoint control state, resumed explicitly through
   `resume_multi_agent()`, constitutes approval — the graph's actual paused
   state is the source of truth, not anything the model said about it.
+- **Side effects before `interrupt()`.** The node re-runs from its first
+  line on resume, so a notification, an order, or a counter before the
+  pause happens again. Move it after the interrupt, into its own node, or
+  make it idempotent.
+- **Expecting `update_state` to rewrite history.** It forks. The original
+  checkpoints stay, and the next run continues from the fork.
+- **`exit` durability on a long run.** It is the fastest mode, and it still
+  saves a run that raises or pauses. But a process that is killed mid-run
+  never reaches the exit and leaves nothing to resume from. Use it only
+  where a rerun from the start is acceptable after that.
+- **A fan-out without a reducer.** Branches in one super-step that write the
+  same key raise `InvalidUpdateError`. Give the key a reducer.
 
 ## Further reading
 
