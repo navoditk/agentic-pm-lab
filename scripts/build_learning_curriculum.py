@@ -159,11 +159,47 @@ def source_file_link(path: str) -> str:
     )
 
 
+_CODE_SPAN = re.compile(r"(<code>.*?</code>)", re.DOTALL)
+# *text*, but not **bold**, a list marker, or an asterisk inside a word.
+_EMPHASIS = re.compile(r"(?<![*\w])\*(?![\s*])([^*\n]+?)(?<!\s)\*(?![*\w])")
+_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
+_FENCE = re.compile(r"^[ \t]*```.*$", re.MULTILINE)
+
+
+def strip_comments(markdown: str) -> str:
+    """Remove HTML comments outside code fences, wherever they sit.
+
+    Comments are source-only notes, such as generated-block markers. Removing
+    only whole lines that start with `<!--` left inline comments on the page
+    as escaped text, and dropped any prose after a multi-line comment's `-->`.
+    """
+    parts: list[str] = []
+    position, inside = 0, False
+    for fence in _FENCE.finditer(markdown):
+        segment = markdown[position : fence.start()]
+        parts.append(segment if inside else _COMMENT.sub("", segment))
+        parts.append(fence.group(0))
+        position, inside = fence.end(), not inside
+    tail = markdown[position:]
+    parts.append(tail if inside else _COMMENT.sub("", tail))
+    return "".join(parts)
+
+
 def inline_markdown(text: str, source_path: Path | None = None) -> str:
     """Render the small Markdown subset used by curriculum source documents."""
     escaped = html.escape(text, quote=False)
     escaped = re.sub(r"`([^`]+)`", r"<code>\1</code>", escaped)
     escaped = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", escaped)
+    # Emphasis may wrap code spans, but must not reach inside one, so `a*b*c`
+    # in code stays literal: hold code spans aside while emphasis is applied.
+    spans: list[str] = []
+
+    def hold(match: re.Match[str]) -> str:
+        spans.append(match.group(0))
+        return f"\x00{len(spans) - 1}\x00"
+
+    escaped = _EMPHASIS.sub(r"<em>\1</em>", _CODE_SPAN.sub(hold, escaped))
+    escaped = re.sub(r"\x00(\d+)\x00", lambda m: spans[int(m.group(1))], escaped)
     escaped = re.sub(
         r"\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)",
         lambda match: (
@@ -182,11 +218,11 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
     that document's prefix, so fourteen deep dives can each have a "Core
     concepts" section without colliding ids.
     """
+    markdown = strip_comments(markdown)
     output: list[str] = []
     paragraph: list[str] = []
     list_tag: str | None = None
     in_code = False
-    in_comment = False
     code: list[str] = []
     prefix = None
     if source_path is not None:
@@ -229,11 +265,6 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
             continue
         if in_code:
             code.append(raw_line)
-            continue
-        # HTML comments are source-only notes, such as generated-block
-        # markers; escaped, they rendered as literal "<!-- ... -->" text.
-        if in_comment or line.lstrip().startswith("<!--"):
-            in_comment = "-->" not in line
             continue
         if not line:
             flush_paragraph()

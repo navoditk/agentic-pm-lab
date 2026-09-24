@@ -11,6 +11,10 @@ Rules, per docs/learning/FOUNDATIONS_MASTERY_PLAN.md section 4:
 - ids are unique across all banks, and question text is not repeated;
 - 3-5 distinct choices, and `correct_index` is one of them;
 - no answer position holds more than MAX_POSITION_SHARE of a bank's keys;
+- the correct choice is the uniquely longest one in at most
+  MAX_LONGEST_SHARE of a bank, since "always pick the longest" is the other
+  guess that needs no understanding (it scored 78% across all banks before
+  this rule, passing most of them);
 - `citation` and `verified_by` name files that exist, and a `verified_by`
   test function exists in its file;
 - `tier` is concept, implementation, or transfer; `concept` is listed in
@@ -36,6 +40,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 MAX_POSITION_SHARE = 0.4
+MAX_LONGEST_SHARE = 0.4
 TIER_TARGETS = {"concept": 0.4, "implementation": 0.4, "transfer": 0.2}
 TIER_TOLERANCE = 0.1
 EXPLAINED_TIERS = {"concept", "transfer"}
@@ -110,6 +115,16 @@ def check_question(
     return errors
 
 
+def correct_is_uniquely_longest(question: dict) -> bool:
+    lengths = [len(choice) for choice in question.get("choices", [])]
+    index = question.get("correct_index")
+    if not isinstance(index, int) or not 0 <= index < len(lengths):
+        return False
+    return all(
+        length < lengths[index] for i, length in enumerate(lengths) if i != index
+    )
+
+
 def check_bank(topic: str, questions: list[dict]) -> list[str]:
     errors = []
     positions = Counter(q.get("correct_index") for q in questions)
@@ -119,6 +134,13 @@ def check_bank(topic: str, questions: list[dict]) -> list[str]:
             f"{topic}: {top_count} of {len(questions)} answers are position "
             f"{top_position}; a learner who always picks it would score "
             f"{top_count / len(questions):.0%}"
+        )
+    longest = sum(1 for q in questions if correct_is_uniquely_longest(q))
+    if len(questions) >= 8 and longest / len(questions) > MAX_LONGEST_SHARE:
+        errors.append(
+            f"{topic}: the correct choice is the uniquely longest in {longest} of "
+            f"{len(questions)} questions; always picking the longest would score "
+            f"{longest / len(questions):.0%}"
         )
     declared = [q for q in questions if "tier" in q]
     if declared and len(declared) != len(questions):

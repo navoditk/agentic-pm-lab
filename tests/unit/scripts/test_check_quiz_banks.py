@@ -104,3 +104,19 @@ def test_a_well_formed_concept_question_passes():
         verified_by="tests/unit/test_cli.py::test_every_advertised_command_parses",
     )
     assert check_question(q, "t", CONCEPTS, SOURCES) == []
+
+
+def test_a_bank_whose_answers_are_usually_the_longest_choice_is_rejected():
+    """Always picking the longest choice scored 78% across the banks before
+    this rule, passing most of them without reading a question."""
+
+    def q(i, long_correct):
+        choices = ["short a", "short b", "short c", "short d"]
+        choices[i % 4] = "a much longer correct answer" if long_correct else "short x"
+        return question(i, correct=i % 4, choices=choices)
+
+    biased = [q(i, long_correct=True) for i in range(10)]
+    errors = check_bank("t", biased)
+    assert any("uniquely longest in 10 of 10" in e for e in errors)
+    balanced = [q(i, long_correct=i < 3) for i in range(10)]
+    assert not any("longest" in e for e in check_bank("t", balanced))

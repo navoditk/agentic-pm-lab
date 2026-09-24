@@ -2,6 +2,8 @@ import re
 from datetime import date
 from pathlib import Path
 
+import pytest
+
 from scripts.build_learning_curriculum import (
     DEFAULT_OUTPUT,
     build_html,
@@ -215,3 +217,40 @@ def test_an_unregistered_document_renders_without_heading_ids():
     from scripts.build_learning_curriculum import render_markdown
 
     assert render_markdown("## Heading") == "<h2>Heading</h2>"
+
+
+# --- rendering edge cases found in review ---------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("source", "expected"),
+    [
+        ("text <!-- inline --> more", "<p>text  more</p>"),
+        ("<!-- multi\nline --> kept prose", "<p>kept prose</p>"),
+        (
+            "```\n<!-- in code -->\n```",
+            "<pre><code>&lt;!-- in code --&gt;</code></pre>",
+        ),
+    ],
+)
+def test_comments_are_removed_anywhere_outside_code_and_nothing_else_is(
+    source, expected
+):
+    from scripts.build_learning_curriculum import render_markdown
+
+    assert render_markdown(source) == expected
+
+
+def test_single_asterisk_emphasis_renders_without_touching_code_or_words():
+    from scripts.build_learning_curriculum import render_markdown
+
+    rendered = render_markdown("*em* and **bold** and a*b and `a*b*c`")
+    assert rendered == (
+        "<p><em>em</em> and <strong>bold</strong> and a*b and <code>a*b*c</code></p>"
+    )
+
+
+def test_no_literal_emphasis_asterisks_reach_the_page():
+    """Every deep dive opens with an italic "Companion to" line, which showed
+    as literal asterisks on the published page."""
+    assert "<p>*Companion to" not in _artifact_text()

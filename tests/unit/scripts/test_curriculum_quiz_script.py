@@ -8,6 +8,7 @@ src/education/tutor.py.
 """
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -16,6 +17,10 @@ import pytest
 
 from scripts.build_learning_curriculum import DEFAULT_OUTPUT
 
+# Skip locally without Node, but never in CI: a silent skip there would let a
+# broken page quiz ship. GitHub Actions sets CI=true, and ci.yml pins Node.
+if shutil.which("node") is None and os.environ.get("CI"):
+    raise RuntimeError("CI must provide Node to test the page's quiz script")
 pytestmark = pytest.mark.skipif(shutil.which("node") is None, reason="needs node")
 
 STUB = """
