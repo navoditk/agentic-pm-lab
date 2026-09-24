@@ -74,6 +74,19 @@ Checked against each CLI's documentation on 2026-09-23:
   optional) and skills from `.agents/skills`.
 
 **Known limitation.** Copilot reads both `.claude/skills` and `.agents/skills`,
-so it may list each skill twice. Its documentation does not say whether it
-de-duplicates by name. Two loaders are needed because Claude Code and Codex
-each read only one of those directories.
+and GitHub's documentation does not say what happens when both hold a skill
+with the same name. The surfaces differ in practice:
+
+- **VS Code agent mode** keeps one. Its source lists the project folders in
+  the order `.agents/skills`, `.github/skills`, `.claude/skills` and skips a
+  later skill whose name it has already seen, so the `.agents/skills` loader
+  wins.
+- **Copilot CLI** may list both. An open issue,
+  [github/copilot-cli#4430](https://github.com/github/copilot-cli/issues/4430),
+  reports a same-named skill loading twice from two sources (a project and a
+  plugin); we have not seen a statement that it de-duplicates project folders.
+
+A duplicate costs context, not correctness: both loaders are identical and
+point to the same `skills/<name>/SKILL.md`. Two loaders are needed because
+Claude Code and Codex each read only one of those directories, and adding
+`.github/skills` would only add a third copy.
