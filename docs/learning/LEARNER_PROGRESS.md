@@ -12,7 +12,7 @@ for the recommended order; the table below follows it.
 
 <!-- LEARNER_PROGRESS:START -->
 
-## Status: 0 of 16 tutor topics passed (≥80% overall, ≥70% per question tier)
+## Status: 0 of 17 tutor topics passed (≥80% overall, ≥70% per question tier)
 
 **Tracks comprehension, not implementation.** A topic shows ✅ here only
 after the learner has taken and passed its quiz with
@@ -34,6 +34,7 @@ day's code was built.
 | data-provenance-research-tutor | 0 | - | ⬜ Not attempted |
 | investment-data-tutor | 0 | - | ⬜ Not attempted |
 | investment-committee-tutor | 0 | - | ⬜ Not attempted |
+| aws-bedrock-tutor | 0 | - | ⬜ Not attempted |
 | aws-agentcore-tutor | 0 | - | ⬜ Not attempted |
 | copilot-canvas-mcp-tutor | 0 | - | ⬜ Not attempted |
 | agent-development-lifecycle-tutor | 0 | - | ⬜ Not attempted |

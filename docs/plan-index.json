@@ -914,8 +914,8 @@
       ]
     },
     "docs/reference/REFERENCES.md": {
-      "total_lines": 584,
-      "approx_tokens": 13348,
+      "total_lines": 597,
+      "approx_tokens": 13595,
       "sections": [
         {
           "id": "how-to-use-this-file",
@@ -923,8 +923,8 @@
           "level": 2,
           "file": "docs/reference/REFERENCES.md",
           "start_line": 17,
-          "end_line": 584,
-          "approx_tokens": 13058
+          "end_line": 597,
+          "approx_tokens": 13306
         },
         {
           "id": "origins-inspiration",
@@ -1004,16 +1004,16 @@
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
           "start_line": 126,
-          "end_line": 163,
-          "approx_tokens": 951
+          "end_line": 176,
+          "approx_tokens": 1198
         },
         {
           "id": "aws-iam-account-basics-day-12-account-setup",
           "title": "AWS IAM & account basics (Day 12 account setup)",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 164,
-          "end_line": 167,
+          "start_line": 177,
+          "end_line": 180,
           "approx_tokens": 67
         },
         {
@@ -1021,8 +1021,8 @@
           "title": "Security: AuthN/AuthZ, policy-as-code, prompt injection",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 168,
-          "end_line": 177,
+          "start_line": 181,
+          "end_line": 190,
           "approx_tokens": 186
         },
         {
@@ -1030,8 +1030,8 @@
           "title": "GitHub Copilot App, Canvas, Prompts, Skills, Custom Agents",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 178,
-          "end_line": 189,
+          "start_line": 191,
+          "end_line": 202,
           "approx_tokens": 323
         },
         {
@@ -1039,8 +1039,8 @@
           "title": "Agent harnesses, skills, prompts, and custom agents",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 190,
-          "end_line": 261,
+          "start_line": 203,
+          "end_line": 274,
           "approx_tokens": 2476
         },
         {
@@ -1048,8 +1048,8 @@
           "title": "Anthropic",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 200,
-          "end_line": 209,
+          "start_line": 213,
+          "end_line": 222,
           "approx_tokens": 521
         },
         {
@@ -1057,8 +1057,8 @@
           "title": "OpenAI and Codex",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 210,
-          "end_line": 220,
+          "start_line": 223,
+          "end_line": 233,
           "approx_tokens": 582
         },
         {
@@ -1066,8 +1066,8 @@
           "title": "GitHub Copilot and Agent HQ",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 221,
-          "end_line": 231,
+          "start_line": 234,
+          "end_line": 244,
           "approx_tokens": 657
         },
         {
@@ -1075,8 +1075,8 @@
           "title": "Broader landscape and ongoing monitoring",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 232,
-          "end_line": 238,
+          "start_line": 245,
+          "end_line": 251,
           "approx_tokens": 184
         },
         {
@@ -1084,8 +1084,8 @@
           "title": "Videos and podcasts",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 239,
-          "end_line": 261,
+          "start_line": 252,
+          "end_line": 274,
           "approx_tokens": 390
         },
         {
@@ -1093,8 +1093,8 @@
           "title": "Tutor-agent study map",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 262,
-          "end_line": 300,
+          "start_line": 275,
+          "end_line": 313,
           "approx_tokens": 610
         },
         {
@@ -1102,8 +1102,8 @@
           "title": "Document ingestion and document-to-skill design",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 301,
-          "end_line": 323,
+          "start_line": 314,
+          "end_line": 336,
           "approx_tokens": 589
         },
         {
@@ -1111,8 +1111,8 @@
           "title": "OpenAI Codex CLI (optional alternative dev tool \u2014 [`INSTALL.md`](../../INSTALL.md) \u00a78)",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 324,
-          "end_line": 328,
+          "start_line": 337,
+          "end_line": 341,
           "approx_tokens": 80
         },
         {
@@ -1120,8 +1120,8 @@
           "title": "Public data APIs",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 329,
-          "end_line": 351,
+          "start_line": 342,
+          "end_line": 364,
           "approx_tokens": 516
         },
         {
@@ -1129,8 +1129,8 @@
           "title": "Public-data terminology and decision-use primers",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 352,
-          "end_line": 367,
+          "start_line": 365,
+          "end_line": 380,
           "approx_tokens": 472
         },
         {
@@ -1138,8 +1138,8 @@
           "title": "BigData.com financial intelligence",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 368,
-          "end_line": 401,
+          "start_line": 381,
+          "end_line": 414,
           "approx_tokens": 525
         },
         {
@@ -1147,8 +1147,8 @@
           "title": "Fixed-income data sources and provider access",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 402,
-          "end_line": 432,
+          "start_line": 415,
+          "end_line": 445,
           "approx_tokens": 996
         },
         {
@@ -1156,8 +1156,8 @@
           "title": "Official/public sources",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 404,
-          "end_line": 414,
+          "start_line": 417,
+          "end_line": 427,
           "approx_tokens": 426
         },
         {
@@ -1165,8 +1165,8 @@
           "title": "OpenBB provider abstraction",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 415,
-          "end_line": 421,
+          "start_line": 428,
+          "end_line": 434,
           "approx_tokens": 244
         },
         {
@@ -1174,8 +1174,8 @@
           "title": "Fixed-income analytics libraries",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 422,
-          "end_line": 426,
+          "start_line": 435,
+          "end_line": 439,
           "approx_tokens": 146
         },
         {
@@ -1183,8 +1183,8 @@
           "title": "Licensed production references",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 427,
-          "end_line": 432,
+          "start_line": 440,
+          "end_line": 445,
           "approx_tokens": 166
         },
         {
@@ -1192,8 +1192,8 @@
           "title": "Fixed-income PM analytics reading checklist",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 433,
-          "end_line": 445,
+          "start_line": 446,
+          "end_line": 458,
           "approx_tokens": 196
         },
         {
@@ -1201,8 +1201,8 @@
           "title": "Data engineering, provenance, and research correctness",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 446,
-          "end_line": 454,
+          "start_line": 459,
+          "end_line": 467,
           "approx_tokens": 152
         },
         {
@@ -1210,8 +1210,8 @@
           "title": "News, sentiment, and research retrieval",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 455,
-          "end_line": 463,
+          "start_line": 468,
+          "end_line": 476,
           "approx_tokens": 125
         },
         {
@@ -1219,8 +1219,8 @@
           "title": "Backtesting and portfolio construction realism",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 464,
-          "end_line": 480,
+          "start_line": 477,
+          "end_line": 493,
           "approx_tokens": 277
         },
         {
@@ -1228,8 +1228,8 @@
           "title": "Python testing & mocking",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 481,
-          "end_line": 486,
+          "start_line": 494,
+          "end_line": 499,
           "approx_tokens": 106
         },
         {
@@ -1237,8 +1237,8 @@
           "title": "Quant/fixed-income formulas (Day 3 tool layer)",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 487,
-          "end_line": 498,
+          "start_line": 500,
+          "end_line": 511,
           "approx_tokens": 422
         },
         {
@@ -1246,8 +1246,8 @@
           "title": "Portfolio optimization and portfolio construction",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 499,
-          "end_line": 569,
+          "start_line": 512,
+          "end_line": 582,
           "approx_tokens": 1194
         },
         {
@@ -1255,8 +1255,8 @@
           "title": "Current project foundation",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 504,
-          "end_line": 519,
+          "start_line": 517,
+          "end_line": 532,
           "approx_tokens": 328
         },
         {
@@ -1264,8 +1264,8 @@
           "title": "Constraints, solvers, and institutional realism",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 520,
-          "end_line": 539,
+          "start_line": 533,
+          "end_line": 552,
           "approx_tokens": 330
         },
         {
@@ -1273,8 +1273,8 @@
           "title": "Estimation risk, validation, and robustness",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 540,
-          "end_line": 556,
+          "start_line": 553,
+          "end_line": 569,
           "approx_tokens": 288
         },
         {
@@ -1282,8 +1282,8 @@
           "title": "Business-use-case reading checklist",
           "level": 4,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 557,
-          "end_line": 569,
+          "start_line": 570,
+          "end_line": 582,
           "approx_tokens": 193
         },
         {
@@ -1291,8 +1291,8 @@
           "title": "FICC / fixed income fundamentals",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 570,
-          "end_line": 575,
+          "start_line": 583,
+          "end_line": 588,
           "approx_tokens": 149
         },
         {
@@ -1300,8 +1300,8 @@
           "title": "Git & version control",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 576,
-          "end_line": 579,
+          "start_line": 589,
+          "end_line": 592,
           "approx_tokens": 67
         },
         {
@@ -1309,8 +1309,8 @@
           "title": "Pre-commit & CI tooling",
           "level": 3,
           "file": "docs/reference/REFERENCES.md",
-          "start_line": 580,
-          "end_line": 584,
+          "start_line": 593,
+          "end_line": 597,
           "approx_tokens": 69
         }
       ]
