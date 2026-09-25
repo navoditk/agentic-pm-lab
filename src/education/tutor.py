@@ -73,6 +73,13 @@ TOPIC_CATALOG: dict[str, dict[str, str]] = {
         "reference": f"{REFERENCES_FILE}#security-authnauthz-policy-as-code-prompt-injection",
         "deep_dive": "docs/learning/tutors/governance-delivery-tutor.md",
     },
+    "traceability-capstone-tutor": {
+        "label": "Capstone: traceability end to end",
+        "agent_file": "agents/traceability-capstone-tutor.md",
+        "quiz_file": "evals/tutor_quizzes/traceability-capstone-tutor.jsonl",
+        "reference": f"{REFERENCES_FILE}#traceability-capstone",
+        "deep_dive": "docs/learning/tutors/traceability-capstone-tutor.md",
+    },
     "ficc-tutor-agent": {
         "label": "FICC fundamentals",
         "agent_file": "agents/ficc-tutor-agent.md",

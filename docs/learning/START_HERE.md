@@ -38,7 +38,8 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
 
 3. **Pick your first course.** The
    [recommended order](TUTOR_COURSE_GUIDE.md#recommended-order) groups the
-   courses into three modules. Start with the required **Agent core**, step 1.
+   courses into three modules and a capstone. Start with the required
+   **Agent core**, step 1, and finish it with the required **Capstone**.
    Add the optional **Finance domain** module to apply it to investing
    ([pm-mechanics](https://github.com/navoditk/pm-mechanics) teaches the math
    it assumes), and whichever **Platforms** courses match your tools.
@@ -62,10 +63,12 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
    would need. The [completion rubric](TUTOR_COURSE_GUIDE.md#course-completion-rubric)
    lists all five conditions.
 
-7. **Repeat, then do the capstone.** Take the next course in order. When you
-   have finished Agent core and any optional modules you want, run the
-   [no-cost capstone](DEPTH_PATH.md#a-no-cost-capstone), which exercises
-   every layer on one synthetic rates-and-credit question.
+7. **Repeat, then do the capstone.** Take the next course in order. After
+   Agent core, take the
+   [traceability capstone](tutors/traceability-capstone-tutor.md): rebuild one
+   decision from a single trace id, then find the hop that drops it. The
+   Depth Path's [fixture capstone](DEPTH_PATH.md#a-no-cost-capstone) is an
+   optional extension that exercises every layer on a larger question.
 
 ## Optional extras
 

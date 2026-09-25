@@ -12,7 +12,7 @@ for the recommended order; the table below follows it.
 
 <!-- LEARNER_PROGRESS:START -->
 
-## Status: 0 of 17 tutor topics passed (≥80% overall, ≥70% per question tier)
+## Status: 0 of 18 tutor topics passed (≥80% overall, ≥70% per question tier)
 
 **Tracks comprehension, not implementation.** A topic shows ✅ here only
 after the learner has taken and passed its quiz with
@@ -29,6 +29,7 @@ day's code was built.
 | opentelemetry-tutor | 0 | - | ⬜ Not attempted |
 | evaluation-agentops-tutor | 0 | - | ⬜ Not attempted |
 | governance-delivery-tutor | 0 | - | ⬜ Not attempted |
+| traceability-capstone-tutor | 0 | - | ⬜ Not attempted |
 | ficc-tutor-agent | 0 | - | ⬜ Not attempted |
 | portfolio-construction-tutor | 0 | - | ⬜ Not attempted |
 | data-provenance-research-tutor | 0 | - | ⬜ Not attempted |

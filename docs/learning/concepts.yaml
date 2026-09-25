@@ -107,3 +107,5 @@ domains:
       audit: What an audit event must record, and what it must not
       provenance: Source, vintage, and point-in-time eligibility of evidence
       replay: Reconstructing a decision from its records
+      lineage: The chain from inputs through each transformation to an output
+      context-propagation: Carrying the trace id across threads, services, and stores

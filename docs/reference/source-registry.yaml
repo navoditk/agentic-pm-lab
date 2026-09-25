@@ -190,6 +190,8 @@ sources:
         assets: [docs/learning/tutors/investment-data-tutor.md, agents/investment-data-tutor.md, evals/tutor_quizzes/investment-data-tutor.jsonl]
       - topic: data-provenance-research-tutor
         assets: [docs/learning/tutors/data-provenance-research-tutor.md, agents/data-provenance-research-tutor.md, evals/tutor_quizzes/data-provenance-research-tutor.jsonl]
+      - topic: traceability-capstone-tutor
+        assets: [docs/learning/tutors/traceability-capstone-tutor.md, agents/traceability-capstone-tutor.md, evals/tutor_quizzes/traceability-capstone-tutor.jsonl]
   - id: treasury-data
     title: U.S. Treasury Fiscal Data
     url: https://fiscaldata.treasury.gov/api-documentation/
@@ -354,6 +356,8 @@ sources:
     impacts:
       - topic: agent-foundations-tutor
         assets: [docs/learning/tutors/agent-foundations-tutor.md, agents/agent-foundations-tutor.md, evals/tutor_quizzes/agent-foundations-tutor.jsonl]
+      - topic: traceability-capstone-tutor
+        assets: [docs/learning/tutors/traceability-capstone-tutor.md, agents/traceability-capstone-tutor.md, evals/tutor_quizzes/traceability-capstone-tutor.jsonl]
   - id: otel-genai-semconv
     title: "OpenTelemetry GenAI span conventions"
     url: https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md
@@ -754,6 +758,30 @@ sources:
     impacts:
       - topic: aws-agentcore-tutor
         assets: [docs/learning/tutors/aws-agentcore-tutor.md, agents/aws-agentcore-tutor.md, evals/tutor_quizzes/aws-agentcore-tutor.jsonl]
+  - id: otel-context-propagation
+    title: "OpenTelemetry: context propagation"
+    url: https://opentelemetry.io/docs/concepts/context-propagation/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: traceability-capstone-tutor
+        assets: [docs/learning/tutors/traceability-capstone-tutor.md, agents/traceability-capstone-tutor.md, evals/tutor_quizzes/traceability-capstone-tutor.jsonl]
+  - id: otel-sampling
+    title: "OpenTelemetry: sampling"
+    url: https://opentelemetry.io/docs/concepts/sampling/
+    kind: url
+    version_or_fingerprint: documentation-reviewed-2026-09-24
+    last_reviewed: 2026-09-24
+    review_after_days: 90
+    owner: navoditk
+    severity_rules: [breaking, deprecated, removed, security]
+    impacts:
+      - topic: traceability-capstone-tutor
+        assets: [docs/learning/tutors/traceability-capstone-tutor.md, agents/traceability-capstone-tutor.md, evals/tutor_quizzes/traceability-capstone-tutor.jsonl]
   - id: aws-bedrock-tool-use
     title: "Amazon Bedrock: client-side tool use"
     url: https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use-client-side.html
