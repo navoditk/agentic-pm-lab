@@ -59,8 +59,8 @@ the narrative log explicitly says that evidence was captured.
 | Portfolio Optimization | 🟢 Real | 1 file(s), no `# MOCK` markers |
 | Interactive Layer | 🟢 Real | 68 file(s), no `# MOCK` markers |
 | Runtime Layer | 🟢 Real | 2 file(s), no `# MOCK` markers |
-| Agent Layer | 🟢 Real | 8 file(s), no `# MOCK` markers |
-| Observability | 🟢 Real | 3 file(s), no `# MOCK` markers |
+| Agent Layer | 🟢 Real | 9 file(s), no `# MOCK` markers |
+| Observability | 🟢 Real | 4 file(s), no `# MOCK` markers |
 | Golden dataset / evals | 🟢 Real | 4 file(s), no `# MOCK` markers |
 | AWS Bedrock AgentCore | 🟢 Real | 1 file(s), no `# MOCK` markers |
 
