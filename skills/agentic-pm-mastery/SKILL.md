@@ -9,7 +9,7 @@ covers:
   - docs/learning/tutor-courses.json
   - docs/learning/tutors
   - evals/tutor_quizzes
-last_verified_commit: 13ae3f8c9563594031a8bea3dfa536d922bb75a6
+last_verified_commit: 44014b73ebe1b1b22fd2cebbc8870e4bc120767a
 ---
 
 # Agentic PM Lab Mastery
@@ -50,15 +50,15 @@ state a documented limitation when it materially affects the answer.
 
 | Learner request | Action |
 |---|---|
-| `agentexpert` or "start learning" | Read `references/learning-paths.md`; ask the learner to choose a path or topic. |
+| `agentexpert` or "start learning" | Read `references/learning-paths.md`; ask the learner to choose a path or topic. On a first interaction, offer the placement quiz (`uv run agentic-pm-lab placement`, 12 concept questions, never recorded) to find which required courses they can skip ahead to the quiz. |
 | "teach me `<topic>`" | Resolve the topic in `TOPIC_CATALOG`; teach one current course objective at a time. |
-| "quiz me" or "test me" | Read the topic JSONL bank; ask 5 mixed questions as practice unless the learner requests the full quiz. Practice rounds are never recorded. |
+| "quiz me" or "test me" | Read the topic JSONL bank; ask 5 mixed questions as practice unless the learner requests the full quiz. With no topic named, run `uv run agentic-pm-lab review --list` and practise the concepts it lists, oldest miss first. Practice rounds are never recorded. |
 | "record my quiz" or "full quiz" | Run a recorded quiz: see "Recording a quiz durably" below. |
 | "scenario" or "failure lab" | Read `references/scenarios.md`; route to the selected topic's failure lab and require a safe outcome. |
 | "build lab" or "let me build something" | Read the topic's `build_lab`; the learner writes the code. Review what they produce against whether it runs and whether its test would fail if the behaviour regressed — never write it for them. |
 | "review my lab" or "teach-back" | Read the course assessment and evaluate against its rubric without doing the work for the learner. |
 | "final assessment" | Read `references/final-assessment.md`; run the cross-topic assessment. |
-| "my progress" | Report session progress, and tell the learner that `uv run agentic-pm-lab progress` shows every recorded quiz, from this conversation or the terminal. |
+| "my progress" | Report session progress, and tell the learner that `uv run agentic-pm-lab progress` shows every recorded quiz, from this conversation or the terminal, with a course-by-tier mastery matrix. |
 
 For a focused factual question, answer directly from the current source and do
 not force the learner through a lesson.

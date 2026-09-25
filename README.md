@@ -44,6 +44,7 @@ git clone https://github.com/navoditk/agentic-pm-lab.git && cd agentic-pm-lab
 uv sync
 uv run agentic-pm-lab            # all commands, grouped by audience
 uv run agentic-pm-lab learn      # every course, in order
+uv run agentic-pm-lab placement  # 12 questions: which courses to skip ahead
 uv run agentic-pm-lab quiz agent-architecture-tutor
 ```
 
