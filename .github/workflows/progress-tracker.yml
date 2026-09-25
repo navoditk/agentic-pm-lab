@@ -3,6 +3,9 @@ name: Progress Tracker Validation
 on:
   push:
     branches: [main]
+  # Also on pull requests, so a stale table is caught before it merges rather
+  # than turning main red afterwards.
+  pull_request:
 
 permissions:
   contents: read
