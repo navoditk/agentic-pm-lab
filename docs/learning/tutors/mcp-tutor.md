@@ -174,6 +174,10 @@ through. That is this course's build lab.
 
 ## Further reading
 
+- **Live variant (optional):** `uv run python -m src.live_labs.mcp_stdio` runs
+  the server as a real process over stdio and shows the bound identity, the
+  refused claim, and the server's spans joining the client's trace. Free; see
+  [`LIVE_LABS.md`](../LIVE_LABS.md).
 - [`docs/reference/REFERENCES.md#model-context-protocol-mcp`](../../reference/REFERENCES.md#model-context-protocol-mcp)
   — the specification pages this course cites.
 - [OpenTelemetry](opentelemetry-tutor.md), the next course: the spans and

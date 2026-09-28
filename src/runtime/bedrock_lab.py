@@ -174,6 +174,7 @@ class ConverseModel:
         cache_system: bool = False,
         guardrail: Mapping[str, str] | None = None,
         retry: Callable[[Callable[[], Any]], Any] = with_retries,
+        max_tokens: int | None = None,
     ) -> None:
         self.client = client
         self.name = model_id
@@ -181,6 +182,8 @@ class ConverseModel:
         self.cache_system = cache_system
         self.guardrail = guardrail
         self.retry = retry
+        # A ceiling on output tokens per call: what bounds a live run's cost.
+        self.max_tokens = max_tokens
         self.responses: list[dict[str, Any]] = []
 
     def request(
@@ -203,6 +206,8 @@ class ConverseModel:
             request["toolConfig"] = tool_config(tools)
         if self.guardrail:
             request["guardrailConfig"] = dict(self.guardrail)
+        if self.max_tokens is not None:
+            request["inferenceConfig"] = {"maxTokens": self.max_tokens}
         return request
 
     def __call__(

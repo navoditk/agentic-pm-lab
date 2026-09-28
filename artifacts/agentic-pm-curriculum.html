@@ -13,7 +13,7 @@ main{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}h1{font-size:clamp(2r
 </header>
 <nav class="jump" aria-label="Page sections"><a href="#start">Start</a><a href="#roadmap">What was built</a><a href="#guides">Guides</a><a href="#courses">Courses</a><a href="#top">Top ↑</a></nav>
 <main>
-<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>bf27468d6905</code>.</div>
+<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>dc36b1ebbbd4</code>.</div>
 <h2 id="start">Start a path</h2>
 <p>The courses come in three modules. Only <strong>Agent core</strong> is required, about 42 hours: it covers Agent foundations, Agent architecture, LangGraph and Deep Agents, Model Context Protocol, OpenTelemetry, Evaluations and AgentOps, Governance and delivery, Capstone: traceability end to end. <strong>Finance domain</strong> applies that core to investing. <strong>Platforms</strong> covers AWS AgentCore, Copilot Canvas, the agent development lifecycle, and document-to-skill; take the ones for your stack. Everything together is about 78 hours.</p>
 <p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, run <code>uv run agentic-pm-lab quiz &lt;topic-id&gt;</code> after cloning.</p>
@@ -1298,6 +1298,8 @@ uv run agentic-pm-lab progress</code></pre>
 </ul>
 <h2 id="mcp-tutor--further-reading">Further reading</h2>
 <ul>
+<li><strong>Live variant (optional):</strong> <code>uv run python -m src.live_labs.mcp_stdio</code> runs</li>
+<p>the server as a real process over stdio and shows the bound identity, the refused claim, and the server's spans joining the client's trace. Free; see <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/LIVE_LABS.md"><code>LIVE_LABS.md</code></a>.</p>
 <li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#model-context-protocol-mcp"><code>docs/reference/REFERENCES.md#model-context-protocol-mcp</code></a></li>
 <p>— the specification pages this course cites.</p>
 <li><a href="#opentelemetry-tutor">OpenTelemetry</a>, the next course: the spans and</li>
@@ -2598,6 +2600,8 @@ optimize_portfolio(&quot;max_sharpe&quot;, expected_returns, covariance, current
 </ul>
 <h2 id="aws-bedrock-tutor--further-reading">Further reading</h2>
 <ul>
+<li><strong>Live variant (optional):</strong> <code>uv run python -m src.live_labs.bedrock_converse</code></li>
+<p>prints the request it would send; add <code>--live</code> to run this loop against a real Bedrock model, capped at three calls. See <a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/learning/LIVE_LABS.md"><code>LIVE_LABS.md</code></a> for cost, credentials, and cleanup.</p>
 <li><a href="https://github.com/navoditk/agentic-pm-lab/blob/main/docs/reference/REFERENCES.md#aws-bedrock--agentcore"><code>docs/reference/REFERENCES.md#aws-bedrock--agentcore</code></a></li>
 <li><a href="#aws-agentcore-tutor">AWS Bedrock AgentCore</a>, the next course: hosting</li>
 <p>the agent that calls this model.</p>

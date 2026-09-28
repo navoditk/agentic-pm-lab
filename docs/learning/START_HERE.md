@@ -85,6 +85,9 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
 - **Tutor personas:** in Claude Code, Copilot, or Codex, ask for one tutor by
   name — see [`TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md#how-to-use-one-independently).
   It covers the same content as the CLI, just as a conversation.
+- **Live labs:** [`LIVE_LABS.md`](LIVE_LABS.md) runs the MCP server as a real
+  process (free) and the agent loop against a real Bedrock model (about a
+  cent). Never required; each lab states its cost, credentials, and cleanup.
 - **Canvas walkthrough:** [`CANVAS_EXERCISES.md`](../guides/CANVAS_EXERCISES.md)
   runs one PM question end to end, but needs GitHub Copilot Canvas.
 - **How it was built:** the [Phase 1 recap](PHASE_1_RECAP.md) walks through

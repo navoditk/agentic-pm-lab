@@ -137,6 +137,10 @@ tests can observe; it is not a reason to disable botocore's retries.
 
 ## Further reading
 
+- **Live variant (optional):** `uv run python -m src.live_labs.bedrock_converse`
+  prints the request it would send; add `--live` to run this loop against a
+  real Bedrock model, capped at three calls. See
+  [`LIVE_LABS.md`](../LIVE_LABS.md) for cost, credentials, and cleanup.
 - [`docs/reference/REFERENCES.md#aws-bedrock--agentcore`](../../reference/REFERENCES.md#aws-bedrock--agentcore)
 - [AWS Bedrock AgentCore](aws-agentcore-tutor.md), the next course: hosting
   the agent that calls this model.

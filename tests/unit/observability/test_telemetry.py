@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from langchain_core.messages import AIMessage
 from langchain_core.outputs import ChatGeneration, LLMResult
@@ -120,3 +122,27 @@ def test_authorization_and_audit_are_child_traceable_operations(
     assert audit.attributes["app.operation.type"] == "audit"
     assert audit.attributes["app.auth.decision"] == "denied"
     assert audit.attributes["app.auth.layer"] == "AuthZ"
+
+
+def test_the_span_log_writes_ids_and_names_but_no_attributes(tmp_path):
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+
+    from src.observability.telemetry import JsonLinesSpanExporter
+
+    log = tmp_path / "spans.jsonl"
+    provider = TracerProvider()
+    provider.add_span_processor(SimpleSpanProcessor(JsonLinesSpanExporter(str(log))))
+    tracer = provider.get_tracer("t")
+    with (
+        tracer.start_as_current_span("parent") as parent,
+        tracer.start_as_current_span("child") as child,
+    ):
+        child.set_attribute("portfolio.holdings", "secret")
+    child_record, parent_record = [
+        json.loads(line) for line in log.read_text().splitlines()
+    ]
+    assert child_record["name"] == "child"
+    assert child_record["trace_id"] == parent_record["trace_id"]
+    assert child_record["parent_span_id"] == f"{parent.get_span_context().span_id:016x}"
+    assert "secret" not in log.read_text()
