@@ -452,3 +452,21 @@ def test_retrieve_returns_chunks_and_retrieve_and_generate_returns_a_cited_answe
         )
     assert "output" not in retrieved and retrieved["retrievalResults"][0] == chunk
     assert generated["citations"][0]["retrievedReferences"][0] == chunk
+
+
+def test_max_tokens_caps_output_in_the_converse_request(client, tmp_path):
+    """What bounds the cost of the live lab: maxTokens on every call."""
+    stub = Stubber(client)
+    stub.add_response(
+        "converse",
+        reply([{"text": "ok"}], "end_turn"),
+        {
+            "modelId": MODEL,
+            "messages": ANY,
+            "toolConfig": ANY,
+            "inferenceConfig": {"maxTokens": 300},
+        },
+    )
+    with stub:
+        run(ConverseModel(client, MODEL, max_tokens=300), tmp_path)
+    stub.assert_no_pending_responses()

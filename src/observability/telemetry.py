@@ -18,7 +18,12 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.sdk.trace.export import (
+    BatchSpanProcessor,
+    SimpleSpanProcessor,
+    SpanExporter,
+    SpanExportResult,
+)
 from opentelemetry.sdk.trace.sampling import (
     ALWAYS_ON,
     ParentBased,
@@ -42,6 +47,8 @@ MODEL_PRICES_PER_MILLION_USD = {
 
 _provider: TracerProvider | None = None
 _langsmith_exporter_configured = False
+_span_log_configured = False
+SPAN_LOG_ENV = "AGENTIC_PM_LAB_SPAN_LOG"
 
 
 def configure_telemetry(service_name: str = SERVICE_NAME) -> TracerProvider:
@@ -61,7 +68,48 @@ def configure_telemetry(service_name: str = SERVICE_NAME) -> TracerProvider:
     )
     trace.set_tracer_provider(_provider)
     _configure_langsmith_exporter(_provider)
+    _configure_span_log(_provider)
     return _provider
+
+
+class JsonLinesSpanExporter(SpanExporter):
+    """Append each finished span's ids and name to a local file, one JSON
+    object per line: enough to show which trace a span joined, and nothing
+    from its attributes, so no payload data reaches the file."""
+
+    def __init__(self, path: str) -> None:
+        self.path = path
+
+    def export(self, spans: Sequence[Any]) -> SpanExportResult:
+        with open(self.path, "a", encoding="utf-8") as handle:
+            for span in spans:
+                parent = span.parent.span_id if span.parent else None
+                handle.write(
+                    json.dumps(
+                        {
+                            "name": span.name,
+                            "trace_id": f"{span.context.trace_id:032x}",
+                            "span_id": f"{span.context.span_id:016x}",
+                            "parent_span_id": f"{parent:016x}" if parent else None,
+                            "service": span.resource.attributes.get("service.name"),
+                        }
+                    )
+                    + "\n"
+                )
+        return SpanExportResult.SUCCESS
+
+
+def _configure_span_log(provider: TracerProvider) -> None:
+    """Opt-in local span log for labs and debugging: set
+    AGENTIC_PM_LAB_SPAN_LOG to a file path. Spans are written as each one
+    ends (no batching), so a process that is terminated has already written
+    what it finished."""
+    global _span_log_configured
+    path = os.getenv(SPAN_LOG_ENV)
+    if _span_log_configured or not path:
+        return
+    provider.add_span_processor(SimpleSpanProcessor(JsonLinesSpanExporter(path)))
+    _span_log_configured = True
 
 
 def _configure_langsmith_exporter(provider: TracerProvider) -> None:

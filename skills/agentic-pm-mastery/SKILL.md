@@ -9,7 +9,7 @@ covers:
   - docs/learning/tutor-courses.json
   - docs/learning/tutors
   - evals/tutor_quizzes
-last_verified_commit: 44014b73ebe1b1b22fd2cebbc8870e4bc120767a
+last_verified_commit: bd800f05d8da2e97ff0946878794f2fd21a43f79
 ---
 
 # Agentic PM Lab Mastery
@@ -57,6 +57,7 @@ state a documented limitation when it materially affects the answer.
 | "scenario" or "failure lab" | Read `references/scenarios.md`; route to the selected topic's failure lab and require a safe outcome. |
 | "build lab" or "let me build something" | Read the topic's `build_lab`; the learner writes the code. Review what they produce against whether it runs and whether its test would fail if the behaviour regressed — never write it for them. |
 | "review my lab" or "teach-back" | Read the course assessment and evaluate against its rubric without doing the work for the learner. |
+| "live lab" or "try it for real" | Read `docs/learning/LIVE_LABS.md`; state the lab's cost, credentials, and cleanup before the learner runs it, and never run a live lab on their behalf. Live labs are optional and never count toward completion. |
 | "final assessment" | Read `references/final-assessment.md`; run the cross-topic assessment. |
 | "my progress" | Report session progress, and tell the learner that `uv run agentic-pm-lab progress` shows every recorded quiz, from this conversation or the terminal, with a course-by-tier mastery matrix. |
 
