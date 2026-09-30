@@ -8,7 +8,7 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
 
 | Goal | Start here | What it provides |
 |---|---|---|
-| Browse without downloading | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) or the [standalone HTML artifact](../../artifacts/agentic-pm-curriculum.html) | Every course, deep dive, and browser-local quiz; quizzes are learning checks, not durable completion. |
+| Browse without installing | The [curriculum site](https://navoditk.github.io/agentic-pm-lab/). For offline reading, download [`artifacts/agentic-pm-curriculum.html`](../../artifacts/agentic-pm-curriculum.html), a single self-contained file, and open it in any browser. | Every course, deep dive, and quiz. Quiz scores stay in the browser; they are learning checks, not a record. |
 | Learn conversationally | Open a local checkout in Copilot, Claude Code, or Codex and say **`agentexpert`** | Guided lessons, scenarios, quizzes, and teach-back review from the [mastery skill](MASTERY_SKILL.md). |
 | Complete evidence-backed courses | The seven steps below | Code tracing, runnable labs, failure practice, durable quiz records, and the completion rubric. |
 | Build or contribute | [`INSTALL.md`](../../INSTALL.md), then [`AGENTS.md`](../../AGENTS.md) and [`PLAN.md`](../PLAN.md) | Rebuilding the platform day by day. Not needed for learning. |
@@ -31,7 +31,7 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
    directory and sets up tools only the builder needs.
 
 2. **Get the big picture (15 minutes).** Read the
-   [README](../../README.md) through "The architecture in one view". The one
+   [README](../../README.md) through "The design in one view". The one
    idea every course comes back to: deterministic code does the math, the LLM
    reasons and narrates, and policy is enforced at the tool boundary rather
    than in the prompt.
@@ -40,12 +40,12 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
    [recommended order](TUTOR_COURSE_GUIDE.md#recommended-order) groups the
    courses into three modules and a capstone. Start with the required
    **Agent core**, step 1, and finish it with the required **Capstone**.
-   Already know some of it? `uv run agentic-pm-lab placement` asks 12
-   concept questions and says which required courses you can skip ahead to
-   the quiz; it records nothing.
    Add the optional **Finance domain** module to apply it to investing
    ([pm-mechanics](https://github.com/navoditk/pm-mechanics) teaches the math
    it assumes), and whichever **Platforms** courses match your tools.
+   Already know some of it? `uv run agentic-pm-lab placement` asks 12
+   concept questions and says which required courses you can skip ahead to
+   the quiz; it records nothing.
 
 4. **Work through that course.** Follow the
    [one-course walkthrough](TUTOR_COURSE_GUIDE.md#use-one-course-from-start-to-finish):
@@ -67,7 +67,7 @@ None of these routes needs an AWS account, a paid API key, or a specific IDE.
 6. **Finish with the teach-back.** Explain the topic without notes, cite two
    files, name one simplification, and say what evidence a production claim
    would need. The [completion rubric](TUTOR_COURSE_GUIDE.md#course-completion-rubric)
-   lists all five conditions.
+   lists every condition.
 
 7. **Repeat, then do the capstone.** Take the next course in order. After
    Agent core, take the

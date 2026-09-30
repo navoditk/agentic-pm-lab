@@ -1,6 +1,6 @@
 # Foundations Mastery Plan: quizzes and the mastery skill
 
-**Status:** Approved 2026-09-22 (decisions in §10). Phase A done; Phases B and C in review (C1 MCP, C2 Bedrock).
+**Status:** Approved 2026-09-22 (decisions in §10). Delivered: all six phases, A to F, were merged by 2026-09-28 (#75 to #91).
 **Scope:** The quiz banks under `evals/tutor_quizzes/`, the course catalog in
 `docs/learning/tutor-courses.json`, the `agentic-pm-mastery` skill, and the
 learner CLI.

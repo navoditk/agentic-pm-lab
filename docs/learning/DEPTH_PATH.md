@@ -22,8 +22,8 @@ For every topic, complete these passes in order:
 3. **Break:** run or author a local adversarial case: stale data, bad input,
    unauthorized access, provider failure, prompt injection, or an incomplete
    answer. Record the expected safe behavior.
-4. **Teach:** explain the topic without the repository, then map the explanation
-   back to two files and one limitation. Take the quiz only after the teach-back.
+4. **Teach:** take the quiz, then explain the topic without the repository and
+   map the explanation back to two files and one limitation.
 
 All exercises below use fixtures, mocks, or local code. They do not require an
 AWS account, paid model, live provider, or hosted Canvas session.
@@ -32,6 +32,9 @@ AWS account, paid model, live provider, or hosted Canvas session.
 
 | Topic | Trace in the repo | Depth exercise | Completion evidence |
 |---|---|---|---|
+| Agent foundations | `src/foundations/agent_loop.py`, `langchain_loop.py`, `grading.py` | Run the loop with a scripted model, send a malformed tool call, and find where the allowlist refuses a hidden tool | Trace of one run, a refusal in the audit log, quiz |
+| Traceability capstone | `src/capstone/trace_lab.py` and its tests | Rebuild one decision from its trace id, then drop propagation at one hop and find the orphaned records | Reconstructed decision record, gap analysis, teach-back |
+| AWS Bedrock | `src/runtime/bedrock_lab.py` and its Stubber tests | Trace a Converse tool round trip; classify throttling versus access errors; write least-privilege IAM for one inference profile | Request and response trace, IAM policy, quiz |
 | FICC and fixed income | `src/analytics/pricers.py`, `curves.py`, `risk.py`, `src/ingestion/fixed_income.py` | Derive a bond price, duration/DV01, and parallel versus curve-shape shock; identify missing terms that require `needs_review` | Worked calculation, assumptions, glossary links, quiz |
 | Portfolio construction | `src/analytics/optimizer.py`, `portfolio.py`, optimizer tests | Compare minimum volatility, maximum Sharpe, and risk parity; perturb covariance and explain instability | Allocation table, constraints, sensitivity note, quiz |
 | LangGraph/Deep Agents | `src/agents/single_agent.py`, `multi_agent.py`, `recovery.py` | Trace delegation, checkpoint/resume, retry, dead-letter, and human interrupt paths; inject a specialist failure | State diagram, failure test, teach-back |

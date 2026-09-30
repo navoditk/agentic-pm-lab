@@ -5,9 +5,10 @@ not just a prompt or a quiz: it combines a tutor persona, deep-dive lessons,
 repository tracing, an implementation lab, an adversarial lab, a quiz, and a
 teach-back assessment.
 
-The [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) and
-[standalone HTML artifact](../../artifacts/agentic-pm-curriculum.html) provide
-the same reading material and browser-local quizzes without a checkout. They
+The [curriculum site](https://navoditk.github.io/agentic-pm-lab/), and the
+same page as a single downloadable file
+([`artifacts/agentic-pm-curriculum.html`](../../artifacts/agentic-pm-curriculum.html)),
+provide the reading material and browser-local quizzes without a checkout. They
 cannot record durable progress, run code tracing or labs, or establish course
 completion; use this local path for those requirements.
 
@@ -39,27 +40,30 @@ records and works without a Copilot surface.
    provider result for the repository exercise.
 6. Complete the failure lab. Record the expected safe behavior and the
    enforcement or recovery layer responsible for it.
-7. Take the quiz:
+7. Complete the build lab: write the code yourself, and a test that would
+   fail if the behaviour regressed.
+8. Take the quiz, which records your attempt:
 
    ```bash
    uv run agentic-pm-lab quiz aws-agentcore-tutor
    ```
 
-8. Run `uv run python scripts/check_learner_progress.py` to record the quiz
-   result. A passing quiz scores 80% overall and 70% in each question tier
+   A passing quiz scores 80% overall and 70% in each question tier
    (concept, implementation, transfer), but it is not the whole course.
+   `uv run agentic-pm-lab progress` updates the summary.
 9. Complete the teach-back in the course outline. Explain the topic without
    notes, cite two repository files, name one simplification, and state what
    evidence would be required for a production or live claim.
 
 ## Course completion rubric
 
-Mark a topic complete only when all five conditions hold:
+Mark a topic complete only when all six conditions hold:
 
 - the learner can explain the core concepts and distinguish adjacent concepts;
 - the learner can trace and reproduce the repository example;
 - the local lab produces the expected result;
-- the failure lab produces an explicit safe outcome; and
+- the failure lab produces an explicit safe outcome;
+- the build lab runs, with a test that would catch a regression; and
 - the learner passes the quiz and completes the teach-back.
 
 The generated [`LEARNER_PROGRESS.md`](LEARNER_PROGRESS.md) records quiz
