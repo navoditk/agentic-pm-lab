@@ -79,28 +79,28 @@ for the tools you use. The integrated fixture capstone in the
 <!-- Generated from docs/learning/tutor-courses.json by
      scripts/build_learning_path.py. Edit the JSON, not this table. -->
 
-| Step | Module | Course | Topic id | Est. hours |
-|---|---|---|---|---|
-| 1 | Agent core | [Agent foundations](tutors/agent-foundations-tutor.md) | `agent-foundations-tutor` | ~6 |
-| 2 | Agent core | [Agent architecture](tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~4 |
-| 3 | Agent core | [LangGraph and Deep Agents](tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~6 |
-| 4 | Agent core | [Model Context Protocol](tutors/mcp-tutor.md) | `mcp-tutor` | ~4 |
-| 5 | Agent core | [OpenTelemetry](tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~6 |
-| 6 | Agent core | [Evaluations and AgentOps](tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~6 |
-| 7 | Agent core | [Governance and delivery](tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~5 |
-| 8 | Capstone | [Capstone: traceability end to end](tutors/traceability-capstone-tutor.md) | `traceability-capstone-tutor` | ~5 |
-| 9 | Finance domain (optional) | [FICC fundamentals](tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
-| 10 | Finance domain (optional) | [Portfolio construction](tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
-| 11 | Finance domain (optional) | [Data provenance and research quality](tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
-| 12 | Finance domain (optional) | [Public investment data](tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
-| 13 | Finance domain (optional) | [Investment committee challenge](tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
-| 14 | Platforms (optional) | [AWS Bedrock](tutors/aws-bedrock-tutor.md) | `aws-bedrock-tutor` | ~4 |
-| 15 | Platforms (optional) | [AWS Bedrock AgentCore](tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~5 |
-| 16 | Platforms (optional) | [Copilot Canvas](tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
-| 17 | Platforms (optional) | [Agent development lifecycle](tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
-| 18 | Platforms (optional) | [Document-to-skill pipeline](tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
+| # | Course and topic id | Module | Hours |
+|---|---|---|---|
+| 1 | [Agent foundations](tutors/agent-foundations-tutor.md)<br>`agent-foundations-tutor` | Agent core | ~6 |
+| 2 | [Agent architecture](tutors/agent-architecture-tutor.md)<br>`agent-architecture-tutor` | Agent core | ~4 |
+| 3 | [LangGraph and Deep Agents](tutors/langgraph-deep-agents-tutor.md)<br>`langgraph-deep-agents-tutor` | Agent core | ~6 |
+| 4 | [Model Context Protocol](tutors/mcp-tutor.md)<br>`mcp-tutor` | Agent core | ~4 |
+| 5 | [OpenTelemetry](tutors/opentelemetry-tutor.md)<br>`opentelemetry-tutor` | Agent core | ~6 |
+| 6 | [Evaluations and AgentOps](tutors/evaluation-agentops-tutor.md)<br>`evaluation-agentops-tutor` | Agent core | ~6 |
+| 7 | [Governance and delivery](tutors/governance-delivery-tutor.md)<br>`governance-delivery-tutor` | Agent core | ~5 |
+| 8 | [Capstone: traceability end to end](tutors/traceability-capstone-tutor.md)<br>`traceability-capstone-tutor` | Capstone | ~5 |
+| 9 | [FICC fundamentals](tutors/ficc-tutor-agent.md)<br>`ficc-tutor-agent` | Finance domain (optional) | ~3 |
+| 10 | [Portfolio construction](tutors/portfolio-construction-tutor.md)<br>`portfolio-construction-tutor` | Finance domain (optional) | ~4 |
+| 11 | [Data provenance and research quality](tutors/data-provenance-research-tutor.md)<br>`data-provenance-research-tutor` | Finance domain (optional) | ~3 |
+| 12 | [Public investment data](tutors/investment-data-tutor.md)<br>`investment-data-tutor` | Finance domain (optional) | ~3 |
+| 13 | [Investment committee challenge](tutors/investment-committee-tutor.md)<br>`investment-committee-tutor` | Finance domain (optional) | ~3 |
+| 14 | [AWS Bedrock](tutors/aws-bedrock-tutor.md)<br>`aws-bedrock-tutor` | Platforms (optional) | ~4 |
+| 15 | [AWS Bedrock AgentCore](tutors/aws-agentcore-tutor.md)<br>`aws-agentcore-tutor` | Platforms (optional) | ~5 |
+| 16 | [Copilot Canvas](tutors/copilot-canvas-mcp-tutor.md)<br>`copilot-canvas-mcp-tutor` | Platforms (optional) | ~3 |
+| 17 | [Agent development lifecycle](tutors/agent-development-lifecycle-tutor.md)<br>`agent-development-lifecycle-tutor` | Platforms (optional) | ~4 |
+| 18 | [Document-to-skill pipeline](tutors/document-to-skill-tutor.md)<br>`document-to-skill-tutor` | Platforms (optional) | ~4 |
 
-Only the Agent core module is required: about 42 hours. The other
+Agent core and the Capstone are required: about 42 hours. The other
 modules are optional; take Finance domain to apply the core to investing, and
 the Platforms courses for the tools you use. About 78 hours for everything.
 Hours are rough estimates covering the deep dive, the three labs, the quiz,

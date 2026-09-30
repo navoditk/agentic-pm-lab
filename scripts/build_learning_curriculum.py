@@ -211,6 +211,11 @@ def inline_markdown(text: str, source_path: Path | None = None) -> str:
     return linkify_repository_paths(escaped)
 
 
+def table_cell(text: str, source_path: Path | None) -> str:
+    """A table cell, where GitHub honours a literal <br>, so we do too."""
+    return inline_markdown(text, source_path).replace("&lt;br&gt;", "<br>")
+
+
 def render_markdown(markdown: str, source_path: Path | None = None) -> str:
     """Render headings, lists, code blocks, tables, links, and paragraphs.
 
@@ -343,14 +348,14 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
             if not in_table:
                 output.append('<div class="table-wrap"><table><thead><tr>')
                 output.extend(
-                    f"<th>{inline_markdown(cell, source_path)}</th>" for cell in cells
+                    f"<th>{table_cell(cell, source_path)}</th>" for cell in cells
                 )
                 output.append("</tr></thead><tbody>")
                 in_table = True
             else:
                 output.append("<tr>")
                 output.extend(
-                    f"<td>{inline_markdown(cell, source_path)}</td>" for cell in cells
+                    f"<td>{table_cell(cell, source_path)}</td>" for cell in cells
                 )
                 output.append("</tr>")
             continue
