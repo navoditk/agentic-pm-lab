@@ -222,6 +222,8 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
     output: list[str] = []
     paragraph: list[str] = []
     list_tag: str | None = None
+    item: list[str] = []
+    in_table = False
     in_code = False
     code: list[str] = []
     prefix = None
@@ -240,11 +242,25 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
             output.append(f"<p>{inline_markdown(' '.join(paragraph), source_path)}</p>")
             paragraph.clear()
 
+    def flush_item() -> None:
+        if item:
+            output.append(f"<li>{inline_markdown(' '.join(item), source_path)}</li>")
+            item.clear()
+
     def close_list() -> None:
-        nonlocal list_tag
+        nonlocal list_tag, in_table
+        flush_item()
         if list_tag:
             output.append(f"</{list_tag}>")
             list_tag = None
+        # A table ends at the first line that is not a table row. Leaving one
+        # open is not cosmetic: inside an unclosed <table> the browser ignores
+        # a later </details>, so everything after it on the page is swallowed
+        # into that collapsed section. That hid every course on the published
+        # page behind the Phase 1 recap.
+        if in_table:
+            output.append("</tbody></table></div>")
+            in_table = False
 
     for raw_line in markdown.splitlines():
         line = raw_line.rstrip()
@@ -302,28 +318,35 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
         ordered = re.match(r"^\s*\d+\. (.+)$", line)
         if unordered or ordered:
             flush_paragraph()
+            flush_item()
             expected_tag = "ul" if unordered else "ol"
             if list_tag != expected_tag:
                 close_list()
                 output.append(f"<{expected_tag}>")
                 list_tag = expected_tag
-            output.append(
-                f"<li>{inline_markdown((unordered or ordered).group(1), source_path)}</li>"
-            )
+            item.append((unordered or ordered).group(1))
+            continue
+        # A wrapped list item: an indented line that continues the item above.
+        # Treating it as a paragraph split the sentence and closed the list.
+        if list_tag and item and raw_line[:1] in {" ", "\t"}:
+            item.append(line.strip())
             continue
         if "|" in line and line.strip().startswith("|"):
             flush_paragraph()
-            close_list()
+            flush_item()
+            if list_tag:
+                output.append(f"</{list_tag}>")
+                list_tag = None
             if set(line.replace("|", "").strip()) <= {"-", ":"}:
                 continue
             cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-            tag = "th" if not any("<table" in item for item in output[-1:]) else "td"
-            if tag == "th":
-                output.append("<table><thead><tr>")
+            if not in_table:
+                output.append('<div class="table-wrap"><table><thead><tr>')
                 output.extend(
                     f"<th>{inline_markdown(cell, source_path)}</th>" for cell in cells
                 )
                 output.append("</tr></thead><tbody>")
+                in_table = True
             else:
                 output.append("<tr>")
                 output.extend(
@@ -331,15 +354,12 @@ def render_markdown(markdown: str, source_path: Path | None = None) -> str:
                 )
                 output.append("</tr>")
             continue
-        if output and output[-1] == "</tr>":
-            output.append("</tbody></table>")
+        close_list()
         paragraph.append(line.strip())
     flush_paragraph()
     close_list()
     if in_code:
         output.append(f"<pre><code>{html.escape(chr(10).join(code))}</code></pre>")
-    if output and output[-1] == "</tr>":
-        output.append("</tbody></table>")
     return "\n".join(output)
 
 
@@ -443,25 +463,36 @@ def build_html() -> str:
     for topic_id in catalog:
         stages.setdefault(topics[topic_id]["course"]["stage"], []).append(topic_id)
     total_hours = sum(topic["course"]["est_hours"] for topic in topics.values())
-    core_labels = ", ".join(
-        html.escape(catalog[t]["label"])
-        for t in catalog
-        if topics[t]["course"]["required"]
-    )
     core_hours = sum(
         topic["course"]["est_hours"]
         for topic in topics.values()
         if topic["course"]["required"]
     )
+    module_notes = {
+        "Agent core": "The agent loop, architecture, LangGraph, MCP, OpenTelemetry, evaluations, and governance.",
+        "Capstone": "Rebuild one agent decision from a single trace id.",
+        "Finance domain": "Apply the core to fixed income and portfolio management.",
+        "Platforms": "AWS Bedrock and AgentCore, Copilot Canvas, and skill tooling. Take the ones for your stack.",
+    }
+    module_rows = "".join(
+        f'<tr><th scope="row">{html.escape(stage)}</th>'
+        f"<td>{'Required' if topics[ids[0]]['course']['required'] else 'Optional'}</td>"
+        f"<td>{len(ids)}</td>"
+        f"<td>~{sum(topics[t]['course']['est_hours'] for t in ids)}h</td>"
+        f"<td>{html.escape(module_notes.get(stage, ''))}</td></tr>"
+        for stage, ids in stages.items()
+    )
+    first_topic = next(iter(catalog))
     cards = "\n".join(
         f'<h3 class="stage">{html.escape(stage)} '
-        f"<span>{'required' if topics[ids[0]]['course']['required'] else 'optional'}"
-        f" · ~{sum(topics[t]['course']['est_hours'] for t in ids)}h</span></h3>"
+        f'<span class="badge{"" if topics[ids[0]]["course"]["required"] else " optional"}">'
+        f"{'Required' if topics[ids[0]]['course']['required'] else 'Optional'}</span>"
+        f' <span class="meta">~{sum(topics[t]["course"]["est_hours"] for t in ids)}h</span></h3>'
         f'<nav class="topic-grid" aria-label="{html.escape(stage)} courses">'
         + "".join(
-            f'<a class="topic-card" href="#{t}"><span>{topics[t]["course"]["step"]:02}'
-            f" · ~{topics[t]['course']['est_hours']}h</span>"
-            f"<strong>{html.escape(catalog[t]['label'])}</strong></a>"
+            f'<a class="topic-card" href="#{t}"><span class="step">{topics[t]["course"]["step"]:02}'
+            f"</span><strong>{html.escape(catalog[t]['label'])}</strong>"
+            f'<span class="meta">~{topics[t]["course"]["est_hours"]}h · {len(topics[t]["quiz"])} questions</span></a>'
             for t in ids
         )
         + "</nav>"
@@ -482,18 +513,19 @@ def build_html() -> str:
     for topic_id, topic in topics.items():
         course = topic["course"]
         freshness = topic["freshness"]
-        source_links = ", ".join(
+        source_items = "".join(
             (
-                f'<a href="{html.escape(source["url"])}">'
-                f"{html.escape(source['title'])}</a> — reviewed "
-                f"{source['last_reviewed']}, next review {source['next_review']}"
+                f'<li><a href="{html.escape(source["url"])}">'
+                f'{html.escape(source["title"])}</a> <span class="meta">reviewed '
+                f"{source['last_reviewed']}, next review {source['next_review']}</span></li>"
             )
             for source in freshness["sources"]
         )
         freshness_message = {
-            "upstream-review-required": "Upstream version review required.",
+            "upstream-review-required": "An upstream source changed; review pending.",
             "source-check-unavailable": "Source check unavailable; review pending.",
-            "enrollment-pending": "Initial monitor enrollment pending.",
+            # Monitor enrollment is maintainer bookkeeping, not a learner concern.
+            "enrollment-pending": "",
         }.get(freshness["status"], "")
         quiz_data[topic_id] = topic["quiz"]
         sections.append(
@@ -501,7 +533,7 @@ def build_html() -> str:
 <p class="eyebrow">Course {course["step"]:02} · {html.escape(course["stage"])} · ~{course["est_hours"]}h</p>
 <h2>{html.escape(topic["label"])}</h2>
 <p class="source">Source: {source_file_link(topic["deep_dive"])} · {len(topic["quiz"])} quiz questions</p>
-<div class="freshness" data-freshness="{freshness["status"]}"><strong>External-source review:</strong> {source_links}. {freshness_message}</div>
+<details class="freshness" data-freshness="{freshness["status"]}"><summary>External sources ({len(freshness["sources"])}) <span class="meta">{html.escape(freshness_message)}</span></summary><ul>{source_items}</ul></details>
 <div class="course-grid">
 <div><h3>Prerequisites</h3><ul>{"".join(f"<li>{inline_markdown(item, ROOT / 'docs/learning/tutor-courses.json')}</li>" for item in course["prerequisites"])}</ul></div>
 <div><h3>Objectives</h3><ul>{"".join(f"<li>{inline_markdown(item, ROOT / 'docs/learning/tutor-courses.json')}</li>" for item in course["objectives"])}</ul></div>
@@ -511,7 +543,7 @@ def build_html() -> str:
 <p><strong>Failure lab (run after cloning):</strong> {inline_markdown(course["failure_lab"], ROOT / "docs/learning/tutor-courses.json")}</p>
 <p><strong>Build lab (run after cloning):</strong> {inline_markdown(course["build_lab"], ROOT / "docs/learning/tutor-courses.json")}</p>
 <p><strong>Teach-back:</strong> {inline_markdown(course["assessment"], ROOT / "docs/learning/tutor-courses.json")}</p></div>
-<details><summary>Read the deep dive</summary><article>{topic["deep_dive_html"]}</article></details>
+<details class="deep-dive"><summary>Read the deep dive</summary><article>{topic["deep_dive_html"]}</article></details>
 <button class="quiz-button" data-topic="{topic_id}">Start this topic's quiz</button>
 <p class="to-top"><a href="#courses">All courses</a> · <a href="#top">Back to top ↑</a></p>
 </section>"""
@@ -522,47 +554,102 @@ def build_html() -> str:
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Agentic PM Lab Learning Curriculum</title>
+<meta name="description" content="{len(catalog)} source-grounded courses on building and governing agentic AI, with quizzes that run in the browser.">
 <style>
-:root{{color-scheme:light dark;--ink:#18212f;--muted:#536174;--accent:#13599a;--card:#fff;--line:#d8e0ea;--soft:#eef5fc;--warning:#8b5200;--warning-bg:#fff1d6}}
-*{{box-sizing:border-box}} body{{margin:0;font:16px/1.58 system-ui,-apple-system,sans-serif;color:var(--ink);background:#f7fafc}}
-a{{color:var(--accent)}}.src{{text-decoration:none;border-bottom:1px dotted currentColor}}.src:hover{{border-bottom-style:solid}}header{{background:#0e263e;color:#fff;padding:4rem max(1.5rem,calc((100% - 1120px)/2)) 3rem}}header p{{max-width:850px;font-size:1.12rem}}
-main{{max-width:1120px;margin:auto;padding:2rem 1.5rem 5rem}}h1{{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:.4rem 0 1rem}}h2{{font-size:1.8rem;line-height:1.2}}h3{{margin-bottom:.25rem}}.eyebrow,.source{{color:var(--muted);font-size:.9rem}}.notice,.labs{{background:var(--soft);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1.5rem 0}}.freshness{{background:var(--soft);border-radius:.35rem;font-size:.9rem;margin:1rem 0;padding:.7rem}}.freshness[data-freshness="enrollment-pending"],.freshness[data-freshness="upstream-review-required"],.freshness[data-freshness="source-check-unavailable"],.freshness.overdue{{background:var(--warning-bg);color:var(--warning)}}.topic-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:.7rem}}.topic-card{{background:var(--card);border:1px solid var(--line);border-radius:.5rem;padding:1rem;text-decoration:none;color:var(--ink)}}.topic-card span{{color:var(--accent);font:700 .8rem ui-monospace,monospace;display:block}}.topic{{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;scroll-margin-top:1rem}}.course-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}}details{{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:1rem}}summary{{cursor:pointer;font-weight:700}}article{{max-width:82ch}}pre{{overflow:auto;background:#172331;color:#f1f5f9;padding:1rem;border-radius:.4rem}}code{{font:.9em ui-monospace,SFMono-Regular,monospace}}table{{border-collapse:collapse;width:100%;overflow-x:auto;display:block}}td,th{{border:1px solid var(--line);padding:.55rem;text-align:left}}button{{background:var(--accent);border:0;border-radius:.35rem;color:#fff;padding:.7rem 1rem;font-weight:700;cursor:pointer}}dialog{{max-width:min(760px,94vw);border:0;border-radius:.8rem;box-shadow:0 10px 50px #0008;padding:1.5rem}}dialog::backdrop{{background:#0008}}.choice{{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink)}}.result{{font-weight:700}}footer{{color:var(--muted);font-size:.9rem;margin-top:3rem}}@media(prefers-color-scheme:dark){{:root{{--ink:#e8edf3;--muted:#adbac8;--accent:#73b7f5;--card:#18212b;--line:#3b4b5d;--soft:#233548;--warning:#ffd48c;--warning-bg:#4d350f}}body{{background:#101720}}}}
-.jump{{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:.3rem 1.2rem;padding:.6rem max(1.5rem,calc((100% - 1120px)/2));background:var(--card);border-bottom:1px solid var(--line);font-size:.95rem}}.jump a{{text-decoration:none;font-weight:600}}.stage{{margin-top:1.6rem}}.stage span{{color:var(--muted);font-weight:400;font-size:.9rem}}.to-top{{text-align:right;font-size:.9rem;margin:1rem 0 0}}section[id],h2[id],h3[id],h4[id],details[id]{{scroll-margin-top:3.2rem}}
+:root{{color-scheme:light dark;--ink:#16202c;--muted:#56657a;--accent:#1560a8;--accent-ink:#fff;--card:#fff;--line:#dbe3ec;--soft:#eef4fa;--page:#f6f8fb;--hero:#0e2238;--hero-ink:#dce6f2;--code-bg:#eef2f7;--warning:#7a4a00;--warning-bg:#fff3dc;--ok:#1f8a4c;--ok-bg:#e7f6ed;--bad:#c0392b;--bad-bg:#fbeaea;--gutter:clamp(1rem,4vw,2.5rem);--wrap:1180px;--measure:72ch}}
+@media(prefers-color-scheme:dark){{:root{{--ink:#e6ecf2;--muted:#a7b4c3;--accent:#7cb9f4;--accent-ink:#0b1622;--card:#17212c;--line:#314154;--soft:#1f2e3e;--page:#0f1720;--hero:#0a1622;--hero-ink:#c5d3e2;--code-bg:#223244;--warning:#ffd48c;--warning-bg:#45310f;--ok:#4cc38a;--ok-bg:#14301f;--bad:#f07167;--bad-bg:#3a1a17}}}}
+*{{box-sizing:border-box}}
+html{{font-size:clamp(16px,.85rem + .22vw,19px);scroll-padding-top:4rem;-webkit-text-size-adjust:100%}}
+body{{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:var(--ink);background:var(--page)}}
+.wrap{{width:min(var(--wrap),100% - 2*var(--gutter));margin-inline:auto}}
+a{{color:var(--accent);text-underline-offset:.15em}} a:focus-visible,button:focus-visible,summary:focus-visible{{outline:3px solid var(--accent);outline-offset:2px;border-radius:.25rem}}
+.src{{text-decoration:none;border-bottom:1px dotted currentColor}}.src:hover{{border-bottom-style:solid}}
+h1,h2,h3,h4{{line-height:1.2;letter-spacing:-.01em}} h2{{font-size:clamp(1.45rem,1.2rem + 1vw,1.9rem);margin:2.5rem 0 .75rem}} h3{{font-size:1.1rem;margin:1.5rem 0 .4rem}} h4{{font-size:1rem}}
+p,li{{max-width:var(--measure)}}
+ul,ol{{padding-left:1.25rem}} li{{margin:.2rem 0}}
+header.hero{{background:var(--hero);color:#fff;padding:clamp(2rem,6vw,4.5rem) 0 clamp(1.75rem,4vw,3rem)}}
+.hero .kicker{{margin:0 0 .75rem;color:var(--hero-ink);font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}}
+.hero h1{{font-size:clamp(2rem,1.4rem + 3vw,3.4rem);margin:0 0 1rem;max-width:18ch}}
+.hero .lead{{color:var(--hero-ink);font-size:clamp(1.02rem,.95rem + .35vw,1.25rem);max-width:60ch;margin:0 0 1.5rem}}
+.actions{{display:flex;flex-wrap:wrap;gap:.6rem}}
+.btn{{display:inline-flex;align-items:center;min-height:44px;padding:.55rem 1.1rem;border-radius:.45rem;font-weight:650;text-decoration:none;border:1px solid transparent}}
+.btn.primary{{background:#fff;color:#0e2238}} .btn.ghost{{color:#fff;border-color:#ffffff66}} .btn:hover{{filter:brightness(.95)}}
+.jump{{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 1px 6px #0000000d}}
+.jump .wrap{{display:flex;gap:1.5rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none}} .jump .wrap::-webkit-scrollbar{{display:none}}
+.jump a{{display:inline-block;padding:.8rem 0;text-decoration:none;font-weight:600;font-size:.95rem}} .jump a:hover{{text-decoration:underline}}
+main{{padding:1.5rem 0 4rem}}
+.notice{{background:var(--soft);border-left:4px solid var(--accent);border-radius:0 .5rem .5rem 0;padding:.9rem 1.1rem;margin:1rem 0 0;font-size:.95rem}} .notice p{{margin:0;max-width:none}}
+.table-wrap{{overflow-x:auto;margin:1rem 0;border:1px solid var(--line);border-radius:.5rem;background:var(--card)}}
+table{{border-collapse:collapse;width:100%;font-size:.93rem}} th,td{{padding:.6rem .75rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}} tr:last-child td,tr:last-child th{{border-bottom:0}} thead th{{background:var(--soft);font-weight:650;white-space:nowrap}} tbody th{{font-weight:650}}
+.modules th[scope=row],.modules td:nth-child(2),.modules td:nth-child(3),.modules td:nth-child(4){{white-space:nowrap}}
+.stage{{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem;margin-top:2rem}}
+.badge{{font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.15rem .5rem;border-radius:999px;background:var(--accent);color:var(--accent-ink)}} .badge.optional{{background:var(--soft);color:var(--muted);border:1px solid var(--line)}}
+.meta{{color:var(--muted);font-size:.85rem;font-weight:400}}
+.topic-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:.75rem}}
+.topic-card{{display:flex;flex-direction:column;gap:.2rem;background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:.9rem 1rem;text-decoration:none;color:var(--ink);transition:border-color .15s,box-shadow .15s}}
+.topic-card:hover{{border-color:var(--accent);box-shadow:0 2px 10px #0000000f}} .topic-card .step{{color:var(--accent);font:700 .8rem ui-monospace,SFMono-Regular,Menlo,monospace}} .topic-card strong{{line-height:1.3}}
+.topic{{background:var(--card);border:1px solid var(--line);border-radius:.8rem;padding:clamp(1rem,3vw,2rem);margin:1.5rem 0}} .topic h2{{margin-top:.25rem}}
+.eyebrow,.source{{color:var(--muted);font-size:.88rem;margin:0}} .topic .source{{margin:.25rem 0 1rem}}
+details.freshness{{border:1px solid var(--line);border-radius:.5rem;margin:.75rem 0 1rem;padding:0 .9rem;font-size:.88rem;background:var(--card)}} details.freshness summary{{min-height:40px;gap:.5rem;flex-wrap:wrap;font-weight:600}} details.freshness ul{{margin:.25rem 0 .75rem;padding-left:1.1rem}} details.freshness li{{margin:.2rem 0}}
+.freshness[data-freshness="upstream-review-required"],.freshness[data-freshness="source-check-unavailable"],.freshness.overdue{{background:var(--warning-bg);border-color:transparent}} .flag{{color:var(--warning)}}
+.course-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0 2rem}}
+.labs{{background:var(--soft);border-radius:.5rem;padding:.4rem 1.1rem;margin:1.25rem 0}} .labs p{{max-width:none}}
+details{{border-top:1px solid var(--line);margin-top:1.25rem;padding-top:.9rem}} summary{{cursor:pointer;font-weight:650;min-height:44px;display:flex;align-items:center}} summary::marker{{color:var(--accent)}}
+details[open]>summary{{margin-bottom:.5rem}}
+article{{max-width:80ch}} article table{{font-size:.9rem}}
+code{{font:.88em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.1em .35em;border-radius:.3rem;overflow-wrap:anywhere}}
+pre{{overflow:auto;background:#142130;color:#eef3f8;padding:1rem 1.1rem;border-radius:.5rem;font-size:.88rem;line-height:1.5}} pre code{{background:none;padding:0;overflow-wrap:normal}}
+blockquote{{margin:1rem 0;padding:.5rem 1rem;border-left:3px solid var(--line);color:var(--muted)}}
+button{{font:inherit;background:var(--accent);border:0;border-radius:.45rem;color:var(--accent-ink);min-height:44px;padding:.6rem 1.1rem;font-weight:650;cursor:pointer}}
+.quiz-button{{margin-top:1.25rem}}
+.to-top{{display:flex;justify-content:flex-end;gap:1rem;font-size:.88rem;margin:1rem 0 0;max-width:none}}
+dialog{{width:min(760px,100vw - 1.5rem);max-height:min(92vh,100dvh - 1.5rem);overflow:auto;border:0;border-radius:.8rem;box-shadow:0 20px 60px #0007;padding:clamp(1rem,3vw,1.75rem);background:var(--card);color:var(--ink)}} dialog::backdrop{{background:#000a}}
+dialog h2{{font-size:1.2rem;margin:.25rem 0 1rem}} .quiz-bar{{display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.6rem;margin-bottom:.75rem}} .quiz-bar strong{{font-size:.95rem}} #close{{background:var(--soft);color:var(--ink);min-height:40px;padding:.4rem .9rem}} #quiz-body:focus{{outline:none}}
+.choice{{display:block;width:100%;margin:.5rem 0;text-align:left;background:var(--soft);color:var(--ink);border:1px solid var(--line);font-weight:500;line-height:1.4}} .choice:hover:not(:disabled){{border-color:var(--accent)}} .choice:disabled{{cursor:default;opacity:.7}} .choice.right{{opacity:1;border:2px solid var(--ok);background:var(--ok-bg)}} .choice.wrong{{opacity:1;border:2px solid var(--bad);background:var(--bad-bg)}}
+.result{{font-weight:700}} #feedback{{margin-top:1rem}} #feedback button{{margin-top:.75rem;display:block}}
+footer{{border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;padding:1.5rem 0 2.5rem}} footer p{{max-width:none;margin:.25rem 0}}
+@media(max-width:600px){{.topic{{border-radius:.6rem}} .to-top{{justify-content:flex-start}} h2{{margin-top:2rem}} .actions .btn{{flex:1 1 100%;justify-content:center}}}}
+@media print{{.jump,.quiz-button,.actions,dialog{{display:none}} details{{border:0}} body{{background:#fff}}}}
 </style></head><body>
-<header id="top"><p class="eyebrow">SELF-CONTAINED, OFFLINE LEARNING ARTIFACT</p><h1>Agentic PM Lab<br>Learning Curriculum</h1>
-<p>{len(catalog)} source-grounded courses for building and governing fixed-income-first PM AI workflows. Read the full course material and take browser-local quizzes without downloading the repository.</p>
-</header>
-<nav class="jump" aria-label="Page sections"><a href="#start">Start</a><a href="#roadmap">What was built</a><a href="#guides">Guides</a><a href="#courses">Courses</a><a href="#top">Top ↑</a></nav>
-<main>
-<div class="notice"><strong>Learning boundary:</strong> this is public/mock learning material, not investment advice, a trading system, or evidence of production readiness. Browser quiz results stay in this browser and are learning checks, not durable course completion or certification. Full completion requires cloned-repository code tracing, local and failure labs, and a teach-back. Course content is generated from the repository’s canonical learning sources. Curriculum fingerprint: <code>{metadata["fingerprint"]}</code>.</div>
+<header id="top" class="hero"><div class="wrap">
+<p class="kicker">Agentic PM Lab · Learning curriculum</p>
+<h1>Build and govern agentic AI, one course at a time</h1>
+<p class="lead">{len(catalog)} source-grounded courses, taught through a fixed-income portfolio-management platform. Read every course and take its quiz here, in your browser; nothing to install.</p>
+<div class="actions"><a class="btn primary" href="#{first_topic}">Start with course 01</a><a class="btn ghost" href="#courses">Browse all courses</a><a class="btn ghost" href="{REPOSITORY_URL}">View the repository</a></div>
+</div></header>
+<nav class="jump" aria-label="Page sections"><div class="wrap"><a href="#start">Start</a><a href="#roadmap">What was built</a><a href="#guides">Guides</a><a href="#courses">Courses</a><a href="#top">Top ↑</a></div></nav>
+<main class="wrap">
+<div class="notice" role="note"><p><strong>Learning material only.</strong> Built on public and mock data; it is not investment advice, a trading system, or evidence of production readiness. Quiz scores here stay in this browser. To record them, and to do the labs, clone the repository.</p></div>
 <h2 id="start">Start a path</h2>
-<p>The courses come in three modules. Only <strong>Agent core</strong> is required, about {core_hours} hours: it covers {core_labels}. <strong>Finance domain</strong> applies that core to investing. <strong>Platforms</strong> covers AWS AgentCore, Copilot Canvas, the agent development lifecycle, and document-to-skill; take the ones for your stack. Everything together is about {total_hours} hours.</p>
-<p>For an interactive CLI guide, open the repository in Copilot, Claude Code, or Codex and say <code>agentexpert</code>. For durable offline quiz records, run <code>uv run agentic-pm-lab quiz &lt;topic-id&gt;</code> after cloning.</p>
+<p>The courses are grouped into modules. Only <strong>Agent core</strong> and the <strong>Capstone</strong> are required, about {core_hours} hours together; everything is about {total_hours} hours.</p>
+<div class="table-wrap"><table class="modules"><thead><tr><th scope="col">Module</th><th scope="col">Status</th><th scope="col">Courses</th><th scope="col">Time</th><th scope="col">What it covers</th></tr></thead><tbody>{module_rows}</tbody></table></div>
+<p>Each course has objectives, three lessons, a deep dive, three labs that run after cloning, and a quiz. Already know some of it? After cloning, <code>uv run agentic-pm-lab placement</code> tells you which required courses you can skip ahead. For a guided tutor, open the repository in Claude Code, Copilot, or Codex and say <code>agentexpert</code>.</p>
 <h2 id="roadmap">What was built</h2>
-<p>The courses teach a platform that was built over a 21-day plan: deterministic analytics, governed agents, evaluation, observability, MCP, Canvas, and an AWS AgentCore path. The recap below walks through it day by day, with a self-check list and the questions the build should let you answer. Every day is complete for local, fixture-based verification; live cloud and provider evidence is tracked separately.</p>
+<p>The courses teach a platform built over a 21-day plan: deterministic analytics, governed agents, evaluation, observability, MCP, Canvas, and an AWS AgentCore path. Every day is complete for local, fixture-based verification; live cloud and provider evidence is tracked separately.</p>
 <details id="roadmap-recap"><summary>Phase 1 recap: the 21-day build, day by day</summary><article>{metadata["shared_html"]["Phase 1 recap"]}</article></details>
 <p class="source">Status and proof on GitHub: {status_links}</p>
 <h2 id="guides">Guides</h2>
 <details id="guide-course"><summary>How to use this curriculum, and the recommended order</summary><article>{metadata["shared_html"]["Course guide"]}</article></details>
-<details id="guide-mastery"><summary>Mastery-skill guide</summary><article>{metadata["shared_html"]["Mastery skill"]}</article></details>
+<details id="guide-mastery"><summary>The agentexpert tutor skill</summary><article>{metadata["shared_html"]["Mastery skill"]}</article></details>
 <details id="guide-depth"><summary>Depth path</summary><article>{metadata["shared_html"]["Depth path"]}</article></details>
 <h2 id="courses">Courses</h2>{cards}
 {"".join(sections)}
-<footer>Generated by {source_file_link("scripts/build_learning_curriculum.py")} from the checked-in curriculum sources. External framework behavior should be checked against the official references maintained in the repository.</footer>
-</main><dialog id="quiz"><button id="close">Close</button><div id="quiz-body"></div></dialog>
+</main>
+<footer><div class="wrap"><p>Generated by {source_file_link("scripts/build_learning_curriculum.py")} from the repository's curriculum sources. Curriculum fingerprint <code>{metadata["fingerprint"]}</code>.</p><p>Check external framework behaviour against the official references each course cites.</p></div></footer>
+<dialog id="quiz" aria-labelledby="quiz-title"><div class="quiz-bar"><strong id="quiz-title">Quiz</strong><button id="close" aria-label="Close the quiz">Close</button></div><div id="quiz-body" tabindex="-1"></div></dialog>
 <script>
 const quizzes={quiz_json}; const dialog=document.querySelector('#quiz'), body=document.querySelector('#quiz-body');
 let questions=[], position=0, correct=0, tierScore={{}};
 const OVERALL_PASS={OVERALL_PASS}, TIER_PASS={TIER_PASS};
 const esc=text=>String(text).replace(/[&<>"]/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}})[c]);
-document.querySelectorAll('.quiz-button').forEach(button=>button.onclick=()=>{{questions=quizzes[button.dataset.topic];position=0;correct=0;tierScore={{}};render();dialog.showModal();}});
+document.querySelectorAll('.quiz-button').forEach(button=>button.onclick=()=>{{questions=quizzes[button.dataset.topic];position=0;correct=0;tierScore={{}};document.querySelector('#quiz-title').textContent=button.closest('section').querySelector('h2').textContent+' quiz';render();dialog.showModal();body.focus();}});
 document.querySelector('#close').onclick=()=>dialog.close();
 function render(){{if(position===questions.length){{const tiers=Object.entries(tierScore);const passed=correct/questions.length>=OVERALL_PASS&&tiers.every(([,s])=>s[0]/s[1]>=TIER_PASS);body.innerHTML=`<h2>Quiz complete</h2><p class="result">Score: ${{correct}} / ${{questions.length}} (${{Math.round(correct/questions.length*100)}}%): ${{passed?'meets':'does not yet meet'}} the pass rule of ${{OVERALL_PASS*100}}% overall and ${{TIER_PASS*100}}% in each tier.</p><ul>${{tiers.map(([t,s])=>`<li>${{esc(t)}}: ${{s[0]}} / ${{s[1]}}</li>`).join('')}}</ul><p>This browser score is a learning check. To record it durably, clone the repository and run <code>uv run agentic-pm-lab quiz &lt;topic-id&gt;</code>. Review the cited sources and repeat the local/failure labs before treating a score as course completion.</p>`;return;}}const q=questions[position];body.innerHTML=`<p class="eyebrow">Question ${{position+1}} of ${{questions.length}} · ${{esc(q.tier)}}</p><h2>${{q.question}}</h2>${{q.choices.map((choice,index)=>`<button class="choice" data-index="${{index}}">${{String.fromCharCode(65+index)}}. ${{choice}}</button>`).join('')}}<p id="feedback"></p>`;body.querySelectorAll('.choice').forEach(button=>button.onclick=()=>answer(Number(button.dataset.index),q));}}
-function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;const s=tierScore[q.tier]=tierScore[q.tier]||[0,0];s[1]++;if(ok)s[0]++;body.querySelector('#feedback').innerHTML=`<span class="result">${{ok?'Correct.':'Not quite.'}}</span> Source: <a class="src" href="{REPOSITORY_URL}/blob/main/${{q.citation}}"><code>${{q.citation}}</code></a>.${{q.explanation?` <span class="explanation">${{esc(q.explanation)}}</span>`:''}} <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>button.disabled=true);body.querySelector('#next').onclick=()=>{{position++;render();}};}}
+function answer(answer,q){{const ok=answer===q.correct_index;if(ok)correct++;const s=tierScore[q.tier]=tierScore[q.tier]||[0,0];s[1]++;if(ok)s[0]++;body.querySelector('#feedback').innerHTML=`<span class="result">${{ok?'Correct.':'Not quite.'}}</span> Source: <a class="src" href="{REPOSITORY_URL}/blob/main/${{q.citation}}"><code>${{q.citation}}</code></a>.${{q.explanation?` <span class="explanation">${{esc(q.explanation)}}</span>`:''}} <button id="next">Continue</button>`;body.querySelectorAll('.choice').forEach(button=>{{button.disabled=true;const i=Number(button.dataset.index);if(i===q.correct_index)button.classList.add('right');else if(i===answer)button.classList.add('wrong');}});body.querySelector('#next').onclick=()=>{{position++;render();}};}}
 function reveal(){{const id=decodeURIComponent(location.hash.slice(1));const target=id&&document.getElementById(id);if(!target)return;for(let d=target.closest('details');d;d=d.parentElement.closest('details'))d.open=true;target.scrollIntoView();}}
 addEventListener('hashchange',reveal);reveal();
 document.addEventListener('click',e=>{{const link=e.target.closest('a[href^="#"]');if(link&&link.getAttribute('href')===location.hash)setTimeout(reveal);}});
-for(const panel of document.querySelectorAll('.freshness')){{const dates=[...panel.textContent.matchAll(/next review (\\d{{4}}-\\d{{2}}-\\d{{2}})/g)].map(match=>match[1]);if(dates.some(value=>new Date(`${{value}}T00:00:00Z`)<new Date())){{panel.classList.add('overdue');panel.insertAdjacentHTML('beforeend',' <strong>Review overdue.</strong>');}}}}
+for(const panel of document.querySelectorAll('.freshness')){{const dates=[...panel.textContent.matchAll(/next review (\\d{{4}}-\\d{{2}}-\\d{{2}})/g)].map(match=>match[1]);if(dates.some(value=>new Date(`${{value}}T00:00:00Z`)<new Date())){{panel.classList.add('overdue');panel.querySelector('summary').insertAdjacentHTML('beforeend',' <strong class="flag">Review overdue</strong>');}}}}
 </script></body></html>"""
 
 
