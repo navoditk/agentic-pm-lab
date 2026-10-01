@@ -278,6 +278,16 @@ rather than a dedicated official podcast feed; OpenAI and AWS links above are
 the maintained audio starting points for this bibliography.
 
 ### Tutor-agent study map
+- Use `agent-foundations-tutor` with the [Agent foundations](#agent-foundations)
+  section: Building effective agents, ReAct, context engineering, and the
+  LangChain core concepts.
+- Use `mcp-tutor` with the [Model Context Protocol](#model-context-protocol-mcp)
+  specification pages and security best practices.
+- Use `aws-bedrock-tutor` with the Converse, tool-use, inference-profile, and
+  prompt-caching pages in the [AWS Bedrock & AgentCore](#aws-bedrock--agentcore)
+  section.
+- Use `traceability-capstone-tutor` with the [Traceability capstone](#traceability-capstone)
+  section and the OpenTelemetry propagation and sampling pages.
 - Use `portfolio-construction-tutor` with the [portfolio optimization and
   portfolio construction](#portfolio-optimization-and-portfolio-construction)
   reading path.
@@ -312,7 +322,7 @@ the maintained audio starting points for this bibliography.
   rather than `.github/agents/`), not a gap in this map.
 
 Every tutor above also has a deep-dive companion under
-[`docs/learning/tutors/`](../learning/tutors/) and a 20-30 question
+[`docs/learning/tutors/`](../learning/tutors/) and a 20–35 question
 self-check quiz (`uv run agentic-pm-lab quiz <topic-id>`) — see
 [`docs/guides/TUTOR_RUNBOOK.md`](../guides/TUTOR_RUNBOOK.md#standalone-cli-quizzes-and-comprehension-tracking).
 

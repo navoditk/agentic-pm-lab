@@ -37,5 +37,6 @@ with `open_canvas` (`canvasId: "issue-triage-canvas"`).
 ## Keeping the kit current
 
 `canvas-kit/` is a vendored snapshot of the create-canvas-app `kit/`. Re-sync it
-with the skill's `scripts/sync-kit.mjs`, and gate drift in CI with
+with `scripts/sync-kit.mjs` from the Copilot create-canvas-app skill (part of
+that skill, not this repository), and gate drift in CI with that skill's
 `scripts/check-kit-freshness.mjs`.

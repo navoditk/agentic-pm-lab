@@ -51,7 +51,7 @@ to reach.
 6. Add an allowed and denied case to
    `governance/tests/test_authorization.py`. For portfolio access, exercise the
    same tool against both an allowed and denied portfolio.
-7. Add or update `tests/unit/agents/test_role_gating.py` so the bound tool names
+7. Add or update `tests/unit/control/test_role_gating.py` so the bound tool names
    match the policy decision for every identity.
 8. If the change introduces a *new* way to be refused, count it: call
    `record_authorization_denial` at the branch that raises, with its own

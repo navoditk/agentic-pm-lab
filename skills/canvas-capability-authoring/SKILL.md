@@ -5,7 +5,7 @@ license: MIT
 covers:
   - .github/extensions
   - tests/unit/extensions
-last_verified_commit: 907a375
+last_verified_commit: 576f85a77ff474c379c9b6784a5d47e1fe5f4b10
 ---
 
 # canvas-capability-authoring

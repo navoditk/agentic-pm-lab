@@ -34,8 +34,8 @@ Copilot run is a separate, account-dependent evidence exercise:
    panel, evaluation result, and token/cost panel where the host exposes them.
 5. Capture the **Agent Operations** Canvas for one successful run and one
    governed denial or approval-required run.
-6. Save screenshots under
-   `docs/evidence/screenshots/copilot-canvas/` using names such as
+6. Save screenshots in a new `docs/evidence/screenshots/copilot-canvas/`
+   folder, using names such as
    `portfolio-risk-rates-stress.png` and `agent-ops-denied-action.png`.
 7. Record the host, account/session mode, fixture or provider mode, run ID,
    limitation, and whether tokens/costs are measured or approximated. Never
