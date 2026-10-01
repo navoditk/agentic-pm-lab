@@ -7,6 +7,7 @@ import pytest
 from scripts.build_learning_curriculum import (
     DEFAULT_OUTPUT,
     build_html,
+    render_markdown,
     topic_freshness,
     write_output,
 )
@@ -21,7 +22,7 @@ def test_curriculum_includes_every_topic_and_quiz():
     assert rendered.count("Start this topic's quiz") == len(TOPIC_CATALOG)
     assert "portfolio-construction-tutor-q1" in rendered
     assert "ficc-tutor-agent-q1" in rendered
-    assert "Browser quiz results stay in this browser" in rendered
+    assert "Quiz scores here stay in this browser" in rendered
 
 
 def test_curriculum_rewrites_checkout_relative_links_to_github():
@@ -256,3 +257,62 @@ def test_no_literal_emphasis_asterisks_reach_the_page():
     """Every deep dive opens with an italic "Companion to" line, which showed
     as literal asterisks on the published page."""
     assert "<p>*Companion to" not in _artifact_text()
+
+
+def test_tables_close_before_blank_lines_headings_and_paragraphs():
+    rendered = render_markdown(
+        "| a | b |\n|---|---|\n| 1 | 2 |\n| 3 | 4 |\n\n## Next\n\n"
+        "| c |\n|---|\n| 5 |\nA paragraph straight after.\n"
+    )
+    assert rendered.count("<table>") == rendered.count("</table>") == 2
+    assert rendered.count("<th>") == 3  # one header row per table, not per row
+    assert rendered.index("</table>") < rendered.index("<h2>")
+
+
+def test_no_course_or_guide_is_swallowed_by_a_collapsed_section():
+    """An unclosed <table> inside a <details> makes the browser ignore the
+    </details>, nesting the rest of the page inside it. That hid every course
+    on the published page behind the Phase 1 recap. Every element that must be
+    closed explicitly has to close in the order it opened."""
+    from html.parser import HTMLParser
+
+    strict = {"table", "details", "section", "article", "div", "ul", "ol", "pre"}
+
+    class Nesting(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.stack: list[str] = []
+            self.misnested: list[str] = []
+
+        def handle_starttag(self, tag, attrs):
+            if tag in strict:
+                self.stack.append(tag)
+
+        def handle_endtag(self, tag):
+            if tag not in strict:
+                return
+            if not self.stack or self.stack[-1] != tag:
+                self.misnested.append(f"</{tag}> closes {self.stack[-1:]}")
+                if tag in self.stack:
+                    while self.stack.pop() != tag:
+                        pass
+                return
+            self.stack.pop()
+
+    page = build_html()
+    parser = Nesting()
+    parser.feed(page)
+    assert parser.misnested[:3] == []
+    assert parser.stack == []
+    for tag in ("table", "details"):
+        assert page.count(f"<{tag}") == page.count(f"</{tag}>"), tag
+
+
+def test_a_wrapped_list_item_stays_one_item():
+    rendered = render_markdown(
+        "- **Identity.** On HTTP, the framework\n  applies; on stdio, the environment.\n"
+        "- Second item.\n\nAfter the list.\n"
+    )
+    assert rendered.count("<li>") == 2
+    assert "framework applies; on stdio" in rendered
+    assert rendered.index("</ul>") < rendered.index("<p>After the list.</p>")

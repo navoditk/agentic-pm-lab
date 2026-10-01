@@ -51,9 +51,8 @@ proposal is checked before a human sees it.
 - **The next institutional layer (not yet built).** Benchmark-relative
   tracking error and active risk, group/factor constraints, downside/CVaR
   risk, shrinkage and Black-Litterman inputs, liquidity and market-impact
-  costs, walk-forward validation, and uncertainty-aware allocation — named in
-  `README.md`'s "Portfolio optimization depth" section as roadmap, not
-  implemented. Several already have derivations in pm-mechanics
+  costs, walk-forward validation, and uncertainty-aware allocation. These
+  are roadmap, not implemented. Several already have derivations in pm-mechanics
   ([shrinkage](https://navoditk.github.io/pm-mechanics/reference/concepts/covariance_shrinkage/),
   [Black-Litterman](https://navoditk.github.io/pm-mechanics/reference/concepts/black_litterman/),
   [tracking error](https://navoditk.github.io/pm-mechanics/reference/concepts/tracking_error/)) that would inform building
@@ -215,7 +214,7 @@ directly in the exception — not a generic message, the real number.
 - [`docs/reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction`](../../reference/REFERENCES.md#portfolio-optimization-and-portfolio-construction)
   — the full reading path (PyPortfolioOpt, CVXPY, Cvxportfolio, Riskfolio-Lib,
   skfolio, vectorbt) this repository's implementation is one point within.
-- `README.md`'s "Portfolio optimization depth" section for the exact
-  implemented-versus-roadmap boundary.
+- `docs/PLAN.md`'s "Portfolio optimization depth boundary" section for the
+  exact implemented-versus-roadmap boundary.
 - `tests/unit/analytics/test_optimizer.py` for the full behavioral contract
   in test form, including the turnover/concentration breach cases.

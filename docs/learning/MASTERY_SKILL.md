@@ -6,8 +6,9 @@ lesson, quiz, scenario, lab, teach-back, and cross-topic assessment flow across
 GitHub Copilot, Claude Code, and Codex.
 
 Learners without a local checkout can use the complete
-[GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/) or the
-repository's [standalone HTML artifact](../../artifacts/agentic-pm-curriculum.html).
+[curriculum site](https://navoditk.github.io/agentic-pm-lab/), or download the
+same page as one self-contained file,
+[`artifacts/agentic-pm-curriculum.html`](../../artifacts/agentic-pm-curriculum.html).
 Those routes include the deep dives, course outlines, labs, and browser-local
 quizzes, but not CLI session progress or code-tracing exercises.
 

@@ -36,8 +36,8 @@ def render_block(target: Path) -> str:
     from src.education.tutor import COURSE_CATALOG, TOPIC_CATALOG
 
     rows = [
-        "| Step | Module | Course | Topic id | Est. hours |",
-        "|---|---|---|---|---|",
+        "| # | Course and topic id | Module | Hours |",
+        "|---|---|---|---|",
     ]
     total = required_hours = 0
     for topic_id, record in TOPIC_CATALOG.items():
@@ -45,8 +45,9 @@ def render_block(target: Path) -> str:
         link = os.path.relpath(ROOT / record["deep_dive"], target.parent)
         module = course["stage"] + ("" if course["required"] else " (optional)")
         rows.append(
-            f"| {course['step']} | {module} | [{record['label']}]({link}) "
-            f"| `{topic_id}` | ~{course['est_hours']} |"
+            # The topic id sits under the course name: four columns fit a phone.
+            f"| {course['step']} | [{record['label']}]({link})<br>`{topic_id}` "
+            f"| {module} | ~{course['est_hours']} |"
         )
         total += course["est_hours"]
         if course["required"]:
@@ -58,7 +59,7 @@ def render_block(target: Path) -> str:
 
 {table}
 
-Only the Agent core module is required: about {required_hours} hours. The other
+Agent core and the Capstone are required: about {required_hours} hours. The other
 modules are optional; take Finance domain to apply the core to investing, and
 the Platforms courses for the tools you use. About {total} hours for everything.
 Hours are rough estimates covering the deep dive, the three labs, the quiz,

@@ -1,230 +1,74 @@
-# Agentic AI Learning Journey: Portfolio Management & Optimization
+# Agentic PM Lab
 
-This repository is a hands-on learning laboratory for building a trusted,
-fixed-income-first Portfolio Manager (PM) AI proof of concept. It combines
-deterministic financial analytics with LangGraph/Deep Agents, governance,
-evaluation, observability, public-data provenance, AWS Bedrock AgentCore
-patterns, MCP, and GitHub Copilot Canvas.
+**Learn to build and govern agentic AI, through a fixed-income portfolio-management platform built from scratch.**
 
-It is deliberately company-agnostic and uses only public or clearly labelled
-mock data. It is not an investment adviser, trading system, autonomous order
-executor, or production deployment.
+[![CI](https://github.com/navoditk/agentic-pm-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/navoditk/agentic-pm-lab/actions/workflows/ci.yml)
+[![Curriculum](https://github.com/navoditk/agentic-pm-lab/actions/workflows/learning-curriculum.yml/badge.svg)](https://navoditk.github.io/agentic-pm-lab/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+Agentic PM Lab is a hands-on learning lab and a working proof of concept. It
+puts deterministic financial analytics behind LangGraph agents, then adds what
+a regulated setting needs: authorization outside the prompt, guardrails,
+human approval, audit, OpenTelemetry, evaluation, MCP, and an AWS Bedrock
+AgentCore path. Eighteen courses teach it, from the agent loop to rebuilding a
+decision from one trace id.
+
+It uses only public or clearly labelled mock data. It is not investment
+advice, a trading system, or a production deployment.
 
 ## Start here
 
-Three routes in, depending on what you have. All three teach the same
-courses from the same canonical sources.
-
-**1. Nothing installed, or you cannot clone the repository.** Read the full
-interactive curriculum in a browser — every course, quiz, and reference,
-with no download:
-
-> **[Open the curriculum on GitHub Pages](https://navoditk.github.io/agentic-pm-lab/)**
-
-**2. You have a coding agent.** Open this checkout in **Claude Code, GitHub
-Copilot, or Codex** and say:
-
-```
-agentexpert
-```
-
-That loads the [Agentic PM Lab Mastery skill](docs/learning/MASTERY_SKILL.md)
-— a source-grounded tutor that runs lessons, quizzes, failure scenarios,
-build labs, teach-backs, and a cross-topic assessment, tracking XP and level
-as you go. It is read-only and offline by default: no credentials, no live
-providers, no investment actions. The same skill is wired for all three
-agents, so the experience does not depend on which one you use.
-
-**3. You prefer a terminal.** You need `git` and
-[`uv`](https://docs.astral.sh/uv/getting-started/installation/); `uv` fetches
-the right Python itself. One command is then the front door:
+| If you have… | Do this |
+|---|---|
+| **Just a browser** | Open the **[curriculum site](https://navoditk.github.io/agentic-pm-lab/)**: every course, deep dive, and quiz, nothing to install. |
+| **A coding agent** | Open this repository in Claude Code, GitHub Copilot, or Codex and say `agentexpert`. The [mastery skill](docs/learning/MASTERY_SKILL.md) runs lessons, quizzes, labs, and assessments, offline and read-only. |
+| **A terminal** | Install [`uv`](https://docs.astral.sh/uv/getting-started/installation/), then run the commands below. |
 
 ```bash
 git clone https://github.com/navoditk/agentic-pm-lab.git && cd agentic-pm-lab
 uv sync
-uv run agentic-pm-lab            # all commands, grouped by audience
-uv run agentic-pm-lab learn      # every course, in order
-uv run agentic-pm-lab placement  # 12 questions: which courses to skip ahead
-uv run agentic-pm-lab quiz agent-architecture-tutor
+uv run agentic-pm-lab learn       # every course, in order
+uv run agentic-pm-lab placement   # 12 questions: which courses you can skip ahead
+uv run agentic-pm-lab quiz agent-foundations-tutor
 ```
 
-No model, network, or API key is needed for any of the learning commands.
-You do **not** need [INSTALL.md](INSTALL.md) to learn — that guide rebuilds
-the repository from an empty directory.
+No model, network, or API key is needed to learn. [INSTALL.md](INSTALL.md) is
+only for rebuilding the platform from an empty directory. New here? Read
+[START_HERE](docs/learning/START_HERE.md) first.
 
-The worked example throughout is a fixed-income portfolio manager, but you do
-not need finance to learn the agent core. Only the optional Finance domain
-module assumes fixed income and portfolio theory; for the math itself, see
-[pm-mechanics](https://github.com/navoditk/pm-mechanics).
+## The curriculum
 
-## Related repositories
-
-This repo is the **agent layer**: how to put deterministic financial analytics
-behind an LLM without letting plausible language become an unaudited investment
-decision.
-
-[**pm-mechanics**](https://github.com/navoditk/pm-mechanics) is the **math
-layer** underneath it — a build-first trainer for the PM/FICC and equity
-analytics themselves, where you derive, code, and test each formula by hand.
-Its coverage of the finance domain is substantially deeper than this repo's:
-37 fixed-income reference pages, 37 notebooks, and tested implementations of
-duration, DV01, convexity, Z-spread, CDS, MBS prepayment, Black-Scholes, and
-Black-Litterman, among others.
-
-If you take the optional Finance domain module and its fixed-income or
-portfolio-theory concepts are unfamiliar, learn them there first. This repo
-assumes the math and focuses on governing it; its FICC and
-portfolio-construction courses are scoped to what these tools need, and point
-at pm-mechanics for the full treatment.
-
-## The gist in five minutes
-
-The central design question is: **how can an AI assist a PM without turning
-plausible language into an unaudited investment decision?** The repository's
-answer is a layered workflow:
-
-```text
-public/mock data -> deterministic tools -> governed agent workflow
-                  -> evidence, evaluation, audit, human review
-                  -> report or allocation proposal, never an order
-```
-
-The LLM reasons, delegates, retrieves, and narrates. Python functions perform
-pricing, risk, scenarios, backtests, and portfolio optimization. Authorization
-is enforced outside prompts. Every result should expose assumptions, data
-vintage, evidence, limitations, approval state, and reproducibility metadata.
-
-The repository is both a completed 21-day local implementation path and a
-deliberately bounded platform-shaped proof of concept whose hosted and
-production gaps remain visible.
-
-## Goals
-
-The project set out to:
-
-1. Build deterministic bond, curve, portfolio, risk, scenario, research, and
-   constrained-optimization tools with machine-readable contracts.
-2. Compose those tools into single-agent and multi-agent LangGraph/Deep Agents
-   workflows with Macro, Quant/Risk, and Fundamental specialists.
-3. Add financial-services controls: identity, Cedar authorization, guardrails,
-   tool-boundary enforcement, human approval, audit, provenance, and safe
-   failure recovery.
-4. Instrument the workflow with OpenTelemetry and evaluate routing, tool use,
-   arguments, retrieval, answers, policy, and guardrail behavior separately.
-5. Expose the governed workflow through MCP, four Canvas projects, scheduled
-   automation, and an AWS Bedrock AgentCore deployment path.
-6. Make the repository teachable through tutors, quizzes, worked examples,
-   architecture documents, references, and reproducible local exercises.
-
-The authoritative business questions, success tiers, and non-goals are in the
-[PRD](docs/architecture/PRD.md). The current implementation and evidence are
-in [ARCHITECTURE](docs/architecture/ARCHITECTURE.md), [PROGRESS](PROGRESS.md),
-and the [evidence ledger](docs/evidence/EVIDENCE.md).
-
-## What was built
-
-The 21-day build plan is complete for local, fixture-based verification. For
-a guided tour, read the [Phase 1 recap](docs/learning/PHASE_1_RECAP.md): what
-each day delivered, a self-check list, and the questions the build should let
-you answer. It is also on the
-[curriculum site](https://navoditk.github.io/agentic-pm-lab/#roadmap). The
-repository currently provides:
-
-| Area | Current state |
-|---|---|
-| Analytics | Bond/option pricing, curves, risk, factor regression, backtesting, scenarios, and portfolio optimization |
-| Data | Real-capable yfinance/FRED paths; governed ALFRED, Treasury, SEC, SOFR, CFTC, and Kenneth French connectors; mock holdings/security master |
-| Agents | Single-agent and specialist-based Deep Agents; a separate research supervisor; local-model comparison path |
-| Governance | Local identities, Cedar tool/resource policy, guardrails, repeated enforcement at FastAPI/MCP boundaries, approval interrupts, audit records |
-| Evaluation | Golden, routing, policy, and guardrail cases; versioned baselines; deterministic evaluators; local regression gates |
-| Observability | OpenTelemetry traces *and* metrics as separate signals: spans carrying token, latency, retry, tool and estimated-cost attributes, plus counters and histograms for agent runs, tool calls, tokens, cost, retries and authorization denials; W3C context propagation across process boundaries; parent-based head sampling; structured fixture execution envelopes |
-| Interfaces | Four Canvas projects, MCP adapter, FastAPI API, Streamlit tutor UI, and approval-only scheduled review workflow |
-| AWS | AgentCore Runtime entrypoint and runbooks; live temporary Runtime, Memory, standalone Guardrails, and on-demand Evaluation evidence |
-| Learning | Tutor courses in three modules and a capstone, deep-dive companions, 20–35-question quizzes with concept, implementation, and transfer tiers, learner-progress tracking, source catalog, and no-cost exercises |
-
-Run the local verification yourself — this is the same gate set CI runs, so a
-green result here means a green pull request:
-
-```bash
-uv run agentic-pm-lab check
-```
-
-The test result is local verification evidence, not proof of a successful
-cloud request, live provider response, or hosted Canvas session.
-
-## What is not complete, and why that matters
-
-This is a learning-scale proof of concept, not an institutional production
-platform. The remaining boundaries are intentional and documented:
-
-- portfolio positions, security-master classifications, and the research
-  endpoint remain mock or fixture-backed;
-- the 23-question PM catalog is broader than the active 22-case golden dataset;
-  deferred questions include production liquidity, benchmark-relative risk,
-  mortgage analytics, sentiment, and multi-period optimization;
-- AgentCore Gateway live evidence and Copilot-hosted browser evidence remain
-  unclaimed, although the implementation paths exist;
-- hosted AgentCore evidence proves bounded integrations and a full deterministic
-  capstone execution, not high availability, production operations, or every
-  research-provider path;
-- optimization remains learning-scale: supplied estimates, long-only
-  constraints, turnover/concentration checks, and documented fallbacks are not
-  a production risk model;
-- the system proposes and explains; it does not place or execute trades.
-
-See [EVIDENCE](docs/evidence/EVIDENCE.md) for local versus live proof and
-[PLAN_REVIEW](docs/learning/PLAN_REVIEW.md) for the independent completion audit.
-
-## The architecture in one view
-
-| Layer | Repository implementation | Trust boundary |
-|---|---|---|
-| Data | DuckDB, public connectors, provenance, point-in-time checks, fixture catalog | Structured data feeds calculations; narrative evidence cannot silently become a risk input |
-| Control | Identity, Cedar policy, guardrails, audit, human approval | Authorization is enforced before model access and again at the tool boundary |
-| Tool | Deterministic analytics with JSON Schema contracts, FastAPI, MCP | Tools validate inputs and re-check identity/resource entitlement |
-| Agent | LangGraph/Deep Agents, specialist delegation, context assembly, recovery | LLM output is interpretation, not financial truth |
-| Interactive | Canvas, Streamlit, scheduled review, AgentOps surfaces | UI is not a security boundary |
-| Runtime | Local fixture host and AgentCore Runtime/Gateway intent | Hosted deployment is temporary evidence, not an always-on service |
-| Observability/evaluation | OTel, LangSmith-compatible experiments, baselines, replay, cost accounting | Logs and traces minimize prompts, holdings, secrets, and denied content |
-
-The important pattern is not any single vendor. It is the separation of
-calculation, reasoning, policy, evidence, and human decision-making.
-
-## The learning path
-
-The courses come in three modules and a capstone. **Agent core** is the
-required path through agentic AI, and the **Capstone** that follows it proves
-its threads work together by rebuilding one decision from one trace id.
-**Finance domain** applies the core to investing and is optional, as are the
-**Platforms** courses, which you pick by stack. `agentic-pm-lab learn`
-prints the same list.
+Four modules. **Agent core** and the **Capstone** are required; **Finance
+domain** and **Platforms** are optional, taken by goal and by stack. You do
+not need a finance background for the required path; for the underlying math,
+see [pm-mechanics](https://github.com/navoditk/pm-mechanics).
 
 <!-- LEARNING_PATH:START -->
 <!-- Generated from docs/learning/tutor-courses.json by
      scripts/build_learning_path.py. Edit the JSON, not this table. -->
 
-| Step | Module | Course | Topic id | Est. hours |
-|---|---|---|---|---|
-| 1 | Agent core | [Agent foundations](docs/learning/tutors/agent-foundations-tutor.md) | `agent-foundations-tutor` | ~6 |
-| 2 | Agent core | [Agent architecture](docs/learning/tutors/agent-architecture-tutor.md) | `agent-architecture-tutor` | ~4 |
-| 3 | Agent core | [LangGraph and Deep Agents](docs/learning/tutors/langgraph-deep-agents-tutor.md) | `langgraph-deep-agents-tutor` | ~6 |
-| 4 | Agent core | [Model Context Protocol](docs/learning/tutors/mcp-tutor.md) | `mcp-tutor` | ~4 |
-| 5 | Agent core | [OpenTelemetry](docs/learning/tutors/opentelemetry-tutor.md) | `opentelemetry-tutor` | ~6 |
-| 6 | Agent core | [Evaluations and AgentOps](docs/learning/tutors/evaluation-agentops-tutor.md) | `evaluation-agentops-tutor` | ~6 |
-| 7 | Agent core | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md) | `governance-delivery-tutor` | ~5 |
-| 8 | Capstone | [Capstone: traceability end to end](docs/learning/tutors/traceability-capstone-tutor.md) | `traceability-capstone-tutor` | ~5 |
-| 9 | Finance domain (optional) | [FICC fundamentals](docs/learning/tutors/ficc-tutor-agent.md) | `ficc-tutor-agent` | ~3 |
-| 10 | Finance domain (optional) | [Portfolio construction](docs/learning/tutors/portfolio-construction-tutor.md) | `portfolio-construction-tutor` | ~4 |
-| 11 | Finance domain (optional) | [Data provenance and research quality](docs/learning/tutors/data-provenance-research-tutor.md) | `data-provenance-research-tutor` | ~3 |
-| 12 | Finance domain (optional) | [Public investment data](docs/learning/tutors/investment-data-tutor.md) | `investment-data-tutor` | ~3 |
-| 13 | Finance domain (optional) | [Investment committee challenge](docs/learning/tutors/investment-committee-tutor.md) | `investment-committee-tutor` | ~3 |
-| 14 | Platforms (optional) | [AWS Bedrock](docs/learning/tutors/aws-bedrock-tutor.md) | `aws-bedrock-tutor` | ~4 |
-| 15 | Platforms (optional) | [AWS Bedrock AgentCore](docs/learning/tutors/aws-agentcore-tutor.md) | `aws-agentcore-tutor` | ~5 |
-| 16 | Platforms (optional) | [Copilot Canvas](docs/learning/tutors/copilot-canvas-mcp-tutor.md) | `copilot-canvas-mcp-tutor` | ~3 |
-| 17 | Platforms (optional) | [Agent development lifecycle](docs/learning/tutors/agent-development-lifecycle-tutor.md) | `agent-development-lifecycle-tutor` | ~4 |
-| 18 | Platforms (optional) | [Document-to-skill pipeline](docs/learning/tutors/document-to-skill-tutor.md) | `document-to-skill-tutor` | ~4 |
+| # | Course and topic id | Module | Hours |
+|---|---|---|---|
+| 1 | [Agent foundations](docs/learning/tutors/agent-foundations-tutor.md)<br>`agent-foundations-tutor` | Agent core | ~6 |
+| 2 | [Agent architecture](docs/learning/tutors/agent-architecture-tutor.md)<br>`agent-architecture-tutor` | Agent core | ~4 |
+| 3 | [LangGraph and Deep Agents](docs/learning/tutors/langgraph-deep-agents-tutor.md)<br>`langgraph-deep-agents-tutor` | Agent core | ~6 |
+| 4 | [Model Context Protocol](docs/learning/tutors/mcp-tutor.md)<br>`mcp-tutor` | Agent core | ~4 |
+| 5 | [OpenTelemetry](docs/learning/tutors/opentelemetry-tutor.md)<br>`opentelemetry-tutor` | Agent core | ~6 |
+| 6 | [Evaluations and AgentOps](docs/learning/tutors/evaluation-agentops-tutor.md)<br>`evaluation-agentops-tutor` | Agent core | ~6 |
+| 7 | [Governance and delivery](docs/learning/tutors/governance-delivery-tutor.md)<br>`governance-delivery-tutor` | Agent core | ~5 |
+| 8 | [Capstone: traceability end to end](docs/learning/tutors/traceability-capstone-tutor.md)<br>`traceability-capstone-tutor` | Capstone | ~5 |
+| 9 | [FICC fundamentals](docs/learning/tutors/ficc-tutor-agent.md)<br>`ficc-tutor-agent` | Finance domain (optional) | ~3 |
+| 10 | [Portfolio construction](docs/learning/tutors/portfolio-construction-tutor.md)<br>`portfolio-construction-tutor` | Finance domain (optional) | ~4 |
+| 11 | [Data provenance and research quality](docs/learning/tutors/data-provenance-research-tutor.md)<br>`data-provenance-research-tutor` | Finance domain (optional) | ~3 |
+| 12 | [Public investment data](docs/learning/tutors/investment-data-tutor.md)<br>`investment-data-tutor` | Finance domain (optional) | ~3 |
+| 13 | [Investment committee challenge](docs/learning/tutors/investment-committee-tutor.md)<br>`investment-committee-tutor` | Finance domain (optional) | ~3 |
+| 14 | [AWS Bedrock](docs/learning/tutors/aws-bedrock-tutor.md)<br>`aws-bedrock-tutor` | Platforms (optional) | ~4 |
+| 15 | [AWS Bedrock AgentCore](docs/learning/tutors/aws-agentcore-tutor.md)<br>`aws-agentcore-tutor` | Platforms (optional) | ~5 |
+| 16 | [Copilot Canvas](docs/learning/tutors/copilot-canvas-mcp-tutor.md)<br>`copilot-canvas-mcp-tutor` | Platforms (optional) | ~3 |
+| 17 | [Agent development lifecycle](docs/learning/tutors/agent-development-lifecycle-tutor.md)<br>`agent-development-lifecycle-tutor` | Platforms (optional) | ~4 |
+| 18 | [Document-to-skill pipeline](docs/learning/tutors/document-to-skill-tutor.md)<br>`document-to-skill-tutor` | Platforms (optional) | ~4 |
 
-Only the Agent core module is required: about 42 hours. The other
+Agent core and the Capstone are required: about 42 hours. The other
 modules are optional; take Finance domain to apply the core to investing, and
 the Platforms courses for the tools you use. About 78 hours for everything.
 Hours are rough estimates covering the deep dive, the three labs, the quiz,
@@ -233,82 +77,127 @@ experienced learner can start anywhere.
 
 <!-- LEARNING_PATH:END -->
 
-Every course carries the same structure, whichever route you took above:
+Every course has the same shape:
 
-| Element | What it is |
+| Part | What you do |
 |---|---|
-| Persona and deep dive | A compact orientation, then a repository-grounded walkthrough of the real code |
-| Objectives and lessons | What you should be able to do, and the sequence to get there |
-| Quiz | 20–35 deterministic questions, each citing a repository file or a registered external source |
-| Local lab | Trace working code and perturb it |
-| Failure lab | Break it deliberately and explain the safe result |
-| Build lab | Write code yourself; the tutor reviews but never writes it for you |
+| Deep dive | Read the concepts, quoted from primary sources, and how this repository implements them |
+| Labs | Trace working code (local lab), break it deliberately (failure lab), and write something new (build lab) |
+| Quiz | 20–35 questions in three tiers (concept, implementation, transfer), each citing its source; pass at 80% overall and 70% per tier |
 | Teach-back | Explain it back against a rubric |
 
-This supports complete self-paced courses. It does not claim production
-certification or expert mastery.
+Your quiz results are recorded locally and summarised in
+[LEARNER_PROGRESS](docs/learning/LEARNER_PROGRESS.md);
+`uv run agentic-pm-lab review` brings back the concepts you missed. Optional
+[live labs](docs/learning/LIVE_LABS.md) run the same code against real
+services; none is required.
 
-Deeper references: [START_HERE](docs/learning/START_HERE.md) for a zero-context
-on-ramp, the [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) for
-working through one course and the completion rubric, the
-[Depth Path](docs/learning/DEPTH_PATH.md) for the four-pass study method, and
-the [Tutor Runbook](docs/guides/TUTOR_RUNBOOK.md) for
-invoking a tutor from any agent surface. Understanding is tracked separately
-from implementation status in
-[LEARNER_PROGRESS](docs/learning/LEARNER_PROGRESS.md).
+## The design in one view
 
-## Repository map
+The central question: **how can AI assist a portfolio manager without turning
+plausible language into an unaudited investment decision?**
 
-| Need | Start here |
+```text
+public/mock data → deterministic tools → governed agent workflow
+                 → evidence, evaluation, audit, human review
+                 → report or allocation proposal, never an order
+```
+
+The model reasons, delegates, and narrates. Python computes every number.
+Policy is enforced at the tool boundary, not inferred from prompts.
+
+| Layer | Implementation | Trust boundary |
+|---|---|---|
+| Data | DuckDB, public connectors, provenance, point-in-time checks | Narrative evidence never silently becomes a risk input |
+| Control | Identity, Cedar policy, guardrails, audit, human approval | Authorization runs before model access and again at the tool |
+| Tool | Deterministic analytics with JSON Schema contracts, FastAPI, MCP | Tools re-check identity and resource entitlement |
+| Agent | LangGraph and Deep Agents, specialist delegation, recovery | Model output is interpretation, not financial truth |
+| Interactive | Canvas, Streamlit, scheduled review | The UI is not a security boundary |
+| Runtime | Local host and AgentCore Runtime and Gateway | Hosted runs are temporary evidence, not an always-on service |
+| Observability and evaluation | OpenTelemetry, LangSmith-compatible experiments, baselines, replay | Telemetry records counts and ids, not prompts, holdings, or secrets |
+
+The full picture is in [ARCHITECTURE](docs/architecture/ARCHITECTURE.md) and
+[DIAGRAMS](docs/architecture/DIAGRAMS.md); the goals and non-goals are in the
+[PRD](docs/architecture/PRD.md).
+
+## Status
+
+The 21-day build is complete for local, fixture-based verification; the
+[Phase 1 recap](docs/learning/PHASE_1_RECAP.md) walks through it day by day.
+
+| Area | What exists |
 |---|---|
-| Install and verify | [INSTALL.md](INSTALL.md) |
-| What was built, day by day | [Phase 1 recap](docs/learning/PHASE_1_RECAP.md) |
-| Current status and evidence | [PROGRESS.md](PROGRESS.md), [EVIDENCE.md](docs/evidence/EVIDENCE.md) |
-| Goals and acceptance criteria | [PRD.md](docs/architecture/PRD.md) |
-| Current architecture and security | [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md), [DIAGRAMS.md](docs/architecture/DIAGRAMS.md) |
-| Day-by-day build plan | [PLAN.md](docs/PLAN.md) |
-| Local operation | [RUNBOOK.md](docs/guides/RUNBOOK.md) |
-| AWS AgentCore path | [AWS AgentCore setup](docs/guides/AWS_AGENTCORE_SETUP.md), [Gateway exercise](docs/guides/AGENTCORE_GATEWAY_SETUP.md) |
-| Guided learning | [GitHub Pages curriculum](https://navoditk.github.io/agentic-pm-lab/), [standalone artifact](artifacts/agentic-pm-curriculum.html), or say **`agentexpert`** in a Copilot, Claude Code, or Codex checkout |
-| Curriculum maintenance | [Freshness plan](docs/learning/CURRICULUM_FRESHNESS_PLAN.md), [Mastery skill](docs/learning/MASTERY_SKILL.md), [Tutor Course Guide](docs/learning/TUTOR_COURSE_GUIDE.md) |
-| What to build next, at no cost | [No-cost roadmap](docs/learning/NO_COST_ROADMAP.md) |
-| References | [REFERENCES.md](docs/reference/REFERENCES.md) |
-| Experiments and comparisons | [experiments README](experiments/README.md), [benchmark report](docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md) |
-| Public-data catalog | [data README](data/README.md), [sample pack](data/samples/public_investment/README.md) |
+| Analytics | Bond and option pricing, curves, risk, factor regression, backtesting, scenarios, portfolio optimization |
+| Data | yfinance and FRED paths; governed ALFRED, Treasury, SEC, SOFR, CFTC, and Kenneth French connectors; mock holdings and security master |
+| Agents | Single-agent and specialist Deep Agents, a separate research supervisor, a local-model comparison |
+| Governance | Local identities, Cedar policy, guardrails, enforcement at the FastAPI and MCP boundaries, approval interrupts, audit |
+| Evaluation | Golden, routing, policy, and guardrail cases; versioned baselines; regression gates |
+| Observability | Traces and metrics as separate signals, W3C context propagation, parent-based sampling |
+| AWS | AgentCore Runtime entrypoint and runbooks; live evidence for a temporary Runtime, Memory, Guardrails, and Evaluations |
 
-## Building on it
+What is deliberately not done: positions, the security master, and the
+research endpoint stay mock or fixture-backed; the optimizer is learning-scale
+(supplied estimates, long-only); AgentCore Gateway and Copilot-hosted runs have
+no live evidence yet; and the system proposes, it never trades. The
+[evidence ledger](docs/evidence/EVIDENCE.md) separates local from live proof,
+and the [completion audit](docs/learning/PLAN_REVIEW.md) reviews the plan.
 
-The learning commands are above. Two developer commands sit beside them.
-`check` runs the same gates CI runs, so a green local run means a green pull
-request. `plan` prints one day's implementation steps — roughly 1,800 tokens
-against 51,000 for the whole plan, which matters when you are pasting context
-into an agent that cannot read your filesystem:
+To run the same gates CI runs:
+
+```bash
+uv run agentic-pm-lab check
+```
+
+A green run is local evidence, not proof of a live cloud or provider call.
+
+## Find your way around
+
+| You want | Go to |
+|---|---|
+| A zero-context on-ramp | [START_HERE](docs/learning/START_HERE.md) |
+| How to work through a course | [Tutor course guide](docs/learning/TUTOR_COURSE_GUIDE.md), [Depth path](docs/learning/DEPTH_PATH.md) |
+| A tutor in your coding agent | [Tutor runbook](docs/guides/TUTOR_RUNBOOK.md), [Mastery skill](docs/learning/MASTERY_SKILL.md) |
+| Live labs against real services | [LIVE_LABS](docs/learning/LIVE_LABS.md) |
+| Build status and evidence | [PROGRESS](PROGRESS.md), [EVIDENCE](docs/evidence/EVIDENCE.md) |
+| The day-by-day build plan | [PLAN](docs/PLAN.md) |
+| Running it locally | [RUNBOOK](docs/guides/RUNBOOK.md), [INSTALL](INSTALL.md) |
+| The AWS AgentCore path | [AgentCore setup](docs/guides/AWS_AGENTCORE_SETUP.md), [Gateway exercise](docs/guides/AGENTCORE_GATEWAY_SETUP.md) |
+| CI and automation | [GitHub workflows](docs/guides/GITHUB_WORKFLOWS.md) |
+| Reading lists | [REFERENCES](docs/reference/REFERENCES.md) |
+| Experiments and benchmarks | [experiments](experiments/README.md), [benchmark report](docs/learning/CANONICAL_PM_BENCHMARK_REPORT.md) |
+| Public data | [data catalog](data/README.md), [sample pack](data/samples/public_investment/README.md) |
+| What to build next | [No-cost roadmap](docs/learning/NO_COST_ROADMAP.md) |
+
+## Contributing
+
+Agent and tool rules live in [AGENTS.md](AGENTS.md), which Claude Code,
+Copilot, and Codex all read. Two developer commands help: `check` runs every
+CI gate, and `plan` prints one day of the build plan, about 1,800 tokens
+rather than 51,000, for pasting into an agent that cannot read your files.
 
 ```bash
 uv run agentic-pm-lab check --fast
-uv run agentic-pm-lab plan 7 --quiet | pbcopy
+uv run agentic-pm-lab plan 7 --quiet
 ```
 
-Setup is in [INSTALL.md](INSTALL.md); the day-by-day path is in
-[PLAN.md](docs/PLAN.md). All unit tests mock external dependencies. Never add
-credentials, proprietary data, or claims of live evidence without recording
-the corresponding experiment and cleanup state.
+Unit tests never touch the network. Never commit credentials, proprietary
+data, or a claim of live evidence without recording the experiment and its
+cleanup.
 
-## Influences and durable takeaways
+## Credits and takeaways
 
-The multi-agent PM shape is adapted from OpenAI's [Multi-Agent Portfolio
-Collaboration](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration)
-example and reimplemented with LangGraph/Deep Agents. The complete,
-topic-organized bibliography is in [REFERENCES.md](docs/reference/REFERENCES.md).
+The multi-agent PM shape is adapted from OpenAI's
+[Multi-Agent Portfolio Collaboration](https://developers.openai.com/cookbook/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration)
+example and rebuilt with LangGraph and Deep Agents. The math layer beneath it
+is [pm-mechanics](https://github.com/navoditk/pm-mechanics).
 
-The durable takeaways are:
+What carries over to any agent system:
 
-- deterministic math should remain outside the LLM;
-- policy must be enforced at the boundary, not inferred from prompts;
-- evidence, timestamps, provenance, and uncertainty matter as much as answers;
-- evaluation must measure routing, tools, policy, safety, and answer quality
-  separately; and
+- deterministic math stays outside the model;
+- policy is enforced at the boundary, never inferred from prompts;
+- evidence, timestamps, and provenance matter as much as answers;
+- evaluation measures routing, tools, policy, safety, and quality separately;
 - a deployment, a model response, and a production-ready system are three
   different claims.
 
-License: [MIT](LICENSE).
+Licensed under [MIT](LICENSE).
