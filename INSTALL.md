@@ -271,7 +271,7 @@ Work through the numbered steps in order, committing at each checkpoint listed
 Ask me before anything that needs an account or API key I haven't set up yet.
 ```
 
-**Checking real usage, per tool** — this is the raw data `docs/comparison-notes.md` (dev-tool section) wants logged; nothing tracks it for you automatically, each tool just reports on itself differently:
+**Checking real usage, per tool** — this is the raw data `docs/learning/comparison-notes.md` (dev-tool section) wants logged; nothing tracks it for you automatically, each tool just reports on itself differently:
 - **Claude Code:** run `/usage` (or `/status`) inside a session — shows your current 5-hour rolling window and weekly quota, both as a percentage with reset times. If you're billing via an API key rather than a subscription, `/cost` shows the running spend for that session instead. For account-level history, `Settings → Usage` on claude.ai.
 - **GitHub Copilot:** since June 2026, Copilot runs on usage-based AI Credits on individual plans too, not just team/enterprise — check the Copilot usage dashboard under your GitHub account settings for the current credit balance and burn rate.
 - **Codex CLI:** `/status` inside a session shows the current session's configuration; for account-level credit/usage detail, check your ChatGPT account's usage page. Codex's self-serve usage reporting is less granular than Claude Code's as of this writing — verify what's actually shown against OpenAI's current docs rather than assuming parity.

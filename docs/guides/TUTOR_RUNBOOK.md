@@ -20,7 +20,9 @@ to *learn* them in, use the
 | `portfolio-construction-tutor` | Optimization, constraints, risk budgets, implementation, and validation | 3, 12, 15, 20 | [→](../learning/tutors/portfolio-construction-tutor.md) |
 | `agent-architecture-tutor` | Agent/workflow design, context, skills, tools, memory, recovery | 4–7, 11–20 | [→](../learning/tutors/agent-architecture-tutor.md) |
 | `langgraph-deep-agents-tutor` | LangGraph state, Deep Agents, delegation, interrupts, and checkpoints | 4–5, 11, 17–20 | [→](../learning/tutors/langgraph-deep-agents-tutor.md) |
-| `aws-agentcore-tutor` | Bedrock, AgentCore services, IAM, deployment, observability, teardown | 12–14, 19–20 | [→](../learning/tutors/aws-agentcore-tutor.md) |
+| `mcp-tutor` | MCP primitives, the stateless protocol, error kinds, bound identity, tool poisoning, and trace context across the boundary | 10–11 | [→](../learning/tutors/mcp-tutor.md) |
+| `aws-bedrock-tutor` | Converse and tool use, retries, IAM and inference profiles, guardrails, prompt caching, and Knowledge Bases | 12–14 | [→](../learning/tutors/aws-bedrock-tutor.md) |
+| `aws-agentcore-tutor` | AgentCore Runtime, Gateway, Identity, Policy, Memory, IAM, deployment, observability, teardown | 12–14, 19–20 | [→](../learning/tutors/aws-agentcore-tutor.md) |
 | `data-provenance-research-tutor` | Point-in-time data, EDGAR, evidence, sentiment, and research quality | 2, 15–17, 20 | [→](../learning/tutors/data-provenance-research-tutor.md) |
 | `investment-data-tutor` | SEC, prices, macro, N-PORT, TRACE, ratings, GDELT, research evidence, documents, terminology, and decision use | post-Day-20 public-data expansion | [→](../learning/tutors/investment-data-tutor.md) |
 | `evaluation-agentops-tutor` | Golden datasets, eval dimensions, regression, SLOs, and operations | 6, 9, 13–14, 19–20 | [→](../learning/tutors/evaluation-agentops-tutor.md) |
@@ -29,6 +31,7 @@ to *learn* them in, use the
 | `copilot-canvas-mcp-tutor` | Canvas UX, shared state, MCP boundaries, approvals, and capability tests | 8–11, 19–20 | [→](../learning/tutors/copilot-canvas-mcp-tutor.md) |
 | `agent-development-lifecycle-tutor` | Skills, prompts, custom agents, contracts, tests, freshness, and cross-tool practice | 4, 8, 11, 19–20 | [→](../learning/tutors/agent-development-lifecycle-tutor.md) |
 | `governance-delivery-tutor` | CI/CD, policy-as-code, guardrails, approvals, audit, promotion, rollback, and teardown | 6–7, 11–14, 19–20 | [→](../learning/tutors/governance-delivery-tutor.md) |
+| `traceability-capstone-tutor` | One decision rebuilt from a single trace id across spans, audit, evaluation, and evidence; the hop that drops it | 6–7, 20 | [→](../learning/tutors/traceability-capstone-tutor.md) |
 | `document-to-skill-tutor` | PDF/model-document extraction, generated skills, formula validation, provenance, sandboxing, and Deep Agent interfaces | 15–20 | [→](../learning/tutors/document-to-skill-tutor.md) |
 
 ## How to use one independently
@@ -79,7 +82,7 @@ the same topic ids as `tests/unit/scripts/test_tutor_agents.py`'s
 ```bash
 uv run agentic-pm-lab learn                              # list every topic
 uv run agentic-pm-lab learn agent-architecture-tutor      # print that topic's scope
-uv run agentic-pm-lab quiz agent-architecture-tutor   # take its 20-30 question quiz
+uv run agentic-pm-lab quiz agent-architecture-tutor   # take its 20–35 question quiz
 ```
 
 `scripts/tutor.py` and its logic module `src/education/tutor.py` are a thin
